@@ -2333,6 +2333,163 @@ BOOST_AUTO_TEST_CASE( vesting_balance_withdraw_test )
    // TODO:  Test with non-core asset and Bob account
 } FC_LOG_AND_RETHROW() }
 
+BOOST_AUTO_TEST_CASE( asset_settle_test )
+{
+   try {
+      ACTORS((sam)(alice)(bob));
+
+      // fast jump to hardfork time
+      generate_blocks( HARDFORK_CORE_588_TIME );
+      // one more block to pass hardfork time
+      generate_block();
+      set_expiration( db, trx );
+
+      const auto& bitusd = create_bitasset("USDBIT", sam.id);
+      const auto& core   = asset_id_type()(db);
+
+      // send some core to sam
+      transfer(committee_account, sam_id, asset(10000000));
+
+      // sam add feed
+      update_feed_producers( bitusd, {sam.id} );
+      price_feed current_feed;
+      current_feed.settlement_price = bitusd.amount( 100 ) / core.amount(100);
+      publish_feed( bitusd, sam, current_feed );
+
+      // sam gets some bitusd
+      borrow( sam, bitusd.amount(1000), asset(2000));
+      BOOST_REQUIRE_EQUAL( get_balance( sam, bitusd ), 1000 );
+
+      // and transfer some to alice
+      transfer(sam.id, alice.id, asset(200, bitusd.id));
+
+      BOOST_REQUIRE_EQUAL( get_balance( alice, bitusd ), 200 );
+      BOOST_REQUIRE_EQUAL( get_balance( alice, core ), 0 );
+
+      // alice settles 10 usd at current rates
+      force_settle(alice, asset(10, bitusd.id));
+      BOOST_REQUIRE_EQUAL( get_balance( alice, bitusd ), 190 );
+      BOOST_REQUIRE_EQUAL( get_balance( alice, core ), 0 );
+
+      // another feed producer gets in and change price
+      update_feed_producers( bitusd, {sam.id, bob.id} );
+      current_feed.settlement_price = bitusd.amount( 200 ) / core.amount(100);
+      publish_feed( bitusd, bob, current_feed );
+
+      // adding a sell order to be matched after settlement expiration
+      create_sell_order(sam, core.amount(1000), bitusd.amount(1000));
+      generate_block();
+
+      // go pass settlement expiration (86400 = default force_settlement_delay_sec)
+      generate_blocks(db.head_block_time() + 86400 + 1);
+      generate_block();
+      // move to next maint
+      generate_blocks( db.get_dynamic_global_properties().next_maintenance_time );
+      generate_block();
+
+      // alice get back 5 core(10 usd)
+      BOOST_REQUIRE_EQUAL( get_balance( alice, bitusd ), 190 );
+      BOOST_REQUIRE_EQUAL( get_balance( alice, core ), 5 );
+
+   } FC_LOG_AND_RETHROW()
+}
+
+
+BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
+{
+   try {
+      ACTORS((paul)(michael)(rachel));
+
+      // create assets
+      const auto& bitusd = create_bitasset("USDBIT", paul_id);
+      const auto& core   = asset_id_type()(db);
+
+      // fund accounts
+      transfer( committee_account, michael_id, asset( 100000000 ) );
+      transfer(committee_account, paul_id, asset(10000000));
+      transfer(committee_account, rachel_id, asset(10000000));
+
+      // add a feed to asset
+      update_feed_producers( bitusd, {paul.id} );
+      price_feed current_feed;
+      current_feed.settlement_price = bitusd.amount( 100 ) / core.amount(100);
+      publish_feed( bitusd, paul, current_feed );
+
+      // rachel get some bitusd
+      borrow( rachel, bitusd.amount(1000), asset(2000));
+      BOOST_CHECK_EQUAL(get_balance(rachel, core), 9998000);
+      BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 1000);
+      BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 0);
+      BOOST_CHECK_EQUAL(get_balance(michael, core), 100000000);
+
+      // michael selling core
+      create_sell_order(michael, core.amount(1), bitusd.amount(2));
+      create_sell_order(michael, core.amount(1), bitusd.amount(2));
+
+      // add settle order and check rounding issue
+      force_settle(rachel, asset(3, bitusd.id));
+
+      BOOST_CHECK_EQUAL(get_balance(rachel, core), 9998000);
+      BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 997);
+      BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 0);
+      BOOST_CHECK_EQUAL(get_balance(michael, core), 99999998);
+
+   } FC_LOG_AND_RETHROW()
+}
+
+BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
+{
+   try {
+
+      // pass hf date
+      generate_blocks( HARDFORK_CORE_184_TIME );
+      generate_block();
+      generate_blocks( db.get_dynamic_global_properties().next_maintenance_time );
+      generate_block();
+      set_expiration( db, trx );
+
+      ACTORS((paul)(michael)(rachel));
+
+      // create the assets
+      const auto& bitusd = create_bitasset("USDBIT", paul_id);
+      const auto& core   = asset_id_type()(db);
+
+      // fund the accounts
+      transfer( committee_account, michael_id, asset( 100000000 ) );
+      transfer(committee_account, paul_id, asset(10000000));
+      transfer(committee_account, rachel_id, asset(10000000));
+
+      // add a feed to bitusd
+      update_feed_producers( bitusd, {paul.id} );
+      price_feed current_feed;
+      current_feed.settlement_price = bitusd.amount( 100 ) / core.amount(100);
+      publish_feed( bitusd, paul, current_feed );
+
+      // rachel get some bitusd
+      borrow( rachel, bitusd.amount(1000), asset(2000));
+      BOOST_CHECK_EQUAL(get_balance(rachel, core), 9998000);
+      BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 1000);
+      BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 0);
+      BOOST_CHECK_EQUAL(get_balance(michael, core), 100000000);
+
+      // micheal is selling core
+      create_sell_order(michael, core.amount(1), bitusd.amount(2));
+      create_sell_order(michael, core.amount(1), bitusd.amount(2));
+
+      // rachel settle
+      force_settle(rachel, asset(3, bitusd.id));
+
+      // check rounding issues
+      BOOST_CHECK_EQUAL(get_balance(rachel, core), 9998000);
+      BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 998); // this is failing
+      BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 0);
+      BOOST_CHECK_EQUAL(get_balance(michael, core), 99999998);
+
+
+   } FC_LOG_AND_RETHROW()
+}
+
+
 // TODO:  Write linear VBO tests
 
 BOOST_AUTO_TEST_SUITE_END()
