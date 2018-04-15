@@ -2349,6 +2349,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
       // create assets
       const auto& bitusd = create_bitasset("USDBIT", paul_id);
       const auto& core   = asset_id_type()(db);
+      asset_id_type bitusd_id = bitusd.id;
+      asset_id_type core_id = core.id;
 
       // fund accounts
       transfer(committee_account, michael_id, asset( 100000000 ) );
@@ -2364,7 +2366,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
       publish_feed( bitusd, paul, current_feed );
 
       // paul gets some bitusd
-      borrow( paul, bitusd.amount(1000), asset(100));
+      auto call_paul = *borrow( paul, bitusd.amount(1000), asset(100));
+      call_order_id_type call_paul_id = call_paul.id;
       BOOST_REQUIRE_EQUAL( get_balance( paul, bitusd ), 1000 );
 
       // and transfer some to rachel
@@ -2376,8 +2379,10 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
       BOOST_CHECK_EQUAL(get_balance(michael, core), 100000000);
 
       // michael selling core
-      borrow(michael, bitusd.amount(3), core.amount(4));
-      borrow(michael, bitusd.amount(3), core.amount(4));
+      auto call_michael1 = *borrow(michael, bitusd.amount(3), core.amount(4));
+      call_order_id_type call_michael1_id = call_michael1.id;
+      auto call_michael2 = *borrow(michael, bitusd.amount(3), core.amount(4));
+      call_order_id_type call_michael2_id = call_michael2.id;
 
       // add settle order and check rounding issue
       force_settle(rachel, bitusd.amount(4));
@@ -2386,24 +2391,49 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
       BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 196);
       BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 6);
       BOOST_CHECK_EQUAL(get_balance(michael, core), 99999992);
+      BOOST_CHECK_EQUAL(get_balance(paul, core), 9999900);
+      BOOST_CHECK_EQUAL(get_balance(paul, bitusd), 800);
+
+      BOOST_CHECK_EQUAL( 1000, call_paul.debt.value );
+      BOOST_CHECK_EQUAL( 100, call_paul.collateral.value );
+      BOOST_CHECK_EQUAL( 3, call_michael1.debt.value );
+      BOOST_CHECK_EQUAL( 4, call_michael1.collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael2.debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael2.collateral.value );
 
       generate_blocks( db.head_block_time() + fc::hours(20) );
+      set_expiration( db, trx );
 
       // default feed and settlement expires at the same time
       // adding new feed so we have valid price to exit
-      update_feed_producers( bitusd, {alice.id} );
+      update_feed_producers( bitusd_id(db), {account_id_type(19)} ); // account_id_type(19) = alice
       current_feed.maintenance_collateral_ratio = 1750;
       current_feed.maximum_short_squeeze_ratio = 1100;
-      current_feed.settlement_price = bitusd.amount( 100 ) / core.amount(5);
-      publish_feed( bitusd, alice, current_feed );
+      current_feed.settlement_price = bitusd_id(db).amount( 100 ) / core_id(db).amount(5);
+      publish_feed( bitusd_id(db), account_id_type(19)(db), current_feed );
 
       // now yes expire settlement
       generate_blocks( db.head_block_time() + fc::hours(6) );
 
-      BOOST_CHECK_EQUAL(get_balance(rachel, core), 0);
-      BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 196);
-      BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 6);
-      BOOST_CHECK_EQUAL(get_balance(michael, core), 99999992);
+      // get some account obj refs again after generate_block to avoid invalid
+      auto rachel_ = account_id_type(18)(db);
+      auto michael_ = account_id_type(17)(db);
+      auto paul_ = account_id_type(16)(db);
+
+      // final checks
+      BOOST_CHECK_EQUAL(get_balance(rachel_, core_id(db)), 0);
+      BOOST_CHECK_EQUAL(get_balance(rachel_, bitusd_id(db)), 196);
+      BOOST_CHECK_EQUAL(get_balance(michael_, bitusd_id(db)), 6);
+      BOOST_CHECK_EQUAL(get_balance(michael_, core_id(db)), 99999992);
+      BOOST_CHECK_EQUAL(get_balance(paul_, core_id(db)), 9999900);
+      BOOST_CHECK_EQUAL(get_balance(paul_, bitusd_id(db)), 800);
+
+      BOOST_CHECK_EQUAL( 996, call_paul_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 100, call_paul_id(db).collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael1_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael1_id(db).collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael2_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael2_id(db).collateral.value );
 
    } FC_LOG_AND_RETHROW()
 
@@ -2423,6 +2453,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
       // create assets
       const auto& bitusd = create_bitasset("USDBIT", paul_id);
       const auto& core   = asset_id_type()(db);
+      asset_id_type bitusd_id = bitusd.id;
+      asset_id_type core_id = core.id;
 
       // fund accounts
       transfer(committee_account, michael_id, asset( 100000000 ) );
@@ -2438,7 +2470,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
       publish_feed( bitusd, paul, current_feed );
 
       // paul gets some bitusd
-      borrow( paul, bitusd.amount(1000), asset(100));
+      auto call_paul = *borrow( paul, bitusd.amount(1000), asset(100));
+      call_order_id_type call_paul_id = call_paul.id;
       BOOST_REQUIRE_EQUAL( get_balance( paul, bitusd ), 1000 );
 
       // and transfer some to rachel
@@ -2450,8 +2483,10 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
       BOOST_CHECK_EQUAL(get_balance(michael, core), 100000000);
 
       // michael selling core
-      borrow(michael, bitusd.amount(3), core.amount(4));
-      borrow(michael, bitusd.amount(3), core.amount(4));
+      auto call_michael1 = *borrow(michael, bitusd.amount(3), core.amount(4));
+      call_order_id_type call_michael1_id = call_michael1.id;
+      auto call_michael2 = *borrow(michael, bitusd.amount(3), core.amount(4));
+      call_order_id_type call_michael2_id = call_michael2.id;
 
       // add settle order and check rounding issue
       force_settle(rachel, bitusd.amount(4));
@@ -2460,24 +2495,49 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
       BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 196);
       BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 6);
       BOOST_CHECK_EQUAL(get_balance(michael, core), 99999992);
+      BOOST_CHECK_EQUAL(get_balance(paul, core), 9999900);
+      BOOST_CHECK_EQUAL(get_balance(paul, bitusd), 800);
+
+      BOOST_CHECK_EQUAL( 1000, call_paul.debt.value );
+      BOOST_CHECK_EQUAL( 100, call_paul.collateral.value );
+      BOOST_CHECK_EQUAL( 3, call_michael1.debt.value );
+      BOOST_CHECK_EQUAL( 4, call_michael1.collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael2.debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael2.collateral.value );
 
       generate_blocks( db.head_block_time() + fc::hours(20) );
+      set_expiration( db, trx );
 
       // default feed and settlement expires at the same time
       // adding new feed so we have valid price to exit
-      update_feed_producers( bitusd, {alice.id} );
+      update_feed_producers( bitusd_id(db), {account_id_type(19)} ); // account_id_type(19) = alice
       current_feed.maintenance_collateral_ratio = 1750;
       current_feed.maximum_short_squeeze_ratio = 1100;
-      current_feed.settlement_price = bitusd.amount( 100 ) / core.amount(5);
-      publish_feed( bitusd, alice, current_feed );
+      current_feed.settlement_price = bitusd_id(db).amount( 100 ) / core_id(db).amount(5);
+      publish_feed( bitusd_id(db), account_id_type(19)(db), current_feed );
 
       // now yes expire settlement
       generate_blocks( db.head_block_time() + fc::hours(6) );
 
-      BOOST_CHECK_EQUAL(get_balance(rachel, core), 0);
-      BOOST_CHECK_EQUAL(get_balance(rachel, bitusd), 200);
-      BOOST_CHECK_EQUAL(get_balance(michael, bitusd), 800);
-      BOOST_CHECK_EQUAL(get_balance(michael, core), 9999900);
+      // get some account obj refs again after generate_block to avoid invalid
+      auto rachel_ = account_id_type(18)(db);
+      auto michael_ = account_id_type(17)(db);
+      auto paul_ = account_id_type(16)(db);
+
+      // final checks
+      BOOST_CHECK_EQUAL(get_balance(rachel_, core_id(db)), 0);
+      BOOST_CHECK_EQUAL(get_balance(rachel_, bitusd_id(db)), 200);
+      BOOST_CHECK_EQUAL(get_balance(michael_, bitusd_id(db)), 6);
+      BOOST_CHECK_EQUAL(get_balance(michael_, core_id(db)), 99999992);
+      BOOST_CHECK_EQUAL(get_balance(paul_, core_id(db)), 9999900);
+      BOOST_CHECK_EQUAL(get_balance(paul_, bitusd_id(db)), 800);
+
+      BOOST_CHECK_EQUAL( 1000, call_paul_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 100, call_paul_id(db).collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael1_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael1_id(db).collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael2_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael2_id(db).collateral.value );
 
    } FC_LOG_AND_RETHROW()
 }
