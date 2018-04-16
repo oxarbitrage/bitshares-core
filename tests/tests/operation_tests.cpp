@@ -2607,6 +2607,7 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle )
 
       // add global settle
       force_global_settle(bitusd_id(db), bitusd_id(db).amount(10) / core_id(db).amount(1));
+      generate_block();
 
       BOOST_CHECK_EQUAL(get_balance(rachel_id(db), core_id(db)), 0);
       BOOST_CHECK_EQUAL(get_balance(rachel_id(db), bitusd_id(db)), 200);
@@ -2615,12 +2616,13 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle )
       BOOST_CHECK_EQUAL(get_balance(paul_id(db), core_id(db)), 9999900);
       BOOST_CHECK_EQUAL(get_balance(paul_id(db), bitusd_id(db)), 800);
 
-      BOOST_CHECK_EQUAL( 1000, call_paul.debt.value );
-      BOOST_CHECK_EQUAL( 100, call_paul.collateral.value );
-      BOOST_CHECK_EQUAL( 3, call_michael1.debt.value );
-      BOOST_CHECK_EQUAL( 4, call_michael1.collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael2.debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael2.collateral.value );
+      // all call orders are gone after global settle
+      GRAPHENE_REQUIRE_THROW( call_paul_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_paul_id(db).collateral.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).collateral.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).collateral.value, fc::exception );
 
    } FC_LOG_AND_RETHROW()
 }
@@ -2690,6 +2692,7 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle_after_hf_184 )
 
       // add global settle
       force_global_settle(bitusd_id(db), bitusd_id(db).amount(10) / core_id(db).amount(1));
+      generate_block();
 
       BOOST_CHECK_EQUAL(get_balance(rachel_id(db), core_id(db)), 0);
       BOOST_CHECK_EQUAL(get_balance(rachel_id(db), bitusd_id(db)), 200);
@@ -2698,12 +2701,13 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle_after_hf_184 )
       BOOST_CHECK_EQUAL(get_balance(paul_id(db), core_id(db)), 9999900);
       BOOST_CHECK_EQUAL(get_balance(paul_id(db), bitusd_id(db)), 800);
 
-      BOOST_CHECK_EQUAL( 1000, call_paul.debt.value );
-      BOOST_CHECK_EQUAL( 100, call_paul.collateral.value );
-      BOOST_CHECK_EQUAL( 3, call_michael1.debt.value );
-      BOOST_CHECK_EQUAL( 4, call_michael1.collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael2.debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael2.collateral.value );
+      // all call orders are gone after global settle
+      GRAPHENE_REQUIRE_THROW( call_paul_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_paul_id(db).collateral.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).collateral.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).collateral.value, fc::exception );
 
    } FC_LOG_AND_RETHROW()
 }
