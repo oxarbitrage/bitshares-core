@@ -2379,10 +2379,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
       BOOST_CHECK_EQUAL(get_balance(michael, core), 100000000);
 
       // michael selling core
-      auto call_michael1 = *borrow(michael, bitusd.amount(3), core.amount(4));
-      call_order_id_type call_michael1_id = call_michael1.id;
-      auto call_michael2 = *borrow(michael, bitusd.amount(3), core.amount(4));
-      call_order_id_type call_michael2_id = call_michael2.id;
+      auto call_michael = *borrow(michael, bitusd.amount(6), core.amount(8));
+      call_order_id_type call_michael_id = call_michael.id;
 
       // add settle order and check rounding issue
       force_settle(rachel, bitusd.amount(4));
@@ -2396,10 +2394,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
 
       BOOST_CHECK_EQUAL( 1000, call_paul.debt.value );
       BOOST_CHECK_EQUAL( 100, call_paul.collateral.value );
-      BOOST_CHECK_EQUAL( 3, call_michael1.debt.value );
-      BOOST_CHECK_EQUAL( 4, call_michael1.collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael2.debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael2.collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael.debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael.collateral.value );
 
       generate_blocks( db.head_block_time() + fc::hours(20) );
       set_expiration( db, trx );
@@ -2430,10 +2426,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle )
 
       BOOST_CHECK_EQUAL( 996, call_paul_id(db).debt.value );
       BOOST_CHECK_EQUAL( 100, call_paul_id(db).collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael1_id(db).debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael1_id(db).collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael2_id(db).debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael2_id(db).collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael_id(db).collateral.value );
 
    } FC_LOG_AND_RETHROW()
 
@@ -2483,10 +2477,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
       BOOST_CHECK_EQUAL(get_balance(michael, core), 100000000);
 
       // michael selling core
-      auto call_michael1 = *borrow(michael, bitusd.amount(3), core.amount(4));
-      call_order_id_type call_michael1_id = call_michael1.id;
-      auto call_michael2 = *borrow(michael, bitusd.amount(3), core.amount(4));
-      call_order_id_type call_michael2_id = call_michael2.id;
+      auto call_michael = *borrow(michael, bitusd.amount(6), core.amount(8));
+      call_order_id_type call_michael_id = call_michael.id;
 
       // add settle order and check rounding issue
       force_settle(rachel, bitusd.amount(4));
@@ -2500,10 +2492,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
 
       BOOST_CHECK_EQUAL( 1000, call_paul.debt.value );
       BOOST_CHECK_EQUAL( 100, call_paul.collateral.value );
-      BOOST_CHECK_EQUAL( 3, call_michael1.debt.value );
-      BOOST_CHECK_EQUAL( 4, call_michael1.collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael2.debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael2.collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael.debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael.collateral.value );
 
       generate_blocks( db.head_block_time() + fc::hours(20) );
       set_expiration( db, trx );
@@ -2534,10 +2524,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_settle_after_hf_184 )
 
       BOOST_CHECK_EQUAL( 1000, call_paul_id(db).debt.value );
       BOOST_CHECK_EQUAL( 100, call_paul_id(db).collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael1_id(db).debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael1_id(db).collateral.value );
-      BOOST_CHECK_EQUAL( 6, call_michael2_id(db).debt.value );
-      BOOST_CHECK_EQUAL( 8, call_michael2_id(db).collateral.value );
+      BOOST_CHECK_EQUAL( 6, call_michael_id(db).debt.value );
+      BOOST_CHECK_EQUAL( 8, call_michael_id(db).collateral.value );
 
    } FC_LOG_AND_RETHROW()
 }
@@ -2600,10 +2588,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle )
       BOOST_CHECK_EQUAL(get_balance(michael_id(db), core_id(db)), 100000000);
 
       // michael selling core
-      auto call_michael1 = *borrow(michael_id(db), bitusd_id(db).amount(3), core_id(db).amount(4));
-      call_order_id_type call_michael1_id = call_michael1.id;
-      auto call_michael2 = *borrow(michael_id(db), bitusd_id(db).amount(3), core_id(db).amount(4));
-      call_order_id_type call_michael2_id = call_michael2.id;
+      auto call_michael = *borrow(michael_id(db), bitusd_id(db).amount(6), core_id(db).amount(8));
+      call_order_id_type call_michael_id = call_michael.id;
 
       // add global settle
       force_global_settle(bitusd_id(db), bitusd_id(db).amount(10) / core_id(db).amount(1));
@@ -2619,10 +2605,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle )
       // all call orders are gone after global settle
       GRAPHENE_REQUIRE_THROW( call_paul_id(db).debt.value, fc::exception );
       GRAPHENE_REQUIRE_THROW( call_paul_id(db).collateral.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).debt.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).collateral.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).debt.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).collateral.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael_id(db).collateral.value, fc::exception );
 
    } FC_LOG_AND_RETHROW()
 }
@@ -2685,10 +2669,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle_after_hf_184 )
       BOOST_CHECK_EQUAL(get_balance(michael_id(db), core_id(db)), 100000000);
 
       // michael selling core
-      auto call_michael1 = *borrow(michael_id(db), bitusd_id(db).amount(3), core_id(db).amount(4));
-      call_order_id_type call_michael1_id = call_michael1.id;
-      auto call_michael2 = *borrow(michael_id(db), bitusd_id(db).amount(3), core_id(db).amount(4));
-      call_order_id_type call_michael2_id = call_michael2.id;
+      auto call_michael = *borrow(michael_id(db), bitusd_id(db).amount(6), core_id(db).amount(8));
+      call_order_id_type call_michael_id = call_michael.id;
 
       // add global settle
       force_global_settle(bitusd_id(db), bitusd_id(db).amount(10) / core_id(db).amount(1));
@@ -2704,10 +2686,8 @@ BOOST_AUTO_TEST_CASE( trade_amount_equals_zero_global_settle_after_hf_184 )
       // all call orders are gone after global settle
       GRAPHENE_REQUIRE_THROW( call_paul_id(db).debt.value, fc::exception );
       GRAPHENE_REQUIRE_THROW( call_paul_id(db).collateral.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).debt.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael1_id(db).collateral.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).debt.value, fc::exception );
-      GRAPHENE_REQUIRE_THROW( call_michael2_id(db).collateral.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael_id(db).debt.value, fc::exception );
+      GRAPHENE_REQUIRE_THROW( call_michael_id(db).collateral.value, fc::exception );
 
    } FC_LOG_AND_RETHROW()
 }
