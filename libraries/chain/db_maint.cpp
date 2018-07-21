@@ -72,29 +72,113 @@ vector<std::reference_wrapper<const typename Index::object_type>> database::sort
    return refs;
 }
 
-template<class Type>
-void database::perform_account_maintenance(Type tally_helper)
+#ifndef ASSET_BALANCE_SORTED
+void database::perform_special_assets_maintenance()
 {
+   const auto& special_meta = get_special_assets_meta_object();
+
+   // removed special assets
+   const auto& spec_idx = get_index_type< account_special_balance_index >().indices().get<by_asset_balance>();
+   for( asset_id_type a : special_meta.special_assets_removed_this_interval )
+   {
+      auto spec_itr = spec_idx.lower_bound( a );
+      auto spec_end = spec_idx.upper_bound( a );
+      while( spec_itr != spec_end )
+      {
+         auto old_itr = spec_itr;
+         ++spec_itr;
+         remove( *old_itr );
+      }
+   }
+
+   // new special assets
+   const auto& bal_idx = get_index_type< account_balance_index >().indices().get<by_asset>();
+   for( asset_id_type a : special_meta.special_assets_added_this_interval )
+   {
+      auto asset_range = bal_idx.equal_range( a );
+      std::for_each( asset_range.first, asset_range.second, [this]( const account_balance_object& bal_obj )
+      {
+         create<account_special_balance_object>( [&bal_obj]( account_special_balance_object& sp_bal ) {
+            sp_bal.owner = bal_obj.owner;
+            sp_bal.asset_type = bal_obj.asset_type;
+            sp_bal.balance = bal_obj.balance;
+         });
+      });
+   }
+
+   // update global data
+   modify( special_meta, [](special_assets_meta_object& dp) {
+      for( asset_id_type a : dp.special_assets_removed_this_interval )
+         dp.special_assets.erase( a );
+      for( asset_id_type a : dp.special_assets_added_this_interval )
+         dp.special_assets.insert( a );
+      dp.special_assets_removed_this_interval.clear();
+      dp.special_assets_added_this_interval.clear();
+   });
+
+}
+#endif
+
+void database::perform_balance_maintenance()
+{
+#ifndef ASSET_BALANCE_SORTED
+   const auto& special_assets = get_special_assets_meta_object().special_assets;
+
+   bool core_is_special = ( special_assets.find( asset_id_type() ) != special_assets.end() );
+#endif
+
    const auto& bal_idx = get_index_type< account_balance_index >().indices().get< by_maintenance_flag >();
    if( bal_idx.begin() != bal_idx.end() )
    {
-      auto bal_itr = bal_idx.rbegin();
-      while( bal_itr->maintenance_flag )
+#ifndef ASSET_BALANCE_SORTED
+      const auto& spec_idx = get_index_type< account_special_balance_index >().indices().get<by_account_asset>();
+#endif
+
+      for( auto bal_itr = bal_idx.rbegin(); bal_itr->maintenance_flag; bal_itr = bal_idx.rbegin() )
       {
          const account_balance_object& bal_obj = *bal_itr;
 
-         modify( get_account_stats_by_owner( bal_obj.owner ), [&bal_obj](account_statistics_object& aso) {
-            aso.core_in_balance = bal_obj.balance;
-         });
+#ifndef ASSET_BALANCE_SORTED
+         if( bal_obj.asset_type == asset_id_type() ) // CORE asset
+         {
+#endif
+            modify( get_account_stats_by_owner( bal_obj.owner ), [&bal_obj](account_statistics_object& aso) {
+               aso.core_in_balance = bal_obj.balance;
+            });
+#ifndef ASSET_BALANCE_SORTED
+         }
+
+         if( core_is_special || bal_obj.asset_type != asset_id_type() ) // special asset, can also be CORE
+         {
+            auto spec_itr = spec_idx.find( boost::make_tuple(bal_obj.owner, bal_obj.asset_type) );
+            if( spec_itr == spec_idx.end() ) // new balance
+            {
+               create<account_special_balance_object>( [&bal_obj]( account_special_balance_object& sp_bal ) {
+                  sp_bal.owner = bal_obj.owner;
+                  sp_bal.asset_type = bal_obj.asset_type;
+                  sp_bal.balance = bal_obj.balance;
+               });
+            }
+            else // existing balance
+            {
+               modify( *spec_itr, [&bal_obj]( account_special_balance_object& sp_bal ) {
+                  sp_bal.balance = bal_obj.balance;
+               });
+            }
+         }
+#endif
 
          modify( bal_obj, []( account_balance_object& abo ) {
             abo.maintenance_flag = false;
          });
 
-         bal_itr = bal_idx.rbegin();
       }
    }
+}
 
+template<class Type>
+void database::perform_account_maintenance(Type tally_helper)
+{
    const auto& stats_idx = get_index_type< account_stats_index >().indices().get< by_maintenance_seq >();
    auto stats_itr = stats_idx.lower_bound( true );
 
@@ -131,14 +215,17 @@ struct worker_pay_visitor
          worker.pay_worker(pay, db);
       }
 };
+
 void database::update_worker_votes()
 {
-   auto& idx = get_index_type<worker_index>();
-   auto itr = idx.indices().get<by_account>().begin();
+   const auto& idx = get_index_type<worker_index>().indices().get<by_account>();
+   auto itr = idx.begin();
+   auto itr_end = idx.end();
    bool allow_negative_votes = (head_block_time() < HARDFORK_607_TIME);
-   while( itr != idx.indices().get<by_account>().end() )
+   while( itr != itr_end )
    {
-      modify( *itr, [&]( worker_object& obj ){
+      modify( *itr, [this,allow_negative_votes]( worker_object& obj )
+      {
          obj.total_votes_for = _vote_tally_buffer[obj.vote_for];
          obj.total_votes_against = allow_negative_votes ? _vote_tally_buffer[obj.vote_against] : 0;
       });
@@ -210,21 +297,27 @@ void database::update_active_witnesses()
    }
 
    const chain_property_object& cpo = get_chain_properties();
-   auto wits = sort_votable_objects<witness_index>(std::max(witness_count*2+1, (size_t)cpo.immutable_parameters.min_witness_count));
+
+   witness_count = std::max( witness_count*2+1, (size_t)cpo.immutable_parameters.min_witness_count );
+   auto wits = sort_votable_objects<witness_index>( witness_count );
 
    const global_property_object& gpo = get_global_properties();
 
+#ifdef TRACK_STANDBY_VOTES
    const auto& all_witnesses = get_index_type<witness_index>().indices();
-
    for( const witness_object& wit : all_witnesses )
+#else
+   for( const witness_object& wit : wits )
+#endif
    {
-      modify( wit, [&]( witness_object& obj ){
-              obj.total_votes = _vote_tally_buffer[wit.vote_id];
-              });
+      modify( wit, [this]( witness_object& obj )
+      {
+         obj.total_votes = _vote_tally_buffer[obj.vote_id];
+      });
    }
 
    // Update witness authority
-   modify( get(GRAPHENE_WITNESS_ACCOUNT), [&]( account_object& a )
+   modify( get(GRAPHENE_WITNESS_ACCOUNT), [this,&wits]( account_object& a )
    {
       if( head_block_time() < HARDFORK_533_TIME )
       {
@@ -262,7 +355,8 @@ void database::update_active_witnesses()
       }
    } );
 
-   modify(gpo, [&]( global_property_object& gp ){
+   modify( gpo, [&wits]( global_property_object& gp )
+   {
       gp.active_witnesses.clear();
       gp.active_witnesses.reserve(wits.size());
       std::transform(wits.begin(), wits.end(),
@@ -284,24 +378,37 @@ void database::update_active_committee_members()
    uint64_t stake_tally = 0; // _committee_count_histogram_buffer[0];
    size_t committee_member_count = 0;
    if( stake_target > 0 )
+   {
       while( (committee_member_count < _committee_count_histogram_buffer.size() - 1)
              && (stake_tally <= stake_target) )
+      {
          stake_tally += _committee_count_histogram_buffer[++committee_member_count];
+      }
+   }
 
    const chain_property_object& cpo = get_chain_properties();
-   auto committee_members = sort_votable_objects<committee_member_index>(std::max(committee_member_count*2+1, (size_t)cpo.immutable_parameters.min_committee_member_count));
 
-   for( const committee_member_object& del : committee_members )
+   committee_member_count = std::max( committee_member_count*2+1, (size_t)cpo.immutable_parameters.min_committee_member_count );
+   auto committee_members = sort_votable_objects<committee_member_index>( committee_member_count );
+
+#ifdef TRACK_STANDBY_VOTES
+   const auto& all_committee_members = get_index_type<committee_member_index>().indices();
+   for( const committee_member_object& cm : all_committee_members )
+#else
+   for( const committee_member_object& cm : committee_members )
+#endif
    {
-      modify( del, [&]( committee_member_object& obj ){
-              obj.total_votes = _vote_tally_buffer[del.vote_id];
-              });
+      modify( cm, [this]( committee_member_object& obj )
+      {
+         obj.total_votes = _vote_tally_buffer[obj.vote_id];
+      });
    }
 
    // Update committee authorities
    if( !committee_members.empty() )
    {
-      modify(get(GRAPHENE_COMMITTEE_ACCOUNT), [&](account_object& a)
+      const account_object& committee_account = get(GRAPHENE_COMMITTEE_ACCOUNT);
+      modify( committee_account, [this,&committee_members](account_object& a)
       {
          if( head_block_time() < HARDFORK_533_TIME )
          {
@@ -310,10 +417,10 @@ void database::update_active_committee_members()
             a.active.weight_threshold = 0;
             a.active.clear();
 
-            for( const committee_member_object& del : committee_members )
+            for( const committee_member_object& cm : committee_members )
             {
-               weights.emplace(del.committee_member_account, _vote_tally_buffer[del.vote_id]);
-               total_votes += _vote_tally_buffer[del.vote_id];
+               weights.emplace( cm.committee_member_account, _vote_tally_buffer[cm.vote_id] );
+               total_votes += _vote_tally_buffer[cm.vote_id];
             }
 
             // total_votes is 64 bits. Subtract the number of leading low bits from 64 to get the number of useful bits,
@@ -337,12 +444,14 @@ void database::update_active_committee_members()
                vc.add( cm.committee_member_account, _vote_tally_buffer[cm.vote_id] );
             vc.finish( a.active );
          }
-      } );
-      modify(get(GRAPHENE_RELAXED_COMMITTEE_ACCOUNT), [&](account_object& a) {
-         a.active = get(GRAPHENE_COMMITTEE_ACCOUNT).active;
+      });
+      modify( get(GRAPHENE_RELAXED_COMMITTEE_ACCOUNT), [&committee_account](account_object& a)
+      {
+         a.active = committee_account.active;
       });
    }
-   modify(get_global_properties(), [&](global_property_object& gp) {
+   modify( get_global_properties(), [&committee_members](global_property_object& gp)
+   {
       gp.active_committee_members.clear();
       std::transform(committee_members.begin(), committee_members.end(),
                      std::inserter(gp.active_committee_members, gp.active_committee_members.begin()),
@@ -389,7 +498,6 @@ void database::initialize_budget_record( fc::time_point_sec now, budget_record& 
    //   be able to use the entire reserve
    budget_u128 += ((uint64_t(1) << GRAPHENE_CORE_ASSET_CYCLE_RATE_BITS) - 1);
    budget_u128 >>= GRAPHENE_CORE_ASSET_CYCLE_RATE_BITS;
-   share_type budget;
    if( budget_u128 < reserve.value )
       rec.total_budget = share_type(budget_u128.to_uint64());
    else
@@ -526,17 +634,20 @@ void update_top_n_authorities( database& db )
          // use index to grab the top N holders of the asset and vote_counter to obtain the weights
 
          const top_holders_special_authority& tha = auth.get< top_holders_special_authority >();
-         vote_counter vc;
-         const auto& bal_idx = db.get_index_type< account_balance_index >().indices().get< by_asset_balance >();
          uint8_t num_needed = tha.num_top_holders;
          if( num_needed == 0 )
             return;
 
          // find accounts
-         const auto range = bal_idx.equal_range( boost::make_tuple( tha.asset ) );
-         for( const account_balance_object& bal : boost::make_iterator_range( range.first, range.second ) )
+         vote_counter vc;
+#ifdef ASSET_BALANCE_SORTED
+         const auto& bal_idx = db.get_index_type< account_balance_index >().indices().get< by_asset >();
+#else
+         const auto& bal_idx = db.get_index_type< account_special_balance_index >().indices().get< by_asset_balance >();
+#endif
+         const auto range = bal_idx.equal_range( tha.asset );
+         for( const auto& bal : boost::make_iterator_range( range.first, range.second ) )
          {
-             assert( bal.asset_type == tha.asset );
              if( bal.owner == acct.id )
                 continue;
              vc.add( bal.owner, bal.balance.value );
@@ -1099,7 +1210,12 @@ void database::perform_chain_maintenance(const signed_block& next_block, const g
       }
    } tally_helper(*this, gpo);
 
+   perform_balance_maintenance();
    perform_account_maintenance( tally_helper );
+
+#ifndef ASSET_BALANCE_SORTED
+   perform_special_assets_maintenance();
+#endif
 
    struct clear_canary {
       clear_canary(vector<uint64_t>& target): target(target){}
