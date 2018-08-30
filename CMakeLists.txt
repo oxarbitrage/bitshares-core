@@ -4,6 +4,10 @@ cmake_minimum_required( VERSION 2.8.12 )
 
 set( BLOCKCHAIN_NAME "BitShares" )
 
+set(CMAKE_CXX_STANDARD 14) # C++11...
+set(CMAKE_CXX_STANDARD_REQUIRED ON) #...is required...
+set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
+
 set( CLI_CLIENT_EXECUTABLE_NAME graphene_client )
 set( GUI_CLIENT_EXECUTABLE_NAME BitShares )
 set( CUSTOM_URL_SCHEME "gcs" )
@@ -113,7 +117,7 @@ else( WIN32 ) # Apple AND Linux
     else( APPLE )
         # Linux Specific Options Here
         message( STATUS "Configuring BitShares on Linux" )
-        set( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -Wall" )
+        set( CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Wall" )
         if(USE_PROFILER)
             set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg" )
         endif( USE_PROFILER )

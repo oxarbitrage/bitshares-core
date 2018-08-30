@@ -7,3 +7,6 @@ add_subdirectory( utilities )
 add_subdirectory( app )
 add_subdirectory( plugins )
 add_subdirectory( wallet )
+add_subdirectory( wren )
+add_subdirectory( wrenbase )
+
