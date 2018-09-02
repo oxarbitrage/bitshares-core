@@ -59,7 +59,7 @@ class wren_plugin : public graphene::app::plugin
       friend class detail::wren_plugin_impl;
        std::unique_ptr<detail::wren_plugin_impl> my;
 };
-
+/*
 struct smart_contract_object : public abstract_object<smart_contract_object>
 {
     static const uint8_t space_id = WREN_SPACE_ID;
@@ -83,8 +83,8 @@ typedef multi_index_container<
 > smart_contract_multi_index_type;
 
 typedef generic_index<smart_contract_object, smart_contract_multi_index_type> smart_contract_index;
-
+*/
 } } //graphene::wren
 
-FC_REFLECT_DERIVED( graphene::wren::smart_contract_object, (graphene::db::object),
-                    (owner)(private_key)(script)(output)(status))
+//FC_REFLECT_DERIVED( graphene::wren::smart_contract_object, (graphene::db::object),
+//                    (owner)(private_key)(script)(output)(status))

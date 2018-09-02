@@ -344,6 +344,9 @@ void get_relevant_accounts( const object* obj, flat_set<account_id_type>& accoun
         } case balance_object_type:{
            /** these are free from any accounts */
            break;
+        } case smart_contract_object_type:{
+         /**  */
+         break;
         }
       }
    }

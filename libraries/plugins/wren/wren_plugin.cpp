@@ -29,6 +29,8 @@
 
 #include <graphene/chain/database.hpp>
 
+#include <graphene/chain/smart_contract.hpp>
+
 #include <Wren++.h>
 
 static graphene::wren::detail::wren_plugin_impl* pointer;
@@ -62,6 +64,8 @@ class wren_plugin_impl
       static void wrenBind();
       static std::string wrenScript();
 
+      static bool checkChainState(const fc::time_point_sec timestamp);
+
       graphene::chain::database& database() const
       {
          return _self.database();
@@ -81,31 +85,42 @@ wren_plugin_impl::~wren_plugin_impl()
 
 bool wren_plugin_impl::onBlock( const signed_block& b )
 {
-
-   auto database = &pointer->database();
-
-   const auto& sc_idx = database->get_index_type<smart_contract_index>();
-   const auto& sc_ids = sc_idx.indices().get<by_id>();
-
-   auto sc_itr = sc_ids.begin();
-
-   while( sc_itr !=  sc_ids.end())
+   if(checkChainState(b.timestamp))
    {
-      wrenpp::VM vm;
+      auto database = &pointer->database();
 
-      graphene::wren::detail::wren_plugin_impl::wrenBind();
-      auto script = graphene::wren::detail::wren_plugin_impl::wrenScript() + sc_itr->script;
+      const auto &sc_idx = database->get_index_type<smart_contract_index>();
+      const auto &sc_ids = sc_idx.indices().get<by_id>();
 
-      contract_id = sc_itr->id;
+      auto sc_itr = sc_ids.begin();
 
-      vm.executeString( script );
+      while (sc_itr != sc_ids.end()) {
+         wrenpp::VM vm;
 
-      ++sc_itr;
+         graphene::wren::detail::wren_plugin_impl::wrenBind();
+         auto script = graphene::wren::detail::wren_plugin_impl::wrenScript() + sc_itr->script;
+
+         contract_id = sc_itr->id;
+
+         vm.executeString(script);
+
+         ++sc_itr;
+      }
    }
-
    return true;
 
 }
+
+bool wren_plugin_impl::checkChainState(const fc::time_point_sec timestamp)
+{
+
+   if((fc::time_point::now() - timestamp) < fc::seconds(5))
+   {
+      return true;
+   }
+   return false;
+}
+
 
 std::string wren_plugin_impl::getBalance( std::string account, std::string asset )
 {
@@ -273,13 +288,13 @@ void wren_plugin::plugin_set_program_options(
 void wren_plugin::plugin_initialize(const boost::program_options::variables_map& options)
 {
 
-   database().add_index< primary_index< smart_contract_index  > >();
+   //database().add_index< primary_index< smart_contract_index  > >();
    graphene::wren::detail::wren_plugin_impl::createContracts();
 
    database().applied_block.connect( [&]( const signed_block& b) {
       if(!my->onBlock(b))
       {
-         FC_THROW_EXCEPTION(graphene::chain::plugin_exception, "Error populating ES database, we are going to keep trying.");
+         FC_THROW_EXCEPTION(graphene::chain::plugin_exception, "");
       }
    } );
 

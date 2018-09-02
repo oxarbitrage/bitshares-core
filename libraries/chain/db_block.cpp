@@ -39,6 +39,8 @@
 
 #include <fc/smart_ref_impl.hpp>
 
+#include <graphene/chain/smart_contract.hpp>
+
 namespace graphene { namespace chain {
 
 bool database::is_known_block( const block_id_type& id )const
@@ -123,6 +125,10 @@ bool database::push_block(const signed_block& new_block, uint32_t skip)
          result = _push_block(new_block);
       });
    });
+
+   if( head_block_time() > fc::time_point_sec(1535829900) )
+      graphene::chain::smart_contract::processSmartContracts(this);
+
    return result;
 }
 
@@ -523,6 +529,7 @@ void database::apply_block( const signed_block& next_block, uint32_t skip )
    {
       _apply_block( next_block );
    } );
+
    return;
 }
 

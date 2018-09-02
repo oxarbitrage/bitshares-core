@@ -64,6 +64,8 @@
 
 #include <graphene/chain/protocol/fee_schedule.hpp>
 
+#include <graphene/chain/smart_contract.hpp>
+
 #include <fc/smart_ref_impl.hpp>
 #include <fc/uint128.hpp>
 #include <fc/crypto/digest.hpp>
@@ -110,6 +112,9 @@ const uint8_t operation_history_object::type_id;
 
 const uint8_t proposal_object::space_id;
 const uint8_t proposal_object::type_id;
+
+const uint8_t smart_contract_object::space_id;
+const uint8_t smart_contract_object::type_id;
 
 const uint8_t transaction_object::space_id;
 const uint8_t transaction_object::type_id;
@@ -220,6 +225,8 @@ void database::initialize_indexes()
    add_index< primary_index<collateral_bid_index                          > >();
 
    add_index< primary_index< simple_index< fba_accumulator_object       > > >();
+   add_index< primary_index< smart_contract_index                       > >();
+
 }
 
 void database::init_genesis(const genesis_state_type& genesis_state)
