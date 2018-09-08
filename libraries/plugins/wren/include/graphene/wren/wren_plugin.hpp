@@ -28,6 +28,7 @@
 #include <graphene/chain/operation_history_object.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
+#include <boost/multi_index/sequenced_index.hpp>
 
 
 namespace graphene { namespace wren {
@@ -57,7 +58,7 @@ class wren_plugin : public graphene::app::plugin
       virtual void plugin_startup() override;
 
       friend class detail::wren_plugin_impl;
-       std::unique_ptr<detail::wren_plugin_impl> my;
+      std::unique_ptr<detail::wren_plugin_impl> my;
 };
 
 struct smart_contract_object : public abstract_object<smart_contract_object>
@@ -68,7 +69,7 @@ struct smart_contract_object : public abstract_object<smart_contract_object>
     //fc::time_point_sec time;
     account_id_type owner;
     //private_key_type private_key;
-    std::string private_key;
+    private_key_type private_key;
     std::string script;
     std::string output;
     bool status;
