@@ -29,6 +29,7 @@
 #include <graphene/grouped_orders/grouped_orders_plugin.hpp>
 #include <graphene/elasticsearch/elasticsearch_plugin.hpp>
 #include <graphene/es_objects/es_objects.hpp>
+#include <graphene/lua/lua.hpp>
 
 #include <graphene/chain/committee_member_object.hpp>
 #include <graphene/chain/fba_object.hpp>
@@ -164,6 +165,13 @@ database_fixture::database_fixture()
       esobjects_plugin->plugin_initialize(options);
       esobjects_plugin->plugin_startup();
    }
+   if(test_name == "lua_test1") {
+      auto lua_plugin = app.register_plugin<graphene::lua::lua_plugin>();
+      lua_plugin->plugin_set_app(&app);
+      lua_plugin->plugin_initialize(options);
+      lua_plugin->plugin_startup();
+   }
+
 
    options.insert(std::make_pair("bucket-size", boost::program_options::variable_value(string("[15]"),false)));
    mhplugin->plugin_set_app(&app);
