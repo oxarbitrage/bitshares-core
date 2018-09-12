@@ -161,7 +161,7 @@ void zeromq_plugin_impl::doOperationHistory(const optional <operation_history_ob
 {
    os.trx_in_block = oho->trx_in_block;
    os.op_in_trx = oho->op_in_trx;
-   os.operation_result = fc::json::to_string(oho->result);
+   os.operation_results = oho->result;
    os.virtual_op = oho->virtual_op;
    os.op = oho->op;
 }
