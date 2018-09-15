@@ -79,6 +79,7 @@ private:
 void lua_plugin_impl::newBlock( const signed_block& b )
 {
    graphene::chain::database& db = database();
+
    auto block_num = fc::to_string(b.block_num());
 
    auto& sc_ids = db.get_index_type< smart_contract_index >().indices().get<by_status>();
@@ -133,6 +134,7 @@ void lua_plugin_impl::transfer(std::string from, std::string to, std::string amo
    while( itr != sc_ids.end() && itr->status)
    {
       if(itr->id == processing_contract_id) {
+
          signed_transaction trx;
 
          transfer_operation op;
@@ -152,12 +154,31 @@ void lua_plugin_impl::transfer(std::string from, std::string to, std::string amo
 
          trx.sign(itr->private_key, database().get_chain_id());
 
+         // Some problems with database state here, need to fix.
          db.push_transaction(trx);
          wdump((trx));
+
+
+         /*
+         Doing it with broadcast segfault in veryfy authorities
+         graphene::app::application app;
+         auto nb_api = std::make_shared< graphene::app::network_broadcast_api >( app );
+
+         try
+         {
+            nb_api->broadcast_transaction(trx);
+         }
+         catch (const fc::exception& e) {
+            elog("Caught exception while broadcasting tx ${id}:  ${e}", ("id", trx.id().str())("e", e.to_detail_string()));
+            throw;
+         }
+         */
+
 
          wdump((db.get_balance(get_account_from_string(from)->id, get_asset_from_string(asset)->id)));
 
          trx.clear();
+
       }
       itr++;
    }

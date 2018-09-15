@@ -25,7 +25,7 @@
 #include <graphene/utilities/tempdir.hpp>
 #include <fc/crypto/digest.hpp>
 #include "../common/database_fixture.hpp"
-#define BOOST_TEST_MODULE Elastic Search Database Tests
+#define BOOST_TEST_MODULE Lua VM Tests
 #include <boost/test/included/unit_test.hpp>
 #include <graphene/lua/lua.hpp>
 #include <graphene/utilities/key_conversion.hpp>
@@ -42,7 +42,10 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          transfer(committee_account, dan_id, asset(100000));
          transfer(committee_account, bob_id, asset(200000));
 
-         generate_block();
+
+         uint32_t skip = database::skip_authority_check | database::skip_fork_db | database::skip_validate;
+
+         generate_block( skip );
 
          // script 1 - get me block number on each block
          std::string script1 = R"(
@@ -58,12 +61,12 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
             sco.output = "";
             sco.status = true;
          });
-         generate_block();
-         generate_block();
-         generate_block();
-         generate_block();
-         generate_block();
-         generate_block();
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
 
          // script 2 - get me block number, my balance and get out
          std::string script2 = R"(
@@ -82,10 +85,11 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
             sco.status = true;
          });
 
-         generate_block();
-         generate_block();
-         generate_block();
-         generate_block();
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
+
 
          // script 3 - get me block number, my balance, execute transfer in specified block then just get my balance
          std::string script3 = R"(
@@ -95,10 +99,12 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          print (block_num)
          if block_num == 13 then
             Bitshares:transfer("dan", "bob", "100", "1.3.0")
-         else
+         elseif block_num > 13 then
             print(my_balance)
+            Bitshares:quit()
          end
          )";
+
          created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
@@ -107,11 +113,10 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
             sco.status = true;
          });
 
-         generate_block();
-         generate_block();
+         generate_block( skip );
+         generate_block( skip );
+         generate_block( skip );
 
-
-         generate_block();
       }
       catch (fc::exception &e) {
          edump((e.to_detail_string()));
