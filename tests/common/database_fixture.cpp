@@ -315,7 +315,7 @@ signed_block database_fixture::generate_block(uint32_t skip, const fc::ecc::priv
    auto block = db.generate_block(db.get_slot_time(miss_blocks + 1),
                             db.get_scheduled_witness(miss_blocks + 1),
                             key, skip);
-   db.clear_pending();
+   //db.clear_pending();
    return block;
 }
 
