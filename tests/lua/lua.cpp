@@ -36,16 +36,23 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
    BOOST_AUTO_TEST_CASE(lua_test1) {
       try {
-         ACTORS( (dan)(bob)(dreceiver1)(dreceiver2)(dreceiver3) )
+         ACTORS( (dan)(bob)(dreceiver1)(dreceiver2)(dreceiver3)(feedproducer)(borrower)(seller) )
 
-         create_bitasset("USD", account_id_type());
+         const auto& bitusd = create_bitasset("USD", feedproducer_id);
          transfer(committee_account, dan_id, asset(100000));
          transfer(committee_account, bob_id, asset(200000));
+         //const auto& eurusd = create_bitasset("EUR", feedproducer_id);
+         const auto& core   = asset_id_type()(db);
+
+         generate_block(  );
+         generate_block(  );
+         //generate_block(  );
+
 
          //uint32_t skip = database::skip_authority_check | database::skip_fork_db | database::skip_validate;
 
          //generate_block( skip );
-         generate_block( );
+
 
          // script 1 - get me block number on each block
          std::string script1 = R"(
@@ -62,6 +69,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
             sco.status = true;
          });
          generate_block(  );
+         wdump((db.head_block_num()));
          generate_block(  );
          generate_block(  );
          generate_block(  );
@@ -88,7 +96,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          generate_block(  );
          generate_block(  );
          generate_block(  );
-         generate_block(  );
+         //generate_block(  );
 
 
          // script 3 - get me block number, my balance, execute transfer in specified block then just get my balance
@@ -114,6 +122,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          });
 
          generate_block(  );
+
 
          auto dan_balance = db.get_balance( dan_id, asset_id_type() );
          BOOST_CHECK_EQUAL(dan_balance.amount.value, 999900);
@@ -154,6 +163,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          });
 
          generate_block(  );
+         wdump((db.head_block_num()));
 
          dan_balance = db.get_balance( dan_id, asset_id_type() );
          BOOST_CHECK_EQUAL(dan_balance.amount.value, 999600);
@@ -166,6 +176,33 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          BOOST_CHECK_EQUAL(dreceiver3_balance.amount.value, 100);
 
          generate_block(  );
+
+         generate_block(  );
+
+         // script 5 - get_ticker
+         std::string script5 = R"(
+         print("---- script 5")
+
+         block_num = Bitshares:getCurrentBlock()
+         print (block_num)
+
+         print(Bitshares:getTicker("BTS", "USD"));
+         )";
+
+
+         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+            sco.owner = dan_id;
+            sco.private_key = dan_private_key;
+            sco.script = script5;
+            sco.output = "";
+            sco.status = true;
+         });
+
+
+         generate_block(  );
+
+         //current_feed.settlement_price = bitusd.amount( 2 ) / core.amount(5);
+         //publish_feed( bitusd, feedproducer, current_feed );
 
          generate_block(  );
 

@@ -35,6 +35,11 @@ extern "C"
 
 #include "LuaBridge/LuaBridge.h"
 
+#include <graphene/app/database_api.hpp>
+#include <graphene/app/util.hpp>
+
+//#include <graphene/market_history/market_history_plugin.hpp>
+
 using namespace luabridge;
 
 namespace graphene { namespace lua {
@@ -60,6 +65,7 @@ class lua_plugin_impl
       void newBlock( const signed_block& b );
       uint32_t getCurrentBlock();
       uint32_t getBalance(std::string account, std::string asset);
+      std::string getTicker(const std::string& base, const std::string& quote);
       void transfer(std::string from, std::string to, std::string amount, std::string asset);
       void quit();
 
@@ -70,9 +76,12 @@ class lua_plugin_impl
 
       lua_State* L;
 
+      const void createSomeContracts();
+
 private:
       const account_object* get_account_from_string( const std::string& name_or_id );
       const asset_object* get_asset_from_string( const std::string& name_or_id );
+      string price_to_string( const price& _price, const asset_object& _base, const asset_object& _quote );
 
 };
 
@@ -86,6 +95,10 @@ void lua_plugin_impl::newBlock( const signed_block& b )
    auto itr = sc_ids.lower_bound( 1 );
    while( itr != sc_ids.end() && itr->status) {
 
+      //wdump((itr->script));
+      //wdump((itr->status));
+
+
       if (itr->status) {
 
          //lua_State* L;
@@ -98,6 +111,7 @@ void lua_plugin_impl::newBlock( const signed_block& b )
                   .addFunction("transfer", &graphene::lua::detail::lua_plugin_impl::transfer)
                   .addFunction("quit", &graphene::lua::detail::lua_plugin_impl::quit)
                   .addFunction("getCurrentBlock", &graphene::lua::detail::lua_plugin_impl::getCurrentBlock)
+                  .addFunction("getTicker", &graphene::lua::detail::lua_plugin_impl::getTicker)
                .endClass();
 
          luabridge::Stack <lua_plugin_impl*>::push (L, this);
@@ -121,6 +135,34 @@ uint32_t lua_plugin_impl::getBalance(std::string account, std::string asset) {
    auto asset_id = get_asset_from_string(asset)->id;
    auto balance = database().get_balance(account_id, asset_id);
    return balance.amount.value;
+}
+
+std::string lua_plugin_impl::getTicker(const std::string& base, const std::string& quote)
+{
+   //graphene::app::database_api db_api(database());
+   //wdump((db_api.get_global_properties()));
+   //auto ticker = db_api.get_ticker(base, quote);
+   //wdump((ticker));
+   //return ticker.latest;
+   auto base_id = get_asset_from_string(base)->id;
+   auto quote_id = get_asset_from_string(quote)->id;
+   //wdump((base_id));
+   //wdump((quote_id));
+   if( base_id > quote_id ) std::swap( base_id, quote_id );
+   const auto& ticker_idx = database().get_index_type<graphene::market_history::market_ticker_index>().indices().get<graphene::market_history::by_market>();
+   auto itr = ticker_idx.find( std::make_tuple( base_id, quote_id ) );
+   //market_ticker ticker;
+   if( itr != ticker_idx.end() )
+   {
+      //wdump((*itr));
+      price latest_price = asset(itr->latest_base, itr->base) / asset(itr->latest_quote, itr->quote);
+      if (itr->base != get_asset_from_string(base)->id)
+         latest_price = ~latest_price;
+      auto latest = price_to_string(latest_price, *get_asset_from_string(base), *get_asset_from_string(quote));
+
+      return latest;
+   }
+   return "";
 }
 
 void lua_plugin_impl::transfer(std::string from, std::string to, std::string amount, std::string asset)
@@ -175,7 +217,7 @@ void lua_plugin_impl::transfer(std::string from, std::string to, std::string amo
          */
 
 
-         wdump((db.get_balance(get_account_from_string(from)->id, get_asset_from_string(asset)->id)));
+         //wdump((db.get_balance(get_account_from_string(from)->id, get_asset_from_string(asset)->id)));
 
          trx.clear();
 
@@ -233,6 +275,35 @@ const asset_object* lua_plugin_impl::get_asset_from_string( const std::string& n
    return asset;
 }
 
+string lua_plugin_impl::price_to_string( const price& _price, const asset_object& _base, const asset_object& _quote )
+{ try {
+         if( _price.base.asset_id == _base.id && _price.quote.asset_id == _quote.id )
+            return graphene::app::price_to_string( _price, _base.precision, _quote.precision );
+         else if( _price.base.asset_id == _quote.id && _price.quote.asset_id == _base.id )
+            return graphene::app::price_to_string( ~_price, _base.precision, _quote.precision );
+         else
+            FC_ASSERT( !"bad parameters" );
+} FC_CAPTURE_AND_RETHROW( (_price)(_base)(_quote) ) }
+
+const void lua_plugin_impl::createSomeContracts()
+{
+   std::string script1 = R"(
+         print("---- script 1000")
+         -- block_num = Bitshares:getCurrentBlock()
+         -- print (block_num)
+         ticker = Bitshares:getTicker("BTS", "USD")
+         print(ticker)
+
+         )";
+   auto created = database().create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+      //sco.owner = dan_id;
+      //sco.private_key = dan_private_key;
+      sco.script = script1;
+      sco.output = "";
+      sco.status = true;
+   });
+}
+
 lua_plugin_impl::~lua_plugin_impl()
 {
    return;
@@ -272,6 +343,9 @@ void lua_plugin::plugin_set_program_options(
 void lua_plugin::plugin_initialize(const boost::program_options::variables_map& options)
 {
    database().add_index< primary_index< smart_contract_index  > >();
+
+   // use to load some initial contracts
+   //my->createSomeContracts();
 
    database().applied_block.connect( [&]( const signed_block& b) {
       my->newBlock(b);
