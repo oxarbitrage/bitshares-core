@@ -61,9 +61,11 @@ class lua_plugin_impl
       lua_plugin& _self;
       std::string _lua_option = "whatever";
       object_id_type processing_contract_id;
+      signed_block current_block;
 
       void newBlock( const signed_block& b );
-      uint32_t getCurrentBlock();
+      uint32_t getCurrentBlockNumber();
+      string getCurrentBlock();
       uint32_t getBalance(std::string account, std::string asset);
       std::string getTicker(const std::string& base, const std::string& quote);
       void transfer(std::string from, std::string to, std::string amount, std::string asset);
@@ -89,6 +91,7 @@ void lua_plugin_impl::newBlock( const signed_block& b )
 {
    graphene::chain::database& db = database();
 
+   current_block= b;
    auto block_num = fc::to_string(b.block_num());
 
    auto& sc_ids = db.get_index_type< smart_contract_index >().indices().get<by_status>();
@@ -110,6 +113,7 @@ void lua_plugin_impl::newBlock( const signed_block& b )
                   .addFunction("getBalance", &graphene::lua::detail::lua_plugin_impl::getBalance)
                   .addFunction("transfer", &graphene::lua::detail::lua_plugin_impl::transfer)
                   .addFunction("quit", &graphene::lua::detail::lua_plugin_impl::quit)
+                  .addFunction("getCurrentBlockNumber", &graphene::lua::detail::lua_plugin_impl::getCurrentBlockNumber)
                   .addFunction("getCurrentBlock", &graphene::lua::detail::lua_plugin_impl::getCurrentBlock)
                   .addFunction("getTicker", &graphene::lua::detail::lua_plugin_impl::getTicker)
                .endClass();
@@ -118,15 +122,22 @@ void lua_plugin_impl::newBlock( const signed_block& b )
          lua_setglobal (L, "Bitshares");
 
          processing_contract_id = itr->id;
+
+         //luaL_dofile(L, "/home/alfredo/CLionProjects/lua/tests/lua/json.lua");
+
          luaL_dostring(L, itr->script.c_str());
          ++itr;
       }
    }
 }
 
-uint32_t lua_plugin_impl::getCurrentBlock()
+uint32_t lua_plugin_impl::getCurrentBlockNumber()
 {
    return database().head_block_num();
+}
+string lua_plugin_impl::getCurrentBlock()
+{
+   return fc::json::to_string(current_block);
 }
 
 uint32_t lua_plugin_impl::getBalance(std::string account, std::string asset) {

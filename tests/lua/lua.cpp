@@ -57,7 +57,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          // script 1 - get me block number on each block
          std::string script1 = R"(
          print("---- script 1")
-         block_num = Bitshares:getCurrentBlock()
+         block_num = Bitshares:getCurrentBlockNumber()
          print (block_num)
          if block_num == 6 then Bitshares:quit() end
          )";
@@ -79,7 +79,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          // script 2 - get me block number, my balance and get out
          std::string script2 = R"(
          print("---- script 2")
-         block_num = Bitshares:getCurrentBlock()
+         block_num = Bitshares:getCurrentBlockNumber()
          my_balance = Bitshares:getBalance("dan", "BTS")
          print (block_num)
          print (my_balance)
@@ -102,7 +102,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          // script 3 - get me block number, my balance, execute transfer in specified block then just get my balance
          std::string script3 = R"(
          print("---- script 3")
-         block_num = Bitshares:getCurrentBlock()
+         block_num = Bitshares:getCurrentBlockNumber()
          my_balance = Bitshares:getBalance("dan", "BTS")
          print (block_num)
          if block_num == 13 then
@@ -139,7 +139,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          receivers[2] = "dreceiver2"
          receivers[3] = "dreceiver3"
 
-         block_num = Bitshares:getCurrentBlock()
+         block_num = Bitshares:getCurrentBlockNumber()
          print (block_num)
 
          if block_num == 16 then
@@ -179,11 +179,11 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
          generate_block(  );
 
-         // script 5 - get_ticker
+         // script 5 - get_ticker - dont work in a test case
          std::string script5 = R"(
          print("---- script 5")
 
-         block_num = Bitshares:getCurrentBlock()
+         block_num = Bitshares:getCurrentBlockNumber()
          print (block_num)
 
          print(Bitshares:getTicker("BTS", "USD"));
@@ -198,13 +198,50 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
             sco.status = true;
          });
 
-
          generate_block(  );
 
          //current_feed.settlement_price = bitusd.amount( 2 ) / core.amount(5);
          //publish_feed( bitusd, feedproducer, current_feed );
 
          generate_block(  );
+
+         // script 6 - use json
+         std::string script6 = R"(
+         -- https://github.com/rxi/json.lua
+         package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/?.lua"
+         json = require "json"
+         print("---- script 6")
+
+         block = Bitshares:getCurrentBlock()
+         print (block)
+
+         myjson = json.decode(block)
+         print (myjson["timestamp"])
+
+         for k,v in pairs(myjson["transactions"][1]["operations"][1][2]) do
+            print(k,v)
+            if type(myjson["transactions"][1]["operations"][1][2][k]) == "table" then
+               for k2,v2 in pairs(myjson["transactions"][1]["operations"][1][2][k]) do
+                  print(k2, v2)
+               end
+            end
+         end
+         print (myjson["transactions"][1]["operations"][1][2])
+
+         )";
+
+
+         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+            sco.owner = dan_id;
+            sco.private_key = dan_private_key;
+            sco.script = script6;
+            sco.output = "";
+            sco.status = true;
+         });
+
+         generate_block();
+         transfer(committee_account, bob_id, asset(200000));
+         generate_block();
 
       }
       catch (fc::exception &e) {
