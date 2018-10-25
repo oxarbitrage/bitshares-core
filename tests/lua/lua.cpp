@@ -40,28 +40,31 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
          const auto& bitusd = create_bitasset("USD", feedproducer_id);
          transfer(committee_account, dan_id, asset(100000));
+         generate_block();
          transfer(committee_account, bob_id, asset(200000));
+         generate_block(  );
+
          //const auto& eurusd = create_bitasset("EUR", feedproducer_id);
          const auto& core   = asset_id_type()(db);
-
          generate_block(  );
+         generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
          generate_block(  );
-         //generate_block(  );
 
 
          //uint32_t skip = database::skip_authority_check | database::skip_fork_db | database::skip_validate;
 
          //generate_block( skip );
 
+         wdump((db.head_block_num()));
 
          // script 1 - get me block number on each block
          std::string script1 = R"(
          print("---- script 1")
          block_num = Bitshares:getCurrentBlockNumber()
          print (block_num)
-         if block_num == 6 then Bitshares:quit() end
+         if block_num == 9 then Bitshares:quit() end
          )";
-         auto created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
             sco.script = script1;
@@ -85,7 +88,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          print (my_balance)
          Bitshares:quit()
          )";
-         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
             sco.script = script2;
@@ -105,15 +108,15 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          block_num = Bitshares:getCurrentBlockNumber()
          my_balance = Bitshares:getBalance("dan", "BTS")
          print (block_num)
-         if block_num == 13 then
+         if block_num == 17 then
             Bitshares:transfer("dan", "bob", "100", "1.3.0")
-         elseif block_num > 13 then
+         elseif block_num > 17 then
             print(my_balance)
             Bitshares:quit()
          end
          )";
 
-         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
             sco.script = script3;
@@ -125,7 +128,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
 
          auto dan_balance = db.get_balance( dan_id, asset_id_type() );
-         BOOST_CHECK_EQUAL(dan_balance.amount.value, 999900);
+         BOOST_CHECK_EQUAL(dan_balance.amount.value, 499900);
          wdump((dan_balance));
 
          generate_block(  );
@@ -142,19 +145,19 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          block_num = Bitshares:getCurrentBlockNumber()
          print (block_num)
 
-         if block_num == 16 then
+         if block_num == 20 then
 
             for k,v in ipairs(receivers) do
                  -- print(v)
                  Bitshares:transfer("dan", v, "100", "1.3.0")
             end
-         elseif block_num > 16 then
+         elseif block_num > 20 then
             Bitshares:quit()
          end
          )";
 
 
-         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
             sco.script = script4;
@@ -166,7 +169,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          wdump((db.head_block_num()));
 
          dan_balance = db.get_balance( dan_id, asset_id_type() );
-         BOOST_CHECK_EQUAL(dan_balance.amount.value, 999600);
+         BOOST_CHECK_EQUAL(dan_balance.amount.value, 499600);
 
          auto dreceiver1_balance = db.get_balance( dreceiver1_id, asset_id_type() );
          auto dreceiver2_balance = db.get_balance( dreceiver2_id, asset_id_type() );
@@ -186,11 +189,15 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          block_num = Bitshares:getCurrentBlockNumber()
          print (block_num)
 
-         print(Bitshares:getTicker("BTS", "USD"));
+         if block_num == 23 then
+            print(Bitshares:getTicker("BTS", "USD"))
+         elseif block_num > 23 then
+            Bitshares:quit()
+         end
          )";
 
 
-         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
             sco.script = script5;
@@ -205,33 +212,38 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
          generate_block(  );
 
-         // script 6 - use json
+         // script 6 - use json (https://github.com/rxi/json.lua)
          std::string script6 = R"(
-         -- https://github.com/rxi/json.lua
          package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/?.lua"
          json = require "json"
          print("---- script 6")
 
-         block = Bitshares:getCurrentBlock()
-         print (block)
+         block_num = Bitshares:getCurrentBlockNumber()
+         print (block_num)
 
-         myjson = json.decode(block)
-         print (myjson["timestamp"])
+         if block_num == 25 then
 
-         for k,v in pairs(myjson["transactions"][1]["operations"][1][2]) do
-            print(k,v)
-            if type(myjson["transactions"][1]["operations"][1][2][k]) == "table" then
-               for k2,v2 in pairs(myjson["transactions"][1]["operations"][1][2][k]) do
-                  print(k2, v2)
+            block = Bitshares:getCurrentBlock()
+            print (block)
+
+            myjson = json.decode(block)
+            print (myjson["timestamp"])
+
+            for k,v in pairs(myjson["transactions"][1]["operations"][1][2]) do
+               print(k,v)
+               if type(myjson["transactions"][1]["operations"][1][2][k]) == "table" then
+                  for k2,v2 in pairs(myjson["transactions"][1]["operations"][1][2][k]) do
+                     print(k2, v2)
+                  end
                end
             end
+            print (myjson["transactions"][1]["operations"][1][2])
+         elseif block_num > 25 then
+            Bitshares:quit()
          end
-         print (myjson["transactions"][1]["operations"][1][2])
-
          )";
 
-
-         created = db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
             sco.owner = dan_id;
             sco.private_key = dan_private_key;
             sco.script = script6;
@@ -242,6 +254,55 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          generate_block();
          transfer(committee_account, bob_id, asset(200000));
          generate_block();
+         generate_block();
+
+
+         generate_block(  );
+         generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
+         generate_block(  );
+
+         // script 7 - use persistence - http://lua-users.org/wiki/TablePersistence
+         std::string script7 = R"(
+         package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/?.lua"
+         json = require "persistence"
+         print("---- script 7")
+
+         block_num = Bitshares:getCurrentBlockNumber()
+         print (block_num)
+
+         if block_num == 32 then
+
+            t_original = {"test"};
+            persistence.store("/home/alfredo/CLionProjects/lua/tests/lua/storage.lua", t_original);
+
+         elseif block_num > 32 then
+            t_restored = persistence.load("/home/alfredo/CLionProjects/lua/tests/lua/storage.lua");
+            print(t_restored[1])
+            Bitshares:quit()
+         end
+      )";
+
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+            sco.owner = dan_id;
+            sco.private_key = dan_private_key;
+            sco.script = script7;
+            sco.output = "";
+            sco.status = true;
+         });
+         generate_block(  );
+         generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
+         generate_block(  );
+         generate_block();
+
+
+
+         generate_block();
+         //wdump((db.head_block_num()));
+         generate_block();
+         generate_block();
+         generate_block();
+
+
 
       }
       catch (fc::exception &e) {

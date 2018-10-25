@@ -95,16 +95,11 @@ void lua_plugin_impl::newBlock( const signed_block& b )
    auto block_num = fc::to_string(b.block_num());
 
    auto& sc_ids = db.get_index_type< smart_contract_index >().indices().get<by_status>();
-   auto itr = sc_ids.lower_bound( 1 );
+   auto itr = sc_ids.find( true );
    while( itr != sc_ids.end() && itr->status) {
-
-      //wdump((itr->script));
-      //wdump((itr->status));
-
 
       if (itr->status) {
 
-         //lua_State* L;
          L = luaL_newstate();
          luaL_openlibs(L);
 
@@ -122,8 +117,6 @@ void lua_plugin_impl::newBlock( const signed_block& b )
          lua_setglobal (L, "Bitshares");
 
          processing_contract_id = itr->id;
-
-         //luaL_dofile(L, "/home/alfredo/CLionProjects/lua/tests/lua/json.lua");
 
          luaL_dostring(L, itr->script.c_str());
          ++itr;
