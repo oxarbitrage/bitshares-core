@@ -34,7 +34,7 @@ using namespace graphene::chain::test;
 using namespace graphene::app;
 BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
-   BOOST_AUTO_TEST_CASE(lua_test1) {
+   BOOST_AUTO_TEST_CASE(lua_contracts) {
       try {
          ACTORS( (dan)(bob)(dreceiver1)(dreceiver2)(dreceiver3)(feedproducer)(borrower)(seller) )
 
@@ -302,6 +302,42 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          generate_block();
          generate_block();
 
+
+
+      }
+      catch (fc::exception &e) {
+         edump((e.to_detail_string()));
+         throw;
+      }
+   }
+   BOOST_AUTO_TEST_CASE(lua_api) {
+      try {
+         ACTORS((bob))
+
+         generate_block();
+         generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
+         generate_block();
+         // script 1 - get me block number on each block
+         std::string script1 = R"(
+         print("hello world")
+         )";
+         /*
+         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+            sco.owner = bob_id;
+            sco.private_key = bob_private_key;
+            sco.script = script1;
+            sco.output = "";
+            sco.status = true;
+         });
+         */
+         graphene::app::smart_contract_api smart_contract_api(app);
+
+         auto up = smart_contract_api.upload_contract(bob_id, bob_private_key, script1, true);
+         wdump((up));
+         generate_block();
+
+         vector<graphene::lua::smart_contract_object> scs = smart_contract_api.get_contracts();
+         wdump((scs));
 
 
       }

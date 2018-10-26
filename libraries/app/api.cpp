@@ -113,6 +113,12 @@ namespace graphene { namespace app {
           if( _app.get_plugin( "debug_witness" ) )
              _debug_api = std::make_shared< graphene::debug_witness::debug_api >( std::ref(_app) );
        }
+       else if( api_name == "smart_contract_api" )
+       {
+          // can only enable this API if the plugin was loaded
+          if( _app.get_plugin( "lua" ) )
+             _smart_contract_api = std::make_shared< smart_contract_api >( std::ref( _app ) );
+       }
        return;
     }
 
@@ -281,6 +287,11 @@ namespace graphene { namespace app {
     {
        FC_ASSERT(_debug_api);
        return *_debug_api;
+    }
+    fc::api<smart_contract_api> login_api::smart_contract() const
+    {
+       FC_ASSERT(_smart_contract_api);
+       return *_smart_contract_api;
     }
 
     vector<order_history_object> history_api::get_fill_order_history( asset_id_type a, asset_id_type b, uint32_t limit  )const
@@ -633,5 +644,31 @@ namespace graphene { namespace app {
       }
       return result;
    }
+
+    // smart_contract_api
+    vector<graphene::lua::smart_contract_object> smart_contract_api::get_contracts() const {
+       //FC_ASSERT(limit <= 100);
+       auto &sc_ids = _app.chain_database()->get_index_type<graphene::lua::smart_contract_index>().indices().get<graphene::lua::by_status>();
+       auto itr = sc_ids.begin();
+       vector<graphene::lua::smart_contract_object> result;
+       while (itr != sc_ids.end() && itr->status) {
+          result.emplace_back(*itr);
+          ++itr;
+       }
+       return result;
+    }
+    object_id_type smart_contract_api::upload_contract(account_id_type owner, private_key pk, string script, bool status) const {
+
+       // do argument checks
+
+       auto upload = _app.chain_database()->create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
+          sco.owner = owner;
+          sco.private_key = pk;
+          sco.script = script;
+          sco.output = "";
+          sco.status = status;
+       });
+       return upload.id;
+    }
 
 } } // graphene::app

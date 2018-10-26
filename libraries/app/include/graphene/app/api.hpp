@@ -389,6 +389,21 @@ namespace graphene { namespace app {
    };
 
    /**
+    * @brief
+    */
+   class smart_contract_api
+   {
+      public:
+         smart_contract_api(application& app):_app(app){}
+
+         object_id_type upload_contract(account_id_type owner, private_key pk, string script, bool status)const;
+         vector<graphene::lua::smart_contract_object> get_contracts() const;
+
+      private:
+         application& _app;
+   };
+
+   /**
     * @brief The login_api class implements the bottom layer of the RPC API
     *
     * All other APIs must be requested from this API.
@@ -427,6 +442,8 @@ namespace graphene { namespace app {
          fc::api<orders_api> orders()const;
          /// @brief Retrieve the debug API (if available)
          fc::api<graphene::debug_witness::debug_api> debug()const;
+         /// @brief Retrieve the SC (if available)
+         fc::api<smart_contract_api> smart_contract()const;
 
          /// @brief Called to enable an API, not reflected.
          void enable_api( const string& api_name );
@@ -441,6 +458,7 @@ namespace graphene { namespace app {
          optional< fc::api<crypto_api> > _crypto_api;
          optional< fc::api<asset_api> > _asset_api;
          optional< fc::api<orders_api> > _orders_api;
+         optional< fc::api<smart_contract_api> > _smart_contract_api;
          optional< fc::api<graphene::debug_witness::debug_api> > _debug_api;
    };
 
@@ -499,9 +517,13 @@ FC_API(graphene::app::crypto_api,
      )
 FC_API(graphene::app::asset_api,
        (get_asset_holders)
-	   (get_asset_holders_count)
+       (get_asset_holders_count)
        (get_all_asset_holders)
      )
+FC_API(graphene::app::smart_contract_api,
+       (upload_contract)
+       (get_contracts)
+)
 FC_API(graphene::app::orders_api,
        (get_tracked_groups)
        (get_grouped_limit_orders)
@@ -517,4 +539,5 @@ FC_API(graphene::app::login_api,
        (asset)
        (orders)
        (debug)
+       (smart_contract)
      )
