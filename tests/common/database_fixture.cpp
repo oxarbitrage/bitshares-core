@@ -128,6 +128,7 @@ database_fixture::database_fixture()
    }
 
    auto test_name = boost::unit_test::framework::current_test_case().p_name.value;
+   auto test_suite_id = boost::unit_test::framework::current_test_case().p_parent_id;
    if(test_name == "elasticsearch_account_history" || test_name == "elasticsearch_suite") {
       auto esplugin = app.register_plugin<graphene::elasticsearch::elasticsearch_plugin>();
       esplugin->plugin_set_app(&app);
@@ -141,7 +142,8 @@ database_fixture::database_fixture()
       esplugin->plugin_initialize(options);
       esplugin->plugin_startup();
    }
-   else {
+   else if( boost::unit_test::framework::get<boost::unit_test::test_suite>(test_suite_id).p_name.value != "performance_tests" )
+   {
       auto ahplugin = app.register_plugin<graphene::account_history::account_history_plugin>();
       ahplugin->plugin_set_app(&app);
       ahplugin->plugin_initialize(options);
@@ -643,7 +645,6 @@ const account_object& database_fixture::create_account(
       trx.validate();
 
       processed_transaction ptx = db.push_transaction(trx, ~0);
-      //wdump( (ptx) );
       const account_object& result = db.get<account_object>(ptx.operation_results[0].get<object_id_type>());
       trx.operations.clear();
       return result;
@@ -662,20 +663,23 @@ const committee_member_object& database_fixture::create_committee_member( const 
    return db.get<committee_member_object>(ptx.operation_results[0].get<object_id_type>());
 }
 
-const witness_object&database_fixture::create_witness(account_id_type owner, const fc::ecc::private_key& signing_private_key)
+const witness_object&database_fixture::create_witness(account_id_type owner,
+                                                        const fc::ecc::private_key& signing_private_key,
+                                                        uint32_t skip_flags )
 {
-   return create_witness(owner(db), signing_private_key);
+   return create_witness(owner(db), signing_private_key, skip_flags );
 }
 
 const witness_object& database_fixture::create_witness( const account_object& owner,
-                                                        const fc::ecc::private_key& signing_private_key )
+                                                        const fc::ecc::private_key& signing_private_key,
+                                                        uint32_t skip_flags )
 { try {
    witness_create_operation op;
    op.witness_account = owner.id;
    op.block_signing_key = signing_private_key.get_public_key();
    trx.operations.push_back(op);
    trx.validate();
-   processed_transaction ptx = db.push_transaction(trx, ~0);
+   processed_transaction ptx = db.push_transaction(trx, skip_flags );
    trx.clear();
    return db.get<witness_object>(ptx.operation_results[0].get<object_id_type>());
 } FC_CAPTURE_AND_RETHROW() }
@@ -727,7 +731,6 @@ const limit_order_object* database_fixture::create_sell_order( const account_obj
                                                 const time_point_sec order_expiration,
                                                 const price& fee_core_exchange_rate )
 {
-   //wdump((amount)(recv));
    limit_order_create_operation buy_order;
    buy_order.seller = user.id;
    buy_order.amount_to_sell = amount;
@@ -739,7 +742,6 @@ const limit_order_object* database_fixture::create_sell_order( const account_obj
    auto processed = db.push_transaction(trx, ~0);
    trx.operations.clear();
    verify_asset_supplies(db);
-   //wdump((processed));
    return db.find<limit_order_object>( processed.operation_results[0].get<object_id_type>() );
 }
 
