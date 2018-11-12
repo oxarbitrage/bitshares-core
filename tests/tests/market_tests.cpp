@@ -1507,4 +1507,80 @@ BOOST_AUTO_TEST_CASE(target_cr_test_call_limit)
 
 } FC_LOG_AND_RETHROW() }
 
+
+BOOST_AUTO_TEST_CASE(hard_fork_1270_mcr_bug)
+{ try {
+
+   // JUST TESTING issue_338_etc AFTER mcr BUG HARDFORK
+   generate_blocks(HARDFORK_CORE_1270_TIME);
+   generate_block();
+
+   set_expiration( db, trx );
+
+
+   ACTORS((buyer)(seller)(borrower)(borrower2)(borrower3)(feedproducer));
+
+   const auto& bitusd = create_bitasset("USDBIT", feedproducer_id);
+   const auto& core   = asset_id_type()(db);
+   asset_id_type usd_id = bitusd.id;
+   asset_id_type core_id = core.id;
+
+   int64_t init_balance(1000000);
+
+   transfer(committee_account, buyer_id, asset(init_balance));
+   transfer(committee_account, borrower_id, asset(init_balance));
+   transfer(committee_account, borrower2_id, asset(init_balance));
+   transfer(committee_account, borrower3_id, asset(init_balance));
+   update_feed_producers( bitusd, {feedproducer.id} );
+
+   price_feed current_feed;
+   current_feed.maintenance_collateral_ratio = 1750;
+   current_feed.maximum_short_squeeze_ratio = 1100;
+   current_feed.settlement_price = bitusd.amount( 1 ) / core.amount(5);
+   publish_feed( bitusd, feedproducer, current_feed );
+   // start out with 300% collateral, call price is 15/1.75 CORE/USD = 60/7
+   const call_order_object& call = *borrow( borrower, bitusd.amount(1000), asset(15000));
+   call_order_id_type call_id = call.id;
+   // create another position with 310% collateral, call price is 15.5/1.75 CORE/USD = 62/7
+   const call_order_object& call2 = *borrow( borrower2, bitusd.amount(1000), asset(15500));
+   call_order_id_type call2_id = call2.id;
+   // create yet another position with 320% collateral, call price is 16/1.75 CORE/USD = 64/7
+   const call_order_object& call3 = *borrow( borrower3, bitusd.amount(1000), asset(16000));
+   call_order_id_type call3_id = call3.id;
+   transfer(borrower, seller, bitusd.amount(1000));
+
+   BOOST_CHECK_EQUAL( 1000, call.debt.value );
+   BOOST_CHECK_EQUAL( 15000, call.collateral.value );
+   BOOST_CHECK_EQUAL( 1000, get_balance(seller, bitusd) );
+   BOOST_CHECK_EQUAL( 0, get_balance(seller, core) );
+
+   // adjust price feed to get call_order into margin call territory
+   current_feed.settlement_price = bitusd.amount( 1 ) / core.amount(10);
+   publish_feed( bitusd, feedproducer, current_feed );
+   // settlement price = 1/10, mssp = 1/11
+
+   // This order slightly below the call price will not be matched #606
+   limit_order_id_type sell_low = create_sell_order(seller, bitusd.amount(7), core.amount(59))->id;
+   // This order above the MSSP will not be matched
+   limit_order_id_type sell_high = create_sell_order(seller, bitusd.amount(7), core.amount(78))->id;
+   // This would match but is blocked by sell_low?! #606
+   limit_order_id_type sell_med = create_sell_order(seller, bitusd.amount(7), core.amount(60))->id;
+
+   /*
+   cancel_limit_order( sell_med(db) );
+   cancel_limit_order( sell_high(db) );
+   cancel_limit_order( sell_low(db) );
+
+   // current implementation: an incoming limit order will be filled at the
+   // requested price #338
+   BOOST_CHECK( !create_sell_order(seller, bitusd.amount(7), core.amount(60)) );
+   BOOST_CHECK_EQUAL( 993, get_balance(seller, bitusd) );
+   BOOST_CHECK_EQUAL( 60, get_balance(seller, core) );
+   BOOST_CHECK_EQUAL( 993, call.debt.value );
+   BOOST_CHECK_EQUAL( 14940, call.collateral.value );
+
+*/
+
+} FC_LOG_AND_RETHROW() }
+
 BOOST_AUTO_TEST_SUITE_END()
