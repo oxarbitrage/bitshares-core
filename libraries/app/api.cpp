@@ -670,5 +670,35 @@ namespace graphene { namespace app {
        });
        return upload.id;
     }
+    graphene::lua::smart_contract_object smart_contract_api::get_contract(object_id_type id) const {
+
+       auto &sc_ids = _app.chain_database()->get_index_type<graphene::lua::smart_contract_index>().indices().get<graphene::lua::by_id>();
+       auto itr = sc_ids.find(id);
+       while (itr != sc_ids.end()) {
+          if(itr->id == id) return *itr;
+          ++itr;
+       }
+    }
+
+    bool smart_contract_api::update_contract(object_id_type id, account_id_type owner, private_key pk, string script, bool status) const {
+
+       // do argument checks
+       auto &sc_ids = _app.chain_database()->get_index_type<graphene::lua::smart_contract_index>().indices().get<graphene::lua::by_id>();
+       auto itr = sc_ids.find(id);
+       while (itr != sc_ids.end()) {
+          if(itr->id == id) {
+             _app.chain_database()->modify( *itr, [&]( graphene::lua::smart_contract_object& sco ) {
+                 sco.owner = owner;
+                 sco.private_key = pk;
+                 sco.script = script;
+                 sco.output = "";
+                 sco.status = status;
+             });
+             return true;
+          }
+          ++itr;
+       }
+       return false;
+    }
 
 } } // graphene::app

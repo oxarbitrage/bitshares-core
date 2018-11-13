@@ -321,25 +321,39 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          std::string script1 = R"(
          print("hello world")
          )";
-         /*
-         db.create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
-            sco.owner = bob_id;
-            sco.private_key = bob_private_key;
-            sco.script = script1;
-            sco.output = "";
-            sco.status = true;
-         });
-         */
          graphene::app::smart_contract_api smart_contract_api(app);
 
+         // upload
          auto up = smart_contract_api.upload_contract(bob_id, bob_private_key, script1, true);
-         wdump((up));
+         BOOST_CHECK_EQUAL(up.instance(), 0);
          generate_block();
 
-         vector<graphene::lua::smart_contract_object> scs = smart_contract_api.get_contracts();
-         wdump((scs));
+         // loop all
+         auto scs = smart_contract_api.get_contracts();
 
+         // fix this string casting
+         BOOST_CHECK_EQUAL(fc::json::to_string(scs.begin()->id), "\"9.0.0\"");
+         BOOST_CHECK_EQUAL(fc::json::to_string(scs.begin()->owner), "\"1.2.16\"");
 
+         // get simple
+         graphene::lua::smart_contract_object sc = smart_contract_api.get_contract(up);
+         BOOST_CHECK_EQUAL(fc::json::to_string(sc.id), "\"9.0.0\"");
+         BOOST_CHECK_EQUAL(fc::json::to_string(sc.owner), "\"1.2.16\"");
+
+         generate_block();
+
+         // update contract - remove
+         auto up2 = smart_contract_api.update_contract(up, bob_id, bob_private_key, script1, false);
+         BOOST_CHECK_EQUAL(up2, true);
+
+         generate_block();
+
+         sc = smart_contract_api.get_contract(up);
+         BOOST_CHECK_EQUAL(sc.status, false);
+
+         // contract should not be executing anymore
+         generate_block();
+         generate_block();
       }
       catch (fc::exception &e) {
          edump((e.to_detail_string()));
@@ -347,4 +361,3 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
       }
    }
 BOOST_AUTO_TEST_SUITE_END()
-

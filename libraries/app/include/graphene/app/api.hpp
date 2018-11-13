@@ -514,6 +514,8 @@ namespace graphene { namespace app {
 
          object_id_type upload_contract(account_id_type owner, private_key pk, string script, bool status)const;
          vector<graphene::lua::smart_contract_object> get_contracts() const;
+         graphene::lua::smart_contract_object get_contract(object_id_type id) const;
+         bool update_contract(object_id_type id, account_id_type owner, private_key pk, string script, bool status)const;
 
       private:
          application& _app;
