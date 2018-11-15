@@ -118,7 +118,16 @@ void lua_plugin_impl::newBlock( const signed_block& b )
 
          processing_contract_id = itr->id;
 
-         luaL_dostring(L, itr->script.c_str());
+         auto errors = luaL_dostring(L, itr->script.c_str());
+         auto stack_top = lua_gettop(L);
+         if(stack_top > 0 && errors > 0) // print stack to console if any, for example syntax error
+         {
+            const char *str = lua_tostring(L, -1);
+            wdump((str));
+
+            // need to stop execution
+            quit();
+         }
          ++itr;
       }
    }

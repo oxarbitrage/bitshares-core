@@ -342,7 +342,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
          generate_block();
 
-         // update contract - remove
+         // update contract - stop executing
          auto up2 = smart_contract_api.update_contract(up, bob_id, bob_private_key, script1, false);
          BOOST_CHECK_EQUAL(up2, true);
 
@@ -360,4 +360,24 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          throw;
       }
    }
+
+   BOOST_AUTO_TEST_CASE(lua_syntax_error) {
+      try {
+         ACTORS((bob))
+
+         // script with syntax errors
+         std::string script = R"(
+            asyntaxerror;;ff
+         )";
+         graphene::app::smart_contract_api smart_contract_api(app);
+
+         // upload fail
+         GRAPHENE_REQUIRE_THROW( smart_contract_api.upload_contract(bob_id, bob_private_key, script, true), fc::exception );
+      }
+      catch (fc::exception &e) {
+         edump((e.to_detail_string()));
+         throw;
+      }
+   }
+
 BOOST_AUTO_TEST_SUITE_END()

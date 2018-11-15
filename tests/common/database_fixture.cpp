@@ -167,7 +167,7 @@ database_fixture::database_fixture()
       esobjects_plugin->plugin_initialize(options);
       esobjects_plugin->plugin_startup();
    }
-   if(test_name == "lua_contracts" || test_name == "lua_api") {
+   if(test_name == "lua_contracts" || test_name == "lua_api" || test_name == "lua_problems") {
       auto lua_plugin = app.register_plugin<graphene::lua::lua_plugin>();
       lua_plugin->plugin_set_app(&app);
       lua_plugin->plugin_initialize(options);
