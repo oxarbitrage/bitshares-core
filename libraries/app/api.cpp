@@ -657,13 +657,16 @@ namespace graphene { namespace app {
        }
        return result;
     }
-    object_id_type smart_contract_api::upload_contract(account_id_type owner, private_key pk, string script, bool status) const {
+    object_id_type smart_contract_api::upload_contract(account_id_type owner, string pk, string script, bool status) const {
 
        // do argument checks
+       fc::optional<fc::ecc::private_key> optional_private_key = utilities::wif_to_key(pk);
+       if (!optional_private_key)
+          FC_THROW("Invalid private key");
 
        auto upload = _app.chain_database()->create<graphene::lua::smart_contract_object>( [&]( graphene::lua::smart_contract_object& sco ) {
           sco.owner = owner;
-          sco.private_key = pk;
+          sco.private_key = *optional_private_key;
           sco.script = script;
           sco.output = "";
           sco.status = status;
@@ -680,16 +683,21 @@ namespace graphene { namespace app {
        }
     }
 
-    bool smart_contract_api::update_contract(object_id_type id, account_id_type owner, private_key pk, string script, bool status) const {
+    bool smart_contract_api::update_contract(object_id_type id, account_id_type owner, string pk, string script, bool status) const {
 
        // do argument checks
+       fc::optional<fc::ecc::private_key> optional_private_key = utilities::wif_to_key(pk);
+       if (!optional_private_key)
+          FC_THROW("Invalid private key");
+       //
+
        auto &sc_ids = _app.chain_database()->get_index_type<graphene::lua::smart_contract_index>().indices().get<graphene::lua::by_id>();
        auto itr = sc_ids.find(id);
        while (itr != sc_ids.end()) {
           if(itr->id == id) {
              _app.chain_database()->modify( *itr, [&]( graphene::lua::smart_contract_object& sco ) {
                  sco.owner = owner;
-                 sco.private_key = pk;
+                 sco.private_key = *optional_private_key;
                  sco.script = script;
                  sco.output = "";
                  sco.status = status;

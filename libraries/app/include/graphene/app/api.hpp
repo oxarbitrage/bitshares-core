@@ -512,10 +512,10 @@ namespace graphene { namespace app {
       public:
          smart_contract_api(application& app):_app(app){}
 
-         object_id_type upload_contract(account_id_type owner, private_key pk, string script, bool status)const;
+         object_id_type upload_contract(account_id_type owner, std::string pk, string script, bool status)const;
          vector<graphene::lua::smart_contract_object> get_contracts() const;
          graphene::lua::smart_contract_object get_contract(object_id_type id) const;
-         bool update_contract(object_id_type id, account_id_type owner, private_key pk, string script, bool status)const;
+         bool update_contract(object_id_type id, account_id_type owner, std::string pk, string script, bool status)const;
 
       private:
          application& _app;
@@ -641,6 +641,8 @@ FC_API(graphene::app::asset_api,
 FC_API(graphene::app::smart_contract_api,
        (upload_contract)
        (get_contracts)
+       (get_contract)
+       (update_contract)
 )
 FC_API(graphene::app::orders_api,
        (get_tracked_groups)
