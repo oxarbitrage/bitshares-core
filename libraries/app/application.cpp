@@ -446,6 +446,7 @@ void application_impl::startup()
       wild_access.allowed_apis.push_back( "network_broadcast_api" );
       wild_access.allowed_apis.push_back( "history_api" );
       wild_access.allowed_apis.push_back( "orders_api" );
+      wild_access.allowed_apis.push_back( "smart_contract_api" );
       _apiaccess.permission_map["*"] = wild_access;
    }
 
@@ -1018,6 +1019,7 @@ void application::initialize(const fc::path& data_dir, const boost::program_opti
       wanted.push_back("account_history");
       wanted.push_back("market_history");
       wanted.push_back("grouped_orders");
+      wanted.push_back("lua");
    }
    int es_ah_conflict_counter = 0;
    for (auto& it : wanted)
