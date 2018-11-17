@@ -339,9 +339,15 @@ BOOST_AUTO_TEST_CASE(hardfork_core_338_test)
    BOOST_CHECK_EQUAL( 1000, call3.debt.value );
    BOOST_CHECK_EQUAL( 16000, call3.collateral.value );
 
-   // call's call_price will be updated after the match, to 741/31/1.75 CORE/USD = 2964/217
-   // it's above settlement price (10/1) so won't be margin called again
-   BOOST_CHECK( price(asset(2964),asset(217,usd_id)) == call.call_price );
+   if(hf1270) {
+      BOOST_CHECK(price(asset(1), asset(1, usd_id)) == call.call_price);
+      // need to do some other check here
+   }
+   else {
+      // call's call_price will be updated after the match, to 741/31/1.75 CORE/USD = 2964/217
+      // it's above settlement price (10/1) so won't be margin called again
+      BOOST_CHECK(price(asset(2964), asset(217, usd_id)) == call.call_price);
+   }
 
    // This would match with call before, but would match with call2 after #343 fixed
    BOOST_CHECK( !create_sell_order(seller, bitusd.amount(700), core.amount(6000) ) );
@@ -357,10 +363,16 @@ BOOST_AUTO_TEST_CASE(hardfork_core_338_test)
    BOOST_CHECK_EQUAL( 7800, call2.collateral.value );
    BOOST_CHECK_EQUAL( 1000, call3.debt.value );
    BOOST_CHECK_EQUAL( 16000, call3.collateral.value );
-   // call2's call_price will be updated after the match, to 78/3/1.75 CORE/USD = 312/21
-   BOOST_CHECK( price(asset(312),asset(21,usd_id)) == call2.call_price );
-   // it's above settlement price (10/1) so won't be margin called
 
+   if(hf1270) {
+      BOOST_CHECK(price(asset(1), asset(1, usd_id)) == call.call_price);
+      // need to do some other check here
+   }
+   else {
+      // call2's call_price will be updated after the match, to 78/3/1.75 CORE/USD = 312/21
+      // it's above settlement price (10/1) so won't be margin called
+      BOOST_CHECK( price(asset(312),asset(21,usd_id)) == call2.call_price );
+   }
    // at this moment, collateralization of call is 7410 / 310 = 23.9
    // collateralization of call2 is 7800 / 300 = 26
    // collateralization of call3 is 16000 / 1000 = 16
