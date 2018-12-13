@@ -1779,17 +1779,41 @@ BOOST_AUTO_TEST_CASE(mcr_bug_cross1270)
 { try {
 
    INVOKE(mcr_bug_increase_before1270);
-   generate_blocks(HARDFORK_CORE_1270_TIME);
+
+   auto mi = db.get_global_properties().parameters.maintenance_interval;
+   generate_blocks(HARDFORK_CORE_1270_TIME - mi);
+
+   const asset_object& core = get_asset("BTS");
+   const asset_object& bitusd = get_asset("USDBIT");
+   const asset_id_type bitusd_id = bitusd.id;
+   const account_object& feedproducer = get_account("feedproducer");
+
+   // feed is expired
+   BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).current_feed.maintenance_collateral_ratio, 1750);
+
+   // make new feed
+   price_feed current_feed;
+   current_feed.settlement_price = bitusd.amount( 100 ) / core.amount(100);
+   current_feed.maintenance_collateral_ratio = 2000;
+   current_feed.maximum_short_squeeze_ratio  = 1100;
+   publish_feed( bitusd, feedproducer, current_feed );
+
+   BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).current_feed.maintenance_collateral_ratio, 2000);
+
+   // pass hardfork
+   generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
+
+   // feed is still valid
+   BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).current_feed.maintenance_collateral_ratio, 2000);
+
+   // but margin call was not eaten
    print_market(asset_id_type(1)(db).symbol, asset_id_type()(db).symbol);
 
-   // if call orders are created before HF1270 and:
-   // - mcr changes to put position in margin call territory before or after HF
-   // - trigger(create_sell_order) is done before of after HF
-   // margin calls will not be executed just because call was created before HF.
-   // is this intended behaviour ?
-   
+   // call orders still there
+   BOOST_CHECK( db.find<call_order_object>( call_order_id_type() ) );
+   BOOST_CHECK( db.find<call_order_object>( call_order_id_type(1) ) );
+
+
 } FC_LOG_AND_RETHROW() }
-
-
 
 BOOST_AUTO_TEST_SUITE_END()
