@@ -686,7 +686,7 @@ BOOST_AUTO_TEST_CASE( call_order_update_target_cr_hardfork_time_test )
  *  it is properly filled.
  *
  *  A margin call can happen in the following situation:
- *  0. there exists a bid above the mas short squeeze price
+ *  0. there exists a bid above the max short squeeze price
  *  1. highest bid is lower than the call price of an order
  *  2. the asset is not a prediction market
  *  3. there is a valid price feed
