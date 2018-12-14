@@ -907,14 +907,12 @@ void update_call_orders_hf_1270( database& db )
          call.call_price.base.amount = 1;
          call.call_price.quote.amount = 1;
       });
-
       const asset_bitasset_data_object& bitasset_data = call_obj.call_price.quote.asset_id(db).bitasset_data(db);
       // always update the median feed for crossing
       db.modify( bitasset_data, [head_time,next_maint_time]( asset_bitasset_data_object &obj ) {
           obj.update_median_feeds( head_time, next_maint_time );
       });
    }
-
    wlog( "Done updating all call orders for hardfork core-1270 at block ${n}", ("n",db.head_block_num()) );
 }
 
