@@ -1569,7 +1569,6 @@ BOOST_AUTO_TEST_CASE(mcr_bug_increase_before1270)
    BOOST_CHECK( db.find<call_order_object>( b1_id ) );
    BOOST_CHECK( db.find<call_order_object>( b2_id ) );
 
-
 } FC_LOG_AND_RETHROW() }
 
 BOOST_AUTO_TEST_CASE(mcr_bug_increase_after1270)
@@ -1790,6 +1789,7 @@ BOOST_AUTO_TEST_CASE(mcr_bug_cross1270)
 
    // feed is expired
    BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).current_feed.maintenance_collateral_ratio, 1750);
+   BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).feed_is_expired(db.head_block_time()), false); // should be true?
 
    // make new feed
    price_feed current_feed;
@@ -1799,20 +1799,21 @@ BOOST_AUTO_TEST_CASE(mcr_bug_cross1270)
    publish_feed( bitusd, feedproducer, current_feed );
 
    BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).current_feed.maintenance_collateral_ratio, 2000);
+   BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).feed_is_expired(db.head_block_time()), false);
 
    // pass hardfork
    generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
+   generate_block();
 
    // feed is still valid
    BOOST_CHECK_EQUAL((*bitusd_id(db).bitasset_data_id)(db).current_feed.maintenance_collateral_ratio, 2000);
 
-   // but margin call was not eaten
+   // margin call is traded
    print_market(asset_id_type(1)(db).symbol, asset_id_type()(db).symbol);
 
-   // call orders still there
-   BOOST_CHECK( db.find<call_order_object>( call_order_id_type() ) );
+   // call b1 not there anymore
+   BOOST_CHECK( !db.find<call_order_object>( call_order_id_type() ) );
    BOOST_CHECK( db.find<call_order_object>( call_order_id_type(1) ) );
-
 
 } FC_LOG_AND_RETHROW() }
 
