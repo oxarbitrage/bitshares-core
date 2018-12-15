@@ -899,18 +899,11 @@ void update_call_orders_hf_1270( database& db )
 {
    // Update call_price
    wlog( "Updating all call orders for hardfork core-1270 at block ${n}", ("n",db.head_block_num()) );
-   const auto next_maint_time = db.get_dynamic_global_properties().next_maintenance_time;
-   const auto head_time = db.head_block_time();
    for( const auto& call_obj : db.get_index_type<call_order_index>().indices().get<by_id>() )
    {
       db.modify( call_obj, []( call_order_object& call ) {
          call.call_price.base.amount = 1;
          call.call_price.quote.amount = 1;
-      });
-      const asset_bitasset_data_object& bitasset_data = call_obj.call_price.quote.asset_id(db).bitasset_data(db);
-      // always update the median feed for crossing
-      db.modify( bitasset_data, [head_time,next_maint_time]( asset_bitasset_data_object &obj ) {
-          obj.update_median_feeds( head_time, next_maint_time );
       });
    }
    wlog( "Done updating all call orders for hardfork core-1270 at block ${n}", ("n",db.head_block_num()) );
@@ -931,6 +924,22 @@ void match_call_orders( database& db )
       db.check_call_orders( a, true, false ); // allow black swan, and call orders are taker
    }
    wlog( "Done matching call orders at block ${n}", ("n",db.head_block_num()) );
+}
+
+void update_median_feeds(database& db)
+{
+   time_point_sec head_time = db.head_block_time();
+   time_point_sec next_maint_time = db.get_dynamic_global_properties().next_maintenance_time;
+
+   const auto update_bitasset = [head_time, next_maint_time]( asset_bitasset_data_object &o )
+   {
+      o.update_median_feeds( head_time, next_maint_time );
+   };
+
+   for( const auto& d : db.get_index_type<asset_bitasset_data_index>().indices() )
+   {
+      db.modify( d, update_bitasset );
+   }
 }
 
 void database::process_bitassets()
@@ -962,7 +971,6 @@ void database::process_bitassets()
          }
       }
    };
-
    for( const auto& d : get_index_type<asset_bitasset_data_index>().indices() )
    {
       modify( d, update_bitasset );
@@ -1299,6 +1307,7 @@ void database::perform_chain_maintenance(const signed_block& next_block, const g
    if( to_update_and_match_call_orders_for_hf_1270 )
    {
       update_call_orders_hf_1270(*this);
+      update_median_feeds(*this);
       match_call_orders(*this);
    }
 
