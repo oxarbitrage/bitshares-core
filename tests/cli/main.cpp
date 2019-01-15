@@ -31,6 +31,7 @@
 #include <graphene/market_history/market_history_plugin.hpp>
 #include <graphene/egenesis/egenesis.hpp>
 #include <graphene/wallet/wallet.hpp>
+#include <graphene/lua/lua.hpp>
 
 #include <fc/thread/thread.hpp>
 #include <fc/smart_ref_impl.hpp>
@@ -118,6 +119,7 @@ std::shared_ptr<graphene::app::application> start_application(fc::temp_directory
    app1->register_plugin< graphene::market_history::market_history_plugin >();
    app1->register_plugin< graphene::witness_plugin::witness_plugin >();
    app1->register_plugin< graphene::grouped_orders::grouped_orders_plugin>();
+   app1->register_plugin< graphene::lua::lua_plugin>();
    app1->startup_plugins();
    boost::program_options::variables_map cfg;
 #ifdef _WIN32
@@ -565,4 +567,27 @@ BOOST_FIXTURE_TEST_CASE( account_history_pagination, cli_fixture )
       edump((e.to_detail_string()));
       throw;
    }
+}
+
+BOOST_FIXTURE_TEST_CASE( basic_lua, cli_fixture )
+{
+   try {
+
+      auto nathan = con.wallet_api_ptr->get_account("nathan");
+
+      std::string script1 = R"(
+         block_num = Bitshares:getCurrentBlockNumber()
+         print ("Block Number: "  .. block_num)
+      )";
+
+      auto contract = con.wallet_api_ptr->upload_contract(nathan.id, "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3", script1, true);
+      generate_block(app1);
+      con.wallet_api_ptr->update_contract(contract, nathan.id, "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3", script1, false);
+      generate_block(app1);
+
+   } catch( fc::exception& e ) {
+      edump((e.to_detail_string()));
+      throw;
+   }
+
 }

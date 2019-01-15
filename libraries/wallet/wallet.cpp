@@ -405,7 +405,8 @@ public:
         _remote_api(rapi),
         _remote_db(rapi->database()),
         _remote_net_broadcast(rapi->network_broadcast()),
-        _remote_hist(rapi->history())
+        _remote_hist(rapi->history()),
+        _remote_smart_contract(rapi->smart_contract())
    {
       chain_id_type remote_chain_id = _remote_db->get_chain_id();
       if( remote_chain_id != _chain_id )
@@ -2766,6 +2767,7 @@ public:
    fc::api<database_api>   _remote_db;
    fc::api<network_broadcast_api>   _remote_net_broadcast;
    fc::api<history_api>    _remote_hist;
+   fc::api<smart_contract_api>    _remote_smart_contract;
    optional< fc::api<network_node_api> > _remote_net_node;
    optional< fc::api<graphene::debug_witness::debug_api> > _remote_debug;
 
@@ -4690,6 +4692,26 @@ vector<blind_receipt> wallet_api::blind_history( string key_or_account )
 order_book wallet_api::get_order_book( const string& base, const string& quote, unsigned limit )
 {
    return( my->_remote_db->get_order_book( base, quote, limit ) );
+}
+
+object_id_type wallet_api::upload_contract(account_id_type owner, std::string pk, string script, bool status) const
+{
+   return( my->_remote_smart_contract->upload_contract( owner, pk, script, status ) );
+}
+
+vector<graphene::lua::smart_contract_object> wallet_api::get_contracts() const
+{
+   return( my->_remote_smart_contract->get_contracts(  ) );
+}
+
+graphene::lua::smart_contract_object wallet_api::get_contract(object_id_type id) const
+{
+   return( my->_remote_smart_contract->get_contract( id ) );
+}
+
+bool wallet_api::update_contract(object_id_type id, account_id_type owner, std::string pk, string script, bool status)const
+{
+   return( my->_remote_smart_contract->update_contract( id, owner, pk, script, status ) );
 }
 
 signed_block_with_info::signed_block_with_info( const signed_block& block )
