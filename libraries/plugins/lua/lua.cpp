@@ -65,6 +65,7 @@ class lua_plugin_impl
 
       void newBlock( const signed_block& b );
       uint32_t getCurrentBlockNumber();
+      uint32_t getCurrentTime();
       string getCurrentBlock();
       uint32_t getBalance(std::string account, std::string asset);
       std::string getTicker(const std::string& base, const std::string& quote);
@@ -109,6 +110,7 @@ void lua_plugin_impl::newBlock( const signed_block& b )
                   .addFunction("transfer", &graphene::lua::detail::lua_plugin_impl::transfer)
                   .addFunction("quit", &graphene::lua::detail::lua_plugin_impl::quit)
                   .addFunction("getCurrentBlockNumber", &graphene::lua::detail::lua_plugin_impl::getCurrentBlockNumber)
+                  .addFunction("getCurrentTime", &graphene::lua::detail::lua_plugin_impl::getCurrentTime)
                   .addFunction("getCurrentBlock", &graphene::lua::detail::lua_plugin_impl::getCurrentBlock)
                   .addFunction("getTicker", &graphene::lua::detail::lua_plugin_impl::getTicker)
                .endClass();
@@ -137,6 +139,12 @@ uint32_t lua_plugin_impl::getCurrentBlockNumber()
 {
    return database().head_block_num();
 }
+
+uint32_t lua_plugin_impl::getCurrentTime()
+{
+    return database().head_block_time().sec_since_epoch();
+}
+
 string lua_plugin_impl::getCurrentBlock()
 {
    return fc::json::to_string(current_block);

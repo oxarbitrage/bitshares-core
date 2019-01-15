@@ -577,7 +577,10 @@ BOOST_FIXTURE_TEST_CASE( basic_lua, cli_fixture )
 
       std::string script1 = R"(
          block_num = Bitshares:getCurrentBlockNumber()
+         current_time = Bitshares:getCurrentTime()
+         dt = os.date("*t", current_time)
          print ("Block Number: "  .. block_num)
+         print ("Date Table: "  .. dt.year .. "-" .. dt.month .. "-" .. dt.day .. " " .. dt.hour .. ":" .. dt.min .. ":" .. dt.sec)
       )";
 
       auto contract = con.wallet_api_ptr->upload_contract(nathan.id, "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3", script1, true);
