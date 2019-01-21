@@ -648,6 +648,9 @@ namespace graphene { namespace app {
     // smart_contract_api
     vector<graphene::lua::smart_contract_object> smart_contract_api::get_contracts() const {
        //FC_ASSERT(limit <= 100);
+       //auto lua = _app.get_plugin<graphene::lua::lua_plugin>( "lua" );
+       //FC_ASSERT( lua );
+
        auto &sc_ids = _app.chain_database()->get_index_type<graphene::lua::smart_contract_index>().indices().get<graphene::lua::by_status>();
        auto itr = sc_ids.begin();
        vector<graphene::lua::smart_contract_object> result;
@@ -660,6 +663,9 @@ namespace graphene { namespace app {
     object_id_type smart_contract_api::upload_contract(account_id_type owner, string pk, string script, bool status) const {
 
        // do argument checks
+       //auto lua = _app.get_plugin<graphene::lua::lua_plugin>( "lua" );
+       //FC_ASSERT( lua );
+
        fc::optional<fc::ecc::private_key> optional_private_key = utilities::wif_to_key(pk);
        if (!optional_private_key)
           FC_THROW("Invalid private key");
@@ -675,6 +681,9 @@ namespace graphene { namespace app {
     }
     graphene::lua::smart_contract_object smart_contract_api::get_contract(object_id_type id) const {
 
+       //auto lua = _app.get_plugin<graphene::lua::lua_plugin>( "lua" );
+       //FC_ASSERT( lua );
+
        auto &sc_ids = _app.chain_database()->get_index_type<graphene::lua::smart_contract_index>().indices().get<graphene::lua::by_id>();
        auto itr = sc_ids.find(id);
        while (itr != sc_ids.end()) {
@@ -686,6 +695,9 @@ namespace graphene { namespace app {
     bool smart_contract_api::update_contract(object_id_type id, account_id_type owner, string pk, string script, bool status) const {
 
        // do argument checks
+       //auto lua = _app.get_plugin<graphene::lua::lua_plugin>( "lua" );
+       //FC_ASSERT( lua );
+
        fc::optional<fc::ecc::private_key> optional_private_key = utilities::wif_to_key(pk);
        if (!optional_private_key)
           FC_THROW("Invalid private key");

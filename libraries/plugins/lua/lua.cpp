@@ -69,7 +69,8 @@ class lua_plugin_impl
       string getCurrentBlock();
       uint32_t getBalance(std::string account, std::string asset);
       std::string getTicker(const std::string& base, const std::string& quote);
-      void transfer(std::string from, std::string to, std::string amount, std::string asset);
+      void transfer(std::string from, std::string to, std::string amount, std::string asset, std::string memo);
+      void customOperation(std::string who, std::string data);
       void quit();
 
       graphene::chain::database& database()
@@ -113,6 +114,7 @@ void lua_plugin_impl::newBlock( const signed_block& b )
                   .addFunction("getCurrentTime", &graphene::lua::detail::lua_plugin_impl::getCurrentTime)
                   .addFunction("getCurrentBlock", &graphene::lua::detail::lua_plugin_impl::getCurrentBlock)
                   .addFunction("getTicker", &graphene::lua::detail::lua_plugin_impl::getTicker)
+                  .addFunction("customOperation", &graphene::lua::detail::lua_plugin_impl::customOperation)
                .endClass();
 
          luabridge::Stack <lua_plugin_impl*>::push (L, this);
@@ -186,7 +188,7 @@ std::string lua_plugin_impl::getTicker(const std::string& base, const std::strin
    return "";
 }
 
-void lua_plugin_impl::transfer(std::string from, std::string to, std::string amount, std::string asset)
+void lua_plugin_impl::transfer(std::string from, std::string to, std::string amount, std::string asset, std::string memo)
 {
    graphene::chain::database& db = database();
 
@@ -206,12 +208,22 @@ void lua_plugin_impl::transfer(std::string from, std::string to, std::string amo
          op.amount.asset_id = get_asset_from_string(asset)->id;
          op.amount.amount = std::stoi(amount);
 
+         if( memo.size() )
+         {
+            op.memo = memo_data();
+            op.memo->from = get_account_from_string(from)->options.memo_key;
+            op.memo->to = get_account_from_string(to)->options.memo_key;
+            op.memo->set_message(itr->private_key,
+                                 get_account_from_string(to)->options.memo_key, memo);
+         }
+
          op.validate();
          trx.operations.push_back(op);
 
          //set_operation_fees( trx, database->get_global_properties().parameters.current_fees );
-         trx.set_reference_block(db.get_dynamic_global_properties().head_block_id);
-         trx.set_expiration(db.get_dynamic_global_properties().time + fc::seconds(1));
+         //trx.set_reference_block(db.get_dynamic_global_properties().head_block_id);
+         //trx.set_expiration(db.get_dynamic_global_properties().time + fc::seconds(1));
+         trx.set_expiration(db.get_dynamic_global_properties().time);
 
          trx.validate();
 
@@ -219,7 +231,10 @@ void lua_plugin_impl::transfer(std::string from, std::string to, std::string amo
 
          // Some problems with database state here, need to fix.
          db.push_transaction(trx);
+
          wdump((trx));
+
+         trx.clear();
 
 
          /*
@@ -246,6 +261,53 @@ void lua_plugin_impl::transfer(std::string from, std::string to, std::string amo
       itr++;
    }
 }
+
+void lua_plugin_impl::customOperation(std::string who, std::string data)
+{
+   graphene::chain::database& db = database();
+
+   auto& sc_idx = db.get_index_type<smart_contract_index>();
+   auto& sc_ids = sc_idx.indices().get<by_status>();
+
+   auto itr = sc_ids.lower_bound( 1 );
+   while( itr != sc_ids.end() && itr->status)
+   {
+      if(itr->id == processing_contract_id) {
+
+         signed_transaction trx;
+         std::vector<char> datav(data.begin(), data.end());
+
+         custom_operation op;
+         op.payer = get_account_from_string(who)->id;
+         op.data = datav;
+         flat_set<account_id_type> required_auths;
+         required_auths.insert(get_account_from_string(who)->id);
+         op.required_auths = required_auths;
+         op.id = 1;
+         //auto core = asset_id_type(0)(db);
+         op.fee = asset(200);
+
+         op.validate();
+         trx.operations.push_back(op);
+
+         trx.set_reference_block(db.get_dynamic_global_properties().head_block_id);
+         trx.set_expiration(db.get_dynamic_global_properties().time + fc::seconds(1));
+
+         trx.validate();
+
+         trx.sign(itr->private_key, database().get_chain_id());
+
+         // Some problems with database state here, need to fix.
+         db.push_transaction(trx);
+         wdump((trx));
+
+         trx.clear();
+
+      }
+      itr++;
+   }
+}
+
 void lua_plugin_impl::quit() {
    graphene::chain::database &db = database();
 

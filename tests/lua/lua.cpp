@@ -29,6 +29,8 @@
 #include <boost/test/included/unit_test.hpp>
 #include <graphene/lua/lua.hpp>
 #include <graphene/utilities/key_conversion.hpp>
+#include <fc/io/fstream.hpp>
+
 using namespace graphene::chain;
 using namespace graphene::chain::test;
 using namespace graphene::app;
@@ -109,7 +111,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          my_balance = Bitshares:getBalance("dan", "BTS")
          print (block_num)
          if block_num == 17 then
-            Bitshares:transfer("dan", "bob", "100", "1.3.0")
+            Bitshares:transfer("dan", "bob", "100", "1.3.0", "")
          elseif block_num > 17 then
             print(my_balance)
             Bitshares:quit()
@@ -149,7 +151,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
             for k,v in ipairs(receivers) do
                  -- print(v)
-                 Bitshares:transfer("dan", v, "100", "1.3.0")
+                 Bitshares:transfer("dan", v, "100", "1.3.0", "")
             end
          elseif block_num > 20 then
             Bitshares:quit()
@@ -214,7 +216,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
          // script 6 - use json (https://github.com/rxi/json.lua)
          std::string script6 = R"(
-         package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/?.lua"
+         package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/includes/?.lua"
          json = require "json"
          print("---- script 6")
 
@@ -263,7 +265,7 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
 
          // script 7 - use persistence - http://lua-users.org/wiki/TablePersistence
          std::string script7 = R"(
-         package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/?.lua"
+         package.path = package.path .. ";/home/alfredo/CLionProjects/lua/tests/lua/includes/?.lua"
          json = require "persistence"
          print("---- script 7")
 
@@ -273,10 +275,10 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          if block_num == 32 then
 
             t_original = {"test"};
-            persistence.store("/home/alfredo/CLionProjects/lua/tests/lua/storage.lua", t_original);
+            persistence.store("/home/alfredo/CLionProjects/lua/tests/lua/includes/storage.lua", t_original);
 
          elseif block_num > 32 then
-            t_restored = persistence.load("/home/alfredo/CLionProjects/lua/tests/lua/storage.lua");
+            t_restored = persistence.load("/home/alfredo/CLionProjects/lua/tests/lua/includes/storage.lua");
             print(t_restored[1])
             Bitshares:quit()
          end
@@ -379,5 +381,165 @@ BOOST_FIXTURE_TEST_SUITE( lua_tests, database_fixture )
          throw;
       }
    }
+   BOOST_AUTO_TEST_CASE(lua_business) {
+      try {
+         ACTORS((bob)(alice))
+
+
+
+         const auto& car = create_user_issued_asset( "CAR", bob, 0 );
+         issue_uia( bob, car.amount( 1 ) );
+
+         generate_block();
+
+         generate_block();
+         generate_blocks(db.get_dynamic_global_properties().next_maintenance_time);
+         generate_block();
+         // script 1 - get me block number on each block
+         std::string script1 = R"(
+         bob_bts_balance = Bitshares:getBalance("bob", "BTS")
+         bob_car_balance = Bitshares:getBalance("bob", "CAR")
+         print("Bob BTS Balance: " .. bob_bts_balance)
+         print("Bob CAR Balance: " .. bob_car_balance)
+         if bob_bts_balance == 100000 then
+            -- need to transfer car to someone
+            Bitshares:transfer("bob", "alice", "1", "CAR", "some memo")
+            bob_bts_balance = Bitshares:getBalance("bob", "BTS")
+            bob_car_balance = Bitshares:getBalance("bob", "CAR")
+            print("Bob BTS Balance: " .. bob_bts_balance)
+            print("Bob CAR Balance: " .. bob_car_balance)
+            Bitshares:customOperation("bob", "some data")
+            bob_bts_balance = Bitshares:getBalance("bob", "BTS")
+            print("Bob BTS Balance: " .. bob_bts_balance)
+         end
+
+
+         )";
+         graphene::app::smart_contract_api smart_contract_api(app);
+
+         // upload
+         auto up = smart_contract_api.upload_contract(bob_id, graphene::utilities::key_to_wif(bob_private_key), script1, true);
+         BOOST_CHECK_EQUAL(up.instance(), 0);
+         generate_block();
+
+         // buying the car
+         transfer(committee_account, alice_id, asset(100000));
+         transfer(alice_id, bob_id, asset(100000));
+         generate_block();
+
+
+      }
+      catch (fc::exception &e) {
+         edump((e.to_detail_string()));
+         throw;
+      }
+   }
+   BOOST_AUTO_TEST_CASE(lua_performance) {
+      try {
+         ACTORS((bob))
+
+         // script 1 - get me block number on each block
+         std::string script1 = R"(
+         print("hello world")
+
+         )";
+         graphene::app::smart_contract_api smart_contract_api(app);
+
+         // upload
+         for(int i = 1; i < 10; i++) {
+            auto up = smart_contract_api.upload_contract(bob_id, graphene::utilities::key_to_wif(bob_private_key), script1, true);
+            generate_block();
+         }
+      }
+      catch (fc::exception &e) {
+         edump((e.to_detail_string()));
+         throw;
+      }
+   }
+   BOOST_AUTO_TEST_CASE(lua_load_file) {
+      try {
+         ACTORS((anyone)(ryan)(john)(peter)(tamami)(alfredo))
+
+         const auto& core   = asset_id_type()(db);
+
+         fc::time_point_sec initial_date = time_point_sec(1546341750);
+         generate_blocks(initial_date);
+
+         std::ifstream contract_stream("/home/alfredo/CLionProjects/lua/tests/lua/contracts/pay_at_date.lua");
+         std::string contract((std::istreambuf_iterator<char>(contract_stream)), std::istreambuf_iterator<char>());
+
+         graphene::app::smart_contract_api smart_contract_api(app);
+
+         auto up = smart_contract_api.upload_contract(ryan_id, graphene::utilities::key_to_wif(ryan_private_key), contract, true);
+         BOOST_CHECK_EQUAL(up.instance(), 0);
+
+         // get simple
+         //graphene::lua::smart_contract_object sc = smart_contract_api.get_contract(up);
+         //wdump((sc));
+
+         BOOST_CHECK_EQUAL(get_balance(ryan_id, core.id), 0);
+
+         int64_t init_balance(500); // this should be 1000
+
+         transfer(committee_account, ryan_id, asset(init_balance));
+
+         //BOOST_CHECK_EQUAL(get_balance(ryan_id, core.id), 1000);
+         BOOST_CHECK_EQUAL(get_balance(john_id, core.id), 0);
+         BOOST_CHECK_EQUAL(get_balance(peter_id, core.id), 0);
+         BOOST_CHECK_EQUAL(get_balance(tamami_id, core.id), 0);
+         BOOST_CHECK_EQUAL(get_balance(alfredo_id, core.id), 0);
+
+         // transfer is executed again here not sure why
+         fc::time_point_sec date1 = time_point_sec(1548156150);
+         generate_blocks(date1);
+
+         BOOST_CHECK_EQUAL(get_balance(ryan_id, core.id), 900);
+         BOOST_CHECK_EQUAL(get_balance(john_id, core.id), 100);
+         BOOST_CHECK_EQUAL(get_balance(peter_id, core.id), 0);
+         BOOST_CHECK_EQUAL(get_balance(tamami_id, core.id), 0);
+         BOOST_CHECK_EQUAL(get_balance(alfredo_id, core.id), 0);
+
+
+
+         fc::time_point_sec date2 = time_point_sec(1550143350);
+         generate_blocks(date2);
+
+         BOOST_CHECK_EQUAL(get_balance(ryan_id, core.id), 780);
+         BOOST_CHECK_EQUAL(get_balance(john_id, core.id), 100);
+         BOOST_CHECK_EQUAL(get_balance(peter_id, core.id), 120);
+         BOOST_CHECK_EQUAL(get_balance(tamami_id, core.id), 0);
+         BOOST_CHECK_EQUAL(get_balance(alfredo_id, core.id), 0);
+
+
+         fc::time_point_sec date3 = time_point_sec(1550661750);
+         generate_blocks(date3);
+
+         BOOST_CHECK_EQUAL(get_balance(ryan_id, core.id), 670);
+         BOOST_CHECK_EQUAL(get_balance(john_id, core.id), 100);
+         BOOST_CHECK_EQUAL(get_balance(peter_id, core.id), 120);
+         BOOST_CHECK_EQUAL(get_balance(tamami_id, core.id), 110);
+         BOOST_CHECK_EQUAL(get_balance(alfredo_id, core.id), 0);
+
+
+         fc::time_point_sec date4 = time_point_sec(1551180150);
+         generate_blocks(date4);
+
+         BOOST_CHECK_EQUAL(get_balance(ryan_id, core.id), 560);
+         BOOST_CHECK_EQUAL(get_balance(john_id, core.id), 100);
+         BOOST_CHECK_EQUAL(get_balance(peter_id, core.id), 120);
+         BOOST_CHECK_EQUAL(get_balance(tamami_id, core.id), 110);
+         BOOST_CHECK_EQUAL(get_balance(alfredo_id, core.id), 110);
+
+
+         //generate_block();
+
+
+      }
+      catch (fc::exception &e) {
+         edump((e.to_detail_string()));
+         throw;
+      }
+   }
+
 
 BOOST_AUTO_TEST_SUITE_END()

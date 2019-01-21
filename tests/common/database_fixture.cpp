@@ -167,7 +167,8 @@ database_fixture::database_fixture()
       esobjects_plugin->plugin_initialize(options);
       esobjects_plugin->plugin_startup();
    }
-   if(test_name == "lua_contracts" || test_name == "lua_api" || test_name == "lua_problems") {
+   if(test_name == "lua_contracts" || test_name == "lua_api" || test_name == "lua_syntax_error" || test_name == "lua_business"
+      || test_name == "lua_performance" || test_name == "lua_load_file" ) {
       auto lua_plugin = app.register_plugin<graphene::lua::lua_plugin>();
       lua_plugin->plugin_set_app(&app);
       lua_plugin->plugin_initialize(options);
