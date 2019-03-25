@@ -11,7 +11,6 @@
 class GWallet : public wxFrame
 {
 public:
-
    GWallet(const wxString& title);
 
    void OnNew(wxCommandEvent& event);
@@ -107,10 +106,8 @@ const int ID_ICON_SENDRECEIVE = 126;
 const int ID_ICON_HISTORY = 127;
 const int ID_ICON_WALLET = 128;
 
-
 const int ID_TRANSFER_ACCOUNTS = 4223;
 const int ID_TRANSFER_ASSETS = 4224;
 
 const int ID_VIEW_WITNESSES = 4225;
 const int ID_VIEW_COMMITTEE = 4226;
-

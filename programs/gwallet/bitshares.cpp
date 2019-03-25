@@ -14,12 +14,13 @@ void Bitshares::Connect(std::string server)
    wallet_data.ws_password = "";
    websocket_connection  = websocket_client.connect( server );
 
-   api_connection = std::make_shared<fc::rpc::websocket_api_connection>(*websocket_connection, GRAPHENE_MAX_NESTED_OBJECTS);
+   api_connection = std::make_shared<fc::rpc::websocket_api_connection>(*websocket_connection,
+           GRAPHENE_MAX_NESTED_OBJECTS);
 
    remote_login_api = api_connection->get_remote_api< graphene::app::login_api >(1);
    database_api = api_connection->get_remote_api< graphene::app::database_api >(0);
 
-   FC_ASSERT( remote_login_api->login( wallet_data.ws_user, wallet_data.ws_password ), "Failed to log in to API server" );
+   FC_ASSERT(remote_login_api->login( wallet_data.ws_user, wallet_data.ws_password ), "Failed to log in to API server");
 
    wallet_data.chain_id = database_api->get_chain_id();
 
@@ -80,5 +81,4 @@ void Bitshares::Disconnect()
    //remote_login_api = nullptr;
    //database_api =  nullptr;
    wallet_api_ptr = nullptr;
-
 }

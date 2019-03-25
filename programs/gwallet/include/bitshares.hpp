@@ -34,7 +34,7 @@
 class Bitshares
 {
 public:
-    Bitshares();
+   Bitshares();
 
    void Connect(std::string server);
    void Disconnect();
