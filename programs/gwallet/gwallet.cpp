@@ -19,13 +19,13 @@
 #include <wx/stdpaths.h>
 #include <wx/hyperlink.h>
 
-GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 1000))
+GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200, 900))
 {
    // lets go full size
    wxTopLevelWindow::Maximize(true);
 
    // set a windows min size
-   wxTopLevelWindow::SetMinSize(wxSize(500, 600));
+   wxTopLevelWindow::SetMinSize(wxSize(600, 450));
 
    // current path
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
