@@ -268,13 +268,13 @@ void GWallet::OnChangeAsset(wxCommandEvent & WXUNUSED(event))
    auto selected = combo_assets->GetCurrentSelection();
 
    auto asset_name = strings_assets[selected];
-   auto balance = strings_balances[selected];
-   auto precision = strings_precisions[selected];
+   auto balance = strings_balances[selected].ToStdString();
+   auto precision = strings_precisions[selected].ToStdString();
 
-   auto dividend = pow(10, std::stoi(precision.ToStdString()));
+   auto dividend = pow(10, std::stoi(precision));
 
    stringstream pretty_balance;
-   pretty_balance << fixed << std::setprecision(std::stoi(precision.ToStdString()))  << std::stod(balance.ToStdString())/dividend;
+   pretty_balance << fixed << std::setprecision(std::stoi(precision)) << std::stod(balance)/dividend;
 
    balanceMsg->SetLabel(pretty_balance.str() + " " + asset_name);
 
@@ -310,8 +310,10 @@ void GWallet::DoAssets(std::string account)
 
          // insert balance
          auto dividend = pow(10, wallet.wallet_api_ptr->get_asset(asset_id).precision);
+         auto precision = wallet.wallet_api_ptr->get_asset(asset_id).precision;
          stringstream pretty_balance;
-         pretty_balance << fixed << std::setprecision(wallet.wallet_api_ptr->get_asset(asset_id).precision)  << mb.amount.value/dividend;
+
+         pretty_balance << fixed << std::setprecision(precision)  << mb.amount.value/dividend;
          balanceMsg->SetLabel(pretty_balance.str() + " " + first_asset);
          infoSizer->Layout();
       }
@@ -353,7 +355,8 @@ void GWallet::LoadWelcomeWidget()
 
    wxBitmap wizard_icon(directory + wxT("/icons/wizard.png"), wxBITMAP_TYPE_PNG);
 
-   wizard = new wxWizard( 	panel, ID_WIZARD, wxT("Welcome to Bitshares G-Wallet"), wizard_icon, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
+   wizard = new wxWizard(panel, ID_WIZARD, wxT("Welcome to Bitshares G-Wallet"),
+           wizard_icon, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
 
    page1 = new Welcome1(wizard);
    page2 = new Welcome2(wizard);
