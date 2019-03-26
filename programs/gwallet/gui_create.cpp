@@ -76,13 +76,15 @@ void GWallet::CreateTool()
    itemToolBar->AddStretchableSpace();
 
    wxArrayString itemComboBoxStrings;
-   combo_accounts = new wxComboBox( itemToolBar, ID_COMBO_ACCOUNTS, wxT("MY ACCOUNTS"), wxDefaultPosition, wxDefaultSize, itemComboBoxStrings, wxCB_DROPDOWN );
+   combo_accounts = new wxComboBox( itemToolBar, ID_COMBO_ACCOUNTS, wxT("MY ACCOUNTS"),
+           wxDefaultPosition, wxDefaultSize, itemComboBoxStrings, wxCB_DROPDOWN );
    itemToolBar->AddControl(combo_accounts, wxT("MY ACCOUNTS"));
    combo_accounts->Enable(false);
 
    itemToolBar->AddSeparator();
 
-   combo_assets = new wxComboBox( itemToolBar, ID_COMBO_ASSETS, wxT("MY ASSETS"), wxDefaultPosition, wxDefaultSize, itemComboBoxStrings, wxCB_DROPDOWN );
+   combo_assets = new wxComboBox( itemToolBar, ID_COMBO_ASSETS, wxT("MY ASSETS"),
+           wxDefaultPosition, wxDefaultSize, itemComboBoxStrings, wxCB_DROPDOWN );
    itemToolBar->AddControl(combo_assets, wxT("MY ASSETS"));
    combo_assets->Enable(false);
 

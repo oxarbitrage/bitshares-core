@@ -19,7 +19,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
    wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
    itemBoxSizer2->Add(itemBoxSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-   wxStaticText* itemStaticText4 = new wxStaticText( itemDialog1, wxID_STATIC, _("Transfer asset to another bitshares account"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxStaticText* itemStaticText4 = new wxStaticText( itemDialog1, wxID_STATIC,
+           _("Transfer asset to another bitshares account"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
@@ -27,7 +28,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer5->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxStaticText* itemStaticText3 = new wxStaticText( itemDialog1, wxID_STATIC, _("From"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxStaticText* itemStaticText3 = new wxStaticText( itemDialog1, wxID_STATIC,
+           _("From"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer5->Add(itemStaticText3, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    itemBoxSizer5->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -38,7 +40,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxArrayString itemComboBox1Strings;
-   wxComboBox* itemComboBox1 = new wxComboBox( itemDialog1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, itemComboBox1Strings, wxCB_DROPDOWN );
+   wxComboBox* itemComboBox1 = new wxComboBox( itemDialog1, wxID_ANY, wxEmptyString,
+           wxDefaultPosition, wxDefaultSize, itemComboBox1Strings, wxCB_DROPDOWN );
    itemBoxSizer6->Add(itemComboBox1, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -50,7 +53,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer4->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxStaticText* itemStaticText6 = new wxStaticText( itemDialog1, wxID_STATIC, _("To"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxStaticText* itemStaticText6 = new wxStaticText( itemDialog1, wxID_STATIC,
+           _("To"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer4->Add(itemStaticText6, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    itemBoxSizer4->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -60,7 +64,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxTextCtrl* itemTextCtrl12 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+   wxTextCtrl* itemTextCtrl12 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
+           wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer9->Add(itemTextCtrl12, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -72,7 +77,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer1->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxStaticText* itemStaticText5 = new wxStaticText( itemDialog1, wxID_STATIC, _("Amount"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxStaticText* itemStaticText5 = new wxStaticText( itemDialog1, wxID_STATIC,
+           _("Amount"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer1->Add(itemStaticText5, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    itemBoxSizer1->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -82,10 +88,12 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer7->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxTextCtrl* itemTextCtrl13 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+   wxTextCtrl* itemTextCtrl13 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
+           wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer7->Add(itemTextCtrl13, 7, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxComboCtrl* itemComboCtrl14 = new wxComboCtrl( itemDialog1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+   wxComboCtrl* itemComboCtrl14 = new wxComboCtrl( itemDialog1, wxID_ANY, wxEmptyString,
+           wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer7->Add(itemComboCtrl14, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer7->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -97,7 +105,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer17->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxStaticText* itemStaticText19 = new wxStaticText( itemDialog1, wxID_STATIC, _("Memo"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxStaticText* itemStaticText19 = new wxStaticText( itemDialog1, wxID_STATIC,
+           _("Memo"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer17->Add(itemStaticText19, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    itemBoxSizer17->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -107,7 +116,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer21->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxTextCtrl* itemTextCtrl23 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 100), wxTE_MULTILINE );
+   wxTextCtrl* itemTextCtrl23 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
+           wxDefaultPosition, wxSize(-1, 100), wxTE_MULTILINE );
    itemBoxSizer21->Add(itemTextCtrl23, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer21->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -119,11 +129,13 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer18->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxCheckBox* itemCheckBox1 = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_BROADCAST, _("Broadcast Transaction"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxCheckBox* itemCheckBox1 = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_BROADCAST,
+           _("Broadcast Transaction"), wxDefaultPosition, wxDefaultSize, 0 );
    itemCheckBox1->SetValue(false);
    itemBoxSizer18->Add(itemCheckBox1, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxCheckBox* itemCheckBox2 = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_CLI, _("Show output in CLI mode"), wxDefaultPosition, wxDefaultSize, 0 );
+   wxCheckBox* itemCheckBox2 = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_CLI,
+           _("Show output in CLI mode"), wxDefaultPosition, wxDefaultSize, 0 );
    itemCheckBox2->SetValue(false);
    itemBoxSizer18->Add(itemCheckBox2, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -136,7 +148,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer8->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxStaticLine* itemStaticLine26 = new wxStaticLine( itemDialog1, wxID_STATIC, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+   wxStaticLine* itemStaticLine26 = new wxStaticLine( itemDialog1, wxID_STATIC,
+           wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
    itemBoxSizer8->Add(itemStaticLine26, 10, wxGROW|wxALL, 0);
 
    itemBoxSizer8->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
