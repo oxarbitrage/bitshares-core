@@ -29,7 +29,7 @@ void Bitshares::Connect(std::string server)
    wallet_filename = "wallet.json";
    wallet_api_ptr->set_wallet_filename(wallet_filename);
 
-   wallet_api = fc::api<graphene::wallet::wallet_api>(wallet_api_ptr);
+   //wallet_api = fc::api<graphene::wallet::wallet_api>(wallet_api_ptr);
 
    wallet_api_ptr->set_wallet_filename( "wallet.json" );
    wallet_api_ptr->load_wallet_file();
@@ -81,4 +81,5 @@ void Bitshares::Disconnect()
    //remote_login_api = nullptr;
    //database_api =  nullptr;
    wallet_api_ptr = nullptr;
+   //wallet_api = nullptr;
 }

@@ -1,13 +1,16 @@
 #include "../include/dialogs/transfer.hpp"
 #include "../include/gwallet.hpp"
+#include "../include/modes/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/statline.h>
 #include <wx/combo.h>
 
 TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& title,
-        const wxPoint &position, const wxSize& size, long style ) : wxDialog( parent, id, title, position, size, style)
+        const wxPoint &position, const wxSize& size, long style) : wxDialog( parent, id, title, position, size, style)
 {
+   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
+   GWallet* p_GWallet = p_Wallet->p_GWallet;
 
    TransferDialog* itemDialog1 = this;
 
@@ -39,9 +42,9 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxArrayString itemComboBox1Strings;
-   wxComboBox* itemComboBox1 = new wxComboBox( itemDialog1, wxID_ANY, wxEmptyString,
-           wxDefaultPosition, wxDefaultSize, itemComboBox1Strings, wxCB_DROPDOWN );
+   //wxArrayString itemComboBox1Strings;
+   wxComboBox* itemComboBox1 = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_account,
+           wxDefaultPosition, wxDefaultSize, p_GWallet->strings_accounts, wxCB_DROPDOWN );
    itemBoxSizer6->Add(itemComboBox1, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -92,9 +95,9 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
            wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer7->Add(itemTextCtrl13, 7, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxComboCtrl* itemComboCtrl14 = new wxComboCtrl( itemDialog1, wxID_ANY, wxEmptyString,
-           wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer7->Add(itemComboCtrl14, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   wxComboBox* itemComboBox14 = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_asset,
+           wxDefaultPosition, wxDefaultSize, p_GWallet->strings_assets, wxCB_DROPDOWN );
+   itemBoxSizer7->Add(itemComboBox14, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer7->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 

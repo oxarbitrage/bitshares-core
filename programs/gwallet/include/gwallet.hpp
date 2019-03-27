@@ -1,5 +1,9 @@
+#pragma once
+
 #include "bitshares.hpp"
 #include "welcome.hpp"
+
+//#include "modes/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/notebook.h>
@@ -7,6 +11,9 @@
 #include <wx/wizard.h>
 #include <wx/config.h>
 #include <wx/grid.h>
+
+class Wallet;
+class History;
 
 class GWallet : public wxFrame
 {
@@ -66,7 +73,8 @@ public:
    wxStaticText* mainMsg;
    wxStaticText* balanceMsg;
 
-   Bitshares wallet;
+   Bitshares bitshares;
+
    wxComboBox* combo_accounts;
    wxArrayString strings_accounts;
    wxComboBox* combo_assets;
@@ -74,12 +82,19 @@ public:
    wxArrayString strings_balances;
    wxArrayString strings_precisions;
    std::string first_account_name;
+   wxString selected_account;
+   wxString selected_asset;
 
    wxWizard* wizard;
    wxWizardPageSimple* page1;
    Welcome2* page2;
    Welcome3* page3;
    Welcome4* page4;
+
+   Wallet* p_wallet;
+   History* p_history;
+
+
 
 private:
 

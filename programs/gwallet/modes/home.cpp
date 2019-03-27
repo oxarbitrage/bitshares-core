@@ -74,7 +74,7 @@ void Home::CreateControls()
 
    wxHyperlinkCtrl* itemHyperlinkCtrl13 = new wxHyperlinkCtrl( itemStaticBoxSizer3->GetStaticBox(), ID_VIEW_WITNESSES,
            _("View"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_ALIGN_LEFT );
-   itemBoxSizer11->Add(itemHyperlinkCtrl13, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer11->Add(itemHyperlinkCtrl13, 6, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxBoxSizer* itemBoxSizer14 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer3->Add(itemBoxSizer14, 0, wxGROW|wxALL, 5);
@@ -85,7 +85,7 @@ void Home::CreateControls()
 
    wxHyperlinkCtrl* itemHyperlinkCtrl16 = new wxHyperlinkCtrl( itemStaticBoxSizer3->GetStaticBox(), ID_VIEW_COMMITTEE,
            _("View"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_ALIGN_LEFT );
-   itemBoxSizer14->Add(itemHyperlinkCtrl16, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer14->Add(itemHyperlinkCtrl16, 6, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxStaticBox* itemStaticBoxSizer1Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Account Information"));
    wxStaticBoxSizer* itemStaticBoxSizer1 = new wxStaticBoxSizer(itemStaticBoxSizer1Static, wxVERTICAL);
@@ -300,7 +300,7 @@ void Home::CreateEvents()
 
 void Home::DoInitialData()
 {
-   auto info = p_GWallet->wallet.wallet_api_ptr->info();
+   auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
    head_block_number_value = fc::json::to_string(info["head_block_num"]);
 
@@ -313,7 +313,7 @@ void Home::DoInitialData()
    auto participation_string = fc::json::to_string(info["participation"]);
    participation_value = participation_string.substr(1, participation_string.length()-2);
 
-   auto about = p_GWallet->wallet.wallet_api_ptr->about();
+   auto about = p_GWallet->bitshares.wallet_api_ptr->about();
 
    auto client_version_string = fc::json::to_string(about["client_version"]);
    client_version_value = client_version_string.substr(1, client_version_string.length()-2);
@@ -342,19 +342,19 @@ void Home::DoInitialData()
    auto build_string = fc::json::to_string(about["graphene_revision"]);
    build_value = build_string.substr(1, build_string.length()-2);
 
-   auto account = p_GWallet->wallet.wallet_api_ptr->get_account(p_GWallet->first_account_name);
+   auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->first_account_name);
 
    account_name_value = account.name;
 
    auto account_id_string = fc::json::to_string(account.id);
    account_id_value = account_id_string.substr(1, account_id_string.length()-2);
 
-   usd_bts_ticker = p_GWallet->wallet.database_api->get_ticker("USD", "BTS").latest;
-   cny_bts_ticker = p_GWallet->wallet.database_api->get_ticker("CNY", "BTS").latest;
-   eur_bts_ticker = p_GWallet->wallet.database_api->get_ticker("EUR", "BTS").latest;
-   gold_bts_ticker = p_GWallet->wallet.database_api->get_ticker("GOLD", "BTS").latest;
-   silver_bts_ticker = p_GWallet->wallet.database_api->get_ticker("SILVER", "BTS").latest;
-   btc_bts_ticker = p_GWallet->wallet.database_api->get_ticker("BTC", "BTS").latest;
+   usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS").latest;
+   cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS").latest;
+   eur_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("EUR", "BTS").latest;
+   gold_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS").latest;
+   silver_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS").latest;
+   btc_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS").latest;
 }
 
 void Home::DoTimers()
@@ -372,7 +372,7 @@ void Home::DoTimers()
 void Home::OnTimerSlow(wxTimerEvent & event)
 {
    wdump(("timer slow!"));
-   auto info = p_GWallet->wallet.wallet_api_ptr->info();
+   auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
    auto next_maintenance_time_string = fc::json::to_string(info["next_maintenance_time"]);
    auto participation_string = fc::json::to_string(info["participation"]);
@@ -380,12 +380,12 @@ void Home::OnTimerSlow(wxTimerEvent & event)
    next_maintenance_time->SetLabel(next_maintenance_time_string.substr(1,next_maintenance_time_string.length()-2));
    participation->SetLabel(participation_string.substr(1,participation_string.length()-2));
 
-   auto usd_bts_ticker = p_GWallet->wallet.database_api->get_ticker("USD", "BTS");
-   auto cny_bts_ticker = p_GWallet->wallet.database_api->get_ticker("CNY", "BTS");
-   auto eur_bts_ticker = p_GWallet->wallet.database_api->get_ticker("EUR", "BTS");
-   auto gold_bts_ticker = p_GWallet->wallet.database_api->get_ticker("GOLD", "BTS");
-   auto silver_bts_ticker = p_GWallet->wallet.database_api->get_ticker("SILVER", "BTS");
-   auto btc_bts_ticker = p_GWallet->wallet.database_api->get_ticker("BTC", "BTS");
+   auto usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS");
+   auto cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS");
+   auto eur_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("EUR", "BTS");
+   auto gold_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS");
+   auto silver_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS");
+   auto btc_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS");
 
    usd_bts->SetLabel(usd_bts_ticker.latest);
    cny_bts->SetLabel(cny_bts_ticker.latest);
@@ -398,7 +398,7 @@ void Home::OnTimerSlow(wxTimerEvent & event)
 void Home::OnTimerFast(wxTimerEvent & event)
 {
    wdump(("timer fast!"));
-   auto info = p_GWallet->wallet.wallet_api_ptr->info();
+   auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
    auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
    auto head_block_age_string = fc::json::to_string(info["head_block_age"]);

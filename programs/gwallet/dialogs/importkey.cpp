@@ -121,7 +121,7 @@ void ImportKeyDialog::OnOk(wxCommandEvent & WXUNUSED(event))
 
    try
    {
-      p_GWallet->wallet.wallet_api->import_key(acct.ToStdString(), pkey.ToStdString());
+      p_GWallet->bitshares.wallet_api_ptr->import_key(acct.ToStdString(), pkey.ToStdString());
    }
    catch( const fc::exception& e )
    {

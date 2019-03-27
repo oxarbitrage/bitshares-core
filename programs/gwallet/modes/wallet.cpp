@@ -21,9 +21,10 @@ void Wallet::CreateControls()
            _("Transfer an amount from one account to another."), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer2->Add(itemStaticText3, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   wxButton* itemButton4 = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_TRANSFER,
+   transfer_button = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_TRANSFER,
            _("Transfer"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer2->Add(itemButton4, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   transfer_button->Enable(false);
+   itemBoxSizer2->Add(transfer_button, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer5, 0, wxGROW|wxALL, 5);
@@ -32,9 +33,10 @@ void Wallet::CreateControls()
            _("Place a limit order attempting to sell one asset for another."), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer5->Add(itemStaticText6, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   wxButton* itemButton7 = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_SELLASSET,
+   sellasset_button = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_SELLASSET,
            _("Sell asset"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer5->Add(itemButton7, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   sellasset_button->Enable(false);
+   itemBoxSizer5->Add(sellasset_button, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer8, 0, wxGROW|wxALL, 5);
@@ -43,9 +45,10 @@ void Wallet::CreateControls()
            _("Borrow an asset or update the debt/collateral ratio for the loan."), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer8->Add(itemStaticText9, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   wxButton* itemButton10 = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_BORROWASSET,
+   borrowasset_button = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_BORROWASSET,
            _("Borrow asset"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer8->Add(itemButton10, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   borrowasset_button->Enable(false);
+   itemBoxSizer8->Add(borrowasset_button, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer11, 0, wxGROW|wxALL, 5);
@@ -54,9 +57,10 @@ void Wallet::CreateControls()
            _("Cancel an existing order."), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer11->Add(itemStaticText12, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   wxButton* itemButton13 = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_CANCELORDER,
+   cancelorder_button = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_CANCELORDER,
            _("Cancel order"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer11->Add(itemButton13, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   cancelorder_button->Enable(false);
+   itemBoxSizer11->Add(cancelorder_button, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer14 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer14, 0, wxGROW|wxALL, 5);
@@ -65,9 +69,10 @@ void Wallet::CreateControls()
            _("Set the voting proxy for an account."), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer14->Add(itemStaticText15, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   wxButton* itemButton16 = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_SETPROXY,
+   updateproxy_button = new wxButton( itemStaticBoxSizer1->GetStaticBox(), ID_WALLET_SETPROXY,
            _("Update proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer14->Add(itemButton16, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   updateproxy_button->Enable(false);
+   itemBoxSizer14->Add(updateproxy_button, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    p_GWallet->sizerWalletMode->Add(itemStaticBoxSizer1, 0, wxALL, 5);
 
@@ -89,9 +94,28 @@ void Wallet::CreateEvents()
            wxCommandEventHandler(Wallet::OnSetProxy), NULL, this);
 }
 
+void Wallet::EnableOperations()
+{
+   transfer_button->Enable(true);
+   sellasset_button->Enable(true);
+   borrowasset_button->Enable(true);
+   cancelorder_button->Enable(true);
+   updateproxy_button->Enable(true);
+}
+
+
+void Wallet::DisableOperations()
+{
+   transfer_button->Enable(false);
+   sellasset_button->Enable(false);
+   borrowasset_button->Enable(false);
+   cancelorder_button->Enable(false);
+   updateproxy_button->Enable(false);
+}
+
 void Wallet::OnTransfer(wxCommandEvent& event)
 {
-   TransferDialog TransferDialog( this, -1, _("Transfer asset"), wxDefaultPosition, wxSize(-1, 500) );
+   TransferDialog TransferDialog( this, -1, _("Transfer asset"), wxDefaultPosition, wxSize(-1, 500));
 }
 
 void Wallet::OnSellAsset(wxCommandEvent& event)

@@ -3,11 +3,12 @@
 #include "include/gwallet.hpp"
 #endif
 #include "include/dialogs/importkey.hpp"
+
 #include "include/modes/home.hpp"
-#include "include/modes/wallet.hpp"
 #include "include/modes/cli.hpp"
 #include "include/modes/sendreceive.hpp"
 #include "include/modes/history.hpp"
+#include "include/modes/wallet.hpp"
 
 #include <wx/stattext.h>
 #include <wx/statline.h>
@@ -88,7 +89,7 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
    wxTheApp->Yield();
 
    //wallet.connect("wss://api.bitshares.bhuz.info/ws");
-   wallet.Connect("wss://api.bitshares-kibana.info/ws");
+   bitshares.Connect("wss://api.bitshares-kibana.info/ws");
 
    SetStatusText(wxT("Connected"), 0);
    SetStatusText(wxT("wss://api.bitshares-kibana.info/ws"), 1);
@@ -106,7 +107,7 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
    itemToolBar->EnableTool(ID_ICON_SENDRECEIVE, true);
    itemToolBar->EnableTool(ID_ICON_WALLET, true);
 
-   if( wallet.wallet_api_ptr->is_new() )
+   if( bitshares.wallet_api_ptr->is_new() )
    {
       SetStatusText(wxT("Connected | New"));
       wallet_m->Enable(ID_SETPASSWORD, true);
@@ -116,7 +117,7 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
    {
       mainMsg->SetLabel("G-Wallet Ready");
 
-      if( wallet.wallet_api_ptr->is_locked() )
+      if( bitshares.wallet_api_ptr->is_locked() )
       {
          SetStatusText(wxT("Connected | Locked"));
          wallet_m->Enable(ID_UNLOCK, true);
@@ -150,26 +151,59 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
       Wallet *wallet = new Wallet(this);
       wallet->CreateControls();
       wallet->CreateEvents();
+      p_wallet = wallet;
 
       History *history = new History(this);
       history->CreateControls();
       history->CreateEvents();
       history->DoHistory(first_account_name);
+      p_history = history;
+
+      selected_account = first_account_name;
+      selected_asset = strings_assets[0];
    }
 }
 
 void GWallet::OnDisconnect(wxCommandEvent & WXUNUSED(event))
 {
    try {
-      wallet.Disconnect();
+      bitshares.Disconnect();
    }
    catch( const fc::exception& e )
    {
       OnError(wxT("Some problem when disconnecting, try again ..."));
    }
    SetStatusText(wxT("Disconnected"));
+
+   mainSizer->Hide(sizerHomeMode, true);
+   mainSizer->Hide(sizerCommandMode, true);
+   mainSizer->Hide(sizerHistoryMode, true);
+   mainSizer->Hide(sizerWalletMode, true);
+   mainSizer->Hide(sizerCommandMode, true);
+
+   combo_accounts->Enable(false);
+   combo_assets->Enable(false);
+
+   itemToolBar->EnableTool(ID_ICON_HOME, false);
+   itemToolBar->EnableTool(ID_ICON_COMMAND, false);
+   itemToolBar->EnableTool(ID_ICON_HISTORY, false);
+   itemToolBar->EnableTool(ID_ICON_SENDRECEIVE, false);
+   itemToolBar->EnableTool(ID_ICON_WALLET, false);
+
    itemToolBar->EnableTool(ID_ICON_CONNECT, true);
    itemToolBar->EnableTool(ID_ICON_DISCONNECT, false);
+   itemToolBar->EnableTool(ID_ICON_LOCK, false);
+   itemToolBar->EnableTool(ID_ICON_UNLOCK, false);
+
+   mainMsg->SetLabel("G-Wallet Offline");
+   balanceMsg->SetLabel("");
+
+   wallet_m->Enable(ID_CONNECT, true);
+   wallet_m->Enable(ID_DISCONNECT, false);
+   wallet_m->Enable(ID_SETPASSWORD, false);
+   wallet_m->Enable(ID_LOCK, false);
+   wallet_m->Enable(ID_UNLOCK, false);
+   wallet_m->Enable(ID_IMPORTKEY, false);
 }
 
 void GWallet::OnSetPassword(wxCommandEvent & WXUNUSED(event))
@@ -179,7 +213,7 @@ void GWallet::OnSetPassword(wxCommandEvent & WXUNUSED(event))
     {
        wxString value = dialog.GetValue();
 
-       wallet.wallet_api->set_password(value.ToStdString());
+       bitshares.wallet_api_ptr->set_password(value.ToStdString());
        SetStatusText(wxT("Connected | Locked"));
 
        itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
@@ -196,7 +230,7 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
 {
    try
    {
-      wallet.wallet_api->lock();
+      bitshares.wallet_api_ptr->lock();
    }
    catch( const fc::exception& e )
    {
@@ -207,6 +241,8 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    wallet_m->Enable(ID_LOCK, false);
    itemToolBar->EnableTool(ID_ICON_LOCK, false);
    itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
+
+   p_wallet->DisableOperations();
 }
 
 void GWallet::OnUnlock(wxCommandEvent & WXUNUSED(event))
@@ -217,7 +253,7 @@ void GWallet::OnUnlock(wxCommandEvent & WXUNUSED(event))
       wxString value = dialog.GetValue();
 
       try {
-         wallet.wallet_api->unlock(value.ToStdString());
+         bitshares.wallet_api_ptr->unlock(value.ToStdString());
       }
       catch( const fc::exception& e )
       {
@@ -236,6 +272,8 @@ void GWallet::OnUnlock(wxCommandEvent & WXUNUSED(event))
       itemToolBar->EnableTool(ID_ICON_DISCONNECT, true);
       itemToolBar->EnableTool(ID_ICON_LOCK, true);
       itemToolBar->EnableTool(ID_ICON_UNLOCK, false);
+
+      p_wallet->EnableOperations();
    }
 }
 void GWallet::OnImportKey(wxCommandEvent & WXUNUSED(event))
@@ -250,17 +288,13 @@ void GWallet::OnChangeAccount(wxCommandEvent & WXUNUSED(event))
    wxTheApp->Yield();
 
    auto selected = combo_accounts->GetCurrentSelection();
-
    auto account_name = strings_accounts[selected];
 
    DoAssets(account_name.ToStdString());
+   p_history->DoHistory(account_name.ToStdString());
 
-   // same as bel;ow, need to change history mode here
-   //DoHistory(account_name.ToStdString());
-
-   // dont delete until fix with member function or soemthing
-   //from->SetSelection(selected);
-   //asset->SetSelection(0);
+   selected_account = strings_accounts[selected];
+   selected_asset = strings_assets[0];
 }
 
 void GWallet::OnChangeAsset(wxCommandEvent & WXUNUSED(event))
@@ -294,23 +328,23 @@ void GWallet::DoAssets(std::string account)
    std::string first_balance;
    std::string first_precision;
 
-   auto my_balances = wallet.wallet_api_ptr->list_account_balances(account);
+   auto my_balances = bitshares.wallet_api_ptr->list_account_balances(account);
    for( auto& mb : my_balances ) {
 
       std::string asset_id = fc::to_string(mb.asset_id.space_id)
                              + "." + fc::to_string(mb.asset_id.type_id)
                              + "." + fc::to_string(mb.asset_id.instance.value);
 
-      auto asset = wallet.wallet_api_ptr->get_asset(asset_id).symbol;
+      auto asset = bitshares.wallet_api_ptr->get_asset(asset_id).symbol;
 
       if(n == 0) {
          first_asset = asset;
          first_balance = fc::to_string(mb.amount.value);
-         first_precision = wallet.wallet_api_ptr->get_asset(asset_id).precision;
+         first_precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
 
          // insert balance
-         auto dividend = pow(10, wallet.wallet_api_ptr->get_asset(asset_id).precision);
-         auto precision = wallet.wallet_api_ptr->get_asset(asset_id).precision;
+         auto dividend = pow(10, bitshares.wallet_api_ptr->get_asset(asset_id).precision);
+         auto precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
          stringstream pretty_balance;
 
          pretty_balance << fixed << std::setprecision(precision)  << mb.amount.value/dividend;
@@ -319,7 +353,7 @@ void GWallet::DoAssets(std::string account)
       }
       strings_assets.Add(asset);
       strings_balances.Add(fc::to_string(mb.amount.value));
-      strings_precisions.Add(fc::to_string(wallet.wallet_api_ptr->get_asset(asset_id).precision));
+      strings_precisions.Add(fc::to_string(bitshares.wallet_api_ptr->get_asset(asset_id).precision));
       n++;
    }
    combo_assets->Set(strings_assets);
@@ -329,7 +363,7 @@ void GWallet::DoAssets(std::string account)
 
 void GWallet::DoAccounts()
 {
-   auto my_accounts = wallet.wallet_api_ptr->list_my_accounts();
+   auto my_accounts = bitshares.wallet_api_ptr->list_my_accounts();
    int n = 0;
 
    for( auto& ma : my_accounts ) {

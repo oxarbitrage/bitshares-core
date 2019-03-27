@@ -36,7 +36,7 @@ void History::DoHistory(std::string account)
 {
    grid->DeleteRows(0, 100);
 
-   auto my_account_history = p_GWallet->wallet.wallet_api_ptr->get_account_history(account, 100);
+   auto my_account_history = p_GWallet->bitshares.wallet_api_ptr->get_account_history(account, 100);
 
    auto z = 0;
 
@@ -48,7 +48,7 @@ void History::DoHistory(std::string account)
    grid->AppendRows(my_account_history.size());
    for( auto& ah : my_account_history ) {
 
-      auto b = p_GWallet->wallet.database_api->get_block_header(ah.op.block_num);
+      auto b = p_GWallet->bitshares.database_api->get_block_header(ah.op.block_num);
       FC_ASSERT(b);
 
       grid->SetCellValue(z, 0, fc::json::to_string(ah.op.id).substr(1, fc::json::to_string(ah.op.id).length() - 2));

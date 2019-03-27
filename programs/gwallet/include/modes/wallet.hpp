@@ -1,3 +1,5 @@
+#pragma once
+
 #include <wx/wx.h>
 
 #ifndef GWALLET_H
@@ -7,20 +9,23 @@
 class Wallet : public wxFrame
 {
 public:
+   Wallet(GWallet* gwallet);
+   void CreateControls();
+   void CreateEvents();
+   void EnableOperations();
+   void DisableOperations();
 
-    Wallet(GWallet* gwallet);
-    void CreateControls();
-    void CreateEvents();
+   GWallet* p_GWallet;
 
-    void OnTransfer(wxCommandEvent& event);
-    void OnSellAsset(wxCommandEvent& event);
-    void OnBorrowAsset(wxCommandEvent& event);
-    void OnCancelOrder(wxCommandEvent& event);
-    void OnSetProxy(wxCommandEvent& event);
-
-    GWallet* p_GWallet;
+   wxButton* transfer_button, *sellasset_button, *borrowasset_button, *cancelorder_button, *updateproxy_button;
 
 private:
+
+   void OnTransfer(wxCommandEvent& event);
+   void OnSellAsset(wxCommandEvent& event);
+   void OnBorrowAsset(wxCommandEvent& event);
+   void OnCancelOrder(wxCommandEvent& event);
+   void OnSetProxy(wxCommandEvent& event);
 };
 
 const int ID_WALLET_TRANSFER = 1;
