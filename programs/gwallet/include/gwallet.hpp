@@ -94,8 +94,6 @@ public:
    Wallet* p_wallet;
    History* p_history;
 
-
-
 private:
 
 };

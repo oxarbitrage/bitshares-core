@@ -68,7 +68,7 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxTextCtrl* itemTextCtrl12 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
-           wxDefaultPosition, wxDefaultSize, 0 );
+           wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY) );
    itemBoxSizer9->Add(itemTextCtrl12, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);

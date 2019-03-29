@@ -23,7 +23,7 @@
 GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200, 900))
 {
    // lets go full size
-   wxTopLevelWindow::Maximize(true);
+   //wxTopLevelWindow::Maximize(true);
 
    // set a windows min size
    wxTopLevelWindow::SetMinSize(wxSize(600, 450));
@@ -89,8 +89,19 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
    wxTheApp->Yield();
 
    //wallet.connect("wss://api.bitshares.bhuz.info/ws");
-   bitshares.Connect("wss://api.bitshares-kibana.info/ws");
+   //bitshares.Connect("wss://api.bitshares-kibana.info/ws");
+   try {
+      bitshares.Connect("wss://api.bitshares-kibana.info/ws");
+   }
+   catch( const fc::exception& e )
+   {
+      OnError(wxT("Some problem at cvonnecting, try again ..."));
+   }
 
+   auto server = wxT("wss://api.bitshares-kibana.info/ws");
+   wdump((GetClientSize().x));
+   int widths[] = {GetClientSize().x - 30 - GetTextExtent(server).x, -1};
+   SetStatusWidths(2, widths);
    SetStatusText(wxT("Connected"), 0);
    SetStatusText(wxT("wss://api.bitshares-kibana.info/ws"), 1);
 

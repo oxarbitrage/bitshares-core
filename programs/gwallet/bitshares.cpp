@@ -1,3 +1,4 @@
+#include <websocketpp/connection.hpp>
 #include "include/bitshares.hpp"
 
 Bitshares::Bitshares()
@@ -74,9 +75,14 @@ void Bitshares::Connect(std::string server)
 void Bitshares::Disconnect()
 {
    websocket_connection->close(0, "user disconnecting");
+
+   //websocket_connection->send_message("");
+
+   wallet_cli->stop();
    //websocket_connection->closed.set_value();
 
-   websocket_connection = nullptr;
+
+   //websocket_connection = nullptr;
    api_connection = nullptr;
    //remote_login_api = nullptr;
    //database_api =  nullptr;
