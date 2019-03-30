@@ -20,6 +20,9 @@ public:
    void OnSendUrl(wxCommandEvent &event);
    void OnReceiveUrl(wxCommandEvent &event);
 
+   bool ValidateSend();
+   bool ValidateReceive();
+
    GWallet* p_GWallet;
 
    wxSearchCtrl* send_to;

@@ -150,50 +150,152 @@ void SendReceive::OnSearchAsset(wxCommandEvent & event)
 
 void SendReceive::OnTransferOk(wxCommandEvent & event)
 {
-   auto to_v = send_to->GetValue().ToStdString();
-   auto amount_v = send_amount->GetValue().ToStdString();
-   auto asset_v = p_GWallet->strings_assets[send_asset->GetCurrentSelection()].ToStdString();
-   auto from_v = p_GWallet->selected_account;
+   if (ValidateSend()) {
+      auto to_v = send_to->GetValue().ToStdString();
+      auto amount_v = send_amount->GetValue().ToStdString();
+      auto asset_v = p_GWallet->strings_assets[send_asset->GetCurrentSelection()].ToStdString();
+      auto from_v = p_GWallet->selected_account;
 
-   try
-   {
-      auto result = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v.ToStdString(), to_v,
-              amount_v, asset_v, "", false);
+      try {
+         auto result = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v.ToStdString(), to_v,
+                                                                     amount_v, asset_v, "", false);
 
-      if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm transfer?"),
-              wxNO_DEFAULT|wxYES_NO|wxICON_QUESTION, this))
-      {
-         p_GWallet->bitshares.wallet_api_ptr->transfer(from_v.ToStdString(), to_v, amount_v, asset_v, "", true);
+         if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm transfer?"),
+                                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+            p_GWallet->bitshares.wallet_api_ptr->transfer(from_v.ToStdString(), to_v, amount_v, asset_v, "", true);
+         }
+      }
+      catch (const fc::exception &e) {
+         p_GWallet->OnError(e.to_detail_string());
       }
    }
-   catch( const fc::exception& e )
-   {
-      p_GWallet->OnError(e.to_detail_string());
-   }
 }
-
 void SendReceive::OnSendUrl(wxCommandEvent &event)
 {
-   auto to_v = send_to->GetValue().ToStdString();
-   auto amount_v = send_amount->GetValue().ToStdString();
-   auto asset_v = p_GWallet->strings_assets[send_asset->GetCurrentSelection()].ToStdString();
-   auto from_v = p_GWallet->selected_account;
+   if (ValidateSend()) {
+      auto to_v = send_to->GetValue().ToStdString();
+      auto amount_v = send_amount->GetValue().ToStdString();
+      auto asset_v = p_GWallet->strings_assets[send_asset->GetCurrentSelection()].ToStdString();
+      auto from_v = p_GWallet->selected_account;
 
-   auto url = "bitshares://operation/transfer?to="+to_v+"&from="+from_v+"&asset="+asset_v+"&amount="+amount_v;
+      auto url = "bitshares://operation/transfer?to=" + to_v + "&from=" + from_v + "&asset=" + asset_v + "&amount=" +
+                 amount_v;
 
-   send_url->WriteText(url);
-   send_url->Enable(true);
+      send_url->WriteText(url);
+      send_url->Enable(true);
+   }
 }
 
 void SendReceive::OnReceiveUrl(wxCommandEvent &event)
 {
-   auto from_v = receive_from->GetValue().ToStdString();
-   auto amount_v = receive_amount->GetValue().ToStdString();
-   auto asset_v = receive_asset->GetValue().ToStdString();
-   auto to_v = p_GWallet->selected_account;
+   if(ValidateReceive()) {
+      auto from_v = receive_from->GetValue().ToStdString();
+      auto amount_v = receive_amount->GetValue().ToStdString();
+      auto asset_v = receive_asset->GetValue().ToStdString();
+      auto to_v = p_GWallet->selected_account;
 
-   auto url = "bitshares://operation/transfer?to="+to_v+"&from="+from_v+"&asset="+asset_v+"&amount="+amount_v;
+      auto url = "bitshares://operation/transfer?to=" + to_v + "&from=" + from_v + "&asset=" + asset_v + "&amount=" +
+                 amount_v;
 
-   receive_url->WriteText(url);
-   receive_url->Enable(true);
+      receive_url->WriteText(url);
+      receive_url->Enable(true);
+   }
+}
+
+bool SendReceive::ValidateSend()
+{
+   if(send_to->GetValue() == "") {
+      wxMessageDialog dialog( NULL, _("Receipient is empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         send_to->SetFocus();
+         return false;
+      }
+   }
+   else
+   {
+      try
+      {
+         p_GWallet->bitshares.wallet_api_ptr->get_account(send_to->GetValue().ToStdString());
+      }
+      catch( const fc::exception& e )
+      {
+         p_GWallet->OnError("Account is invalid");
+         send_to->SetFocus();
+         return false;
+      }
+   }
+
+   if(send_amount->GetValue() == "") {
+      wxMessageDialog dialog( NULL, _("Amount is empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         send_amount->SetFocus();
+         return false;
+      }
+   }
+   return true;
+}
+
+bool SendReceive::ValidateReceive()
+{
+   if(receive_from->GetValue() == "") {
+      wxMessageDialog dialog( NULL, _("Receipient is empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         send_to->SetFocus();
+         return false;
+      }
+   }
+   else
+   {
+      try
+      {
+         p_GWallet->bitshares.wallet_api_ptr->get_account(receive_from->GetValue().ToStdString());
+      }
+      catch( const fc::exception& e )
+      {
+         p_GWallet->OnError("Account is invalid");
+         receive_from->SetFocus();
+         return false;
+      }
+   }
+
+   if(receive_amount->GetValue() == "") {
+      wxMessageDialog dialog( NULL, _("Amount is empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         receive_amount->SetFocus();
+         return false;
+      }
+   }
+
+   if(receive_asset->GetValue() == "") {
+      wxMessageDialog dialog( NULL, _("Asset is empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         receive_asset->SetFocus();
+         return false;
+      }
+   }
+   else
+   {
+      try
+      {
+         p_GWallet->bitshares.wallet_api_ptr->get_asset(receive_asset->GetValue().ToStdString());
+      }
+      catch( const fc::exception& e )
+      {
+         p_GWallet->OnError("Asset is invalid");
+         receive_asset->SetFocus();
+         return false;
+      }
+   }
+
+   return true;
 }

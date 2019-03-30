@@ -19,6 +19,7 @@
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
 #include <wx/hyperlink.h>
+#include <wx/filedlg.h>
 
 GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200, 900))
 {
@@ -67,7 +68,7 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
    // the config file
    config = new wxConfig(wxT("GWallet"));
    wxString str;
-   if ( config->Read("wallet-file", &str) ) {
+   if ( config->Read("WalletPath", &str) ) {
       wdump((str.ToStdString()));
    }
    else {
@@ -77,6 +78,57 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
 
    Centre();
 }
+
+void GWallet::OnNew(wxCommandEvent & WXUNUSED(event))
+{
+   LoadWelcomeWidget();
+}
+
+void GWallet::OnOpen(wxCommandEvent & WXUNUSED(event))
+{
+   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+   wxString defaultDir(f.GetPath());
+
+   wxString wildcard = wxT("JSON files (*.json)|*.json");
+
+   wxFileDialog dialog(this, _("Open a saved wallet"), defaultDir, wxT("wallet.json"), wildcard);
+   if (dialog.ShowModal() == wxID_OK)
+   {
+      wxString path = dialog.GetPath();
+      wdump((path.ToStdString()));
+      //int filterIndex = dialog.GetFilterIndex();
+   }
+}
+
+void GWallet::OnSave(wxCommandEvent & WXUNUSED(event))
+{
+   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+   wxString defaultDir(f.GetPath());
+
+   wxString wildcard = wxT("JSON files (*.json)|*.json");
+
+   wxFileDialog dialog(this, _("Open a saved wallet"), defaultDir, wxT("wallet.json"), wildcard, wxFC_SAVE);
+   if (dialog.ShowModal() == wxID_OK)
+   {
+      //wxString path = dialog.GetPath();
+      //int filterIndex = dialog.GetFilterIndex();
+   }
+}
+
+void GWallet::OnNetwork(wxCommandEvent & WXUNUSED(event))
+{
+   wxTextEntryDialog dialog(this, _("Enter server"), _("Websocket endpoint"));
+   if ( dialog.ShowModal() == wxID_OK )
+   {
+      wxString value = dialog.GetValue();
+
+      //bitshares.wallet_api_ptr->set_password(value.ToStdString());
+      //SetStatusText(wxT("Connected | Locked"));
+
+      //itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
+   }
+}
+
 void GWallet::OnQuit(wxCommandEvent & WXUNUSED(event))
 {
    Close(true);
@@ -100,7 +152,7 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
 
    auto server = wxT("wss://api.bitshares-kibana.info/ws");
    wdump((GetClientSize().x));
-   int widths[] = {GetClientSize().x - 30 - GetTextExtent(server).x, -1};
+   int widths[] = {GetClientSize().x - 25 - GetTextExtent(server).x, -1};
    SetStatusWidths(2, widths);
    SetStatusText(wxT("Connected"), 0);
    SetStatusText(wxT("wss://api.bitshares-kibana.info/ws"), 1);
@@ -146,6 +198,8 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
       //assets and balances
       DoAssets(first_account_name);
 
+      selected_account = first_account_name;
+      selected_asset = strings_assets[0];
 
       Home *home = new Home(this);
       home->CreateControls();
@@ -158,6 +212,7 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
       SendReceive *sendreceive = new SendReceive(this);
       sendreceive->CreateControls();
       sendreceive->CreateEvents();
+      p_sendreceive = sendreceive;
 
       Wallet *wallet = new Wallet(this);
       wallet->CreateControls();
@@ -169,9 +224,6 @@ void GWallet::OnConnect(wxCommandEvent & WXUNUSED(event))
       history->CreateEvents();
       history->DoHistory(first_account_name);
       p_history = history;
-
-      selected_account = first_account_name;
-      selected_asset = strings_assets[0];
    }
 }
 
@@ -219,16 +271,16 @@ void GWallet::OnDisconnect(wxCommandEvent & WXUNUSED(event))
 
 void GWallet::OnSetPassword(wxCommandEvent & WXUNUSED(event))
 {
-    wxPasswordEntryDialog dialog(this, "Enter password");
-    if ( dialog.ShowModal() == wxID_OK )
-    {
-       wxString value = dialog.GetValue();
+   wxPasswordEntryDialog dialog(this, "Enter password");
+   if ( dialog.ShowModal() == wxID_OK )
+   {
+      wxString value = dialog.GetValue();
 
-       bitshares.wallet_api_ptr->set_password(value.ToStdString());
-       SetStatusText(wxT("Connected | Locked"));
+      bitshares.wallet_api_ptr->set_password(value.ToStdString());
+      SetStatusText(wxT("Connected | Locked"));
 
-       itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
-    }
+      itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
+   }
 }
 void GWallet::OnAbout(wxCommandEvent & WXUNUSED(event))
 {
@@ -323,10 +375,10 @@ void GWallet::OnChangeAsset(wxCommandEvent & WXUNUSED(event))
 
    balanceMsg->SetLabel(pretty_balance.str() + " " + asset_name);
 
-   // dont delete until fix with member function or soemthing
-   //asset->SetSelection(selected);
+   p_sendreceive->send_asset->SetSelection(selected);
 
    infoSizer->Layout();
+   sizerTransferMode->Layout();
 }
 
 void GWallet::DoAssets(std::string account)
@@ -386,11 +438,6 @@ void GWallet::DoAccounts()
    combo_accounts->Set(strings_accounts);
    combo_accounts->SetSelection(0);
    combo_accounts->Enable(true);
-}
-
-void GWallet::OnNew(wxCommandEvent & WXUNUSED(event))
-{
-   LoadWelcomeWidget();
 }
 
 void GWallet::LoadWelcomeWidget()
@@ -473,6 +520,9 @@ void GWallet::OnWalletMode(wxCommandEvent & WXUNUSED(event))
 void GWallet::CreateEvents()
 {
    Connect(wxID_NEW, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnNew));
+   Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnOpen));
+   Connect(wxID_SAVE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnSave));
+   Connect(wxID_NETWORK, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnNetwork));
    Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnQuit));
    Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnAbout));
 

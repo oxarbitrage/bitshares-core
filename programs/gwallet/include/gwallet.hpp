@@ -14,6 +14,7 @@
 
 class Wallet;
 class History;
+class SendReceive;
 
 class GWallet : public wxFrame
 {
@@ -21,6 +22,9 @@ public:
    GWallet(const wxString& title);
 
    void OnNew(wxCommandEvent& event);
+   void OnOpen(wxCommandEvent& event);
+   void OnSave(wxCommandEvent& event);
+   void OnNetwork(wxCommandEvent& event);
    void OnQuit(wxCommandEvent& event);
    void OnAbout(wxCommandEvent& event);
 
@@ -93,6 +97,7 @@ public:
 
    Wallet* p_wallet;
    History* p_history;
+   SendReceive* p_sendreceive;
 
 private:
 
