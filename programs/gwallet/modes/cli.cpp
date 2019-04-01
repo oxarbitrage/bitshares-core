@@ -16,19 +16,19 @@ void Cli::CreateControls()
    p_GWallet->sizerCommandMode->Add(sizerCommandCtrls, 0, wxGROW|wxALL);
 
    sendCliText = new wxTextCtrl( p_GWallet->panel, ID_CLITEXT, _("about"),
-           wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+         wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
    sizerCommandCtrls->Add(sendCliText, 10, wxGROW|wxALL, 5);
 
    wxButton* sendCliButton = new wxButton( p_GWallet->panel, ID_CLISEND, _("Run Command"),
-           wxDefaultPosition, wxDefaultSize, 0 );
+         wxDefaultPosition, wxDefaultSize, 0 );
    sizerCommandCtrls->Add(sendCliButton, 1, wxGROW|wxALL, 5);
 
    clearCliButton = new wxButton( p_GWallet->panel, ID_CLICLEAR, _("Clear Console"),
-           wxDefaultPosition, wxDefaultSize, 0 );
+         wxDefaultPosition, wxDefaultSize, 0 );
    sizerCommandCtrls->Add(clearCliButton, 1, wxGROW|wxALL, 5);
 
    itemTextCLI = new wxTextCtrl( p_GWallet->panel, ID_CLI, wxEmptyString,
-           wxDefaultPosition, wxSize(-1, 300), wxTE_MULTILINE );
+         wxDefaultPosition, wxSize(-1, 300), wxTE_MULTILINE );
    p_GWallet->sizerCommandMode->Add(itemTextCLI, 0, wxGROW|wxALL, 5);
 
    p_GWallet->mainSizer->Hide(p_GWallet->sizerCommandMode, true);
@@ -38,11 +38,11 @@ void Cli::CreateControls()
 void Cli::CreateEvents()
 {
    p_GWallet->panel->Connect(ID_CLITEXT, wxEVT_TEXT_ENTER,
-           wxCommandEventHandler(Cli::OnCliCommand), NULL, this);
+         wxCommandEventHandler(Cli::OnCliCommand), NULL, this);
    p_GWallet->panel->Connect(ID_CLISEND, wxEVT_COMMAND_BUTTON_CLICKED,
-           wxCommandEventHandler(Cli::OnCliCommand), NULL, this);
+         wxCommandEventHandler(Cli::OnCliCommand), NULL, this);
    p_GWallet->panel->Connect(ID_CLICLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
-           wxCommandEventHandler(Cli::OnCliClear), NULL, this);
+         wxCommandEventHandler(Cli::OnCliClear), NULL, this);
 }
 
 void Cli::OnCliCommand(wxCommandEvent & WXUNUSED(event))

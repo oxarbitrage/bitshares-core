@@ -16,7 +16,7 @@ void Bitshares::Connect(std::string server, std::string wallet_path)
    websocket_connection  = websocket_client.connect( server );
 
    api_connection = std::make_shared<fc::rpc::websocket_api_connection>(*websocket_connection,
-           GRAPHENE_MAX_NESTED_OBJECTS);
+         GRAPHENE_MAX_NESTED_OBJECTS);
 
    remote_login_api = api_connection->get_remote_api< graphene::app::login_api >(1);
    database_api = api_connection->get_remote_api< graphene::app::database_api >(0);
@@ -36,8 +36,8 @@ void Bitshares::Connect(std::string server, std::string wallet_path)
       wallet_cli->format_result( name_formatter.first, name_formatter.second );
 
    boost::signals2::scoped_connection closed_connection(websocket_connection->closed.connect([=]{
-       cerr << "Server has disconnected us.\n";
-       wallet_cli->stop();
+      cerr << "Server has disconnected us.\n";
+      wallet_cli->stop();
    }));
 }
 

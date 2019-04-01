@@ -258,9 +258,9 @@ void GWallet::OnDisconnect(wxCommandEvent & WXUNUSED(event))
    }
    catch( const fc::exception& e )
    {
-      OnError(wxT("Some problem when disconnecting, try again ..."));
+      OnError(_("Some problem when disconnecting, try again ..."));
    }
-   SetStatusText(wxT("Disconnected"));
+   SetStatusText(_("Disconnected"));
 
    mainSizer->Hide(sizerHomeMode, true);
    mainSizer->Hide(sizerCommandMode, true);
@@ -282,7 +282,7 @@ void GWallet::OnDisconnect(wxCommandEvent & WXUNUSED(event))
    itemToolBar->EnableTool(ID_ICON_LOCK, false);
    itemToolBar->EnableTool(ID_ICON_UNLOCK, false);
 
-   mainMsg->SetLabel("G-Wallet Offline");
+   mainMsg->SetLabel(_("G-Wallet Offline"));
    balanceMsg->SetLabel("");
 
    wallet_m->Enable(ID_CONNECT, true);
@@ -295,13 +295,13 @@ void GWallet::OnDisconnect(wxCommandEvent & WXUNUSED(event))
 
 void GWallet::OnSetPassword(wxCommandEvent & WXUNUSED(event))
 {
-   wxPasswordEntryDialog dialog(this, "Enter password");
+   wxPasswordEntryDialog dialog(this, _("Enter password"));
    if ( dialog.ShowModal() == wxID_OK )
    {
       wxString value = dialog.GetValue();
 
       bitshares.wallet_api_ptr->set_password(value.ToStdString());
-      SetStatusText(wxT("Connected | Locked"));
+      SetStatusText(_("Connected | Locked"));
 
       itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
    }
@@ -419,8 +419,8 @@ void GWallet::DoAssets(std::string account)
    for( auto& mb : my_balances ) {
 
       std::string asset_id = fc::to_string(mb.asset_id.space_id)
-                             + "." + fc::to_string(mb.asset_id.type_id)
-                             + "." + fc::to_string(mb.asset_id.instance.value);
+            + "." + fc::to_string(mb.asset_id.type_id)
+            + "." + fc::to_string(mb.asset_id.instance.value);
 
       auto asset = bitshares.wallet_api_ptr->get_asset(asset_id).symbol;
 

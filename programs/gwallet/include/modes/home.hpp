@@ -11,6 +11,7 @@ public:
    void CreateControls();
    void CreateEvents();
 
+private:
    void OnTimerSlow(wxTimerEvent& event);
    void OnTimerFast(wxTimerEvent& event);
 
@@ -30,10 +31,8 @@ public:
    std::string account_name_value, account_id_value;
    std::string usd_bts_ticker, cny_bts_ticker, eur_bts_ticker, gold_bts_ticker, silver_bts_ticker, btc_bts_ticker;
 
-private:
-    wxTimer m_timer_fast;
-    wxTimer m_timer_slow;
-
+   wxTimer m_timer_fast;
+   wxTimer m_timer_slow;
 };
 
 const int ID_TIMER_SLOW = 991;

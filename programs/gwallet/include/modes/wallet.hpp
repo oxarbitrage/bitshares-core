@@ -17,15 +17,14 @@ public:
 
    GWallet* p_GWallet;
 
-   wxButton* transfer_button, *sellasset_button, *borrowasset_button, *cancelorder_button, *updateproxy_button;
-
 private:
-
    void OnTransfer(wxCommandEvent& event);
    void OnSellAsset(wxCommandEvent& event);
    void OnBorrowAsset(wxCommandEvent& event);
    void OnCancelOrder(wxCommandEvent& event);
    void OnSetProxy(wxCommandEvent& event);
+
+   wxButton* transfer_button, *sellasset_button, *borrowasset_button, *cancelorder_button, *updateproxy_button;
 };
 
 const int ID_WALLET_TRANSFER = 1;

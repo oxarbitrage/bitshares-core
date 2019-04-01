@@ -6,7 +6,7 @@
 
 
 ImportKeyDialog::ImportKeyDialog(wxWindow* parent, wxWindowID id, const wxString& title,
-        const wxPoint &position, const wxSize& size, long style ) : wxDialog( parent, id, title, position, size, style)
+      const wxPoint &position, const wxSize& size, long style ) : wxDialog( parent, id, title, position, size, style)
 {
    ImportKeyDialog* itemDialog1 = this;
 
@@ -21,7 +21,7 @@ ImportKeyDialog::ImportKeyDialog(wxWindow* parent, wxWindowID id, const wxString
    itemBoxSizer1->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxStaticText* itemStaticText3 = new wxStaticText( itemDialog1, wxID_STATIC,
-           _("Account Name"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Account Name"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer1->Add(itemStaticText3, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    itemBoxSizer1->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -44,7 +44,7 @@ ImportKeyDialog::ImportKeyDialog(wxWindow* parent, wxWindowID id, const wxString
    itemBoxSizer10->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxStaticText* itemStaticText12 = new wxStaticText( itemDialog1, wxID_STATIC,
-           _("Private Key"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Private Key"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer10->Add(itemStaticText12, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    itemBoxSizer10->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -70,7 +70,7 @@ ImportKeyDialog::ImportKeyDialog(wxWindow* parent, wxWindowID id, const wxString
    itemBoxSizer23->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxStaticLine* itemStaticLine4 = new wxStaticLine( itemDialog1, wxID_STATIC,
-           wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+         wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
    itemBoxSizer23->Add(itemStaticLine4, 10, wxGROW|wxALL, 0);
 
    itemBoxSizer23->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -89,13 +89,13 @@ ImportKeyDialog::ImportKeyDialog(wxWindow* parent, wxWindowID id, const wxString
    itemBoxSizer3->Add(itemBoxSizer13, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    wxButton* itemButton14 = new wxButton( itemDialog1, ID_IMPORTKEY_OK,
-           _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer13->Add(itemButton14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer13->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
    wxButton* itemButton15 = new wxButton( itemDialog1, ID_IMPORTKEY_CANCEL,
-           _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer13->Add(itemButton15, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer3->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);

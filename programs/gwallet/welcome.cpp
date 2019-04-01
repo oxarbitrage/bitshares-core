@@ -10,15 +10,15 @@ Welcome1::Welcome1(wxWizard *parent) : wxWizardPageSimple(parent)
 
    mainSizer->Add(
    new wxStaticText(this, wxID_ANY,
-           _("This wizard will help you setup a new wallet.\n You can skip this and do everything manually.\n"),
-           wxDefaultPosition, wxDefaultSize, 0 )
+         _("This wizard will help you setup a new wallet.\n You can skip this and do everything manually.\n"),
+         wxDefaultPosition, wxDefaultSize, 0 )
    );
 
    mainSizer->Add(5, 5, 1, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
    wxStaticText* itemStaticText12 = new wxStaticText( this, wxID_STATIC,
-           _("Click Next to get started..\nClick Cancel to start the program now."),
-           wxDefaultPosition, wxDefaultSize, 0 );
+         _("Click Next to get started..\nClick Cancel to start the program now."),
+         wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText12, 0, wxALIGN_LEFT|wxALL, 5);
 
    SetSizer(mainSizer);
@@ -31,20 +31,20 @@ Welcome2::Welcome2(wxWizard *parent) : wxWizardPageSimple(parent)
    this->SetSizer(mainSizer);
 
    wxStaticText* itemStaticText4 = new wxStaticText( this, wxID_STATIC,
-           _("First step to start using G-Wallet is to create a wallet file.\n"),
-           wxDefaultPosition, wxDefaultSize, 0 );
+         _("First step to start using G-Wallet is to create a wallet file.\n"),
+         wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL, 5);
 
    wxStaticText* itemStaticText5 = new wxStaticText( this, wxID_STATIC,
-           _("This file is used to store configuration options that will be used to start the application next\n"
-             "time you use it.\n"),
+         _("This file is used to store configuration options that will be used to start the application next\n"
+           "time you use it.\n"),
            wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALL, 5);
 
    mainSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
    wxStaticText* itemStaticText6 = new wxStaticText( this, wxID_STATIC, _("Select wallet path and name:"),
-           wxDefaultPosition, wxDefaultSize, 0 );
+         wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText6, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxTOP, 5);
 
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
@@ -61,13 +61,13 @@ Welcome2::Welcome2(wxWizard *parent) : wxWizardPageSimple(parent)
    wxBitmap folder_find_icon(directory + wxT("/icons/folder-find.png"), wxBITMAP_TYPE_PNG);
 
    wxBitmapButton* path_button = new wxBitmapButton(this, ID_WALLETPATH, folder_find_icon,
-           wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
+         wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
    pathSizer->Add(path_button, 1, wxALL, 5);
 
    mainSizer->Add(5, 5, 1, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
    wxStaticText* itemStaticText12 = new wxStaticText( this, wxID_STATIC,
-           wxT("Click on Next to continue with the configuration."), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Click on Next to continue with the configuration."), wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText12, 0, wxALIGN_LEFT|wxALL, 5);
 
    Connect(ID_WALLETPATH, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Welcome2::OnPath));
@@ -81,11 +81,10 @@ Welcome2::Welcome2(wxWizard *parent) : wxWizardPageSimple(parent)
 
 void Welcome2::OnPath(wxCommandEvent & WXUNUSED(event))
 {
-
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    wxString directory(f.GetPath());
 
-   wxDirDialog dialog(this, wxT("Select your wallet directory"), directory, wxDD_NEW_DIR_BUTTON);
+   wxDirDialog dialog(this, _("Select your wallet directory"), directory, wxDD_NEW_DIR_BUTTON);
    if (dialog.ShowModal() == wxID_OK)
    {
       wxString path = dialog.GetPath();
@@ -109,7 +108,7 @@ Welcome3::Welcome3(wxWizard *parent) : wxWizardPageSimple(parent)
    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
    wxStaticText* itemStaticText4 = new wxStaticText( this, wxID_STATIC,
-           _("Select your server:"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Select your server:"), wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL, 5);
 
    wxBoxSizer *serverSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -123,19 +122,19 @@ Welcome3::Welcome3(wxWizard *parent) : wxWizardPageSimple(parent)
 
    wxBitmap connect_icon(directory + wxT("/icons/network-connect-3.png"), wxBITMAP_TYPE_PNG);
    wxBitmapButton* testserver_button = new wxBitmapButton(this, ID_TESTSERVER,
-           connect_icon, wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
+         connect_icon, wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
 
    serverSizer->Add(testserver_button, 1, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText5 = new wxStaticText( this, wxID_STATIC,
-           _("Wallet password:"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Wallet password:"), wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALL, 5);
 
    passwordCtrl = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
    mainSizer->Add(passwordCtrl, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText6 = new wxStaticText( this, wxID_STATIC,
-           _("Repeat password:"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Repeat password:"), wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText6, 0, wxALIGN_LEFT|wxALL, 5);
 
    repeatpasswordCtrl = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
@@ -184,7 +183,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
 
    if(password != repeatpassword) {
       wxMessageDialog dialog( NULL, wxT("Password and confirmation are not the same"),
-              _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+            _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
       {
@@ -193,7 +192,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    }
    else if(password == "" && repeatpassword == "" ) {
       wxMessageDialog dialog( NULL, wxT("Password or confirmation cant be empty"),
-              _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+            _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
       {
@@ -211,7 +210,7 @@ Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
    wxStaticText* itemStaticText4 = new wxStaticText( this, wxID_STATIC,
-           _("Import your key, we cant create account yet!"), wxDefaultPosition, wxDefaultSize, 0 );
+         _("Import your key, we cant create account yet!"), wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL, 5);
 
    wxBoxSizer *accountSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -222,7 +221,7 @@ Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
 
    wxBitmap identity(directory + wxT("/icons/identity.png"), wxBITMAP_TYPE_PNG);
    wxBitmapButton* accountButton = new wxBitmapButton(this, ID_ACCOUNT, identity,
-           wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
+         wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
 
    accountCtrl = new wxTextCtrl(this, -1, wxT("oxarbitrage"), wxDefaultPosition, wxDefaultSize, 0);
    accountSizer->Add(accountCtrl, 11, wxGROW|wxALL, 5);
@@ -230,7 +229,7 @@ Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
    accountSizer->Add(accountButton, 1, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText5 = new wxStaticText( this, wxID_STATIC, _("Private key:"),
-           wxDefaultPosition, wxDefaultSize, 0 );
+         wxDefaultPosition, wxDefaultSize, 0 );
    mainSizer->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALL, 5);
 
    wxBoxSizer *keySizer = new wxBoxSizer(wxHORIZONTAL);
@@ -238,7 +237,7 @@ Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
 
    wxBitmap key(directory + wxT("/icons/key.png"), wxBITMAP_TYPE_PNG);
    wxBitmapButton* keyButton = new wxBitmapButton(this, ID_KEY, key, wxDefaultPosition,
-           wxSize(32, 32), wxBU_AUTODRAW);
+         wxSize(32, 32), wxBU_AUTODRAW);
 
    keyCtrl = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, 0);
    keySizer->Add(keyCtrl, 11, wxGROW|wxALL, 5);
