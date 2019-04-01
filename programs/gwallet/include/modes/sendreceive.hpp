@@ -13,6 +13,9 @@ public:
    void CreateControls();
    void CreateEvents();
 
+   wxComboBox* send_asset;
+
+private:
    void OnTransferOk(wxCommandEvent &event);
    void OnSearchAccount(wxCommandEvent &event);
    void OnSearchAsset(wxCommandEvent &event);
@@ -27,14 +30,11 @@ public:
 
    wxSearchCtrl* send_to;
    wxTextCtrl* send_amount;
-   wxComboBox* send_asset;
    wxSearchCtrl* receive_from;
    wxTextCtrl* receive_amount;
    wxSearchCtrl* receive_asset;
    wxTextCtrl* send_url;
    wxTextCtrl* receive_url;
-
-private:
 };
 
 const int ID_TRANSFER_OK = 4221;

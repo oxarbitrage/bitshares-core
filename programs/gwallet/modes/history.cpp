@@ -11,14 +11,14 @@ void History::CreateControls()
    p_GWallet->mainSizer->Add(p_GWallet->sizerHistoryMode, 0, wxGROW|wxALL);
 
    grid = new wxGrid(p_GWallet->panel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-   grid->CreateGrid(10, 6);
+   grid->CreateGrid(10, 5);
 
    grid->SetColLabelValue(0, "ID");
    grid->SetColLabelValue(1, "Date");
    grid->SetColLabelValue(2, "Block");
    grid->SetColLabelValue(3, "Text");
    grid->SetColLabelValue(4, "Memo");
-   grid->SetColLabelValue(5, "Raw");
+   //grid->SetColLabelValue(5, "Raw");
 
    grid->Enable(false);
    p_GWallet->sizerHistoryMode->Add(grid, 0, wxALL, 5);
@@ -34,9 +34,9 @@ void History::CreateEvents()
 
 void History::DoHistory(std::string account)
 {
-   grid->DeleteRows(0, 100);
+   grid->DeleteRows(0, 25);
 
-   auto my_account_history = p_GWallet->bitshares.wallet_api_ptr->get_account_history(account, 100);
+   auto my_account_history = p_GWallet->bitshares.wallet_api_ptr->get_account_history(account, 25);
 
    auto z = 0;
 
@@ -56,7 +56,7 @@ void History::DoHistory(std::string account)
       grid->SetCellValue(z, 2, fc::to_string(ah.op.block_num));
       grid->SetCellValue(z, 3, ah.description);
       grid->SetCellValue(z, 4, ah.memo);
-      grid->SetCellValue(z, 5, fc::json::to_string(ah.op));
+      //grid->SetCellValue(z, 5, fc::json::to_string(ah.op));
 
       ++z;
    }

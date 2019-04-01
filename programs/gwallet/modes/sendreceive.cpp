@@ -246,7 +246,7 @@ bool SendReceive::ValidateReceive()
 
       if ( dialog.ShowModal() == wxID_OK )
       {
-         send_to->SetFocus();
+         receive_from->SetFocus();
          return false;
       }
    }

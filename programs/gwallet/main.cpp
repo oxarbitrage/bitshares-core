@@ -5,7 +5,7 @@ IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit()
 {
-   GWallet *gwallet = new GWallet(wxT("GWallet - Secure Bitshares Wallet"));
+   GWallet *gwallet = new GWallet(_("GWallet - Secure Bitshares Wallet"));
    gwallet->Show(true);
 
    return true;

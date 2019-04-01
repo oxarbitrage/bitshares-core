@@ -3,8 +3,6 @@
 #include "bitshares.hpp"
 #include "welcome.hpp"
 
-//#include "modes/wallet.hpp"
-
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -21,51 +19,12 @@ class GWallet : public wxFrame
 public:
    GWallet(const wxString& title);
 
-   void OnNew(wxCommandEvent& event);
-   void OnOpen(wxCommandEvent& event);
-   void OnSave(wxCommandEvent& event);
-   void OnNetwork(wxCommandEvent& event);
-   void OnQuit(wxCommandEvent& event);
-   void OnAbout(wxCommandEvent& event);
-
-   void OnConnect(wxCommandEvent& event);
-   void OnDisconnect(wxCommandEvent& event);
-   void OnSetPassword(wxCommandEvent& event);
-   void OnLock(wxCommandEvent& event);
-   void OnUnlock(wxCommandEvent& event);
-   void OnImportKey(wxCommandEvent& event);
-
-   void OnHomeMode(wxCommandEvent& event);
-   void OnCommandMode(wxCommandEvent& event);
-   void OnTransferMode(wxCommandEvent& event);
-   void OnHistoryMode(wxCommandEvent& event);
-   void OnWalletMode(wxCommandEvent& event);
-
-   void OnChangeAccount(wxCommandEvent& event);
-   void OnChangeAsset(wxCommandEvent& event);
-
    void OnError(wxString msg);
-
-   void CreateMenu();
-   void CreateTool();
-   void CreateEvents();
-
-   void DoAssets(std::string account);
-   void DoAccounts();
-
-   void LoadWelcomeWidget();
 
    wxConfig* config;
    wxString directory;
 
    wxPanel* panel;
-   wxMenuBar* menubar;
-   wxMenu* file;
-   wxMenu* wallet_m;
-   wxMenu* help;
-
-   wxToolBar* itemToolBar;
-
    wxBoxSizer* mainSizer;
    wxBoxSizer* infoSizer;
    wxBoxSizer* sizerCommandMode;
@@ -95,12 +54,51 @@ public:
    Welcome3* page3;
    Welcome4* page4;
 
+private:
+
+   void OnNew(wxCommandEvent& event);
+   void OnOpen(wxCommandEvent& event);
+   void OnSave(wxCommandEvent& event);
+   void OnNetwork(wxCommandEvent& event);
+   void OnQuit(wxCommandEvent& event);
+   void OnAbout(wxCommandEvent& event);
+
+   void OnConnect(wxCommandEvent& event);
+   void OnDisconnect(wxCommandEvent& event);
+   void OnSetPassword(wxCommandEvent& event);
+   void OnLock(wxCommandEvent& event);
+   void OnUnlock(wxCommandEvent& event);
+   void OnImportKey(wxCommandEvent& event);
+
+   void OnHomeMode(wxCommandEvent& event);
+   void OnCommandMode(wxCommandEvent& event);
+   void OnTransferMode(wxCommandEvent& event);
+   void OnHistoryMode(wxCommandEvent& event);
+   void OnWalletMode(wxCommandEvent& event);
+
+   void OnChangeAccount(wxCommandEvent& event);
+   void OnChangeAsset(wxCommandEvent& event);
+
+   void CreateMenu();
+   void CreateTool();
+   void CreateEvents();
+
+   void DoAssets(std::string account);
+   void DoAccounts();
+
+   void LoadWelcomeWidget();
+
+   wxMenuBar* menubar;
+   wxMenu* file;
+   wxMenu* wallet_m;
+   wxMenu* help;
+   wxToolBar* itemToolBar;
+
+   bool is_connected = false;
+
    Wallet* p_wallet;
    History* p_history;
    SendReceive* p_sendreceive;
-
-private:
-
 };
 
 const int ID_CONNECT = 105;
@@ -123,9 +121,6 @@ const int ID_ICON_COMMAND = 125;
 const int ID_ICON_SENDRECEIVE = 126;
 const int ID_ICON_HISTORY = 127;
 const int ID_ICON_WALLET = 128;
-
-const int ID_TRANSFER_ACCOUNTS = 4223;
-const int ID_TRANSFER_ASSETS = 4224;
 
 const int ID_VIEW_WITNESSES = 4225;
 const int ID_VIEW_COMMITTEE = 4226;

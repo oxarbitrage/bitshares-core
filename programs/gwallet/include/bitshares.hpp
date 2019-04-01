@@ -36,7 +36,7 @@ class Bitshares
 public:
    Bitshares();
 
-   void Connect(std::string server);
+   void Connect(std::string server, std::string wallet_path);
    void Disconnect();
 
    fc::http::websocket_client websocket_client;
@@ -45,7 +45,6 @@ public:
    std::shared_ptr<fc::rpc::websocket_api_connection> api_connection;
    fc::api<login_api> remote_login_api;
    std::shared_ptr<graphene::wallet::wallet_api> wallet_api_ptr;
-   //fc::api<graphene::wallet::wallet_api> wallet_api;
    std::shared_ptr<fc::rpc::cli> wallet_cli;
    std::string wallet_filename;
    fc::api<graphene::app::database_api> database_api;

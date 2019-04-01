@@ -60,10 +60,9 @@ Welcome2::Welcome2(wxWizard *parent) : wxWizardPageSimple(parent)
    wxImage::AddHandler(new wxPNGHandler);
    wxBitmap folder_find_icon(directory + wxT("/icons/folder-find.png"), wxBITMAP_TYPE_PNG);
 
-   //wxButton* somebutton = new wxButton( this, ID_WALLETPATH, _("Change Path of wallet file"), wxDefaultPosition, wxDefaultSize, 0 );
-   wxBitmapButton* somebutton = new wxBitmapButton(this, ID_WALLETPATH, folder_find_icon,
+   wxBitmapButton* path_button = new wxBitmapButton(this, ID_WALLETPATH, folder_find_icon,
            wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
-   pathSizer->Add(somebutton, 1, wxALL, 5);
+   pathSizer->Add(path_button, 1, wxALL, 5);
 
    mainSizer->Add(5, 5, 1, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
@@ -126,7 +125,6 @@ Welcome3::Welcome3(wxWizard *parent) : wxWizardPageSimple(parent)
    wxBitmapButton* testserver_button = new wxBitmapButton(this, ID_TESTSERVER,
            connect_icon, wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
 
-   //wxButton* somebutton = new wxButton( this, ID_WALLETPATH, _("Test endpoint"), wxDefaultPosition, wxDefaultSize, 0 );
    serverSizer->Add(testserver_button, 1, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText5 = new wxStaticText( this, wxID_STATIC,
@@ -152,23 +150,30 @@ Welcome3::Welcome3(wxWizard *parent) : wxWizardPageSimple(parent)
 
 void Welcome3::OnTestServer(wxCommandEvent & WXUNUSED(event))
 {
-   Bitshares wallet;
-   wallet.Connect("wss://api.bitshares-kibana.info/ws");
+   auto server = serverCtrl->GetValue();
+   wxConfig* config = new wxConfig(wxT("GWallet"));
+   config->Write("Server", server);
+   wxString path;
+   if ( config->Read("WalletPath", &path) ) {
+      Bitshares wallet;
+      wallet.Connect(server.ToStdString(), path.ToStdString());
 
-   try
-   {
-      wallet.wallet_api_ptr->get_global_properties();
+      try
+      {
+         wallet.wallet_api_ptr->get_global_properties();
 
-      wxMessageDialog dialog(NULL, "Connected to server", wxT("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
-      if (dialog.ShowModal() == wxID_OK)
-         return;
+         wxMessageDialog dialog(NULL, "Connected to server", wxT("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
+         if (dialog.ShowModal() == wxID_OK)
+            return;
+      }
+      catch( const fc::exception& e )
+      {
+         wxMessageDialog dialog( NULL, "Some problem connecting", wxT("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+         if ( dialog.ShowModal() == wxID_OK )
+            return;
+      }
    }
-   catch( const fc::exception& e )
-   {
-      wxMessageDialog dialog( NULL, "Some problem connecting", wxT("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
-      if ( dialog.ShowModal() == wxID_OK )
-         return;
-   }
+   delete config;
 }
 
 void Welcome3::OnWizardPageChanging(wxWizardEvent& event)

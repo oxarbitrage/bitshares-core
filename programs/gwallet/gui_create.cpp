@@ -8,6 +8,7 @@ void GWallet::CreateMenu()
    file->Append(wxID_NEW, wxT("&New\tCtrl+N"));
    file->Append(wxID_OPEN, wxT("&Open\tCtrl+O"));
    file->Append(wxID_SAVE, wxT("&Save\tCtrl+S"));
+   file->Enable(wxID_SAVE, false);
    file->Append(wxID_NETWORK, wxT("Conn&ection\tCtrl+E"));
    file->AppendSeparator();
    file->Append(wxID_EXIT, wxT("&Quit\tCtrl+Q"));

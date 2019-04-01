@@ -7,20 +7,18 @@
 class Cli : public wxFrame
 {
 public:
-
     Cli(GWallet* gwallet);
     void CreateControls();
     void CreateEvents();
 
-    void OnCliCommand(wxCommandEvent& event);
-    void OnCliClear(wxCommandEvent& event);
-
-    GWallet* p_GWallet;
-    wxTextCtrl* sendCliText;
-    wxButton* clearCliButton;
-    wxTextCtrl* itemTextCLI;
-
 private:
+   void OnCliCommand(wxCommandEvent& event);
+   void OnCliClear(wxCommandEvent& event);
+
+   GWallet* p_GWallet;
+   wxTextCtrl* sendCliText;
+   wxButton* clearCliButton;
+   wxTextCtrl* itemTextCLI;
 };
 
 const int ID_CLI = 117;
