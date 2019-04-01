@@ -1,5 +1,4 @@
 #include "../include/dialogs/transfer.hpp"
-#include "../include/gwallet.hpp"
 #include "../include/modes/wallet.hpp"
 
 #include <wx/wx.h>
@@ -10,7 +9,7 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
         const wxPoint &position, const wxSize& size, long style) : wxDialog( parent, id, title, position, size, style)
 {
    Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   GWallet* p_GWallet = p_Wallet->p_GWallet;
+   p_GWallet = p_Wallet->p_GWallet;
 
    TransferDialog* itemDialog1 = this;
 
@@ -42,9 +41,9 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxComboBox* itemComboBox1 = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_account,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_accounts, wxCB_DROPDOWN );
-   itemBoxSizer6->Add(itemComboBox1, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   from = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_account,
+         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_accounts, wxCB_DROPDOWN|wxCB_READONLY );
+   itemBoxSizer6->Add(from, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -66,9 +65,9 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxTextCtrl* itemTextCtrl12 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
+   to = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
          wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY) );
-   itemBoxSizer9->Add(itemTextCtrl12, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   itemBoxSizer9->Add(to, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -90,13 +89,13 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer7->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxTextCtrl* itemTextCtrl13 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
-         wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer7->Add(itemTextCtrl13, 7, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   amount = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
+         wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY|wxFILTER_NUMERIC) );
+   itemBoxSizer7->Add(amount, 7, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxComboBox* itemComboBox14 = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_asset,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_assets, wxCB_DROPDOWN );
-   itemBoxSizer7->Add(itemComboBox14, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   asset = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_asset,
+         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_assets, wxCB_DROPDOWN|wxCB_READONLY );
+   itemBoxSizer7->Add(asset, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer7->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -118,9 +117,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer21->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxTextCtrl* itemTextCtrl23 = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString,
-         wxDefaultPosition, wxSize(-1, 100), wxTE_MULTILINE );
-   itemBoxSizer21->Add(itemTextCtrl23, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   memo = new wxTextCtrl( itemDialog1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 100), wxTE_MULTILINE );
+   itemBoxSizer21->Add(memo, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer21->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -131,15 +129,17 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer18->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxCheckBox* itemCheckBox1 = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_BROADCAST,
+   broadcast = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_BROADCAST,
          _("Broadcast Transaction"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemCheckBox1->SetValue(false);
-   itemBoxSizer18->Add(itemCheckBox1, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   broadcast->SetValue(true);
+   broadcast->Enable(false);
+   itemBoxSizer18->Add(broadcast, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxCheckBox* itemCheckBox2 = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_CLI,
+   cli = new wxCheckBox( itemDialog1, ID_DIALOG_TRANSFER_CLI,
          _("Show output in CLI mode"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemCheckBox2->SetValue(false);
-   itemBoxSizer18->Add(itemCheckBox2, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+   cli->SetValue(false);
+   cli->Enable(false);
+   itemBoxSizer18->Add(cli, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer18->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
@@ -168,18 +168,48 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
    itemStdDialogButtonSizer29->AddButton(itemButton31);
 
    itemStdDialogButtonSizer29->Realize();
+
+   CreateEvents();
+
    Centre();
    ShowModal();
    Destroy();
-
 }
 
-void TransferDialog::OnOk(wxCommandEvent & WXUNUSED(event))
+void TransferDialog::CreateEvents()
 {
-
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TransferDialog::OnOk));
 }
 
-void TransferDialog::OnCancel(wxCommandEvent & WXUNUSED(event))
+void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 {
-   Close(true);
+   auto from_v = p_GWallet->strings_accounts[from->GetCurrentSelection()].ToStdString();
+   auto to_v = to->GetValue().ToStdString();
+   auto amount_v = amount->GetValue().ToStdString();
+   auto asset_v = p_GWallet->strings_assets[asset->GetCurrentSelection()].ToStdString();
+   auto memo_v = memo->GetValue().ToStdString();
+
+   try
+   {
+      p_GWallet->bitshares.wallet_api_ptr->get_account(to_v);
+   }
+   catch(const fc::exception& e)
+   {
+      p_GWallet->OnError("Account is invalid");
+      from->SetFocus();
+      return;
+   }
+
+   try {
+      auto result = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v, to_v, amount_v, asset_v, memo_v, false);
+
+      if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm transfer?"),
+            wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+         p_GWallet->bitshares.wallet_api_ptr->transfer(from_v, to_v, amount_v, asset_v, memo_v, true);
+      }
+   }
+   catch (const fc::exception &e) {
+      p_GWallet->OnError(e.to_detail_string());
+   }
 }
+

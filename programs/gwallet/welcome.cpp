@@ -268,7 +268,6 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    auto account = accountCtrl->GetValue();
    auto key = keyCtrl->GetValue();
 
-
    if(account == "") {
       wxMessageDialog dialog( NULL, wxT("Account can't be empty"), wxT("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
