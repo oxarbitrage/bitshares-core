@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bitshares.hpp"
-#include "welcome.hpp"
+#include "wizards/welcome.hpp"
 
 #include <wx/wx.h>
 #include <wx/notebook.h>

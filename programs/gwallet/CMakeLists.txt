@@ -1,12 +1,13 @@
 add_executable( gwallet
-		main.cpp gwallet.cpp bitshares.cpp welcome.cpp gui_create.cpp
+		main.cpp gwallet.cpp bitshares.cpp gui_create.cpp
 		dialogs/importkey.cpp
 		dialogs/transfer.cpp
 		modes/home.cpp
 		modes/wallet.cpp
 		modes/cli.cpp
 		modes/sendreceive.cpp
-		modes/history.cpp)
+		modes/history.cpp
+		wizards/welcome.cpp)
 
 find_package(wxWidgets COMPONENTS core base adv REQUIRED)
 include(${wxWidgets_USE_FILE})

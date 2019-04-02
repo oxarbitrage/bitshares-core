@@ -1,5 +1,5 @@
-#include "include/welcome.hpp"
-#include "include/bitshares.hpp"
+#include "../include/wizards/welcome.hpp"
+#include "../include/bitshares.hpp"
 
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
@@ -161,13 +161,13 @@ void Welcome3::OnTestServer(wxCommandEvent & WXUNUSED(event))
       {
          wallet.wallet_api_ptr->get_global_properties();
 
-         wxMessageDialog dialog(NULL, "Connected to server", wxT("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
+         wxMessageDialog dialog(NULL, _("Connected to server"), _("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
          if (dialog.ShowModal() == wxID_OK)
             return;
       }
       catch( const fc::exception& e )
       {
-         wxMessageDialog dialog( NULL, "Some problem connecting", wxT("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+         wxMessageDialog dialog( NULL, _("Some problem connecting"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
          if ( dialog.ShowModal() == wxID_OK )
             return;
       }
@@ -182,7 +182,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    auto repeatpassword = repeatpasswordCtrl->GetValue();
 
    if(password != repeatpassword) {
-      wxMessageDialog dialog( NULL, wxT("Password and confirmation are not the same"),
+      wxMessageDialog dialog( NULL, _("Password and confirmation are not the same"),
             _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
@@ -191,7 +191,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
       }
    }
    else if(password == "" && repeatpassword == "" ) {
-      wxMessageDialog dialog( NULL, wxT("Password or confirmation cant be empty"),
+      wxMessageDialog dialog( NULL, _("Password or confirmation cant be empty"),
             _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
@@ -269,7 +269,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    auto key = keyCtrl->GetValue();
 
    if(account == "") {
-      wxMessageDialog dialog( NULL, wxT("Account can't be empty"), wxT("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      wxMessageDialog dialog( NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
       {
@@ -277,7 +277,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
       }
    }
    else if(key == "") {
-      wxMessageDialog dialog( NULL, wxT("Private key can't be empty"), wxT("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      wxMessageDialog dialog( NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
       {
