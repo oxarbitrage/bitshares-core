@@ -160,7 +160,12 @@ void GWallet::DoState() {
       }
       else if (is_locked) {
          SetStatusText(_("Connected | Locked"));
+
+         wallet_m->Enable(ID_SETPASSWORD, false);
+         wallet_m->Enable(ID_LOCK, false);
          wallet_m->Enable(ID_UNLOCK, true);
+         wallet_m->Enable(ID_IMPORTKEY, true);
+
          itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
          itemToolBar->EnableTool(ID_ICON_COMMAND, true);
          itemToolBar->EnableTool(ID_ICON_HOME, true);
@@ -168,6 +173,11 @@ void GWallet::DoState() {
       }
       else if (is_unlocked) {
          SetStatusText(_("Connected | Unlocked"));
+
+         wallet_m->Enable(ID_SETPASSWORD, false);
+         wallet_m->Enable(ID_LOCK, true);
+         wallet_m->Enable(ID_UNLOCK, false);
+         wallet_m->Enable(ID_IMPORTKEY, true);
 
          itemToolBar->EnableTool(ID_ICON_LOCK, true);
          itemToolBar->EnableTool(ID_ICON_HOME, true);

@@ -4,7 +4,7 @@ G-Wallet is a Bitshares desktop(Linux, Windows, MAC) wallet program written in C
 
 This document is in constant change, it haves questions and annotations, it is just reference and not definitive.
 
-G-Wallet code is in EXPERIMENTAL.
+G-Wallet code is EXPERIMENTAL.
 
 ![G-Wallet](readme_images/gwallet.png)
 
