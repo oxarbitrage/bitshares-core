@@ -33,7 +33,7 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    directory = f.GetPath();
 
-   wxIcon application_icon(directory + wxT("/icons/btslogo.png"), wxBITMAP_TYPE_PNG);
+   const wxIcon application_icon(directory + wxT("/icons/btslogo.png"), wxBITMAP_TYPE_PNG);
    SetIcon(application_icon);
 
    CreateMenu();
@@ -95,15 +95,15 @@ void GWallet::OnOpen(wxCommandEvent & WXUNUSED(event))
 
 void GWallet::OnSave(wxCommandEvent & WXUNUSED(event))
 {
-   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
-   wxString defaultDir(f.GetPath());
+   const wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+   const wxString defaultDir(f.GetPath());
 
-   wxString wildcard = wxT("JSON files (*.json)|*.json");
+   const wxString wildcard = wxT("JSON files (*.json)|*.json");
 
    wxFileDialog dialog(this, _("Open a saved wallet"), defaultDir, wxT("wallet.json"), wildcard, wxFC_SAVE);
    if (dialog.ShowModal() == wxID_OK)
    {
-      wxString path = dialog.GetPath();
+      const wxString path = dialog.GetPath();
       bitshares.wallet_api_ptr->save_wallet_file(path.ToStdString());
       config->Write("WalletPath", path);
       config->Flush();
@@ -115,7 +115,7 @@ void GWallet::OnNetwork(wxCommandEvent & WXUNUSED(event))
    wxTextEntryDialog dialog(this, _("Enter server"), _("Websocket endpoint"));
    if ( dialog.ShowModal() == wxID_OK )
    {
-      wxString ws_server = dialog.GetValue();
+      const wxString ws_server = dialog.GetValue();
       config->Write("Server", ws_server);
       config->Flush();
 
@@ -206,9 +206,9 @@ void GWallet::OnSetPassword(wxCommandEvent& WXUNUSED(event))
    wxPasswordEntryDialog dialog(this, _("Enter password"));
    if (dialog.ShowModal() == wxID_OK)
    {
-      wxString value = dialog.GetValue();
+      const wxString password = dialog.GetValue();
 
-      bitshares.wallet_api_ptr->set_password(value.ToStdString());
+      bitshares.wallet_api_ptr->set_password(password.ToStdString());
       SetStatusText(_("Connected | Locked"));
 
       is_new = false;
@@ -250,10 +250,10 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
    wxPasswordEntryDialog dialog(this, _("Enter password"));
    if (dialog.ShowModal() == wxID_OK)
    {
-      wxString value = dialog.GetValue();
+      const wxString password = dialog.GetValue();
 
       try {
-         bitshares.wallet_api_ptr->unlock(value.ToStdString());
+         bitshares.wallet_api_ptr->unlock(password.ToStdString());
       }
       catch(const fc::exception& e)
       {
@@ -276,8 +276,8 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
    wxBusyInfo wait(_("Please wait, switching accounts ..."));
    wxTheApp->Yield();
 
-   auto selected = combo_accounts->GetCurrentSelection();
-   auto account_name = strings_accounts[selected];
+   const auto selected = combo_accounts->GetCurrentSelection();
+   const auto account_name = strings_accounts[selected];
 
    DoAssets(account_name.ToStdString());
    p_history->DoHistory(account_name.ToStdString());
@@ -288,13 +288,13 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
 
 void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
 {
-   auto selected = combo_assets->GetCurrentSelection();
+   const auto selected = combo_assets->GetCurrentSelection();
 
-   auto asset_name = strings_assets[selected];
-   auto balance = strings_balances[selected].ToStdString();
-   auto precision = strings_precisions[selected].ToStdString();
+   const auto asset_name = strings_assets[selected];
+   const auto balance = strings_balances[selected].ToStdString();
+   const auto precision = strings_precisions[selected].ToStdString();
 
-   auto dividend = pow(10, std::stoi(precision));
+   const auto dividend = pow(10, std::stoi(precision));
 
    stringstream pretty_balance;
    pretty_balance << fixed << std::setprecision(std::stoi(precision)) << std::stod(balance)/dividend;
@@ -317,14 +317,14 @@ void GWallet::DoAssets(std::string account)
    std::string first_balance;
    std::string first_precision;
 
-   auto my_balances = bitshares.wallet_api_ptr->list_account_balances(account);
+   const auto my_balances = bitshares.wallet_api_ptr->list_account_balances(account);
    for( auto& mb : my_balances ) {
 
       std::string asset_id = fc::to_string(mb.asset_id.space_id)
             + "." + fc::to_string(mb.asset_id.type_id)
             + "." + fc::to_string(mb.asset_id.instance.value);
 
-      auto asset = bitshares.wallet_api_ptr->get_asset(asset_id).symbol;
+      const auto asset = bitshares.wallet_api_ptr->get_asset(asset_id).symbol;
 
       if(n == 0) {
          first_asset = asset;
@@ -332,8 +332,8 @@ void GWallet::DoAssets(std::string account)
          first_precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
 
          // insert balance
-         auto dividend = pow(10, bitshares.wallet_api_ptr->get_asset(asset_id).precision);
-         auto precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
+         const auto dividend = pow(10, bitshares.wallet_api_ptr->get_asset(asset_id).precision);
+         const auto precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
          stringstream pretty_balance;
 
          pretty_balance << fixed << std::setprecision(precision)  << mb.amount.value/dividend;
@@ -352,7 +352,7 @@ void GWallet::DoAssets(std::string account)
 
 void GWallet::DoAccounts()
 {
-   auto my_accounts = bitshares.wallet_api_ptr->list_my_accounts();
+   const auto my_accounts = bitshares.wallet_api_ptr->list_my_accounts();
    int n = 0;
 
    for( auto& ma : my_accounts ) {
@@ -390,7 +390,6 @@ void GWallet::DoModes()
    wallet->CreateControls();
    wallet->CreateEvents();
    p_wallet = wallet;
-
 }
 
 void GWallet::LoadWelcomeWidget()
@@ -398,7 +397,7 @@ void GWallet::LoadWelcomeWidget()
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    wxString directory(f.GetPath());
 
-   wxBitmap wizard_icon(directory + wxT("/icons/wizard.png"), wxBITMAP_TYPE_PNG);
+   const wxBitmap wizard_icon(directory + wxT("/icons/wizard.png"), wxBITMAP_TYPE_PNG);
 
    wizard = new wxWizard(panel, ID_WIZARD, _("Welcome to Bitshares G-Wallet"),
          wizard_icon, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
@@ -509,7 +508,7 @@ void GWallet::CreateEvents()
 
 void GWallet::OnError(wxString msg)
 {
-   wxMessageDialog dialog( NULL, msg, _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+   wxMessageDialog dialog(NULL, msg, _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
    if (dialog.ShowModal() == wxID_OK)
       return;
 }
