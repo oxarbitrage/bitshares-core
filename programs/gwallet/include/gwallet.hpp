@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bitshares.hpp"
-#include "wizards/welcome.hpp"
+//#include "wizards/welcome.hpp"
 
 #include <wx/wx.h>
 #include <wx/notebook.h>
@@ -14,15 +14,37 @@ class Wallet;
 class History;
 class SendReceive;
 
+class Welcome2;
+class Welcome3;
+class Welcome4;
+
 class GWallet : public wxFrame
 {
 public:
    GWallet(const wxString& title);
 
+   void DoState();
+
    void OnError(wxString msg);
+
+   void DoAssets(std::string account);
+   void DoAccounts();
+   void DoModes();
 
    wxConfig* config;
    wxString directory;
+
+   bool is_noconfig = false;
+   bool is_connected = false;
+   bool is_new = false;
+   bool is_locked = false;
+   bool is_unlocked = false;
+   bool is_account_linked = false;
+
+   bool modes_created = false;
+
+   wxToolBar* itemToolBar;
+   wxMenu* wallet_m;
 
    wxPanel* panel;
    wxBoxSizer* mainSizer;
@@ -47,6 +69,10 @@ public:
    std::string first_account_name;
    wxString selected_account;
    wxString selected_asset;
+
+   Wallet* p_wallet;
+   History* p_history;
+   SendReceive* p_sendreceive;
 
    wxWizard* wizard;
    wxWizardPageSimple* page1;
@@ -82,23 +108,14 @@ private:
    void CreateMenu();
    void CreateTool();
    void CreateEvents();
-
-   void DoAssets(std::string account);
-   void DoAccounts();
+   void CreateInfo();
+   void CreateMain();
 
    void LoadWelcomeWidget();
 
    wxMenuBar* menubar;
    wxMenu* file;
-   wxMenu* wallet_m;
    wxMenu* help;
-   wxToolBar* itemToolBar;
-
-   bool is_connected = false;
-
-   Wallet* p_wallet;
-   History* p_history;
-   SendReceive* p_sendreceive;
 };
 
 const int ID_CONNECT = 105;

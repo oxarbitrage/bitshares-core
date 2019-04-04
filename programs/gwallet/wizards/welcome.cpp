@@ -1,16 +1,19 @@
 #include "../include/wizards/welcome.hpp"
-#include "../include/bitshares.hpp"
 
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
 
-Welcome1::Welcome1(wxWizard *parent) : wxWizardPageSimple(parent)
+#include <wx/busyinfo.h>
+
+Welcome1::Welcome1(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(parent)
 {
+   p_GWallet = gwallet;
+
    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
    mainSizer->Add(
    new wxStaticText(this, wxID_ANY,
-         _("This wizard will help you setup a new wallet.\n You can skip this and do everything manually.\n"),
+         _("This wizard will help you setup a new wallet.\n"),
          wxDefaultPosition, wxDefaultSize, 0 )
    );
 
@@ -25,8 +28,10 @@ Welcome1::Welcome1(wxWizard *parent) : wxWizardPageSimple(parent)
    mainSizer->Fit(this);
 }
 
-Welcome2::Welcome2(wxWizard *parent) : wxWizardPageSimple(parent)
+Welcome2::Welcome2(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(parent)
 {
+   p_GWallet = gwallet;
+
    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
    this->SetSizer(mainSizer);
 
@@ -79,7 +84,7 @@ Welcome2::Welcome2(wxWizard *parent) : wxWizardPageSimple(parent)
    mainSizer->Fit(this);
 }
 
-void Welcome2::OnPath(wxCommandEvent & WXUNUSED(event))
+void Welcome2::OnPath(wxCommandEvent& WXUNUSED(event))
 {
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    wxString directory(f.GetPath());
@@ -93,18 +98,32 @@ void Welcome2::OnPath(wxCommandEvent & WXUNUSED(event))
    }
 }
 
-void Welcome2::OnWizardPageChanging(wxWizardEvent & WXUNUSED(event))
+void Welcome2::OnWizardPageChanging(wxWizardEvent& event)
 {
    auto path = pathCtrl->GetValue();
+   if(wxFileExists(path))
+   {
+      wxMessageDialog dialog( NULL, _("Wallet file exists, please close the welcome wizard and use File->Open "
+                                      "from menu to use it."),
+                              _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
-   wxConfig* config = new wxConfig(wxT("GWallet"));
-   config->Write("WalletPath", path);
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         event.Veto();
+         return;
+      }
+   }
 
-   delete config;
+   wdump((path.ToStdString()));
+
+   p_GWallet->config->Write("WalletPath", path);
+   p_GWallet->config->Flush();
 }
 
-Welcome3::Welcome3(wxWizard *parent) : wxWizardPageSimple(parent)
+Welcome3::Welcome3(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(parent)
 {
+   p_GWallet = gwallet;
+
    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
    wxStaticText* itemStaticText4 = new wxStaticText( this, wxID_STATIC,
@@ -147,19 +166,20 @@ Welcome3::Welcome3(wxWizard *parent) : wxWizardPageSimple(parent)
    mainSizer->Fit(this);
 }
 
-void Welcome3::OnTestServer(wxCommandEvent & WXUNUSED(event))
+void Welcome3::OnTestServer(wxCommandEvent& WXUNUSED(event))
 {
    auto server = serverCtrl->GetValue();
-   wxConfig* config = new wxConfig(wxT("GWallet"));
-   config->Write("Server", server);
-   wxString path;
-   if ( config->Read("WalletPath", &path) ) {
-      Bitshares wallet;
-      wallet.Connect(server.ToStdString(), path.ToStdString());
+   p_GWallet->config->Write("Server", server);
+   p_GWallet->config->Flush();
 
+   wxString path;
+
+   if ( p_GWallet->config->Read("WalletPath", &path) ) {
+      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
+      p_GWallet->ProcessWindowEvent(event_connect);
       try
       {
-         wallet.wallet_api_ptr->get_global_properties();
+         p_GWallet->bitshares.wallet_api_ptr->get_global_properties();
 
          wxMessageDialog dialog(NULL, _("Connected to server"), _("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
          if (dialog.ShowModal() == wxID_OK)
@@ -172,7 +192,6 @@ void Welcome3::OnTestServer(wxCommandEvent & WXUNUSED(event))
             return;
       }
    }
-   delete config;
 }
 
 void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
@@ -188,6 +207,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
       if ( dialog.ShowModal() == wxID_OK )
       {
          event.Veto();
+         return;
       }
    }
    else if(password == "" && repeatpassword == "" ) {
@@ -197,16 +217,44 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
       if ( dialog.ShowModal() == wxID_OK )
       {
          event.Veto();
+         return;
       }
    }
-   wxConfig* config = new wxConfig(wxT("GWallet"));
-   config->Write("Server", server);
+   p_GWallet->config->Write("Server", server);
+   p_GWallet->config->Flush();
 
-   delete config;
+   //wdump((p_GWallet->is_connected));
+   if(!p_GWallet->is_connected) {
+      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
+      p_GWallet->ProcessWindowEvent(event_connect);
+   }
+
+   try {
+      p_GWallet->bitshares.wallet_api_ptr->set_password(password.ToStdString());
+   }
+   catch(const fc::exception& e)
+   {
+      p_GWallet->OnError(e.to_detail_string());
+      //event.Veto();
+   }
+   try {
+      p_GWallet->bitshares.wallet_api_ptr->unlock(password.ToStdString());
+   }
+   catch(const fc::exception& e)
+   {
+      p_GWallet->OnError(e.to_detail_string());
+      //event.Veto();
+   }
+   p_GWallet->is_locked = false;
+   p_GWallet->is_new = false;
+   p_GWallet->is_unlocked = true;
+   p_GWallet->DoState();
 }
 
-Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
+Welcome4::Welcome4(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(parent)
 {
+   p_GWallet = gwallet;
+
    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
    wxStaticText* itemStaticText4 = new wxStaticText( this, wxID_STATIC,
@@ -223,7 +271,7 @@ Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
    wxBitmapButton* accountButton = new wxBitmapButton(this, ID_ACCOUNT, identity,
          wxDefaultPosition, wxSize(32, 32), wxBU_AUTODRAW);
 
-   accountCtrl = new wxTextCtrl(this, -1, wxT("oxarbitrage"), wxDefaultPosition, wxDefaultSize, 0);
+   accountCtrl = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, 0);
    accountSizer->Add(accountCtrl, 11, wxGROW|wxALL, 5);
 
    accountSizer->Add(accountButton, 1, wxGROW|wxALL, 5);
@@ -253,14 +301,45 @@ Welcome4::Welcome4(wxWizard *parent) : wxWizardPageSimple(parent)
    mainSizer->Fit(this);
 }
 
-void Welcome4::OnAccount(wxCommandEvent & WXUNUSED(event))
+void Welcome4::OnAccount(wxCommandEvent& WXUNUSED(event))
 {
-
+   auto account = accountCtrl->GetValue();
+   if(account == "") {
+      wxMessageDialog dialog( NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      if (dialog.ShowModal() == wxID_OK) {
+         return;
+      }
+   }
+   else
+   {
+      try
+      {
+         p_GWallet->bitshares.wallet_api_ptr->get_account(account.ToStdString());
+      }
+      catch(const fc::exception& e)
+      {
+         p_GWallet->OnError(_("Account is invalid"));
+         accountCtrl->SetFocus();
+         return;
+      }
+      wxMessageBox(_("Account looks good"));
+   }
 }
 
-void Welcome4::OnKey(wxCommandEvent & WXUNUSED(event))
+void Welcome4::OnKey(wxCommandEvent& WXUNUSED(event))
 {
+   auto key = keyCtrl->GetValue();
+   if(key == "") {
+      wxMessageDialog dialog( NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
+      if ( dialog.ShowModal() == wxID_OK )
+      {
+         return;
+      }
+   }
+   else {
+      // Todo: do some validation on private key length and prefix?
+   }
 }
 
 void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
@@ -276,7 +355,21 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
          event.Veto();
       }
    }
-   else if(key == "") {
+   else
+   {
+      try
+      {
+         p_GWallet->bitshares.wallet_api_ptr->get_account(account.ToStdString());
+      }
+      catch( const fc::exception& e )
+      {
+         p_GWallet->OnError("Account is invalid");
+         accountCtrl->SetFocus();
+         return;
+      }
+   }
+
+   if(key == "") {
       wxMessageDialog dialog( NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
       if ( dialog.ShowModal() == wxID_OK )
@@ -284,11 +377,31 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
          event.Veto();
       }
    }
-   /*
-   wxConfig* config = new wxConfig(wxT("GWallet"));
-   config->Write("Server", server);
+   else {
+      // todo: do some validation on private key length and prefix?
+   }
 
-   delete config;
-   */
+   try
+   {
+      p_GWallet->bitshares.wallet_api_ptr->import_key(account.ToStdString(), key.ToStdString());
+   }
+   catch(const fc::exception& e)
+   {
+      //p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
+      p_GWallet->OnError(e.to_detail_string());
+      event.Veto();
+   }
+
+   p_GWallet->DoAccounts();
+   p_GWallet->DoAssets(account.ToStdString());
+
+   p_GWallet->config->Write("AllSet", true);
+   p_GWallet->config->Flush();
+
+   p_GWallet->is_account_linked = true;
+
+   p_GWallet->DoState();
+
+   //p_GWallet->p_history->DoHistory(account.ToStdString());
 }
 

@@ -342,12 +342,19 @@ void Home::DoInitialData()
    auto build_string = fc::json::to_string(about["graphene_revision"]);
    build_value = build_string.substr(1, build_string.length()-2);
 
-   auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->first_account_name);
+   if(!p_GWallet->is_new) {
 
-   account_name_value = account.name;
+      auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->first_account_name);
 
-   auto account_id_string = fc::json::to_string(account.id);
-   account_id_value = account_id_string.substr(1, account_id_string.length()-2);
+      account_name_value = account.name;
+
+      auto account_id_string = fc::json::to_string(account.id);
+      account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
+   }
+   else {
+      account_name_value = "MY ACCOUNT";
+      account_id_value = "MY ID";
+   }
 
    usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS").latest;
    cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS").latest;

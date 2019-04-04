@@ -123,10 +123,14 @@ void ImportKeyDialog::OnOk(wxCommandEvent & WXUNUSED(event))
    {
       p_GWallet->bitshares.wallet_api_ptr->import_key(acct.ToStdString(), pkey.ToStdString());
    }
-   catch( const fc::exception& e )
+   catch(const fc::exception& e)
    {
-      p_GWallet->OnError(wxT("Account/Key pair is invalid, please try again."));
+      p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
    }
+
+   p_GWallet->config->Write("AllSet", true);
+   p_GWallet->is_account_linked = true;
+   p_GWallet->config->Flush();
 }
 
 void ImportKeyDialog::OnCancel(wxCommandEvent & WXUNUSED(event))
