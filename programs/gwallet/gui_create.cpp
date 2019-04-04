@@ -89,12 +89,14 @@ void GWallet::CreateTool()
 
 void GWallet::DoState() {
 
+   /*
    wdump((is_noconfig));
    wdump((is_connected));
    wdump((is_locked));
    wdump((is_unlocked));
    wdump((is_new));
    wdump((is_account_linked));
+   */
 
    if (is_noconfig) {
       file->Enable(wxID_NEW, true);
@@ -166,6 +168,7 @@ void GWallet::DoState() {
       }
       else if (is_unlocked) {
          SetStatusText(_("Connected | Unlocked"));
+
          itemToolBar->EnableTool(ID_ICON_LOCK, true);
          itemToolBar->EnableTool(ID_ICON_HOME, true);
          itemToolBar->EnableTool(ID_ICON_COMMAND, true);
@@ -173,6 +176,13 @@ void GWallet::DoState() {
          itemToolBar->EnableTool(ID_ICON_SENDRECEIVE, true);
          itemToolBar->EnableTool(ID_ICON_WALLET, true);
          mainMsg->SetLabel(_("G-Wallet Ready"));
+      }
+
+      wxString server;
+      if(config->Read("Server", &server)) {
+         int widths[] = {GetClientSize().x - 25 - GetTextExtent(server).x, -1};
+         SetStatusWidths(2, widths);
+         SetStatusText(server, 1);
       }
    }
    else if (!is_connected) {

@@ -104,18 +104,13 @@ void Welcome2::OnWizardPageChanging(wxWizardEvent& event)
    if(wxFileExists(path))
    {
       wxMessageDialog dialog( NULL, _("Wallet file exists, please close the welcome wizard and use File->Open "
-                                      "from menu to use it."),
-                              _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
-
-      if ( dialog.ShowModal() == wxID_OK )
+                                      "from menu to use it."), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      if (dialog.ShowModal() == wxID_OK)
       {
          event.Veto();
          return;
       }
    }
-
-   wdump((path.ToStdString()));
-
    p_GWallet->config->Write("WalletPath", path);
    p_GWallet->config->Flush();
 }
@@ -185,9 +180,9 @@ void Welcome3::OnTestServer(wxCommandEvent& WXUNUSED(event))
          if (dialog.ShowModal() == wxID_OK)
             return;
       }
-      catch( const fc::exception& e )
+      catch(const fc::exception& e)
       {
-         wxMessageDialog dialog( NULL, _("Some problem connecting"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+         wxMessageDialog dialog(NULL, _("Some problem connecting"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
          if ( dialog.ShowModal() == wxID_OK )
             return;
       }
@@ -201,10 +196,10 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    auto repeatpassword = repeatpasswordCtrl->GetValue();
 
    if(password != repeatpassword) {
-      wxMessageDialog dialog( NULL, _("Password and confirmation are not the same"),
+      wxMessageDialog dialog(NULL, _("Password and confirmation are not the same"),
             _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
-      if ( dialog.ShowModal() == wxID_OK )
+      if(dialog.ShowModal() == wxID_OK)
       {
          event.Veto();
          return;
@@ -214,7 +209,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
       wxMessageDialog dialog( NULL, _("Password or confirmation cant be empty"),
             _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
-      if ( dialog.ShowModal() == wxID_OK )
+      if(dialog.ShowModal() == wxID_OK)
       {
          event.Veto();
          return;
@@ -223,7 +218,6 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    p_GWallet->config->Write("Server", server);
    p_GWallet->config->Flush();
 
-   //wdump((p_GWallet->is_connected));
    if(!p_GWallet->is_connected) {
       wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
       p_GWallet->ProcessWindowEvent(event_connect);
@@ -235,7 +229,6 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    catch(const fc::exception& e)
    {
       p_GWallet->OnError(e.to_detail_string());
-      //event.Veto();
    }
    try {
       p_GWallet->bitshares.wallet_api_ptr->unlock(password.ToStdString());
@@ -243,7 +236,6 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    catch(const fc::exception& e)
    {
       p_GWallet->OnError(e.to_detail_string());
-      //event.Veto();
    }
    p_GWallet->is_locked = false;
    p_GWallet->is_new = false;
@@ -305,8 +297,8 @@ void Welcome4::OnAccount(wxCommandEvent& WXUNUSED(event))
 {
    auto account = accountCtrl->GetValue();
    if(account == "") {
-      wxMessageDialog dialog( NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
-      if (dialog.ShowModal() == wxID_OK) {
+      wxMessageDialog dialog(NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      if(dialog.ShowModal() == wxID_OK) {
          return;
       }
    }
@@ -332,7 +324,7 @@ void Welcome4::OnKey(wxCommandEvent& WXUNUSED(event))
    if(key == "") {
       wxMessageDialog dialog( NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
-      if ( dialog.ShowModal() == wxID_OK )
+      if(dialog.ShowModal() == wxID_OK)
       {
          return;
       }
@@ -350,7 +342,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    if(account == "") {
       wxMessageDialog dialog( NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
-      if ( dialog.ShowModal() == wxID_OK )
+      if(dialog.ShowModal() == wxID_OK)
       {
          event.Veto();
       }
@@ -361,7 +353,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
       {
          p_GWallet->bitshares.wallet_api_ptr->get_account(account.ToStdString());
       }
-      catch( const fc::exception& e )
+      catch(const fc::exception& e)
       {
          p_GWallet->OnError("Account is invalid");
          accountCtrl->SetFocus();
@@ -372,7 +364,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    if(key == "") {
       wxMessageDialog dialog( NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
 
-      if ( dialog.ShowModal() == wxID_OK )
+      if(dialog.ShowModal() == wxID_OK)
       {
          event.Veto();
       }
@@ -401,7 +393,5 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    p_GWallet->is_account_linked = true;
 
    p_GWallet->DoState();
-
-   //p_GWallet->p_history->DoHistory(account.ToStdString());
 }
 

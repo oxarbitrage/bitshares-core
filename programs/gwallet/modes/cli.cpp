@@ -28,7 +28,7 @@ void Cli::CreateControls()
    sizerCommandCtrls->Add(clearCliButton, 1, wxGROW|wxALL, 5);
 
    itemTextCLI = new wxTextCtrl( p_GWallet->panel, ID_CLI, wxEmptyString,
-         wxDefaultPosition, wxSize(-1, 300), wxTE_MULTILINE );
+         wxDefaultPosition, wxSize(-1, 500), wxTE_MULTILINE );
    p_GWallet->sizerCommandMode->Add(itemTextCLI, 0, wxGROW|wxALL, 5);
 
    p_GWallet->mainSizer->Hide(p_GWallet->sizerCommandMode, true);

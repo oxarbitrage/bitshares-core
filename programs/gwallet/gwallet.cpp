@@ -41,7 +41,6 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
    CreateTool();
    CreateMain();
    CreateInfo();
-
    CreateStatusBar(2);
 
    config = new wxConfig(wxT("GWallet"));
@@ -152,11 +151,6 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
          OnError(_("Problem at connecting, please try again ..."));
       }
 
-      int widths[] = {GetClientSize().x - 25 - GetTextExtent(server).x, -1};
-      SetStatusWidths(2, widths);
-      SetStatusText(_("Connected"), 0);
-      SetStatusText(server, 1);
-
       if (bitshares.wallet_api_ptr->is_new()) {
          is_new = true;
          is_locked = false;
@@ -185,7 +179,6 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
             DoModes();
             modes_created = true;
          }
-
       }
 
       is_connected = true;
@@ -205,7 +198,6 @@ void GWallet::OnDisconnect(wxCommandEvent& WXUNUSED(event))
    SetStatusText(_("Disconnected"));
 
    is_connected = false;
-
    DoState();
 }
 
@@ -246,11 +238,9 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    {
       OnError(_("Some problem when locking, try again ..."));
    }
-   SetStatusText(wxT("Connected | Locked"));
-   wallet_m->Enable(ID_UNLOCK, true);
-   wallet_m->Enable(ID_LOCK, false);
-   itemToolBar->EnableTool(ID_ICON_LOCK, false);
-   itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
+   is_locked = true;
+   is_unlocked = false;
+   DoState();
 
    p_wallet->DisableOperations();
 }
