@@ -86,13 +86,13 @@ Welcome2::Welcome2(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(pare
 
 void Welcome2::OnPath(wxCommandEvent& WXUNUSED(event))
 {
-   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
-   wxString directory(f.GetPath());
+   const wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+   const wxString directory(f.GetPath());
 
    wxDirDialog dialog(this, _("Select your wallet directory"), directory, wxDD_NEW_DIR_BUTTON);
    if (dialog.ShowModal() == wxID_OK)
    {
-      wxString path = dialog.GetPath();
+      const wxString path = dialog.GetPath();
       wxMessageBox(path);
       pathCtrl->SetValue(path + "/wallet.json");
    }
@@ -100,7 +100,7 @@ void Welcome2::OnPath(wxCommandEvent& WXUNUSED(event))
 
 void Welcome2::OnWizardPageChanging(wxWizardEvent& event)
 {
-   auto path = pathCtrl->GetValue();
+   const auto path = pathCtrl->GetValue();
    if(wxFileExists(path))
    {
       wxMessageDialog dialog( NULL, _("Wallet file exists, please close the welcome wizard and use File->Open "
@@ -163,12 +163,11 @@ Welcome3::Welcome3(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(pare
 
 void Welcome3::OnTestServer(wxCommandEvent& WXUNUSED(event))
 {
-   auto server = serverCtrl->GetValue();
+   const auto server = serverCtrl->GetValue();
    p_GWallet->config->Write("Server", server);
    p_GWallet->config->Flush();
 
    wxString path;
-
    if ( p_GWallet->config->Read("WalletPath", &path) ) {
       wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
       p_GWallet->ProcessWindowEvent(event_connect);
@@ -191,9 +190,9 @@ void Welcome3::OnTestServer(wxCommandEvent& WXUNUSED(event))
 
 void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
 {
-   auto server = serverCtrl->GetValue();
-   auto password = passwordCtrl->GetValue();
-   auto repeatpassword = repeatpasswordCtrl->GetValue();
+   const auto server = serverCtrl->GetValue();
+   const auto password = passwordCtrl->GetValue();
+   const auto repeatpassword = repeatpasswordCtrl->GetValue();
 
    if(password != repeatpassword) {
       wxMessageDialog dialog(NULL, _("Password and confirmation are not the same"),
@@ -393,5 +392,11 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    p_GWallet->is_account_linked = true;
 
    p_GWallet->DoState();
+
+   if(!p_GWallet->modes_created) {
+      p_GWallet->DoModes();
+      p_GWallet->modes_created = true;
+   }
+
 }
 
