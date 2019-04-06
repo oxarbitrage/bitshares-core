@@ -155,7 +155,9 @@ void GWallet::DoState() {
       }
       else if (!is_account_linked) {
          SetStatusText(_("Connected | New"));
-         wallet_m->Enable(ID_IMPORTKEY, true);
+         wallet_m->Enable(ID_IMPORTKEY, false);
+         //wallet_m->Enable(ID_LOCK, false);
+         wallet_m->Enable(ID_UNLOCK, true);
          mainMsg->SetLabel(_("G-Wallet New"));
       }
       else if (is_locked) {
@@ -164,7 +166,7 @@ void GWallet::DoState() {
          wallet_m->Enable(ID_SETPASSWORD, false);
          wallet_m->Enable(ID_LOCK, false);
          wallet_m->Enable(ID_UNLOCK, true);
-         wallet_m->Enable(ID_IMPORTKEY, true);
+         wallet_m->Enable(ID_IMPORTKEY, false);
 
          itemToolBar->EnableTool(ID_ICON_UNLOCK, true);
          itemToolBar->EnableTool(ID_ICON_COMMAND, true);

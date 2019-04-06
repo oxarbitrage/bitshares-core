@@ -157,7 +157,7 @@ Display the last 25 operations made by the selected account.
 
 ### Home mode
 
-Show some stats, suggestions for better stats is welcome.
+Show some stats, suggestions for better stuff is welcome.
 
 ![Home mode](readme_images/home_mode.png)
 
@@ -227,7 +227,7 @@ There are currently a bunch of errors and desired features, following are just s
 
 ### Translations
 
-i18n is easy with wxWidgets and poEdit. A new menu option will be available to change language of application. All strings to be translated are wrappered in the code with `_("string to be translated")` while strings that will not be translated are wrappered with `wxt("to not be translated")` in the code.
+i18n is easy with wxWidgets and poEdit. A new menu option will be available to change language of application. All strings to be translated are wrappered in the code with `_("string to be translated")` while strings that will not be translated are wrappered with `wxt("to not be translated")`.
 
 ### Test cases
 

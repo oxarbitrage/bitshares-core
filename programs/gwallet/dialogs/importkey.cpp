@@ -114,8 +114,8 @@ ImportKeyDialog::ImportKeyDialog(wxWindow* parent, wxWindowID id, const wxString
 
 void ImportKeyDialog::OnOk(wxCommandEvent & WXUNUSED(event))
 {
-   auto acct = account->GetValue();
-   auto pkey = key->GetValue();
+   const auto acct = account->GetValue();
+   const auto pkey = key->GetValue();
 
    GWallet* p_GWallet = dynamic_cast<GWallet*>(GetParent());
 
@@ -125,12 +125,23 @@ void ImportKeyDialog::OnOk(wxCommandEvent & WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
+      //p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
+      p_GWallet->OnError(e.to_detail_string());
    }
 
    p_GWallet->config->Write("AllSet", true);
    p_GWallet->is_account_linked = true;
    p_GWallet->config->Flush();
+
+   p_GWallet->DoAccounts();
+
+   Close(true);
+
+   wxMessageDialog dialog(NULL, _("Account imported"), _("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
+   if (dialog.ShowModal() == wxID_OK)
+      return;
+
+   Close(true);
 }
 
 void ImportKeyDialog::OnCancel(wxCommandEvent & WXUNUSED(event))

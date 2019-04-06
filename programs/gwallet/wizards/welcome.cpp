@@ -335,6 +335,10 @@ void Welcome4::OnKey(wxCommandEvent& WXUNUSED(event))
 
 void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
 {
+   wxWindowDisabler disableAll;
+   wxBusyInfo wait(_("Please wait, setting up everything ..."));
+   wxTheApp->Yield();
+
    auto account = accountCtrl->GetValue();
    auto key = keyCtrl->GetValue();
 
