@@ -13,6 +13,7 @@
 class Wallet;
 class History;
 class SendReceive;
+class Home;
 
 class Welcome2;
 class Welcome3;
@@ -73,6 +74,7 @@ public:
    Wallet* p_wallet;
    History* p_history;
    SendReceive* p_sendreceive;
+   Home* p_home;
 
    wxWizard* wizard;
    wxWizardPageSimple* page1;

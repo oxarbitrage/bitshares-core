@@ -284,6 +284,8 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
 
    selected_account = strings_accounts[selected];
    selected_asset = strings_assets[0];
+
+   p_home->DoAccount();
 }
 
 void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
@@ -371,6 +373,7 @@ void GWallet::DoModes()
    Home *home = new Home(this);
    home->CreateControls();
    home->CreateEvents();
+   p_home = home;
 
    Cli *cli = new Cli(this);
    cli->CreateControls();
@@ -416,6 +419,8 @@ void GWallet::OnHomeMode(wxCommandEvent& WXUNUSED(event))
 {
    //Home::StartTimer();
    //m_timer.Start(30000);
+   //p_home->DoInitialData();
+
    mainSizer->Show(sizerHomeMode, true, true);
    mainSizer->Hide(sizerCommandMode, true);
    mainSizer->Hide(sizerTransferMode, true);

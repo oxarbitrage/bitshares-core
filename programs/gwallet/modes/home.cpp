@@ -87,6 +87,17 @@ void Home::CreateControls()
          _("View"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_ALIGN_LEFT );
    itemBoxSizer14->Add(itemHyperlinkCtrl16, 6, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
+   wxBoxSizer* itemBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
+   itemStaticBoxSizer3->Add(itemBoxSizer9, 0, wxGROW|wxALL, 5);
+
+   wxStaticText* itemStaticText26 = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
+         _("Chain ID:"), wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer9->Add(itemStaticText26, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   wxStaticText* itemStaticText29 = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
+         chain_id_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer9->Add(itemStaticText29, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
    wxStaticBox* itemStaticBoxSizer1Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Account Information"));
    wxStaticBoxSizer* itemStaticBoxSizer1 = new wxStaticBoxSizer(itemStaticBoxSizer1Static, wxVERTICAL);
    itemGridSizer2->Add(itemStaticBoxSizer1, 6, wxGROW|wxALIGN_TOP|wxALL, 5);
@@ -112,6 +123,50 @@ void Home::CreateControls()
    account_id = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
          account_id_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer12->Add(account_id, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+   itemStaticBoxSizer1->Add(itemBoxSizer8, 0, wxGROW|wxALL, 5);
+
+   wxStaticText* itemStaticText20 = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         _("Referrer"), wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer8->Add(itemStaticText20, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   referrer = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         referrer_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer8->Add(referrer, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   wxBoxSizer* itemBoxSizer30 = new wxBoxSizer(wxHORIZONTAL);
+   itemStaticBoxSizer1->Add(itemBoxSizer30, 0, wxGROW|wxALL, 5);
+
+   wxStaticText* itemStaticText32 = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         _("Registrar"), wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer30->Add(itemStaticText32, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   registrar = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         registrar_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer30->Add(registrar, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   wxBoxSizer* itemBoxSizer36 = new wxBoxSizer(wxHORIZONTAL);
+   itemStaticBoxSizer1->Add(itemBoxSizer36, 0, wxGROW|wxALL, 5);
+
+   wxStaticText* itemStaticText38 = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         _("Voting as"), wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer36->Add(itemStaticText38, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   voting_as = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         voting_as_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer36->Add(voting_as, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   wxBoxSizer* itemBoxSizer43 = new wxBoxSizer(wxHORIZONTAL);
+   itemStaticBoxSizer1->Add(itemBoxSizer43, 0, wxGROW|wxALL, 5);
+
+   wxStaticText* itemStaticText45 = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         _("Total ops"), wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer43->Add(itemStaticText45, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+   total_ops = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         total_ops_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer43->Add(total_ops, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticBox* itemStaticBoxSizer2Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Software Information"));
    wxStaticBoxSizer* itemStaticBoxSizer2 = new wxStaticBoxSizer(itemStaticBoxSizer2Static, wxVERTICAL);
@@ -300,56 +355,70 @@ void Home::CreateEvents()
 
 void Home::DoInitialData()
 {
-   auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+   const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
    head_block_number_value = fc::json::to_string(info["head_block_num"]);
 
-   auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
+   const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
    head_block_age_value = head_block_age_string.substr(1, head_block_age_string.length()-2);
 
    auto next_maintenance_time_string = fc::json::to_string(info["next_maintenance_time"]);
    next_maintenance_time_value = next_maintenance_time_string.substr(1, next_maintenance_time_string.length()-2);
 
-   auto participation_string = fc::json::to_string(info["participation"]);
+   const auto participation_string = fc::json::to_string(info["participation"]);
    participation_value = participation_string.substr(1, participation_string.length()-2);
 
-   auto about = p_GWallet->bitshares.wallet_api_ptr->about();
+   const auto chain_id_string = fc::json::to_string(info["chain_id"]);
+   chain_id_value = chain_id_string.substr(chain_id_string.length()-11, 10);
 
-   auto client_version_string = fc::json::to_string(about["client_version"]);
+   const auto about = p_GWallet->bitshares.wallet_api_ptr->about();
+
+   const auto client_version_string = fc::json::to_string(about["client_version"]);
    client_version_value = client_version_string.substr(1, client_version_string.length()-2);
 
-   auto graphene_revision_string = fc::json::to_string(about["graphene_revision"]);
+   const auto graphene_revision_string = fc::json::to_string(about["graphene_revision"]);
    graphene_revision_value = graphene_revision_string.substr(1, graphene_revision_string.length()-2);
 
-   auto graphene_revision_age_string = fc::json::to_string(about["graphene_revision_age"]);
+   const auto graphene_revision_age_string = fc::json::to_string(about["graphene_revision_age"]);
    graphene_revision_age_value = graphene_revision_age_string.substr(1, graphene_revision_age_string.length()-2);
 
-   auto fc_revision_string = fc::json::to_string(about["fc_revision"]);
+   const auto fc_revision_string = fc::json::to_string(about["fc_revision"]);
    fc_revision_value = fc_revision_string.substr(1, fc_revision_string.length()-2);
 
-   auto fc_revision_age_string = fc::json::to_string(about["fc_revision_age"]);
+   const auto fc_revision_age_string = fc::json::to_string(about["fc_revision_age"]);
    fc_revision_age_value = fc_revision_age_string.substr(1, fc_revision_age_string.length()-2);
 
-   auto compile_date_string = fc::json::to_string(about["compile_date"]);
+   const auto compile_date_string = fc::json::to_string(about["compile_date"]);
    compile_date_value = compile_date_string.substr(1, compile_date_string.length()-2);
 
-   auto boost_version_string = fc::json::to_string(about["boost_version"]);
+   const auto boost_version_string = fc::json::to_string(about["boost_version"]);
    boost_version_value = boost_version_string.substr(1, boost_version_string.length()-2);
 
-   auto openssl_version_string = fc::json::to_string(about["openssl_version"]);
+   const auto openssl_version_string = fc::json::to_string(about["openssl_version"]);
    openssl_version_value = openssl_version_string.substr(1, openssl_version_string.length()-2);
 
-   auto build_string = fc::json::to_string(about["graphene_revision"]);
+   const auto build_string = fc::json::to_string(about["graphene_revision"]);
    build_value = build_string.substr(1, build_string.length()-2);
 
    if(!p_GWallet->is_new) {
-
-      auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->first_account_name);
-
+      const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->selected_account.ToStdString());
       account_name_value = account.name;
 
-      auto account_id_string = fc::json::to_string(account.id);
+      const auto account_id_string = fc::json::to_string(account.id);
       account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
+
+      const auto referrer_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer)["name"]);
+      referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
+
+      const auto registrar_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar)["name"]);
+      registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
+
+      const auto voting_as_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account)["name"]);
+      voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
+
+      const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics);
+
+      total_ops_value = fc::json::to_string(stats["total_ops"]);
    }
    else {
       account_name_value = "MY ACCOUNT";
@@ -376,23 +445,23 @@ void Home::DoTimers()
    */
 }
 
-void Home::OnTimerSlow(wxTimerEvent & event)
+void Home::OnTimerSlow(wxTimerEvent& event)
 {
    wdump(("timer slow!"));
-   auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+   const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
-   auto next_maintenance_time_string = fc::json::to_string(info["next_maintenance_time"]);
-   auto participation_string = fc::json::to_string(info["participation"]);
+   const auto next_maintenance_time_string = fc::json::to_string(info["next_maintenance_time"]);
+   const auto participation_string = fc::json::to_string(info["participation"]);
 
    next_maintenance_time->SetLabel(next_maintenance_time_string.substr(1,next_maintenance_time_string.length()-2));
    participation->SetLabel(participation_string.substr(1,participation_string.length()-2));
 
-   auto usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS");
-   auto cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS");
-   auto eur_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("EUR", "BTS");
-   auto gold_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS");
-   auto silver_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS");
-   auto btc_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS");
+   const auto usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS");
+   const auto cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS");
+   const auto eur_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("EUR", "BTS");
+   const auto gold_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS");
+   const auto silver_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS");
+   const auto btc_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS");
 
    usd_bts->SetLabel(usd_bts_ticker.latest);
    cny_bts->SetLabel(cny_bts_ticker.latest);
@@ -402,14 +471,49 @@ void Home::OnTimerSlow(wxTimerEvent & event)
    btc_bts->SetLabel(btc_bts_ticker.latest);
 }
 
-void Home::OnTimerFast(wxTimerEvent & event)
+void Home::OnTimerFast(wxTimerEvent& event)
 {
    wdump(("timer fast!"));
-   auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+   const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
-   auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
-   auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
+   const auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
+   const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
 
    head_block_num->SetLabel(head_block_num_string);
    head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
+}
+
+void Home::DoAccount()
+{
+   const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+
+   const auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
+   const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
+
+   head_block_num->SetLabel(head_block_num_string);
+   head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
+
+   const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->selected_account.ToStdString());
+   const auto account_id_string = fc::json::to_string(account.id);
+   account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
+
+   const auto referrer_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer)["name"]);
+   referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
+
+   const auto registrar_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar)["name"]);
+   registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
+
+   const auto voting_as_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account)["name"]);
+   voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
+
+   const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics);
+
+   total_ops_value = fc::json::to_string(stats["total_ops"]);
+
+   account_name->SetLabel(account.name);
+   account_id->SetLabel(account_id_value);
+   referrer->SetLabel(referrer_value);
+   registrar->SetLabel(registrar_value);
+   voting_as->SetLabel(voting_as_value);
+   total_ops->SetLabel(total_ops_value);
 }
