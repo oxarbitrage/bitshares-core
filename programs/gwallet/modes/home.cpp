@@ -28,9 +28,9 @@ void Home::CreateControls()
          _("Head block number:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer4->Add(itemStaticText5, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   head_block_num = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         head_block_number_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer4->Add(head_block_num, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   blockchain.head_block_num = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
+         blockchain.head_block_number_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer4->Add(blockchain.head_block_num, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer3->Add(itemBoxSizer7, 0, wxGROW|wxALL, 5);
@@ -39,9 +39,9 @@ void Home::CreateControls()
          _("Block age:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer7->Add(itemStaticText8, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   head_block_age = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         head_block_age_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer7->Add(head_block_age, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   blockchain.head_block_age = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
+         blockchain.head_block_age_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer7->Add(blockchain.head_block_age, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer3->Add(itemBoxSizer1, 0, wxGROW|wxALL, 5);
@@ -50,9 +50,9 @@ void Home::CreateControls()
          _("Next maintenance time:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer1->Add(itemStaticText2, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   next_maintenance_time = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         next_maintenance_time_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer1->Add(next_maintenance_time, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   blockchain.next_maintenance_time = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
+         blockchain.next_maintenance_time_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer1->Add(blockchain.next_maintenance_time, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer3->Add(itemBoxSizer5, 0, wxGROW|wxALL, 5);
@@ -61,9 +61,9 @@ void Home::CreateControls()
          _("Participation:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer5->Add(itemStaticText7, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   participation = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         participation_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer5->Add(participation, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   blockchain.participation = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
+         blockchain.participation_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer5->Add(blockchain.participation, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer3->Add(itemBoxSizer11, 0, wxGROW|wxALL, 5);
@@ -95,7 +95,7 @@ void Home::CreateControls()
    itemBoxSizer9->Add(itemStaticText26, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText29 = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         chain_id_value, wxDefaultPosition, wxDefaultSize, 0 );
+         blockchain.chain_id_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer9->Add(itemStaticText29, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticBox* itemStaticBoxSizer1Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Account Information"));
@@ -109,9 +109,9 @@ void Home::CreateControls()
          _("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer2->Add(itemStaticText4, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   account_name = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
-         account_name_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer2->Add(account_name, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   account.name = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         account.name_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer2->Add(account.name, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer12, 0, wxGROW|wxALL, 5);
@@ -120,9 +120,9 @@ void Home::CreateControls()
          _("ID:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer12->Add(itemStaticText13, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   account_id = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
-         account_id_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer12->Add(account_id, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   account.id = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         account.id_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer12->Add(account.id, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer8, 0, wxGROW|wxALL, 5);
@@ -131,9 +131,9 @@ void Home::CreateControls()
          _("Referrer"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer8->Add(itemStaticText20, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   referrer = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
-         referrer_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer8->Add(referrer, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   account.referrer = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         account.referrer_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer8->Add(account.referrer, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer30 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer30, 0, wxGROW|wxALL, 5);
@@ -142,9 +142,9 @@ void Home::CreateControls()
          _("Registrar"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer30->Add(itemStaticText32, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   registrar = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
-         registrar_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer30->Add(registrar, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   account.registrar = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         account.registrar_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer30->Add(account.registrar, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer36 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer36, 0, wxGROW|wxALL, 5);
@@ -153,9 +153,9 @@ void Home::CreateControls()
          _("Voting as"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer36->Add(itemStaticText38, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   voting_as = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
-         voting_as_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer36->Add(voting_as, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   account.voting_as = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         account.voting_as_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer36->Add(account.voting_as, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer43 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer1->Add(itemBoxSizer43, 0, wxGROW|wxALL, 5);
@@ -164,9 +164,9 @@ void Home::CreateControls()
          _("Total ops"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer43->Add(itemStaticText45, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   total_ops = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
-         total_ops_value, wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer43->Add(total_ops, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   account.total_ops = new wxStaticText( itemStaticBoxSizer1->GetStaticBox(), wxID_STATIC,
+         account.total_ops_value, wxDefaultPosition, wxDefaultSize, 0 );
+   itemBoxSizer43->Add(account.total_ops, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticBox* itemStaticBoxSizer2Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Software Information"));
    wxStaticBoxSizer* itemStaticBoxSizer2 = new wxStaticBoxSizer(itemStaticBoxSizer2Static, wxVERTICAL);
@@ -180,7 +180,7 @@ void Home::CreateControls()
    itemBoxSizer3->Add(itemStaticText16, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText17 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         client_version_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.client_version_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer3->Add(itemStaticText17, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
@@ -191,7 +191,7 @@ void Home::CreateControls()
    itemBoxSizer6->Add(itemStaticText18, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText19 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         graphene_revision_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.graphene_revision_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer6->Add(itemStaticText19, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer20 = new wxBoxSizer(wxHORIZONTAL);
@@ -202,7 +202,7 @@ void Home::CreateControls()
    itemBoxSizer20->Add(itemStaticText21, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText22 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         graphene_revision_age_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.graphene_revision_age_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer20->Add(itemStaticText22, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxHORIZONTAL);
@@ -213,7 +213,7 @@ void Home::CreateControls()
    itemBoxSizer23->Add(itemStaticText24, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText25 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         fc_revision_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.fc_revision_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer23->Add(itemStaticText25, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer26 = new wxBoxSizer(wxHORIZONTAL);
@@ -224,7 +224,7 @@ void Home::CreateControls()
    itemBoxSizer26->Add(itemStaticText27, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText28 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         fc_revision_age_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.fc_revision_age_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer26->Add(itemStaticText28, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer29 = new wxBoxSizer(wxHORIZONTAL);
@@ -235,7 +235,7 @@ void Home::CreateControls()
    itemBoxSizer29->Add(itemStaticText30, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText31 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         compile_date_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.compile_date_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer29->Add(itemStaticText31, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer32 = new wxBoxSizer(wxHORIZONTAL);
@@ -246,7 +246,7 @@ void Home::CreateControls()
    itemBoxSizer32->Add(itemStaticText33, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText34 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         boost_version_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.boost_version_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer32->Add(itemStaticText34, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer35 = new wxBoxSizer(wxHORIZONTAL);
@@ -257,7 +257,7 @@ void Home::CreateControls()
    itemBoxSizer35->Add(itemStaticText36, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText37 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         openssl_version_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.openssl_version_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer35->Add(itemStaticText37, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer38 = new wxBoxSizer(wxHORIZONTAL);
@@ -268,7 +268,7 @@ void Home::CreateControls()
    itemBoxSizer38->Add(itemStaticText39, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticText* itemStaticText40 = new wxStaticText( itemStaticBoxSizer2->GetStaticBox(), wxID_STATIC,
-         build_value, wxDefaultPosition, wxDefaultSize, 0 );
+         software.build_value, wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer38->Add(itemStaticText40, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxStaticBox* itemStaticBoxSizer41Static = new wxStaticBox(p_GWallet->panel, wxID_ANY,
@@ -283,9 +283,9 @@ void Home::CreateControls()
          _("USD/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer42->Add(itemStaticText43, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   usd_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, usd_bts_ticker,
+   market.usd_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.usd_bts_value,
          wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer42->Add(usd_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer42->Add(market.usd_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer41->Add(itemBoxSizer45, 0, wxGROW|wxALL, 5);
@@ -294,9 +294,9 @@ void Home::CreateControls()
          _("CNY/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer45->Add(itemStaticText46, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   cny_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, cny_bts_ticker,
+   market.cny_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.cny_bts_value,
          wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer45->Add(cny_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer45->Add(market.cny_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer48 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer41->Add(itemBoxSizer48, 0, wxGROW|wxALL, 5);
@@ -305,9 +305,9 @@ void Home::CreateControls()
          _("EUR/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer48->Add(itemStaticText49, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   eur_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, eur_bts_ticker,
+   market.eur_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.eur_bts_value,
          wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer48->Add(eur_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer48->Add(market.eur_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer51 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer41->Add(itemBoxSizer51, 0, wxGROW|wxALL, 5);
@@ -316,9 +316,9 @@ void Home::CreateControls()
          _("GOLD/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer51->Add(itemStaticText52, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   gold_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, gold_bts_ticker,
+   market.gold_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.gold_bts_value,
          wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer51->Add(gold_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer51->Add(market.gold_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer54 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer41->Add(itemBoxSizer54, 0, wxGROW|wxALL, 5);
@@ -327,9 +327,9 @@ void Home::CreateControls()
          _("SILVER/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer54->Add(itemStaticText55, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   silver_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, silver_bts_ticker,
+   market.silver_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.silver_bts_value,
          wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer54->Add(silver_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer54->Add(market.silver_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer57 = new wxBoxSizer(wxHORIZONTAL);
    itemStaticBoxSizer41->Add(itemBoxSizer57, 0, wxGROW|wxALL, 5);
@@ -338,9 +338,9 @@ void Home::CreateControls()
          _("BTC/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer57->Add(itemStaticText58, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   btc_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, btc_bts_ticker,
+   market.btc_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.btc_bts_value,
          wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer57->Add(btc_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+   itemBoxSizer57->Add(market.btc_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    p_GWallet->sizers.home->Add(itemGridSizer2, 0, wxALL, 5);
 
@@ -357,87 +357,93 @@ void Home::DoInitialData()
 {
    const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
-   head_block_number_value = fc::json::to_string(info["head_block_num"]);
+   blockchain.head_block_number_value = fc::json::to_string(info["head_block_num"]);
 
    const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
-   head_block_age_value = head_block_age_string.substr(1, head_block_age_string.length()-2);
+   blockchain.head_block_age_value = head_block_age_string.substr(1, head_block_age_string.length()-2);
 
    auto next_maintenance_time_string = fc::json::to_string(info["next_maintenance_time"]);
-   next_maintenance_time_value = next_maintenance_time_string.substr(1, next_maintenance_time_string.length()-2);
+   blockchain.next_maintenance_time_value = next_maintenance_time_string.substr(1,
+         next_maintenance_time_string.length()-2);
 
    const auto participation_string = fc::json::to_string(info["participation"]);
-   participation_value = participation_string.substr(1, participation_string.length()-2);
+   blockchain.participation_value = participation_string.substr(1, participation_string.length()-2);
 
    const auto chain_id_string = fc::json::to_string(info["chain_id"]);
-   chain_id_value = chain_id_string.substr(chain_id_string.length()-11, 10);
+   blockchain.chain_id_value = chain_id_string.substr(chain_id_string.length()-11, 10);
 
    const auto about = p_GWallet->bitshares.wallet_api_ptr->about();
 
    const auto client_version_string = fc::json::to_string(about["client_version"]);
-   client_version_value = client_version_string.substr(1, client_version_string.length()-2);
+   software.client_version_value = client_version_string.substr(1, client_version_string.length()-2);
 
    const auto graphene_revision_string = fc::json::to_string(about["graphene_revision"]);
-   graphene_revision_value = graphene_revision_string.substr(1, graphene_revision_string.length()-2);
+   software.graphene_revision_value = graphene_revision_string.substr(1, graphene_revision_string.length()-2);
 
    const auto graphene_revision_age_string = fc::json::to_string(about["graphene_revision_age"]);
-   graphene_revision_age_value = graphene_revision_age_string.substr(1, graphene_revision_age_string.length()-2);
+   software.graphene_revision_age_value = graphene_revision_age_string.substr(1,
+         graphene_revision_age_string.length()-2);
 
    const auto fc_revision_string = fc::json::to_string(about["fc_revision"]);
-   fc_revision_value = fc_revision_string.substr(1, fc_revision_string.length()-2);
+   software.fc_revision_value = fc_revision_string.substr(1, fc_revision_string.length()-2);
 
    const auto fc_revision_age_string = fc::json::to_string(about["fc_revision_age"]);
-   fc_revision_age_value = fc_revision_age_string.substr(1, fc_revision_age_string.length()-2);
+   software.fc_revision_age_value = fc_revision_age_string.substr(1, fc_revision_age_string.length()-2);
 
    const auto compile_date_string = fc::json::to_string(about["compile_date"]);
-   compile_date_value = compile_date_string.substr(1, compile_date_string.length()-2);
+   software.compile_date_value = compile_date_string.substr(1, compile_date_string.length()-2);
 
    const auto boost_version_string = fc::json::to_string(about["boost_version"]);
-   boost_version_value = boost_version_string.substr(1, boost_version_string.length()-2);
+   software.boost_version_value = boost_version_string.substr(1, boost_version_string.length()-2);
 
    const auto openssl_version_string = fc::json::to_string(about["openssl_version"]);
-   openssl_version_value = openssl_version_string.substr(1, openssl_version_string.length()-2);
+   software.openssl_version_value = openssl_version_string.substr(1, openssl_version_string.length()-2);
 
    const auto build_string = fc::json::to_string(about["graphene_revision"]);
-   build_value = build_string.substr(1, build_string.length()-2);
+   software.build_value = build_string.substr(1, build_string.length()-2);
 
    if(!p_GWallet->state.is_new) {
-      const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->strings.selected_account.ToStdString());
-      account_name_value = account.name;
+      const auto account_object = p_GWallet->bitshares.wallet_api_ptr->get_account(
+            p_GWallet->strings.selected_account.ToStdString());
+      account.name_value = account_object.name;
 
-      const auto account_id_string = fc::json::to_string(account.id);
-      account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
+      const auto account_id_string = fc::json::to_string(account_object.id);
+      account.id_value = account_id_string.substr(1, account_id_string.length() - 2);
 
-      const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer).get_array()[0]["name"];
+      const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(
+            account_object.referrer).get_array()[0]["name"];
       const auto referrer_string = fc::json::to_string(referrer_name);
-      referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
+      account.referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
 
-      const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar).get_array()[0]["name"];
+      const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(
+            account_object.registrar).get_array()[0]["name"];
       const auto registrar_string = fc::json::to_string(registrar_name);
-      registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
+      account.registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
 
-      auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account).get_array()[0]["name"];
+      auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(
+            account_object.options.voting_account).get_array()[0]["name"];
       const auto voting_as_string = fc::json::to_string(voting_as_name);
-      voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
+      account.voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
 
-      const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics).get_array()[0];
+      const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.statistics).get_array()[0];
 
-      total_ops_value = fc::json::to_string(stats["total_ops"]);
+      account.total_ops_value = fc::json::to_string(stats["total_ops"]);
    }
    else {
-      account_name_value = "MY ACCOUNT";
-      account_id_value = "MY ID";
-      referrer_value = "MY REFERRER";
-      registrar_value = "MY REGISTRAR";
-      voting_as_value = "SELF";
-      total_ops_value = "0";
+      account.name_value = "MY ACCOUNT";
+      account.id_value = "MY ID";
+      account.referrer_value = "MY REFERRER";
+      account.registrar_value = "MY REGISTRAR";
+      account.voting_as_value = "SELF";
+      account.total_ops_value = "0";
    }
 
-   usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS").latest;
-   cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS").latest;
-   eur_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("EUR", "BTS").latest;
-   gold_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS").latest;
-   silver_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS").latest;
-   btc_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS").latest;
+   market.usd_bts_value = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS").latest;
+   market.cny_bts_value = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS").latest;
+   market.eur_bts_value = p_GWallet->bitshares.database_api->get_ticker("EUR", "BTS").latest;
+   market.gold_bts_value = p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS").latest;
+   market.silver_bts_value = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS").latest;
+   market.btc_bts_value = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS").latest;
 }
 
 void Home::DoTimers()
@@ -460,8 +466,9 @@ void Home::OnTimerSlow(wxTimerEvent& event)
    const auto next_maintenance_time_string = fc::json::to_string(info["next_maintenance_time"]);
    const auto participation_string = fc::json::to_string(info["participation"]);
 
-   next_maintenance_time->SetLabel(next_maintenance_time_string.substr(1,next_maintenance_time_string.length()-2));
-   participation->SetLabel(participation_string.substr(1,participation_string.length()-2));
+   blockchain.next_maintenance_time->SetLabel(
+         next_maintenance_time_string.substr(1,next_maintenance_time_string.length()-2));
+   blockchain.participation->SetLabel(participation_string.substr(1,participation_string.length()-2));
 
    const auto usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS");
    const auto cny_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS");
@@ -470,12 +477,12 @@ void Home::OnTimerSlow(wxTimerEvent& event)
    const auto silver_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS");
    const auto btc_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS");
 
-   usd_bts->SetLabel(usd_bts_ticker.latest);
-   cny_bts->SetLabel(cny_bts_ticker.latest);
-   eur_bts->SetLabel(eur_bts_ticker.latest);
-   gold_bts->SetLabel(gold_bts_ticker.latest);
-   silver_bts->SetLabel(silver_bts_ticker.latest);
-   btc_bts->SetLabel(btc_bts_ticker.latest);
+   market.usd_bts->SetLabel(usd_bts_ticker.latest);
+   market.cny_bts->SetLabel(cny_bts_ticker.latest);
+   market.eur_bts->SetLabel(eur_bts_ticker.latest);
+   market.gold_bts->SetLabel(gold_bts_ticker.latest);
+   market.silver_bts->SetLabel(silver_bts_ticker.latest);
+   market.btc_bts->SetLabel(btc_bts_ticker.latest);
 }
 
 void Home::OnTimerFast(wxTimerEvent& event)
@@ -486,8 +493,8 @@ void Home::OnTimerFast(wxTimerEvent& event)
    const auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
    const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
 
-   head_block_num->SetLabel(head_block_num_string);
-   head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
+   blockchain.head_block_num->SetLabel(head_block_num_string);
+   blockchain.head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
 }
 
 void Home::DoAccount()
@@ -497,33 +504,33 @@ void Home::DoAccount()
    const auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
    const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
 
-   head_block_num->SetLabel(head_block_num_string);
-   head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
+   blockchain.head_block_num->SetLabel(head_block_num_string);
+   blockchain.head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
 
-   const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->strings.selected_account.ToStdString());
-   const auto account_id_string = fc::json::to_string(account.id);
-   account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
+   const auto account_object = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->strings.selected_account.ToStdString());
+   const auto account_id_string = fc::json::to_string(account_object.id);
+   account.id_value = account_id_string.substr(1, account_id_string.length() - 2);
 
-   const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer).get_array()[0]["name"];
+   const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.referrer).get_array()[0]["name"];
    const auto referrer_string = fc::json::to_string(referrer_name);
-   referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
+   account.referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
 
-   const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar).get_array()[0]["name"];
+   const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.registrar).get_array()[0]["name"];
    const auto registrar_string = fc::json::to_string(registrar_name);
-   registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
+   account.registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
 
-   auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account).get_array()[0]["name"];
+   auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.options.voting_account).get_array()[0]["name"];
    const auto voting_as_string = fc::json::to_string(voting_as_name);
-   voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
+   account.voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
 
-   const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics).get_array()[0];
+   const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.statistics).get_array()[0];
 
-   total_ops_value = fc::json::to_string(stats["total_ops"]);
+   account.total_ops_value = fc::json::to_string(stats["total_ops"]);
 
-   account_name->SetLabel(account.name);
-   account_id->SetLabel(account_id_value);
-   referrer->SetLabel(referrer_value);
-   registrar->SetLabel(registrar_value);
-   voting_as->SetLabel(voting_as_value);
-   total_ops->SetLabel(total_ops_value);
+   account.name->SetLabel(account_object.name);
+   account.id->SetLabel(account.id_value);
+   account.referrer->SetLabel(account.referrer_value);
+   account.registrar->SetLabel(account.registrar_value);
+   account.voting_as->SetLabel(account.voting_as_value);
+   account.total_ops->SetLabel(account.total_ops_value);
 }

@@ -4,6 +4,67 @@
 #include "../gwallet.hpp"
 #endif
 
+struct Blockchain
+{
+   wxStaticText* head_block_num;
+   wxStaticText* head_block_age;
+   wxStaticText* next_maintenance_time;
+   wxStaticText* participation;
+
+   std::string head_block_number_value;
+   std::string head_block_age_value;
+   std::string next_maintenance_time_value;
+   std::string participation_value;
+   std::string chain_id_value;
+};
+struct Account
+{
+   wxStaticText* name;
+   wxStaticText* id;
+   wxStaticText* referrer;
+   wxStaticText* registrar;
+   wxStaticText* voting_as;
+   wxStaticText* total_ops;
+
+   std::string name_value;
+   std::string id_value;
+   std::string referrer_value;
+   std::string registrar_value;
+   std::string voting_as_value;
+   std::string total_ops_value;
+};
+
+struct Software
+{
+   std::string client_version_value;
+   std::string graphene_revision_value;
+   std::string graphene_revision_age_value;
+   std::string fc_revision_value;
+   std::string fc_revision_age_value;
+   std::string compile_date_value;
+   std::string boost_version_value;
+   std::string openssl_version_value;
+   std::string build_value;
+
+};
+
+struct Market
+{
+   wxStaticText* usd_bts;
+   wxStaticText* cny_bts;
+   wxStaticText* eur_bts;
+   wxStaticText* gold_bts;
+   wxStaticText* silver_bts;
+   wxStaticText* btc_bts;
+
+   std::string usd_bts_value;
+   std::string cny_bts_value;
+   std::string eur_bts_value;
+   std::string gold_bts_value;
+   std::string silver_bts_value;
+   std::string btc_bts_value;
+};
+
 class Home : public wxFrame
 {
 public:
@@ -21,18 +82,10 @@ private:
 
    GWallet* p_GWallet;
 
-   wxStaticText* head_block_num, *head_block_age, *next_maintenance_time, *participation;
-   wxStaticText* account_name, *account_id, *referrer, *registrar, *voting_as, *total_ops;
-   wxStaticText* usd_bts, *cny_bts, *eur_bts, *gold_bts, *silver_bts, *btc_bts;
-
-   std::string head_block_number_value, head_block_age_value, next_maintenance_time_value, participation_value;
-   std::string chain_id_value;
-   std::string client_version_value, graphene_revision_value, graphene_revision_age_value;
-   std::string fc_revision_value, fc_revision_age_value, compile_date_value, boost_version_value;
-   std::string openssl_version_value, build_value;
-   std::string account_name_value, account_id_value;
-   std::string referrer_value, registrar_value, voting_as_value, total_ops_value;
-   std::string usd_bts_ticker, cny_bts_ticker, eur_bts_ticker, gold_bts_ticker, silver_bts_ticker, btc_bts_ticker;
+   Blockchain blockchain;
+   Account account;
+   Software software;
+   Market market;
 
    wxTimer m_timer_fast;
    wxTimer m_timer_slow;
