@@ -217,7 +217,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    p_GWallet->config->Write("Server", server);
    p_GWallet->config->Flush();
 
-   if(!p_GWallet->is_connected) {
+   if(!p_GWallet->state.is_connected) {
       wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
       p_GWallet->ProcessWindowEvent(event_connect);
    }
@@ -236,9 +236,9 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
    {
       p_GWallet->OnError(e.to_detail_string());
    }
-   p_GWallet->is_locked = false;
-   p_GWallet->is_new = false;
-   p_GWallet->is_unlocked = true;
+   p_GWallet->state.is_locked = false;
+   p_GWallet->state.is_new = false;
+   p_GWallet->state.is_unlocked = true;
    p_GWallet->DoState();
 }
 
@@ -393,13 +393,13 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
    p_GWallet->config->Write("AllSet", true);
    p_GWallet->config->Flush();
 
-   p_GWallet->is_account_linked = true;
+   p_GWallet->state.is_account_linked = true;
 
    p_GWallet->DoState();
 
-   if(!p_GWallet->modes_created) {
+   if(!p_GWallet->state.modes_created) {
       p_GWallet->DoModes();
-      p_GWallet->modes_created = true;
+      p_GWallet->state.modes_created = true;
    }
 
 }

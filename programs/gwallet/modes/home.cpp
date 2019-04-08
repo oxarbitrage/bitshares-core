@@ -400,29 +400,36 @@ void Home::DoInitialData()
    const auto build_string = fc::json::to_string(about["graphene_revision"]);
    build_value = build_string.substr(1, build_string.length()-2);
 
-   if(!p_GWallet->is_new) {
+   if(!p_GWallet->state.is_new) {
       const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->selected_account.ToStdString());
       account_name_value = account.name;
 
       const auto account_id_string = fc::json::to_string(account.id);
       account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
 
-      const auto referrer_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer)["name"]);
+      const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer).get_array()[0]["name"];
+      const auto referrer_string = fc::json::to_string(referrer_name);
       referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
 
-      const auto registrar_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar)["name"]);
+      const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar).get_array()[0]["name"];
+      const auto registrar_string = fc::json::to_string(registrar_name);
       registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
 
-      const auto voting_as_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account)["name"]);
+      auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account).get_array()[0]["name"];
+      const auto voting_as_string = fc::json::to_string(voting_as_name);
       voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
 
-      const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics);
+      const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics).get_array()[0];
 
       total_ops_value = fc::json::to_string(stats["total_ops"]);
    }
    else {
       account_name_value = "MY ACCOUNT";
       account_id_value = "MY ID";
+      referrer_value = "MY REFERRER";
+      registrar_value = "MY REGISTRAR";
+      voting_as_value = "SELF";
+      total_ops_value = "0";
    }
 
    usd_bts_ticker = p_GWallet->bitshares.database_api->get_ticker("USD", "BTS").latest;
@@ -497,16 +504,19 @@ void Home::DoAccount()
    const auto account_id_string = fc::json::to_string(account.id);
    account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
 
-   const auto referrer_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer)["name"]);
+   const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.referrer).get_array()[0]["name"];
+   const auto referrer_string = fc::json::to_string(referrer_name);
    referrer_value = referrer_string.substr(1, referrer_string.length() - 2);
 
-   const auto registrar_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar)["name"]);
+   const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.registrar).get_array()[0]["name"];
+   const auto registrar_string = fc::json::to_string(registrar_name);
    registrar_value = registrar_string.substr(1, registrar_string.length() - 2);
 
-   const auto voting_as_string = fc::json::to_string(p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account)["name"]);
+   auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account.options.voting_account).get_array()[0]["name"];
+   const auto voting_as_string = fc::json::to_string(voting_as_name);
    voting_as_value = voting_as_string.substr(1, voting_as_string.length() - 2);
 
-   const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics);
+   const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account.statistics).get_array()[0];
 
    total_ops_value = fc::json::to_string(stats["total_ops"]);
 

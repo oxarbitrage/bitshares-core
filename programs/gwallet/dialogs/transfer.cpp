@@ -183,11 +183,11 @@ void TransferDialog::CreateEvents()
 
 void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 {
-   auto from_v = p_GWallet->strings_accounts[from->GetCurrentSelection()].ToStdString();
-   auto to_v = to->GetValue().ToStdString();
-   auto amount_v = amount->GetValue().ToStdString();
-   auto asset_v = p_GWallet->strings_assets[asset->GetCurrentSelection()].ToStdString();
-   auto memo_v = memo->GetValue().ToStdString();
+   const auto from_v = p_GWallet->strings_accounts[from->GetCurrentSelection()].ToStdString();
+   const auto to_v = to->GetValue().ToStdString();
+   const auto amount_v = amount->GetValue().ToStdString();
+   const auto asset_v = p_GWallet->strings_assets[asset->GetCurrentSelection()].ToStdString();
+   const auto memo_v = memo->GetValue().ToStdString();
 
    try
    {

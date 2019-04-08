@@ -98,7 +98,7 @@ void GWallet::DoState() {
    wdump((is_account_linked));
    */
 
-   if (is_noconfig) {
+   if(state.is_noconfig) {
       file->Enable(wxID_NEW, true);
       file->Enable(wxID_OPEN, true);
       file->Enable(wxID_SAVE, false);
@@ -123,7 +123,7 @@ void GWallet::DoState() {
 
       SetStatusText(_("No Config"), 0);
    }
-   else if (is_connected) {
+   else if(state.is_connected) {
 
       file->Enable(wxID_NEW, true);
       file->Enable(wxID_OPEN, true);
@@ -148,19 +148,18 @@ void GWallet::DoState() {
       itemToolBar->EnableTool(ID_ICON_SENDRECEIVE, false);
       itemToolBar->EnableTool(ID_ICON_WALLET, false);
 
-      if (is_new) {
+      if(state.is_new) {
          SetStatusText(_("Connected | New"));
          wallet_m->Enable(ID_SETPASSWORD, true);
          mainMsg->SetLabel(_("G-Wallet New"));
       }
-      else if (!is_account_linked) {
+      else if(!state.is_account_linked) {
          SetStatusText(_("Connected | New"));
          wallet_m->Enable(ID_IMPORTKEY, false);
-         //wallet_m->Enable(ID_LOCK, false);
          wallet_m->Enable(ID_UNLOCK, true);
          mainMsg->SetLabel(_("G-Wallet New"));
       }
-      else if (is_locked) {
+      else if(state.is_locked) {
          SetStatusText(_("Connected | Locked"));
 
          wallet_m->Enable(ID_SETPASSWORD, false);
@@ -173,7 +172,7 @@ void GWallet::DoState() {
          itemToolBar->EnableTool(ID_ICON_HOME, true);
          mainMsg->SetLabel(_("G-Wallet Ready"));
       }
-      else if (is_unlocked) {
+      else if(state.is_unlocked) {
          SetStatusText(_("Connected | Unlocked"));
 
          wallet_m->Enable(ID_SETPASSWORD, false);
@@ -197,7 +196,7 @@ void GWallet::DoState() {
          SetStatusText(server, 1);
       }
    }
-   else if (!is_connected) {
+   else if(!state.is_connected) {
 
       combo_accounts->Enable(false);
       combo_assets->Enable(false);

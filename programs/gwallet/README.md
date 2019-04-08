@@ -99,8 +99,8 @@ Currently, we only have 1 wizard to create a new wallet. This wizard is located 
 
 G-Wallet makes use of `wxConfig` to store some data that will help the user when starting the program next time.
 
-The `is_xxx` member variables flags of the `GWallet` class handle the current state of the user. 
- 
+The current state of the application is saved in a `State` struct where boolean variables flags in the form of `is_xxx` are turned on and off accordingly.
+
 ## Visual Design
 
 Default application size is 1200x900, app can be maximized and reduced down to 600x450 where things start to look ugly.

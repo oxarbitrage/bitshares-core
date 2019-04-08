@@ -130,7 +130,7 @@ void ImportKeyDialog::OnOk(wxCommandEvent & WXUNUSED(event))
    }
 
    p_GWallet->config->Write("AllSet", true);
-   p_GWallet->is_account_linked = true;
+   p_GWallet->state.is_account_linked = true;
    p_GWallet->config->Flush();
 
    p_GWallet->DoAccounts();
@@ -140,8 +140,6 @@ void ImportKeyDialog::OnOk(wxCommandEvent & WXUNUSED(event))
    wxMessageDialog dialog(NULL, _("Account imported"), _("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
    if (dialog.ShowModal() == wxID_OK)
       return;
-
-   Close(true);
 }
 
 void ImportKeyDialog::OnCancel(wxCommandEvent & WXUNUSED(event))

@@ -49,11 +49,11 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
    wxString server;
    bool allset;
    if (!config->Read("WalletPath", &path) || !config->Read("Server", &server)) {
-      is_noconfig = true;
+      state.is_noconfig = true;
    } else {
-      is_noconfig = false;
+      state.is_noconfig = false;
       if(config->Read("AllSet", &allset))
-         is_account_linked = true;
+         state.is_account_linked = true;
    }
    DoState();
 
@@ -82,7 +82,7 @@ void GWallet::OnOpen(wxCommandEvent & WXUNUSED(event))
       config->Write("WalletPath", path);
       config->Flush();
 
-      if(is_connected) {
+      if(state.is_connected) {
          wxCommandEvent event_disconnect(wxEVT_COMMAND_MENU_SELECTED, ID_DISCONNECT);
          ProcessWindowEvent(event_disconnect);
          wxSleep(1);
@@ -119,7 +119,7 @@ void GWallet::OnNetwork(wxCommandEvent & WXUNUSED(event))
       config->Write("Server", ws_server);
       config->Flush();
 
-      if(is_connected) {
+      if(state.is_connected) {
          wxCommandEvent event_disconnect(wxEVT_COMMAND_MENU_SELECTED, ID_DISCONNECT);
          ProcessWindowEvent(event_disconnect);
          wxSleep(1);
@@ -152,21 +152,21 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
       }
 
       if (bitshares.wallet_api_ptr->is_new()) {
-         is_new = true;
-         is_locked = false;
-         is_unlocked = false;
-         is_account_linked = false;
+         state.is_new = true;
+         state.is_locked = false;
+         state.is_unlocked = false;
+         state.is_account_linked = false;
       } else {
          if (bitshares.wallet_api_ptr->is_locked()) {
-            is_new = false;
-            is_locked = true;
-            is_unlocked = false;
-            is_account_linked = true;
+            state.is_new = false;
+            state.is_locked = true;
+            state.is_unlocked = false;
+            state.is_account_linked = true;
          } else {
-            is_new = false;
-            is_locked = false;
-            is_unlocked = true;
-            is_account_linked = true;
+            state.is_new = false;
+            state.is_locked = false;
+            state.is_unlocked = true;
+            state.is_account_linked = true;
          }
 
          DoAccounts();
@@ -175,13 +175,12 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
          selected_account = first_account_name;
          selected_asset = strings_assets[0];
 
-         if(!modes_created) {
+         if(!state.modes_created) {
             DoModes();
-            modes_created = true;
+            state.modes_created = true;
          }
       }
-
-      is_connected = true;
+      state.is_connected = true;
       DoState();
    }
 }
@@ -197,7 +196,7 @@ void GWallet::OnDisconnect(wxCommandEvent& WXUNUSED(event))
    }
    SetStatusText(_("Disconnected"));
 
-   is_connected = false;
+   state.is_connected = false;
    DoState();
 }
 
@@ -211,13 +210,13 @@ void GWallet::OnSetPassword(wxCommandEvent& WXUNUSED(event))
       bitshares.wallet_api_ptr->set_password(password.ToStdString());
       SetStatusText(_("Connected | Locked"));
 
-      is_new = false;
-      is_locked = true;
+      state.is_new = false;
+      state.is_locked = true;
       DoState();
 
-      if(!modes_created) {
+      if(!state.modes_created) {
          DoModes();
-         modes_created = true;
+         state.modes_created = true;
       }
    }
 }
@@ -238,8 +237,8 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    {
       OnError(_("Some problem when locking, try again ..."));
    }
-   is_locked = true;
-   is_unlocked = false;
+   state.is_locked = true;
+   state.is_unlocked = false;
    DoState();
 
    p_wallet->DisableOperations();
@@ -259,8 +258,8 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
       {
          OnError(_("Password is incorrect, please try again."));
       }
-      is_locked = false;
-      is_unlocked = true;
+      state.is_locked = false;
+      state.is_unlocked = true;
       DoState();
       p_wallet->EnableOperations();
    }
@@ -304,6 +303,7 @@ void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
    balanceMsg->SetLabel(pretty_balance.str() + " " + asset_name);
 
    p_sendreceive->send_asset->SetSelection(selected);
+   selected_asset = asset_name;
 
    infoSizer->Layout();
    sizerTransferMode->Layout();

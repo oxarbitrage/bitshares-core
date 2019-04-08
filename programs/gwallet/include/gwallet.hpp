@@ -19,6 +19,16 @@ class Welcome2;
 class Welcome3;
 class Welcome4;
 
+struct State {
+   bool is_noconfig = false;
+   bool is_connected = false;
+   bool is_new = false;
+   bool is_locked = false;
+   bool is_unlocked = false;
+   bool is_account_linked = false;
+   bool modes_created = false;
+};
+
 class GWallet : public wxFrame
 {
 public:
@@ -34,15 +44,7 @@ public:
 
    wxConfig* config;
    wxString directory;
-
-   bool is_noconfig = false;
-   bool is_connected = false;
-   bool is_new = false;
-   bool is_locked = false;
-   bool is_unlocked = false;
-   bool is_account_linked = false;
-
-   bool modes_created = false;
+   State state;
 
    wxToolBar* itemToolBar;
    wxMenu* wallet_m;
