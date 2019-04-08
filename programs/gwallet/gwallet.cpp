@@ -25,17 +25,7 @@
 
 GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200, 900))
 {
-   // full size
-   //wxTopLevelWindow::Maximize(true);
-
-   wxTopLevelWindow::SetMinSize(wxSize(600, 450));
-
-   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
-   directory = f.GetPath();
-
-   const wxIcon application_icon(directory + wxT("/icons/btslogo.png"), wxBITMAP_TYPE_PNG);
-   SetIcon(application_icon);
-
+   DoInitialConfig();
    CreateMenu();
    CreateEvents();
    CreateTool();
@@ -43,18 +33,6 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
    CreateInfo();
    CreateStatusBar(2);
 
-   config = new wxConfig(wxT("GWallet"));
-
-   wxString path;
-   wxString server;
-   bool allset;
-   if (!config->Read("WalletPath", &path) || !config->Read("Server", &server)) {
-      state.is_noconfig = true;
-   } else {
-      state.is_noconfig = false;
-      if(config->Read("AllSet", &allset))
-         state.is_account_linked = true;
-   }
    DoState();
 
    // todo: delete all config, enable to start with an empty config, could be command line option
@@ -309,6 +287,33 @@ void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
    sizers.transfer->Layout();
 }
 
+void GWallet::DoInitialConfig()
+{
+   // full size
+   //wxTopLevelWindow::Maximize(true);
+
+   wxTopLevelWindow::SetMinSize(wxSize(600, 450));
+
+   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+   directory = f.GetPath();
+
+   const wxIcon application_icon(directory + wxT("/icons/btslogo.png"), wxBITMAP_TYPE_PNG);
+   SetIcon(application_icon);
+
+   config = new wxConfig(wxT("GWallet"));
+
+   wxString path;
+   wxString server;
+   bool allset;
+   if (!config->Read("WalletPath", &path) || !config->Read("Server", &server)) {
+      state.is_noconfig = true;
+   } else {
+      state.is_noconfig = false;
+      if(config->Read("AllSet", &allset))
+         state.is_account_linked = true;
+   }
+}
+
 void GWallet::DoAssets(std::string account)
 {
    strings.combo_assets->Clear();
@@ -333,7 +338,6 @@ void GWallet::DoAssets(std::string account)
          first_balance = fc::to_string(mb.amount.value);
          first_precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
 
-         // insert balance
          const auto dividend = pow(10, bitshares.wallet_api_ptr->get_asset(asset_id).precision);
          const auto precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
          stringstream pretty_balance;

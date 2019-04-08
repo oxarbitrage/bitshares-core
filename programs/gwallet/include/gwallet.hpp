@@ -133,6 +133,8 @@ private:
    void CreateInfo();
    void CreateMain();
 
+   void DoInitialConfig();
+
    void LoadWelcomeWidget();
 };
 
