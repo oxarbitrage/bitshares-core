@@ -41,8 +41,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   from = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_account,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_accounts, wxCB_DROPDOWN|wxCB_READONLY );
+   from = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->strings.selected_account,
+         wxDefaultPosition, wxDefaultSize, p_GWallet->strings.accounts, wxCB_DROPDOWN|wxCB_READONLY );
    itemBoxSizer6->Add(from, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer6->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -93,8 +93,8 @@ TransferDialog::TransferDialog(wxWindow* parent, wxWindowID id, const wxString& 
          wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY|wxFILTER_NUMERIC) );
    itemBoxSizer7->Add(amount, 7, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   asset = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->selected_asset,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_assets, wxCB_DROPDOWN|wxCB_READONLY );
+   asset = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->strings.selected_asset,
+         wxDefaultPosition, wxDefaultSize, p_GWallet->strings.assets, wxCB_DROPDOWN|wxCB_READONLY );
    itemBoxSizer7->Add(asset, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer7->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -183,10 +183,10 @@ void TransferDialog::CreateEvents()
 
 void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 {
-   const auto from_v = p_GWallet->strings_accounts[from->GetCurrentSelection()].ToStdString();
+   const auto from_v = p_GWallet->strings.accounts[from->GetCurrentSelection()].ToStdString();
    const auto to_v = to->GetValue().ToStdString();
    const auto amount_v = amount->GetValue().ToStdString();
-   const auto asset_v = p_GWallet->strings_assets[asset->GetCurrentSelection()].ToStdString();
+   const auto asset_v = p_GWallet->strings.assets[asset->GetCurrentSelection()].ToStdString();
    const auto memo_v = memo->GetValue().ToStdString();
 
    try

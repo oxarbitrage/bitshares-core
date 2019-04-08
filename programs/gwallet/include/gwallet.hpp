@@ -9,16 +9,17 @@
 #include <wx/config.h>
 #include <wx/grid.h>
 
-class Wallet;
-class History;
-class SendReceive;
 class Home;
+class Cli;
+class SendReceive;
+class History;
+class Wallet;
 
 class Welcome2;
 class Welcome3;
 class Welcome4;
 
-struct State {
+struct States {
    bool is_noconfig = false;
    bool is_connected = false;
    bool is_new = false;
@@ -38,54 +39,68 @@ struct Sizers {
    wxBoxSizer* wallet;
 };
 
+struct Modes {
+   Home* p_home;
+   Cli* p_cli;
+   SendReceive* p_sendreceive;
+   History* p_history;
+   Wallet* p_wallet;
+};
+
+struct Strings {
+   wxStaticText* main;
+   wxStaticText* balance;
+
+   wxComboBox* combo_accounts;
+   wxComboBox* combo_assets;
+
+   wxArrayString accounts;
+   wxArrayString assets;
+   wxArrayString balances;
+   wxArrayString precisions;
+
+   wxString first_account_name;
+   wxString selected_account;
+   wxString selected_asset;
+};
+
+struct Welcome {
+   wxWizard* wizard;
+   wxWizardPageSimple* page1;
+   Welcome2* page2;
+   Welcome3* page3;
+   Welcome4* page4;
+};
+
+struct Navigation {
+   wxToolBar* itemToolBar;
+   wxMenuBar* menubar;
+   wxMenu* wallet;
+   wxMenu* file;
+   wxMenu* help;
+};
+
 class GWallet : public wxFrame
 {
 public:
    GWallet(const wxString& title);
 
    void DoState();
-
    void OnError(wxString msg);
-
    void DoAssets(std::string account);
    void DoAccounts();
    void DoModes();
 
    wxConfig* config;
    wxString directory;
-   State state;
-
-   wxToolBar* itemToolBar;
-   wxMenu* wallet_m;
-
+   States state;
    wxPanel* panel;
    Sizers sizers;
-
-   wxStaticText* mainMsg;
-   wxStaticText* balanceMsg;
-
    Bitshares bitshares;
-
-   wxComboBox* combo_accounts;
-   wxArrayString strings_accounts;
-   wxComboBox* combo_assets;
-   wxArrayString strings_assets;
-   wxArrayString strings_balances;
-   wxArrayString strings_precisions;
-   std::string first_account_name;
-   wxString selected_account;
-   wxString selected_asset;
-
-   Wallet* p_wallet;
-   History* p_history;
-   SendReceive* p_sendreceive;
-   Home* p_home;
-
-   wxWizard* wizard;
-   wxWizardPageSimple* page1;
-   Welcome2* page2;
-   Welcome3* page3;
-   Welcome4* page4;
+   Navigation navi;
+   Modes modes;
+   Strings strings;
+   Welcome welcome;
 
 private:
 
@@ -119,10 +134,6 @@ private:
    void CreateMain();
 
    void LoadWelcomeWidget();
-
-   wxMenuBar* menubar;
-   wxMenu* file;
-   wxMenu* help;
 };
 
 const int ID_CONNECT = 105;

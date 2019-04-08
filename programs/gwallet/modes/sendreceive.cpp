@@ -41,8 +41,8 @@ void SendReceive::CreateControls()
          wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY|wxFILTER_DIGITS) );
    itemBoxSizer7->Add(send_amount, 8, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   send_asset = new wxComboBox( itemStaticBoxSizer3->GetStaticBox(), wxID_ANY, p_GWallet->selected_asset,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings_assets, wxCB_DROPDOWN, wxTextValidator(wxFILTER_EMPTY) );
+   send_asset = new wxComboBox( itemStaticBoxSizer3->GetStaticBox(), wxID_ANY, p_GWallet->strings.selected_asset,
+         wxDefaultPosition, wxDefaultSize, p_GWallet->strings.assets, wxCB_DROPDOWN, wxTextValidator(wxFILTER_EMPTY) );
    itemBoxSizer7->Add(send_asset, 4, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
@@ -153,8 +153,8 @@ void SendReceive::OnTransferOk(wxCommandEvent & event)
    if (ValidateSend()) {
       auto to_v = send_to->GetValue().ToStdString();
       auto amount_v = send_amount->GetValue().ToStdString();
-      auto asset_v = p_GWallet->strings_assets[send_asset->GetCurrentSelection()].ToStdString();
-      auto from_v = p_GWallet->selected_account;
+      auto asset_v = p_GWallet->strings.assets[send_asset->GetCurrentSelection()].ToStdString();
+      auto from_v = p_GWallet->strings.selected_account;
 
       try {
          auto result = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v.ToStdString(), to_v,
@@ -175,8 +175,8 @@ void SendReceive::OnSendUrl(wxCommandEvent &event)
    if (ValidateSend()) {
       auto to_v = send_to->GetValue().ToStdString();
       auto amount_v = send_amount->GetValue().ToStdString();
-      auto asset_v = p_GWallet->strings_assets[send_asset->GetCurrentSelection()].ToStdString();
-      auto from_v = p_GWallet->selected_account;
+      auto asset_v = p_GWallet->strings.assets[send_asset->GetCurrentSelection()].ToStdString();
+      auto from_v = p_GWallet->strings.selected_account;
 
       auto url = "bitshares://operation/transfer?to=" + to_v + "&from=" + from_v + "&asset=" + asset_v + "&amount=" +
             amount_v;
@@ -192,7 +192,7 @@ void SendReceive::OnReceiveUrl(wxCommandEvent &event)
       auto from_v = receive_from->GetValue().ToStdString();
       auto amount_v = receive_amount->GetValue().ToStdString();
       auto asset_v = receive_asset->GetValue().ToStdString();
-      auto to_v = p_GWallet->selected_account;
+      auto to_v = p_GWallet->strings.selected_account;
 
       auto url = "bitshares://operation/transfer?to=" + to_v + "&from=" + from_v + "&asset=" + asset_v + "&amount=" +
             amount_v;

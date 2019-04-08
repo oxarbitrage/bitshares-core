@@ -170,10 +170,10 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
          }
 
          DoAccounts();
-         DoAssets(first_account_name);
+         DoAssets(strings.first_account_name.ToStdString());
 
-         selected_account = first_account_name;
-         selected_asset = strings_assets[0];
+         strings.selected_account = strings.first_account_name;
+         strings.selected_asset = strings.assets[0];
 
          if(!state.modes_created) {
             DoModes();
@@ -241,7 +241,7 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    state.is_unlocked = false;
    DoState();
 
-   p_wallet->DisableOperations();
+   modes.p_wallet->DisableOperations();
 }
 
 void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
@@ -261,7 +261,7 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
       state.is_locked = false;
       state.is_unlocked = true;
       DoState();
-      p_wallet->EnableOperations();
+      modes.p_wallet->EnableOperations();
    }
 }
 void GWallet::OnImportKey(wxCommandEvent& WXUNUSED(event))
@@ -275,35 +275,35 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
    wxBusyInfo wait(_("Please wait, switching accounts ..."));
    wxTheApp->Yield();
 
-   const auto selected = combo_accounts->GetCurrentSelection();
-   const auto account_name = strings_accounts[selected];
+   const auto selected = strings.combo_accounts->GetCurrentSelection();
+   const auto account_name = strings.accounts[selected];
 
    DoAssets(account_name.ToStdString());
-   p_history->DoHistory(account_name.ToStdString());
+   modes.p_history->DoHistory(account_name.ToStdString());
 
-   selected_account = strings_accounts[selected];
-   selected_asset = strings_assets[0];
+   strings.selected_account = strings.accounts[selected];
+   strings.selected_asset = strings.assets[0];
 
-   p_home->DoAccount();
+   modes.p_home->DoAccount();
 }
 
 void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
 {
-   const auto selected = combo_assets->GetCurrentSelection();
+   const auto selected = strings.combo_assets->GetCurrentSelection();
 
-   const auto asset_name = strings_assets[selected];
-   const auto balance = strings_balances[selected].ToStdString();
-   const auto precision = strings_precisions[selected].ToStdString();
+   const auto asset_name = strings.assets[selected];
+   const auto balance = strings.balances[selected].ToStdString();
+   const auto precision = strings.precisions[selected].ToStdString();
 
    const auto dividend = pow(10, std::stoi(precision));
 
    stringstream pretty_balance;
    pretty_balance << fixed << std::setprecision(std::stoi(precision)) << std::stod(balance)/dividend;
 
-   balanceMsg->SetLabel(pretty_balance.str() + " " + asset_name);
+   strings.balance->SetLabel(pretty_balance.str() + " " + asset_name);
 
-   p_sendreceive->send_asset->SetSelection(selected);
-   selected_asset = asset_name;
+   modes.p_sendreceive->send_asset->SetSelection(selected);
+   strings.selected_asset = asset_name;
 
    sizers.info->Layout();
    sizers.transfer->Layout();
@@ -311,8 +311,8 @@ void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
 
 void GWallet::DoAssets(std::string account)
 {
-   combo_assets->Clear();
-   strings_assets.Clear();
+   strings.combo_assets->Clear();
+   strings.assets.Clear();
 
    int n = 0;
    std::string first_asset;
@@ -339,17 +339,17 @@ void GWallet::DoAssets(std::string account)
          stringstream pretty_balance;
 
          pretty_balance << fixed << std::setprecision(precision)  << mb.amount.value/dividend;
-         balanceMsg->SetLabel(pretty_balance.str() + " " + first_asset);
+         strings.balance->SetLabel(pretty_balance.str() + " " + first_asset);
          sizers.info->Layout();
       }
-      strings_assets.Add(asset);
-      strings_balances.Add(fc::to_string(mb.amount.value));
-      strings_precisions.Add(fc::to_string(bitshares.wallet_api_ptr->get_asset(asset_id).precision));
+      strings.assets.Add(asset);
+      strings.balances.Add(fc::to_string(mb.amount.value));
+      strings.precisions.Add(fc::to_string(bitshares.wallet_api_ptr->get_asset(asset_id).precision));
       n++;
    }
-   combo_assets->Set(strings_assets);
-   combo_assets->SetSelection(0);
-   combo_assets->Enable(true);
+   strings.combo_assets->Set(strings.assets);
+   strings.combo_assets->SetSelection(0);
+   strings.combo_assets->Enable(true);
 }
 
 void GWallet::DoAccounts()
@@ -359,13 +359,13 @@ void GWallet::DoAccounts()
 
    for( auto& ma : my_accounts ) {
       auto name = ma.name;
-      if(n == 0) first_account_name = name;
-      strings_accounts.Add(name);
+      if(n == 0) strings.first_account_name = name;
+      strings.accounts.Add(name);
       n++;
    }
-   combo_accounts->Set(strings_accounts);
-   combo_accounts->SetSelection(0);
-   combo_accounts->Enable(true);
+   strings.combo_accounts->Set(strings.accounts);
+   strings.combo_accounts->SetSelection(0);
+   strings.combo_accounts->Enable(true);
 }
 
 void GWallet::DoModes()
@@ -373,26 +373,27 @@ void GWallet::DoModes()
    Home *home = new Home(this);
    home->CreateControls();
    home->CreateEvents();
-   p_home = home;
+   modes.p_home = home;
 
    Cli *cli = new Cli(this);
    cli->CreateControls();
    cli->CreateEvents();
+   modes.p_cli = cli;
 
    SendReceive *sendreceive = new SendReceive(this);
    sendreceive->CreateControls();
    sendreceive->CreateEvents();
-   p_sendreceive = sendreceive;
+   modes.p_sendreceive = sendreceive;
 
    History *history = new History(this);
    history->CreateControls();
    history->CreateEvents();
-   p_history = history;
+   modes.p_history = history;
 
    Wallet *wallet = new Wallet(this);
    wallet->CreateControls();
    wallet->CreateEvents();
-   p_wallet = wallet;
+   modes.p_wallet = wallet;
 }
 
 void GWallet::LoadWelcomeWidget()
@@ -402,17 +403,17 @@ void GWallet::LoadWelcomeWidget()
 
    const wxBitmap wizard_icon(directory + wxT("/icons/wizard.png"), wxBITMAP_TYPE_PNG);
 
-   wizard = new wxWizard(panel, ID_WIZARD, _("Welcome to Bitshares G-Wallet"),
+   welcome.wizard = new wxWizard(panel, ID_WIZARD, _("Welcome to Bitshares G-Wallet"),
          wizard_icon, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
 
-   page1 = new Welcome1(wizard, this);
-   page2 = new Welcome2(wizard, this);
-   page3 = new Welcome3(wizard, this);
-   page4 = new Welcome4(wizard, this);
+   welcome.page1 = new Welcome1(welcome.wizard, this);
+   welcome.page2 = new Welcome2(welcome.wizard, this);
+   welcome.page3 = new Welcome3(welcome.wizard, this);
+   welcome.page4 = new Welcome4(welcome.wizard, this);
 
-   (*page1).Chain(page2).Chain(page3).Chain(page4);
+   (*welcome.page1).Chain(welcome.page2).Chain(welcome.page3).Chain(welcome.page4);
 
-   wizard->RunWizard(page1);
+   welcome.wizard->RunWizard(welcome.page1);
 }
 
 void GWallet::OnHomeMode(wxCommandEvent& WXUNUSED(event))
@@ -459,7 +460,7 @@ void GWallet::OnHistoryMode(wxCommandEvent& WXUNUSED(event))
    wxWindowDisabler disableAll;
    wxBusyInfo wait(_("Please wait, pulling the last history of your account ..."));
    wxTheApp->Yield();
-   p_history->DoHistory(first_account_name);
+   modes.p_history->DoHistory(strings.first_account_name.ToStdString());
 
    sizers.main->Hide(sizers.home, true);
    sizers.main->Hide(sizers.cli, true);

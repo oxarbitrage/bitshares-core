@@ -401,7 +401,7 @@ void Home::DoInitialData()
    build_value = build_string.substr(1, build_string.length()-2);
 
    if(!p_GWallet->state.is_new) {
-      const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->selected_account.ToStdString());
+      const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->strings.selected_account.ToStdString());
       account_name_value = account.name;
 
       const auto account_id_string = fc::json::to_string(account.id);
@@ -500,7 +500,7 @@ void Home::DoAccount()
    head_block_num->SetLabel(head_block_num_string);
    head_block_age->SetLabel(head_block_age_string.substr(1,head_block_age_string.length()-2));
 
-   const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->selected_account.ToStdString());
+   const auto account = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->strings.selected_account.ToStdString());
    const auto account_id_string = fc::json::to_string(account.id);
    account_id_value = account_id_string.substr(1, account_id_string.length() - 2);
 
