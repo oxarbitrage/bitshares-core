@@ -7,8 +7,8 @@ History::History(GWallet* gwallet) : wxFrame()
 
 void History::CreateControls()
 {
-   p_GWallet->sizerHistoryMode = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->mainSizer->Add(p_GWallet->sizerHistoryMode, 0, wxGROW|wxALL);
+   p_GWallet->sizers.history = new wxBoxSizer(wxVERTICAL);
+   p_GWallet->sizers.main->Add(p_GWallet->sizers.history, 0, wxGROW|wxALL);
 
    grid = new wxGrid(p_GWallet->panel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
    grid->CreateGrid(10, 5);
@@ -21,10 +21,10 @@ void History::CreateControls()
    //grid->SetColLabelValue(5, "Raw");
 
    grid->Enable(false);
-   p_GWallet->sizerHistoryMode->Add(grid, 0, wxALL, 5);
+   p_GWallet->sizers.history->Add(grid, 0, wxALL, 5);
 
-   p_GWallet->mainSizer->Hide(p_GWallet->sizerHistoryMode, true);
-   p_GWallet->mainSizer->Layout();
+   p_GWallet->sizers.main->Hide(p_GWallet->sizers.history, true);
+   p_GWallet->sizers.main->Layout();
 }
 
 void History::CreateEvents()

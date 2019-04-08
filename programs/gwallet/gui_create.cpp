@@ -225,25 +225,25 @@ void GWallet::DoState() {
 
 void GWallet::CreateInfo()
 {
-   infoSizer = new wxBoxSizer(wxHORIZONTAL);
-   mainSizer->Add(infoSizer, 0, wxGROW|wxALL);
+   sizers.info = new wxBoxSizer(wxHORIZONTAL);
+   sizers.main->Add(sizers.info, 0, wxGROW|wxALL);
 
    wxFont font = wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false);
 
    mainMsg = new wxStaticText(panel, wxID_STATIC, wxT("G-Wallet Offline"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
    mainMsg->SetFont(font);
-   infoSizer->Add(mainMsg, 0, wxALL|wxALIGN_LEFT, 5);
+   sizers.info->Add(mainMsg, 0, wxALL|wxALIGN_LEFT, 5);
 
-   infoSizer->AddStretchSpacer();
+   sizers.info->AddStretchSpacer();
 
    balanceMsg = new wxStaticText(panel, wxID_STATIC, wxT("0.00 BTS"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT);
    balanceMsg->SetFont(font);
-   infoSizer->Add(balanceMsg, 0, wxALL|wxALIGN_RIGHT, 5);
+   sizers.info->Add(balanceMsg, 0, wxALL|wxALIGN_RIGHT, 5);
 }
 
 void GWallet::CreateMain()
 {
    panel = new wxPanel(this, wxID_ANY);
-   mainSizer = new wxBoxSizer(wxVERTICAL);
-   panel->SetSizer(mainSizer);
+   sizers.main = new wxBoxSizer(wxVERTICAL);
+   panel->SetSizer(sizers.main);
 }

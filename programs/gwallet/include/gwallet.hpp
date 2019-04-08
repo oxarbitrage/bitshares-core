@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bitshares.hpp"
-//#include "wizards/welcome.hpp"
 
 #include <wx/wx.h>
 #include <wx/notebook.h>
@@ -29,6 +28,16 @@ struct State {
    bool modes_created = false;
 };
 
+struct Sizers {
+   wxBoxSizer* main;
+   wxBoxSizer* info;
+   wxBoxSizer* cli;
+   wxBoxSizer* history;
+   wxBoxSizer* transfer;
+   wxBoxSizer* home;
+   wxBoxSizer* wallet;
+};
+
 class GWallet : public wxFrame
 {
 public:
@@ -50,13 +59,7 @@ public:
    wxMenu* wallet_m;
 
    wxPanel* panel;
-   wxBoxSizer* mainSizer;
-   wxBoxSizer* infoSizer;
-   wxBoxSizer* sizerCommandMode;
-   wxBoxSizer* sizerHistoryMode;
-   wxBoxSizer* sizerTransferMode;
-   wxBoxSizer* sizerHomeMode;
-   wxBoxSizer* sizerWalletMode;
+   Sizers sizers;
 
    wxStaticText* mainMsg;
    wxStaticText* balanceMsg;

@@ -8,8 +8,8 @@ Wallet::Wallet(GWallet* gwallet) : wxFrame()
 
 void Wallet::CreateControls()
 {
-   p_GWallet->sizerWalletMode = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->mainSizer->Add(p_GWallet->sizerWalletMode, 0, wxGROW|wxALL);
+   p_GWallet->sizers.wallet = new wxBoxSizer(wxVERTICAL);
+   p_GWallet->sizers.main->Add(p_GWallet->sizers.wallet, 0, wxGROW|wxALL);
 
    wxStaticBox* itemStaticBoxSizer1Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Select a Command"));
    wxStaticBoxSizer* itemStaticBoxSizer1 = new wxStaticBoxSizer(itemStaticBoxSizer1Static, wxVERTICAL);
@@ -74,10 +74,10 @@ void Wallet::CreateControls()
    updateproxy_button->Enable(false);
    itemBoxSizer14->Add(updateproxy_button, 2, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   p_GWallet->sizerWalletMode->Add(itemStaticBoxSizer1, 0, wxALL, 5);
+   p_GWallet->sizers.wallet->Add(itemStaticBoxSizer1, 0, wxALL, 5);
 
-   p_GWallet->mainSizer->Hide(p_GWallet->sizerWalletMode, true);
-   p_GWallet->mainSizer->Layout();
+   p_GWallet->sizers.main->Hide(p_GWallet->sizers.wallet, true);
+   p_GWallet->sizers.main->Layout();
 }
 
 void Wallet::CreateEvents()

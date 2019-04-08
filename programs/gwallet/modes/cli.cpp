@@ -9,11 +9,11 @@ Cli::Cli(GWallet* gwallet) : wxFrame()
 
 void Cli::CreateControls()
 {
-   p_GWallet->sizerCommandMode = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->mainSizer->Add(p_GWallet->sizerCommandMode, 0, wxGROW|wxALL);
+   p_GWallet->sizers.cli = new wxBoxSizer(wxVERTICAL);
+   p_GWallet->sizers.main->Add(p_GWallet->sizers.cli, 0, wxGROW|wxALL);
 
    wxBoxSizer* sizerCommandCtrls = new wxBoxSizer(wxHORIZONTAL);
-   p_GWallet->sizerCommandMode->Add(sizerCommandCtrls, 0, wxGROW|wxALL);
+   p_GWallet->sizers.cli->Add(sizerCommandCtrls, 0, wxGROW|wxALL);
 
    sendCliText = new wxTextCtrl( p_GWallet->panel, ID_CLITEXT, _("about"),
          wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
@@ -29,10 +29,10 @@ void Cli::CreateControls()
 
    itemTextCLI = new wxTextCtrl( p_GWallet->panel, ID_CLI, wxEmptyString,
          wxDefaultPosition, wxSize(-1, 500), wxTE_MULTILINE );
-   p_GWallet->sizerCommandMode->Add(itemTextCLI, 0, wxGROW|wxALL, 5);
+   p_GWallet->sizers.cli->Add(itemTextCLI, 0, wxGROW|wxALL, 5);
 
-   p_GWallet->mainSizer->Hide(p_GWallet->sizerCommandMode, true);
-   p_GWallet->mainSizer->Layout();
+   p_GWallet->sizers.main->Hide(p_GWallet->sizers.cli, true);
+   p_GWallet->sizers.main->Layout();
 }
 
 void Cli::CreateEvents()

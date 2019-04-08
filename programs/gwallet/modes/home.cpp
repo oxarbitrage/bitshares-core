@@ -12,8 +12,8 @@ void Home::CreateControls()
    DoTimers();
    DoInitialData();
 
-   p_GWallet->sizerHomeMode = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->mainSizer->Add(p_GWallet->sizerHomeMode, 0, wxGROW|wxALL);
+   p_GWallet->sizers.home = new wxBoxSizer(wxVERTICAL);
+   p_GWallet->sizers.main->Add(p_GWallet->sizers.home, 0, wxGROW|wxALL);
 
    wxGridSizer* itemGridSizer2 = new wxGridSizer(0, 2, 0, 0);
 
@@ -342,9 +342,9 @@ void Home::CreateControls()
          wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer57->Add(btc_bts, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-   p_GWallet->sizerHomeMode->Add(itemGridSizer2, 0, wxALL, 5);
+   p_GWallet->sizers.home->Add(itemGridSizer2, 0, wxALL, 5);
 
-   p_GWallet->mainSizer->Layout();
+   p_GWallet->sizers.main->Layout();
 }
 
 void Home::CreateEvents()

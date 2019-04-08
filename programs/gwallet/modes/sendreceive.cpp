@@ -9,11 +9,11 @@ void SendReceive::CreateControls()
 {
    wxBitmap qr_image(p_GWallet->directory + wxT("/icons/qr.png"), wxBITMAP_TYPE_PNG);
 
-   p_GWallet->sizerTransferMode = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->mainSizer->Add(p_GWallet->sizerTransferMode, 0, wxGROW|wxALL);
+   p_GWallet->sizers.transfer = new wxBoxSizer(wxVERTICAL);
+   p_GWallet->sizers.main->Add(p_GWallet->sizers.transfer, 0, wxGROW|wxALL);
 
    wxBoxSizer* itemBoxSizer1 = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->sizerTransferMode->Add(itemBoxSizer1, 0, wxGROW|wxALL);
+   p_GWallet->sizers.transfer->Add(itemBoxSizer1, 0, wxGROW|wxALL);
 
    wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
    itemBoxSizer1->Add(itemBoxSizer2, 0, wxGROW|wxALL, 5);
@@ -114,8 +114,8 @@ void SendReceive::CreateControls()
          qr_image, wxDefaultPosition, wxDefaultSize, 0 );
    itemStaticBoxSizer11->Add(itemStaticBitmap12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-   p_GWallet->mainSizer->Hide(p_GWallet->sizerTransferMode, true);
-   p_GWallet->mainSizer->Layout();
+   p_GWallet->sizers.main->Hide(p_GWallet->sizers.transfer, true);
+   p_GWallet->sizers.main->Layout();
 }
 
 void SendReceive::CreateEvents()

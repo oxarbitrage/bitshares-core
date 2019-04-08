@@ -305,8 +305,8 @@ void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
    p_sendreceive->send_asset->SetSelection(selected);
    selected_asset = asset_name;
 
-   infoSizer->Layout();
-   sizerTransferMode->Layout();
+   sizers.info->Layout();
+   sizers.transfer->Layout();
 }
 
 void GWallet::DoAssets(std::string account)
@@ -340,7 +340,7 @@ void GWallet::DoAssets(std::string account)
 
          pretty_balance << fixed << std::setprecision(precision)  << mb.amount.value/dividend;
          balanceMsg->SetLabel(pretty_balance.str() + " " + first_asset);
-         infoSizer->Layout();
+         sizers.info->Layout();
       }
       strings_assets.Add(asset);
       strings_balances.Add(fc::to_string(mb.amount.value));
@@ -421,35 +421,35 @@ void GWallet::OnHomeMode(wxCommandEvent& WXUNUSED(event))
    //m_timer.Start(30000);
    //p_home->DoInitialData();
 
-   mainSizer->Show(sizerHomeMode, true, true);
-   mainSizer->Hide(sizerCommandMode, true);
-   mainSizer->Hide(sizerTransferMode, true);
-   mainSizer->Hide(sizerHistoryMode, true);
-   mainSizer->Hide(sizerWalletMode, true);
-   mainSizer->Layout();
+   sizers.main->Show(sizers.home, true, true);
+   sizers.main->Hide(sizers.cli, true);
+   sizers.main->Hide(sizers.transfer, true);
+   sizers.main->Hide(sizers.history, true);
+   sizers.main->Hide(sizers.wallet, true);
+   sizers.main->Layout();
 }
 
 void GWallet::OnCommandMode(wxCommandEvent& WXUNUSED(event))
 {
    //Home::StopTimer();
    //m_timer.Stop();
-   mainSizer->Show(sizerCommandMode, true, true);
-   mainSizer->Hide(sizerHomeMode, true);
-   mainSizer->Hide(sizerHistoryMode, true);
-   mainSizer->Hide(sizerTransferMode, true);
-   mainSizer->Hide(sizerWalletMode, true);
-   mainSizer->Layout();
+   sizers.main->Hide(sizers.home, true);
+   sizers.main->Show(sizers.cli, true, true);
+   sizers.main->Hide(sizers.transfer, true);
+   sizers.main->Hide(sizers.history, true);
+   sizers.main->Hide(sizers.wallet, true);
+   sizers.main->Layout();
 }
 
 void GWallet::OnTransferMode(wxCommandEvent& WXUNUSED(event))
 {
    //m_timer.Stop();
-   mainSizer->Show(sizerTransferMode, true, true);
-   mainSizer->Hide(sizerHomeMode, true);
-   mainSizer->Hide(sizerCommandMode, true);
-   mainSizer->Hide(sizerHistoryMode, true);
-   mainSizer->Hide(sizerWalletMode, true);
-   mainSizer->Layout();
+   sizers.main->Hide(sizers.home, true);
+   sizers.main->Hide(sizers.cli, true);
+   sizers.main->Show(sizers.transfer, true, true);
+   sizers.main->Hide(sizers.history, true);
+   sizers.main->Hide(sizers.wallet, true);
+   sizers.main->Layout();
 }
 
 void GWallet::OnHistoryMode(wxCommandEvent& WXUNUSED(event))
@@ -461,23 +461,24 @@ void GWallet::OnHistoryMode(wxCommandEvent& WXUNUSED(event))
    wxTheApp->Yield();
    p_history->DoHistory(first_account_name);
 
-   mainSizer->Show(sizerHistoryMode, true, true);
-   mainSizer->Hide(sizerHomeMode, true);
-   mainSizer->Hide(sizerCommandMode, true);
-   mainSizer->Hide(sizerTransferMode, true);
-   mainSizer->Hide(sizerWalletMode, true);
-   mainSizer->Layout();
+   sizers.main->Hide(sizers.home, true);
+   sizers.main->Hide(sizers.cli, true);
+   sizers.main->Hide(sizers.transfer, true);
+   sizers.main->Show(sizers.history, true, true);
+   sizers.main->Hide(sizers.wallet, true);
+   sizers.main->Layout();
 }
 
 void GWallet::OnWalletMode(wxCommandEvent& WXUNUSED(event))
 {
    //m_timer.Stop();
-   mainSizer->Show(sizerWalletMode, true, true);
-   mainSizer->Hide(sizerHomeMode, true);
-   mainSizer->Hide(sizerCommandMode, true);
-   mainSizer->Hide(sizerTransferMode, true);
-   mainSizer->Hide(sizerHistoryMode, true);
-   mainSizer->Layout();
+
+   sizers.main->Hide(sizers.home, true);
+   sizers.main->Hide(sizers.cli, true);
+   sizers.main->Hide(sizers.transfer, true);
+   sizers.main->Hide(sizers.history, true);
+   sizers.main->Show(sizers.wallet, true, true);
+   sizers.main->Layout();
 }
 
 void GWallet::CreateEvents()
