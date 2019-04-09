@@ -47,16 +47,16 @@ void Cli::CreateEvents()
 
 void Cli::OnCliCommand(wxCommandEvent & WXUNUSED(event))
 {
-   auto line = sendCliText->GetValue();
-   auto wallet_api = fc::api<graphene::wallet::wallet_api>(p_GWallet->bitshares.wallet_api_ptr);
-   auto api_id = p_GWallet->bitshares.wallet_cli->register_api(wallet_api);
+   const auto line = sendCliText->GetValue();
+   const auto wallet_api = fc::api<graphene::wallet::wallet_api>(p_GWallet->bitshares.wallet_api_ptr);
+   const auto api_id = p_GWallet->bitshares.wallet_cli->register_api(wallet_api);
 
    try {
-      fc::variants line_variants = fc::json::variants_from_string(line.ToStdString());
-      auto command = line_variants[0].get_string();
-      auto arguments_variants = fc::variants( line_variants.begin()+1,line_variants.end());
-      auto response = p_GWallet->bitshares.wallet_cli->receive_call(api_id, command, arguments_variants);
-      auto output = fc::json::to_pretty_string(response);
+      const fc::variants line_variants = fc::json::variants_from_string(line.ToStdString());
+      const auto command = line_variants[0].get_string();
+      const auto arguments_variants = fc::variants( line_variants.begin()+1,line_variants.end());
+      const auto response = p_GWallet->bitshares.wallet_cli->receive_call(api_id, command, arguments_variants);
+      const auto output = fc::json::to_pretty_string(response);
 
       std::string prompt = "";
       if( p_GWallet->bitshares.wallet_api_ptr->is_new() )
@@ -77,7 +77,7 @@ void Cli::OnCliCommand(wxCommandEvent & WXUNUSED(event))
       itemTextCLI->AppendText(output + "\n");
       itemTextCLI->AppendText(prompt + "\n");
    }
-   catch( const fc::exception& e )
+   catch(const fc::exception& e)
    {
       p_GWallet->OnError(e.to_detail_string());
    }
@@ -87,4 +87,3 @@ void Cli::OnCliClear(wxCommandEvent & WXUNUSED(event))
 {
    itemTextCLI->SetValue("");
 }
-
