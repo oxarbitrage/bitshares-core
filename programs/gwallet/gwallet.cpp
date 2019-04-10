@@ -22,6 +22,7 @@
 #include <wx/stdpaths.h>
 #include <wx/hyperlink.h>
 #include <wx/filedlg.h>
+#include <wx/filectrl.h>
 
 GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200, 900))
 {
