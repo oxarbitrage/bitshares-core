@@ -196,7 +196,7 @@ void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
    catch(const fc::exception& e)
    {
       p_GWallet->OnError(_("Account is invalid"));
-      from->SetFocus();
+      to->SetFocus();
       return;
    }
 

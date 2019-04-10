@@ -2,6 +2,7 @@ add_executable( gwallet
 		main.cpp gwallet.cpp bitshares.cpp gui_create.cpp
 		dialogs/importkey.cpp
 		dialogs/transfer.cpp
+		dialogs/sellasset.cpp
 		modes/home.cpp
 		modes/wallet.cpp
 		modes/cli.cpp

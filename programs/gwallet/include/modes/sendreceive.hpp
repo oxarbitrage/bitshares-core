@@ -1,6 +1,8 @@
 #include <wx/wx.h>
 #include <wx/srchctrl.h>
 #include <wx/combo.h>
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
 
 #ifndef GWALLET_H
 #include "../gwallet.hpp"
@@ -42,4 +44,3 @@ const int ID_SEND_FROM = 4222;
 const int ID_SEND_GENERATE_URL = 4223;
 const int ID_RECEIVE_GENERATE_URL = 4224;
 const int ID_RECEIVE_ASSET = 4225;
-
