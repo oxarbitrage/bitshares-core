@@ -42,12 +42,12 @@ GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefau
    Centre();
 }
 
-void GWallet::OnNew(wxCommandEvent & WXUNUSED(event))
+void GWallet::OnNew(wxCommandEvent& WXUNUSED(event))
 {
    LoadWelcomeWidget();
 }
 
-void GWallet::OnOpen(wxCommandEvent & WXUNUSED(event))
+void GWallet::OnOpen(wxCommandEvent& WXUNUSED(event))
 {
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    wxString defaultDir(f.GetPath());
@@ -57,7 +57,7 @@ void GWallet::OnOpen(wxCommandEvent & WXUNUSED(event))
    wxFileDialog dialog(this, _("Open a saved wallet"), defaultDir, wxT("wallet.json"), wildcard);
    if (dialog.ShowModal() == wxID_OK)
    {
-      wxString path = dialog.GetPath();
+      const wxString path = dialog.GetPath();
       config->Write("WalletPath", path);
       config->Flush();
 
@@ -72,7 +72,7 @@ void GWallet::OnOpen(wxCommandEvent & WXUNUSED(event))
    }
 }
 
-void GWallet::OnSave(wxCommandEvent & WXUNUSED(event))
+void GWallet::OnSave(wxCommandEvent& WXUNUSED(event))
 {
    const wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    const wxString defaultDir(f.GetPath());
@@ -89,7 +89,7 @@ void GWallet::OnSave(wxCommandEvent & WXUNUSED(event))
    }
 }
 
-void GWallet::OnNetwork(wxCommandEvent & WXUNUSED(event))
+void GWallet::OnNetwork(wxCommandEvent& WXUNUSED(event))
 {
    wxTextEntryDialog dialog(this, _("Enter server"), _("Websocket endpoint"));
    if ( dialog.ShowModal() == wxID_OK )
@@ -353,11 +353,11 @@ void GWallet::DoAssets(std::string account)
 
 void GWallet::DoAccounts()
 {
-   const auto my_accounts = bitshares.wallet_api_ptr->list_my_accounts();
+   const auto& accounts = bitshares.wallet_api_ptr->list_my_accounts();
    int n = 0;
 
-   for( auto& ma : my_accounts ) {
-      auto name = ma.name;
+   for(auto& account : accounts) {
+      auto name = account.name;
       if(n == 0) strings.first_account_name = name;
       strings.accounts.Add(name);
       n++;
@@ -397,8 +397,8 @@ void GWallet::DoModes()
 
 void GWallet::LoadWelcomeWidget()
 {
-   wxFileName f(wxStandardPaths::Get().GetExecutablePath());
-   wxString directory(f.GetPath());
+   const wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+   const wxString directory(f.GetPath());
 
    const wxBitmap wizard_icon(directory + wxT("/icons/wizard.png"), wxBITMAP_TYPE_PNG);
 

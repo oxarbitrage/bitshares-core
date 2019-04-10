@@ -207,30 +207,24 @@ void SellAssetDialog::CreateEvents()
 
 void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 {
-   const auto seller_v = p_GWallet->strings.accounts[seller->GetCurrentSelection()].ToStdString();
-   const auto sell_amount_v = sell_amount->GetValue().ToStdString();
-   const auto sell_asset_v = p_GWallet->strings.assets[sell_asset->GetCurrentSelection()].ToStdString();
-   const auto receive_amount_v = receive_amount->GetValue().ToStdString();
-   const auto receive_asset_v = receive_asset->GetValue().ToStdString();
-   const auto fill_or_kill_v = receive_asset->GetValue();
-   bool fill_or_kill_vv;
-   if(fill_or_kill_v == "true")
-      fill_or_kill_vv = true;
-   else
-      fill_or_kill_vv = false;
+   const auto seller_value = p_GWallet->strings.accounts[seller->GetCurrentSelection()].ToStdString();
+   const auto sell_amount_value = sell_amount->GetValue().ToStdString();
+   const auto sell_asset_value = p_GWallet->strings.assets[sell_asset->GetCurrentSelection()].ToStdString();
+   const auto receive_amount_value = receive_amount->GetValue().ToStdString();
+   const auto receive_asset_value = receive_asset->GetValue().ToStdString();
+   const auto fill_or_kill_value = receive_asset->GetValue() == "true" ? true : false;
 
-   const auto date_v = date->GetValue().ToUTC().GetValue().ToLong()/1000;
+   const auto date_value = date->GetValue().ToUTC().GetValue().ToLong()/1000;
    const auto time_second = time->GetValue().ToUTC().GetSecond();
    const auto time_minute = time->GetValue().ToUTC().GetMinute();
    const auto time_hour = time->GetValue().ToUTC().GetHour();
-
-   const auto time_v = (time_hour*3600) + (time_minute*60) + time_second;
-
+   const auto time_value = (time_hour*3600) + (time_minute*60) + time_second;
    auto now = wxDateTime::Now().ToUTC().GetValue().ToLong()/1000;
+   uint32_t expiration_value = date_value + time_value - now;
 
    try
    {
-      p_GWallet->bitshares.wallet_api_ptr->get_asset(receive_asset_v);
+      p_GWallet->bitshares.wallet_api_ptr->get_asset(receive_asset_value);
    }
    catch(const fc::exception& e)
    {
@@ -240,13 +234,13 @@ void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
    }
 
    try {
-      auto result = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_v, sell_amount_v, sell_asset_v,
-            receive_amount_v, receive_asset_v, date_v + time_v - now, fill_or_kill_vv, false);
+      auto result = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
+            sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, false);
 
       if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm Sell Asset?"),
-                                wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-         p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_v, sell_amount_v, sell_asset_v, receive_amount_v,
-               receive_asset_v, date_v + time_v - now, fill_or_kill_vv, true);
+            wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+         auto result = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
+               sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, true);
       }
    }
    catch (const fc::exception &e) {
