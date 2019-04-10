@@ -100,19 +100,19 @@ void Welcome2::OnPath(wxCommandEvent& WXUNUSED(event))
 
 void Welcome2::OnWizardPageChanging(wxWizardEvent& event)
 {
-   const auto path = pathCtrl->GetValue();
-   if(wxFileExists(path))
-   {
-      wxMessageDialog dialog( NULL, _("Wallet file exists, please close the welcome wizard and use File->Open "
-                                      "from menu to use it."), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
-      if (dialog.ShowModal() == wxID_OK)
-      {
-         event.Veto();
-         return;
+   if(event.GetDirection()) {
+      const auto path = pathCtrl->GetValue();
+      if (wxFileExists(path)) {
+         wxMessageDialog dialog(NULL, _("Wallet file exists, please close the welcome wizard and use File->Open "
+                                        "from menu to use it."), _("Error"), wxNO_DEFAULT | wxOK | wxICON_ERROR);
+         if (dialog.ShowModal() == wxID_OK) {
+            event.Veto();
+            return;
+         }
       }
+      p_GWallet->config->Write("WalletPath", path);
+      p_GWallet->config->Flush();
    }
-   p_GWallet->config->Write("WalletPath", path);
-   p_GWallet->config->Flush();
 }
 
 Welcome3::Welcome3(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(parent)
@@ -190,56 +190,54 @@ void Welcome3::OnTestServer(wxCommandEvent& WXUNUSED(event))
 
 void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
 {
-   const auto server = serverCtrl->GetValue();
-   const auto password = passwordCtrl->GetValue();
-   const auto repeatpassword = repeatpasswordCtrl->GetValue();
+   if(event.GetDirection()) {
 
-   if(password != repeatpassword) {
-      wxMessageDialog dialog(NULL, _("Password and confirmation are not the same"),
-            _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      const auto server = serverCtrl->GetValue();
+      const auto password = passwordCtrl->GetValue();
+      const auto repeatpassword = repeatpasswordCtrl->GetValue();
 
-      if(dialog.ShowModal() == wxID_OK)
-      {
-         event.Veto();
-         return;
+      if (password != repeatpassword) {
+         wxMessageDialog dialog(NULL, _("Password and confirmation are not the same"),
+               _("Error"), wxNO_DEFAULT | wxOK | wxICON_ERROR);
+
+         if (dialog.ShowModal() == wxID_OK) {
+            event.Veto();
+            return;
+         }
+      } else if (password == "" && repeatpassword == "") {
+         wxMessageDialog dialog(NULL, _("Password or confirmation cant be empty"),
+               _("Error"), wxNO_DEFAULT | wxOK | wxICON_ERROR);
+
+         if (dialog.ShowModal() == wxID_OK) {
+            event.Veto();
+            return;
+         }
       }
-   }
-   else if(password == "" && repeatpassword == "" ) {
-      wxMessageDialog dialog( NULL, _("Password or confirmation cant be empty"),
-            _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      p_GWallet->config->Write("Server", server);
+      p_GWallet->config->Flush();
 
-      if(dialog.ShowModal() == wxID_OK)
-      {
-         event.Veto();
-         return;
+      if (!p_GWallet->state.is_connected) {
+         wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
+         p_GWallet->ProcessWindowEvent(event_connect);
       }
-   }
-   p_GWallet->config->Write("Server", server);
-   p_GWallet->config->Flush();
 
-   if(!p_GWallet->state.is_connected) {
-      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
-      p_GWallet->ProcessWindowEvent(event_connect);
+      try {
+         p_GWallet->bitshares.wallet_api_ptr->set_password(password.ToStdString());
+      }
+      catch (const fc::exception &e) {
+         p_GWallet->OnError(e.to_detail_string());
+      }
+      try {
+         p_GWallet->bitshares.wallet_api_ptr->unlock(password.ToStdString());
+      }
+      catch (const fc::exception &e) {
+         p_GWallet->OnError(e.to_detail_string());
+      }
+      p_GWallet->state.is_locked = false;
+      p_GWallet->state.is_new = false;
+      p_GWallet->state.is_unlocked = true;
+      p_GWallet->DoState();
    }
-
-   try {
-      p_GWallet->bitshares.wallet_api_ptr->set_password(password.ToStdString());
-   }
-   catch(const fc::exception& e)
-   {
-      p_GWallet->OnError(e.to_detail_string());
-   }
-   try {
-      p_GWallet->bitshares.wallet_api_ptr->unlock(password.ToStdString());
-   }
-   catch(const fc::exception& e)
-   {
-      p_GWallet->OnError(e.to_detail_string());
-   }
-   p_GWallet->state.is_locked = false;
-   p_GWallet->state.is_new = false;
-   p_GWallet->state.is_unlocked = true;
-   p_GWallet->DoState();
 }
 
 Welcome4::Welcome4(wxWizard* parent, GWallet* gwallet) : wxWizardPageSimple(parent)
@@ -335,72 +333,65 @@ void Welcome4::OnKey(wxCommandEvent& WXUNUSED(event))
 
 void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
 {
-   wxWindowDisabler disableAll;
-   wxBusyInfo wait(_("Please wait, setting up everything ..."));
-   wxTheApp->Yield();
+   if(event.GetDirection()) {
+      wxWindowDisabler disableAll;
+      wxBusyInfo wait(_("Please wait, setting up everything ..."));
+      wxTheApp->Yield();
 
-   auto account = accountCtrl->GetValue();
-   auto key = keyCtrl->GetValue();
+      auto account = accountCtrl->GetValue();
+      auto key = keyCtrl->GetValue();
 
-   if(account == "") {
-      wxMessageDialog dialog( NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+      if (account == "") {
+         wxMessageDialog dialog(NULL, _("Account can't be empty"), _("Error"), wxNO_DEFAULT | wxOK | wxICON_ERROR);
 
-      if(dialog.ShowModal() == wxID_OK)
-      {
+         if (dialog.ShowModal() == wxID_OK) {
+            event.Veto();
+         }
+      } else {
+         try {
+            p_GWallet->bitshares.wallet_api_ptr->get_account(account.ToStdString());
+         }
+         catch (const fc::exception &e) {
+            p_GWallet->OnError("Account is invalid");
+            accountCtrl->SetFocus();
+            return;
+         }
+      }
+
+      if (key == "") {
+         wxMessageDialog dialog(NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT | wxOK | wxICON_ERROR);
+
+         if (dialog.ShowModal() == wxID_OK) {
+            event.Veto();
+         }
+      } else {
+         // todo: do some validation on private key length and prefix?
+      }
+
+      try {
+         p_GWallet->bitshares.wallet_api_ptr->import_key(account.ToStdString(), key.ToStdString());
+      }
+      catch (const fc::exception &e) {
+         //p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
+         p_GWallet->OnError(e.to_detail_string());
          event.Veto();
       }
-   }
-   else
-   {
-      try
-      {
-         p_GWallet->bitshares.wallet_api_ptr->get_account(account.ToStdString());
+
+      p_GWallet->DoAccounts();
+      p_GWallet->DoAssets(account.ToStdString());
+
+      p_GWallet->config->Write("AllSet", true);
+      p_GWallet->config->Flush();
+
+      p_GWallet->state.is_account_linked = true;
+      p_GWallet->strings.selected_account = account;
+
+      if (!p_GWallet->state.modes_created) {
+         p_GWallet->DoModes();
+         p_GWallet->state.modes_created = true;
       }
-      catch(const fc::exception& e)
-      {
-         p_GWallet->OnError("Account is invalid");
-         accountCtrl->SetFocus();
-         return;
-      }
+
+      p_GWallet->DoState();
    }
-
-   if(key == "") {
-      wxMessageDialog dialog( NULL, _("Private key can't be empty"), _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
-
-      if(dialog.ShowModal() == wxID_OK)
-      {
-         event.Veto();
-      }
-   }
-   else {
-      // todo: do some validation on private key length and prefix?
-   }
-
-   try
-   {
-      p_GWallet->bitshares.wallet_api_ptr->import_key(account.ToStdString(), key.ToStdString());
-   }
-   catch(const fc::exception& e)
-   {
-      //p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
-      p_GWallet->OnError(e.to_detail_string());
-      event.Veto();
-   }
-
-   p_GWallet->DoAccounts();
-   p_GWallet->DoAssets(account.ToStdString());
-
-   p_GWallet->config->Write("AllSet", true);
-   p_GWallet->config->Flush();
-
-   p_GWallet->state.is_account_linked = true;
-
-   p_GWallet->DoState();
-
-   if(!p_GWallet->state.modes_created) {
-      p_GWallet->DoModes();
-      p_GWallet->state.modes_created = true;
-   }
-
 }
 
