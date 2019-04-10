@@ -321,35 +321,29 @@ void GWallet::DoAssets(std::string account)
    strings.assets.Clear();
 
    int n = 0;
-   std::string first_asset;
-   std::string first_balance;
-   std::string first_precision;
 
-   const auto my_balances = bitshares.wallet_api_ptr->list_account_balances(account);
-   for( auto& mb : my_balances ) {
+   const auto& account_balances = bitshares.wallet_api_ptr->list_account_balances(account);
+   for(auto& account_balance : account_balances) {
 
-      std::string asset_id = fc::to_string(mb.asset_id.space_id)
-            + "." + fc::to_string(mb.asset_id.type_id)
-            + "." + fc::to_string(mb.asset_id.instance.value);
+      std::string asset_id_string = fc::to_string(account_balance.asset_id.space_id)
+            + "." + fc::to_string(account_balance.asset_id.type_id)
+            + "." + fc::to_string(account_balance.asset_id.instance.value);
 
-      const auto asset = bitshares.wallet_api_ptr->get_asset(asset_id).symbol;
+      const auto& asset_object = bitshares.wallet_api_ptr->get_asset(asset_id_string);
+      const auto& asset_symbol = asset_object.symbol;
+      const auto& precision = asset_object.precision;
+      const auto& amount_value = account_balance.amount.value;
 
       if(n == 0) {
-         first_asset = asset;
-         first_balance = fc::to_string(mb.amount.value);
-         first_precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
-
-         const auto dividend = pow(10, bitshares.wallet_api_ptr->get_asset(asset_id).precision);
-         const auto precision = bitshares.wallet_api_ptr->get_asset(asset_id).precision;
+         const auto dividend = pow(10, precision);
          stringstream pretty_balance;
-
-         pretty_balance << fixed << std::setprecision(precision)  << mb.amount.value/dividend;
-         strings.balance->SetLabel(pretty_balance.str() + " " + first_asset);
+         pretty_balance << fixed << std::setprecision(precision)  << amount_value/dividend;
+         strings.balance->SetLabel(pretty_balance.str() + " " + asset_symbol);
          sizers.info->Layout();
       }
-      strings.assets.Add(asset);
-      strings.balances.Add(fc::to_string(mb.amount.value));
-      strings.precisions.Add(fc::to_string(bitshares.wallet_api_ptr->get_asset(asset_id).precision));
+      strings.assets.Add(asset_symbol);
+      strings.balances.Add(fc::to_string(amount_value));
+      strings.precisions.Add(fc::to_string(precision));
       n++;
    }
    strings.combo_assets->Set(strings.assets);
