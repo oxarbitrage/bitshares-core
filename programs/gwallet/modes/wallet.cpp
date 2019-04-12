@@ -1,6 +1,7 @@
 #include "../include/modes/wallet.hpp"
 #include "../include/dialogs/transfer.hpp"
 #include "../include/dialogs/sellasset.hpp"
+#include "../include/dialogs/borrowasset.hpp"
 
 Wallet::Wallet(GWallet* gwallet) : wxFrame()
 {
@@ -126,7 +127,7 @@ void Wallet::OnSellAsset(wxCommandEvent& event)
 
 void Wallet::OnBorrowAsset(wxCommandEvent& event)
 {
-
+   BorrowAssetDialog BorrowAssetDialog( this, -1, _("Borrow asset"), wxDefaultPosition, wxSize(-1, 400));
 }
 
 void Wallet::OnCancelOrder(wxCommandEvent& event)

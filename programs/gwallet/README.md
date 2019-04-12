@@ -167,7 +167,7 @@ List and execute wallet operations.
 
 ![Wallet mode](readme_images/wallet_mode.png)
 
-The buttons will open dialogs for each command, only `transfer` and `sell_asset` commands are available ATM, borrow asset coming soon.
+The buttons will open dialogs for each command, only `transfer`, `sell_asset` and `borrow_assetr` commands are available ATM, cancel order coming soon.
 
 Transfer dialog:
 
@@ -176,6 +176,10 @@ Transfer dialog:
 Sell Asset dialog:
 
 ![Sell Asset dialog](readme_images/sellasset_dialog.png)
+
+Borrow Asset dialog:
+
+![Borrow Asset dialog](readme_images/borrowasset_dialog.png)
 
 
 ## Install
