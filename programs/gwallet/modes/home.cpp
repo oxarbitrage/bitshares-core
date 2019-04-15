@@ -280,7 +280,7 @@ void Home::CreateControls()
    itemStaticBoxSizer41->Add(itemBoxSizer42, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText43 = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC,
-         _("USD/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
+         wxT("USD/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer42->Add(itemStaticText43, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    market.usd_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.usd_bts_value,
@@ -291,7 +291,7 @@ void Home::CreateControls()
    itemStaticBoxSizer41->Add(itemBoxSizer45, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText46 = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC,
-         _("CNY/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
+         wxT("CNY/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer45->Add(itemStaticText46, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    market.cny_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.cny_bts_value,
@@ -302,7 +302,7 @@ void Home::CreateControls()
    itemStaticBoxSizer41->Add(itemBoxSizer48, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText49 = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC,
-         _("EUR/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
+         wxT("EUR/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer48->Add(itemStaticText49, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    market.eur_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.eur_bts_value,
@@ -313,7 +313,7 @@ void Home::CreateControls()
    itemStaticBoxSizer41->Add(itemBoxSizer51, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText52 = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC,
-         _("GOLD/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
+         wxT("GOLD/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer51->Add(itemStaticText52, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    market.gold_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.gold_bts_value,
@@ -324,7 +324,7 @@ void Home::CreateControls()
    itemStaticBoxSizer41->Add(itemBoxSizer54, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText55 = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC,
-         _("SILVER/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
+         wxT("SILVER/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer54->Add(itemStaticText55, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    market.silver_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.silver_bts_value,
@@ -335,7 +335,7 @@ void Home::CreateControls()
    itemStaticBoxSizer41->Add(itemBoxSizer57, 0, wxGROW|wxALL, 5);
 
    wxStaticText* itemStaticText58 = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC,
-         _("BTC/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
+         wxT("BTC/BTS:"), wxDefaultPosition, wxDefaultSize, 0 );
    itemBoxSizer57->Add(itemStaticText58, 6, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
    market.btc_bts = new wxStaticText( itemStaticBoxSizer41->GetStaticBox(), wxID_STATIC, market.btc_bts_value,

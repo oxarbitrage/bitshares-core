@@ -110,6 +110,7 @@ private:
    void OnNetwork(wxCommandEvent& event);
    void OnQuit(wxCommandEvent& event);
    void OnAbout(wxCommandEvent& event);
+   void OnChangeLanguage(wxCommandEvent& event);
 
    void OnConnect(wxCommandEvent& event);
    void OnDisconnect(wxCommandEvent& event);
@@ -136,6 +137,9 @@ private:
    void DoInitialConfig();
 
    void LoadWelcomeWidget();
+
+   void SelectLanguage(int lang);
+   wxLocale* m_locale;
 };
 
 const int ID_CONNECT = 105;
@@ -144,6 +148,7 @@ const int ID_SETPASSWORD = 107;
 const int ID_LOCK = 109;
 const int ID_UNLOCK = 110;
 const int ID_IMPORTKEY = 111;
+const int ID_LANG = 112;
 
 const int ID_ICON_CONNECT = 113;
 const int ID_ICON_DISCONNECT = 114;

@@ -5,27 +5,28 @@ void GWallet::CreateMenu()
    navi.menubar = new wxMenuBar;
 
    navi.file = new wxMenu;
-   navi.file->Append(wxID_NEW, wxT("&New\tCtrl+N"));
-   navi.file->Append(wxID_OPEN, wxT("&Open\tCtrl+O"));
-   navi.file->Append(wxID_SAVE, wxT("&Save\tCtrl+S"));
-   navi.file->Append(wxID_NETWORK, wxT("Conn&ection\tCtrl+E"));
+   navi.file->Append(wxID_NEW, _("&New") + wxT("\tCtrl+N"));
+   navi.file->Append(wxID_OPEN, _("&Open") + wxT("\tCtrl+O"));
+   navi.file->Append(wxID_SAVE, _("&Save") + wxT("\tCtrl+S"));
+   navi.file->Append(wxID_NETWORK, _("Conn&ection") + wxT("\tCtrl+E"));
    navi.file->AppendSeparator();
-   navi.file->Append(wxID_EXIT, wxT("&Quit\tCtrl+Q"));
-   navi.menubar->Append(navi.file, wxT("&File"));
+   navi.file->Append(ID_LANG, _("&Change language") + wxT("\tCtrl+L"));
+   navi.file->Append(wxID_EXIT, _("&Quit") + wxT("\tCtrl+Q"));
+   navi.menubar->Append(navi.file, _("&File"));
 
    navi.wallet = new wxMenu;
-   navi.wallet->Append(ID_CONNECT, wxT("&Connect\tCtrl+C"));
-   navi.wallet->Append(ID_DISCONNECT, wxT("&Disconnect\tCtrl+D"));
+   navi.wallet->Append(ID_CONNECT, _("&Connect") + wxT("\tCtrl+C"));
+   navi.wallet->Append(ID_DISCONNECT, _("&Disconnect") + wxT("\tCtrl+D"));
    navi.wallet->AppendSeparator();
-   navi.wallet->Append(ID_SETPASSWORD, wxT("&Set password\tCtrl+P"));
-   navi.wallet->Append(ID_LOCK, wxT("&Lock\tCtrl+L"));
-   navi.wallet->Append(ID_UNLOCK, wxT("&Unlock\tCtrl+U"));
-   navi.wallet->Append(ID_IMPORTKEY, wxT("&Import Key\tCtrl+K"));
-   navi.menubar->Append(navi.wallet, wxT("&Wallet"));
+   navi.wallet->Append(ID_SETPASSWORD, _("&Set password") + wxT("\tCtrl+P"));
+   navi.wallet->Append(ID_LOCK, _("&Lock") + wxT("\tCtrl+L"));
+   navi.wallet->Append(ID_UNLOCK, _("&Unlock") + wxT("\tCtrl+U"));
+   navi.wallet->Append(ID_IMPORTKEY, _("&Import Key") + wxT("\tCtrl+K"));
+   navi.menubar->Append(navi.wallet, _("&Wallet"));
 
    navi.help = new wxMenu;
-   navi.help->Append(wxID_ABOUT, wxT("&About"));
-   navi.menubar->Append(navi.help, wxT("&Help"));
+   navi.help->Append(wxID_ABOUT, _("&About"));
+   navi.menubar->Append(navi.help, _("&Help"));
 
    SetMenuBar(navi.menubar);
 }
@@ -46,39 +47,39 @@ void GWallet::CreateTool()
    wxBitmap history_icon(directory + wxT("/icons/x-office-spreadsheet-2.png"), wxBITMAP_TYPE_PNG);
    wxBitmap wallet_icon(directory + wxT("/icons/wallet-open.png"), wxBITMAP_TYPE_PNG);
 
-   navi.itemToolBar->AddTool(ID_ICON_CONNECT, wxT("Connect"), connect_icon, wxT("Connect"));
+   navi.itemToolBar->AddTool(ID_ICON_CONNECT, wxT("Connect"), connect_icon, _("Connect"));
    navi.itemToolBar->EnableTool(ID_ICON_CONNECT, true);
-   navi.itemToolBar->AddTool(ID_ICON_DISCONNECT, wxT("Disconnect"), disconnect_icon, wxT("Disconnect"));
+   navi.itemToolBar->AddTool(ID_ICON_DISCONNECT, wxT("Disconnect"), disconnect_icon, _("Disconnect"));
    navi.itemToolBar->EnableTool(ID_ICON_DISCONNECT, false);
-   navi.itemToolBar->AddTool(ID_ICON_LOCK, wxT("Lock"), lock_icon, wxT("Lock"));
+   navi.itemToolBar->AddTool(ID_ICON_LOCK, wxT("Lock"), lock_icon, _("Lock"));
    navi.itemToolBar->EnableTool(ID_ICON_LOCK, false);
-   navi.itemToolBar->AddTool(ID_ICON_UNLOCK, wxT("Unlock"), unlock_icon, wxT("Unlock"));
+   navi.itemToolBar->AddTool(ID_ICON_UNLOCK, wxT("Unlock"), unlock_icon, _("Unlock"));
    navi.itemToolBar->EnableTool(ID_ICON_UNLOCK, false);
 
    navi.itemToolBar->AddSeparator();
 
-   navi.itemToolBar->AddTool(ID_ICON_HOME, wxT("HOME"), home_icon, wxT("Home"));
+   navi.itemToolBar->AddTool(ID_ICON_HOME, wxT("HOME"), home_icon, _("Home"));
    navi.itemToolBar->EnableTool(ID_ICON_HOME, false);
-   navi.itemToolBar->AddTool(ID_ICON_COMMAND, wxT("Command Mode"), command_icon, wxT("Console"));
+   navi.itemToolBar->AddTool(ID_ICON_COMMAND, wxT("Command Mode"), command_icon, _("Console"));
    navi.itemToolBar->EnableTool(ID_ICON_COMMAND, false);
-   navi.itemToolBar->AddTool(ID_ICON_SENDRECEIVE, wxT("Send/Receive Mode"), transfer_icon, wxT("Send/Receive"));
+   navi.itemToolBar->AddTool(ID_ICON_SENDRECEIVE, wxT("Send/Receive Mode"), transfer_icon, _("Send/Receive"));
    navi.itemToolBar->EnableTool(ID_ICON_SENDRECEIVE, false);
-   navi.itemToolBar->AddTool(ID_ICON_HISTORY, wxT("Account History Mode"), history_icon, wxT("Account History"));
+   navi.itemToolBar->AddTool(ID_ICON_HISTORY, wxT("Account History Mode"), history_icon, _("Account History"));
    navi.itemToolBar->EnableTool(ID_ICON_HISTORY, false);
-   navi.itemToolBar->AddTool(ID_ICON_WALLET, wxT("Wallet Mode"), wallet_icon, wxT("Wallet"));
+   navi.itemToolBar->AddTool(ID_ICON_WALLET, wxT("Wallet Mode"), wallet_icon, _("Wallet"));
    navi.itemToolBar->EnableTool(ID_ICON_WALLET, false);
 
    navi.itemToolBar->AddStretchableSpace();
 
    wxArrayString itemComboBoxStrings;
-   strings.combo_accounts = new wxComboBox( navi.itemToolBar, ID_COMBO_ACCOUNTS, wxT("MY ACCOUNTS"),
+   strings.combo_accounts = new wxComboBox( navi.itemToolBar, ID_COMBO_ACCOUNTS, _("MY ACCOUNTS"),
            wxDefaultPosition, wxDefaultSize, itemComboBoxStrings, wxCB_DROPDOWN );
    navi.itemToolBar->AddControl(strings.combo_accounts, wxT("MY ACCOUNTS"));
    strings.combo_accounts->Enable(false);
 
    navi.itemToolBar->AddSeparator();
 
-   strings.combo_assets = new wxComboBox( navi.itemToolBar, ID_COMBO_ASSETS, wxT("MY ASSETS"),
+   strings.combo_assets = new wxComboBox( navi.itemToolBar, ID_COMBO_ASSETS, _("MY ASSETS"),
            wxDefaultPosition, wxDefaultSize, itemComboBoxStrings, wxCB_DROPDOWN );
    navi.itemToolBar->AddControl(strings.combo_assets, wxT("MY ASSETS"));
    strings.combo_assets->Enable(false);
@@ -88,15 +89,6 @@ void GWallet::CreateTool()
 }
 
 void GWallet::DoState() {
-
-   /*
-   wdump((is_noconfig));
-   wdump((is_connected));
-   wdump((is_locked));
-   wdump((is_unlocked));
-   wdump((is_new));
-   wdump((is_account_linked));
-   */
 
    if(state.is_noconfig) {
       navi.file->Enable(wxID_NEW, true);
@@ -230,7 +222,7 @@ void GWallet::CreateInfo()
 
    wxFont font = wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false);
 
-   strings.main = new wxStaticText(panel, wxID_STATIC, wxT("G-Wallet Offline"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
+   strings.main = new wxStaticText(panel, wxID_STATIC, _("G-Wallet Offline"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
    strings.main->SetFont(font);
    sizers.info->Add(strings.main, 0, wxALL|wxALIGN_LEFT, 5);
 
@@ -247,3 +239,4 @@ void GWallet::CreateMain()
    sizers.main = new wxBoxSizer(wxVERTICAL);
    panel->SetSizer(sizers.main);
 }
+

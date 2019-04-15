@@ -1,0 +1,691 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2019-04-15 09:22-0300\n"
+"PO-Revision-Date: 2019-04-15 10:01-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: dialogs/borrowasset.cpp:25
+msgid "Borrow Asset"
+msgstr "借资产"
+
+#: dialogs/borrowasset.cpp:34 dialogs/sellasset.cpp:34
+msgid "Seller account"
+msgstr "卖家帐户"
+
+#: dialogs/borrowasset.cpp:58
+msgid "Amount to borrow"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:86
+msgid "Amount of collateral"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:101
+msgid " BTS"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:114 dialogs/sellasset.cpp:157
+msgid "Broadcast transaction"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:120 dialogs/sellasset.cpp:163
+#: dialogs/transfer.cpp:139
+msgid "Show output in CLI mode"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:145 dialogs/sellasset.cpp:188
+#: dialogs/transfer.cpp:164
+msgid "&OK"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:148 dialogs/sellasset.cpp:191
+#: dialogs/transfer.cpp:167
+msgid "&Cancel"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:178 dialogs/sellasset.cpp:231
+msgid "Asset is invalid"
+msgstr ""
+
+#: dialogs/borrowasset.cpp:187
+msgid "Confirm Borrow Asset?"
+msgstr ""
+
+#: dialogs/importkey.cpp:24
+msgid "Account Name"
+msgstr ""
+
+#: dialogs/importkey.cpp:47
+msgid "Private Key"
+msgstr ""
+
+#: dialogs/importkey.cpp:92
+msgid "OK"
+msgstr ""
+
+#: dialogs/importkey.cpp:98
+msgid "Cancel"
+msgstr ""
+
+#: dialogs/importkey.cpp:140
+msgid "Account imported"
+msgstr ""
+
+#: dialogs/importkey.cpp:140 gwallet.cpp:564 wizards/welcome.cpp:178
+msgid "Success"
+msgstr ""
+
+#: dialogs/sellasset.cpp:25
+msgid "Buy or sell asset"
+msgstr ""
+
+#: dialogs/sellasset.cpp:59
+msgid "Amount to sell"
+msgstr ""
+
+#: dialogs/sellasset.cpp:87
+msgid "Minimum amount to receive"
+msgstr ""
+
+#: dialogs/sellasset.cpp:115
+msgid "Timeout"
+msgstr ""
+
+#: dialogs/sellasset.cpp:143
+msgid "Fill or Kill"
+msgstr ""
+
+#: dialogs/sellasset.cpp:240
+msgid "Confirm Sell Asset?"
+msgstr ""
+
+#: dialogs/transfer.cpp:25
+msgid "Transfer asset to another bitshares account"
+msgstr ""
+
+#: dialogs/transfer.cpp:34
+msgid "From"
+msgstr ""
+
+#: dialogs/transfer.cpp:58
+msgid "To"
+msgstr ""
+
+#: dialogs/transfer.cpp:82
+msgid "Amount"
+msgstr ""
+
+#: dialogs/transfer.cpp:110
+msgid "Memo"
+msgstr ""
+
+#: dialogs/transfer.cpp:133
+msgid "Broadcast Transaction"
+msgstr ""
+
+#: dialogs/transfer.cpp:198 wizards/welcome.cpp:310
+msgid "Account is invalid"
+msgstr ""
+
+#: dialogs/transfer.cpp:206 modes/sendreceive.cpp:163
+msgid "Confirm transfer?"
+msgstr ""
+
+#: gui_create.cpp:8
+msgid "&New"
+msgstr "新"
+
+#: gui_create.cpp:9
+msgid "&Open"
+msgstr "打开"
+
+#: gui_create.cpp:10
+msgid "&Save"
+msgstr "保存"
+
+#: gui_create.cpp:11
+msgid "Conn&ection"
+msgstr "连接"
+
+#: gui_create.cpp:13
+msgid "&Change language"
+msgstr "改变语言"
+
+#: gui_create.cpp:14
+msgid "&Quit"
+msgstr "放弃"
+
+#: gui_create.cpp:15
+msgid "&File"
+msgstr "文件"
+
+#: gui_create.cpp:18
+msgid "&Connect"
+msgstr "连"
+
+#: gui_create.cpp:19
+msgid "&Disconnect"
+msgstr "断开"
+
+#: gui_create.cpp:21
+msgid "&Set password"
+msgstr "设置密码"
+
+#: gui_create.cpp:22
+msgid "&Lock"
+msgstr "锁"
+
+#: gui_create.cpp:23
+msgid "&Unlock"
+msgstr "开锁"
+
+#: gui_create.cpp:24
+msgid "&Import Key"
+msgstr "导入密钥"
+
+#: gui_create.cpp:25
+msgid "&Wallet"
+msgstr "钱包"
+
+#: gui_create.cpp:28
+msgid "&About"
+msgstr "关于"
+
+#: gui_create.cpp:29
+msgid "&Help"
+msgstr "救命"
+
+#: gui_create.cpp:50
+msgid "Connect"
+msgstr "连"
+
+#: gui_create.cpp:52
+msgid "Disconnect"
+msgstr "断开"
+
+#: gui_create.cpp:54
+msgid "Lock"
+msgstr "锁"
+
+#: gui_create.cpp:56
+msgid "Unlock"
+msgstr "开锁"
+
+#: gui_create.cpp:61
+msgid "Home"
+msgstr "家"
+
+#: gui_create.cpp:63
+msgid "Console"
+msgstr "安慰"
+
+#: gui_create.cpp:65
+msgid "Send/Receive"
+msgstr "发送/接收"
+
+#: gui_create.cpp:67
+msgid "Account History"
+msgstr "帐户历史记录"
+
+#: gui_create.cpp:69
+msgid "Wallet"
+msgstr "钱包"
+
+#: gui_create.cpp:75
+msgid "MY ACCOUNTS"
+msgstr "我的帐户"
+
+#: gui_create.cpp:82
+msgid "MY ASSETS"
+msgstr "我的资产"
+
+#: gui_create.cpp:116
+msgid "No Config"
+msgstr "没有配置"
+
+#: gui_create.cpp:144 gui_create.cpp:149
+msgid "Connected | New"
+msgstr "连接| 新"
+
+#: gui_create.cpp:146 gui_create.cpp:152
+msgid "G-Wallet New"
+msgstr "G-Wallet 新"
+
+#: gui_create.cpp:155 gwallet.cpp:190
+msgid "Connected | Locked"
+msgstr "连接|锁定"
+
+#: gui_create.cpp:165 gui_create.cpp:181
+msgid "G-Wallet Ready"
+msgstr "G-Wallet 准备"
+
+#: gui_create.cpp:168
+msgid "Connected | Unlocked"
+msgstr "连接|解锁"
+
+#: gui_create.cpp:214 gwallet.cpp:176
+msgid "Disconnected"
+msgstr "断开的"
+
+#: gui_create.cpp:225
+msgid "G-Wallet Offline"
+msgstr "G-Wallet 离线"
+
+#: gwallet.cpp:57 gwallet.cpp:82
+msgid "Open a saved wallet"
+msgstr "打开已保存的钱包"
+
+#: gwallet.cpp:94
+msgid "Enter server"
+msgstr "输入服务器"
+
+#: gwallet.cpp:94
+msgid "Websocket endpoint"
+msgstr ""
+
+#: gwallet.cpp:119
+msgid "Please wait, connecting ..."
+msgstr "请稍等，连接......"
+
+#: gwallet.cpp:130
+msgid "Problem at connecting, please try again ..."
+msgstr ""
+
+#: gwallet.cpp:174
+msgid "Some problem when disconnecting, try again ..."
+msgstr ""
+
+#: gwallet.cpp:184 gwallet.cpp:228
+msgid "Enter password"
+msgstr ""
+
+#: gwallet.cpp:205
+#, c-format
+msgid "Secure and simple bitshares wallet build with %s"
+msgstr ""
+
+#: gwallet.cpp:206
+msgid "About G-Wallet"
+msgstr ""
+
+#: gwallet.cpp:217
+msgid "Some problem when locking, try again ..."
+msgstr ""
+
+#: gwallet.cpp:238
+msgid "Password is incorrect, please try again."
+msgstr ""
+
+#: gwallet.cpp:248
+msgid "Import key"
+msgstr ""
+
+#: gwallet.cpp:254
+msgid "Please wait, switching accounts ..."
+msgstr ""
+
+#: gwallet.cpp:418
+msgid "Welcome to Bitshares G-Wallet"
+msgstr ""
+
+#: gwallet.cpp:473
+msgid "Please wait, pulling the last history of your account ..."
+msgstr ""
+
+#: gwallet.cpp:531 modes/sendreceive.cpp:208 modes/sendreceive.cpp:230
+#: modes/sendreceive.cpp:244 modes/sendreceive.cpp:266
+#: modes/sendreceive.cpp:275 wizards/welcome.cpp:107 wizards/welcome.cpp:184
+#: wizards/welcome.cpp:201 wizards/welcome.cpp:209 wizards/welcome.cpp:297
+#: wizards/welcome.cpp:322 wizards/welcome.cpp:345 wizards/welcome.cpp:362
+msgid "Error"
+msgstr ""
+
+#: gwallet.cpp:542
+msgid "Chinese"
+msgstr ""
+
+#: gwallet.cpp:544
+msgid "Spanish"
+msgstr ""
+
+#: gwallet.cpp:546
+msgid "English"
+msgstr ""
+
+#: gwallet.cpp:547
+msgid "Select language:"
+msgstr ""
+
+#: gwallet.cpp:547
+msgid "Language"
+msgstr ""
+
+#: gwallet.cpp:563
+msgid ""
+"Language changed, however you need to restart G-Wallet for changes to take "
+"effect"
+msgstr ""
+
+#: main.cpp:8
+msgid "G-Wallet | Secure Bitshares Wallet"
+msgstr "G-Wallet | 安全Bitshares钱包"
+
+#: modes/cli.cpp:22
+msgid "Run Command"
+msgstr ""
+
+#: modes/cli.cpp:26
+msgid "Clear Console"
+msgstr ""
+
+#: modes/home.cpp:20
+msgid "Blockchain Information"
+msgstr ""
+
+#: modes/home.cpp:28
+msgid "Head block number:"
+msgstr ""
+
+#: modes/home.cpp:39
+msgid "Block age:"
+msgstr ""
+
+#: modes/home.cpp:50
+msgid "Next maintenance time:"
+msgstr ""
+
+#: modes/home.cpp:61
+msgid "Participation:"
+msgstr ""
+
+#: modes/home.cpp:72
+msgid "Active witnesses:"
+msgstr ""
+
+#: modes/home.cpp:76 modes/home.cpp:87
+msgid "View"
+msgstr ""
+
+#: modes/home.cpp:83
+msgid "Active committee:"
+msgstr ""
+
+#: modes/home.cpp:94
+msgid "Chain ID:"
+msgstr ""
+
+#: modes/home.cpp:101
+msgid "Account Information"
+msgstr ""
+
+#: modes/home.cpp:109
+msgid "Name:"
+msgstr ""
+
+#: modes/home.cpp:120
+msgid "ID:"
+msgstr ""
+
+#: modes/home.cpp:131
+msgid "Referrer"
+msgstr ""
+
+#: modes/home.cpp:142
+msgid "Registrar"
+msgstr ""
+
+#: modes/home.cpp:153
+msgid "Voting as"
+msgstr ""
+
+#: modes/home.cpp:164
+msgid "Total ops"
+msgstr ""
+
+#: modes/home.cpp:171
+msgid "Software Information"
+msgstr ""
+
+#: modes/home.cpp:179
+msgid "Client version:"
+msgstr ""
+
+#: modes/home.cpp:190
+msgid "Graphene revision:"
+msgstr ""
+
+#: modes/home.cpp:201
+msgid "Revision age:"
+msgstr ""
+
+#: modes/home.cpp:212
+msgid "FC revision:"
+msgstr ""
+
+#: modes/home.cpp:223
+msgid "FC revision age:"
+msgstr ""
+
+#: modes/home.cpp:234
+msgid "Compile date:"
+msgstr ""
+
+#: modes/home.cpp:245
+msgid "Boost version:"
+msgstr ""
+
+#: modes/home.cpp:256
+msgid "OpenSSL version:"
+msgstr ""
+
+#: modes/home.cpp:267
+msgid "OS build:"
+msgstr ""
+
+#: modes/home.cpp:275
+msgid "Market Prices"
+msgstr ""
+
+#: modes/sendreceive.cpp:21 modes/sendreceive.cpp:56
+msgid "Send"
+msgstr ""
+
+#: modes/sendreceive.cpp:26
+msgid "Receipient:"
+msgstr ""
+
+#: modes/sendreceive.cpp:34
+msgid "Amount:"
+msgstr ""
+
+#: modes/sendreceive.cpp:52
+msgid "Generate Url"
+msgstr ""
+
+#: modes/sendreceive.cpp:60
+msgid "Generated URL for transfer:"
+msgstr ""
+
+#: modes/sendreceive.cpp:72
+msgid "Receive"
+msgstr ""
+
+#: modes/sendreceive.cpp:77
+msgid "From:"
+msgstr ""
+
+#: modes/sendreceive.cpp:85
+msgid "Amount and asset to receive:"
+msgstr ""
+
+#: modes/sendreceive.cpp:100
+msgid "Generate URL"
+msgstr ""
+
+#: modes/sendreceive.cpp:104
+msgid ""
+"To receive asset simply send your account name and amount to the sender, "
+"send URL or QR:"
+msgstr ""
+
+#: modes/sendreceive.cpp:208 modes/sendreceive.cpp:244
+msgid "Receipient is empty"
+msgstr ""
+
+#: modes/sendreceive.cpp:230 modes/sendreceive.cpp:266
+msgid "Amount is empty"
+msgstr ""
+
+#: modes/sendreceive.cpp:275
+msgid "Asset is empty"
+msgstr ""
+
+#: modes/wallet.cpp:16
+msgid "Select a Command"
+msgstr ""
+
+#: modes/wallet.cpp:23
+msgid "Transfer an amount from one account to another."
+msgstr ""
+
+#: modes/wallet.cpp:27
+msgid "Transfer"
+msgstr ""
+
+#: modes/wallet.cpp:35
+msgid "Place a limit order attempting to sell one asset for another."
+msgstr ""
+
+#: modes/wallet.cpp:39 modes/wallet.cpp:125
+msgid "Sell asset"
+msgstr ""
+
+#: modes/wallet.cpp:47
+msgid "Borrow an asset or update the debt/collateral ratio for the loan."
+msgstr ""
+
+#: modes/wallet.cpp:51 modes/wallet.cpp:130
+msgid "Borrow asset"
+msgstr ""
+
+#: modes/wallet.cpp:59
+msgid "Cancel an existing order."
+msgstr ""
+
+#: modes/wallet.cpp:63
+msgid "Cancel order"
+msgstr ""
+
+#: modes/wallet.cpp:71
+msgid "Set the voting proxy for an account."
+msgstr ""
+
+#: modes/wallet.cpp:75
+msgid "Update proxy"
+msgstr ""
+
+#: modes/wallet.cpp:120
+msgid "Transfer asset"
+msgstr ""
+
+#: wizards/welcome.cpp:16
+msgid "This wizard will help you setup a new wallet.\n"
+msgstr ""
+
+#: wizards/welcome.cpp:23
+msgid ""
+"Click Next to get started..\n"
+"Click Cancel to start the program now."
+msgstr ""
+
+#: wizards/welcome.cpp:39
+msgid "First step to start using G-Wallet is to create a wallet file.\n"
+msgstr ""
+
+#: wizards/welcome.cpp:44
+msgid ""
+"This file is used to store configuration options that will be used to start "
+"the application next\n"
+"time you use it.\n"
+msgstr ""
+
+#: wizards/welcome.cpp:51
+msgid "Select wallet path and name:"
+msgstr ""
+
+#: wizards/welcome.cpp:75
+msgid "Click on Next to continue with the configuration."
+msgstr ""
+
+#: wizards/welcome.cpp:92
+msgid "Select your wallet directory"
+msgstr ""
+
+#: wizards/welcome.cpp:106
+msgid ""
+"Wallet file exists, please close the welcome wizard and use File->Open from "
+"menu to use it."
+msgstr ""
+
+#: wizards/welcome.cpp:125
+msgid "Select your server:"
+msgstr ""
+
+#: wizards/welcome.cpp:144
+msgid "Wallet password:"
+msgstr ""
+
+#: wizards/welcome.cpp:151
+msgid "Repeat password:"
+msgstr ""
+
+#: wizards/welcome.cpp:178
+msgid "Connected to server"
+msgstr ""
+
+#: wizards/welcome.cpp:184
+msgid "Some problem connecting"
+msgstr ""
+
+#: wizards/welcome.cpp:200
+msgid "Password and confirmation are not the same"
+msgstr ""
+
+#: wizards/welcome.cpp:208
+msgid "Password or confirmation cant be empty"
+msgstr ""
+
+#: wizards/welcome.cpp:250
+msgid "Import your key, we cant create account yet!"
+msgstr ""
+
+#: wizards/welcome.cpp:268
+msgid "Private key:"
+msgstr ""
+
+#: wizards/welcome.cpp:297 wizards/welcome.cpp:345
+msgid "Account can't be empty"
+msgstr ""
+
+#: wizards/welcome.cpp:314
+msgid "Account looks good"
+msgstr ""
+
+#: wizards/welcome.cpp:322 wizards/welcome.cpp:362
+msgid "Private key can't be empty"
+msgstr ""
+
+#: wizards/welcome.cpp:338
+msgid "Please wait, setting up everything ..."
+msgstr ""

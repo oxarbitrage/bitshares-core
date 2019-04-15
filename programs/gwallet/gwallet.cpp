@@ -313,6 +313,19 @@ void GWallet::DoInitialConfig()
       if(config->Read("AllSet", &allset))
          state.is_account_linked = true;
    }
+
+   wxString i18n_dir(directory + wxFILE_SEP_PATH + wxT("i18n"));
+   int lang;
+   if (config->Read("Lang", &lang)) {
+      m_locale = new wxLocale(lang);
+      m_locale->Init(lang);
+   }
+   else {
+      m_locale = new wxLocale(wxLANGUAGE_DEFAULT);
+      m_locale->Init(wxLANGUAGE_DEFAULT);
+   }
+   m_locale->AddCatalogLookupPathPrefix(i18n_dir);
+   m_locale->AddCatalog(wxT("gwallet"));
 }
 
 void GWallet::DoAssets(std::string account)
@@ -490,6 +503,7 @@ void GWallet::CreateEvents()
    Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnQuit));
    Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnAbout));
 
+   Connect(ID_LANG, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnChangeLanguage));
    Connect(ID_CONNECT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnConnect));
    Connect(ID_SETPASSWORD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnSetPassword));
    Connect(ID_LOCK, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnLock));
@@ -517,4 +531,38 @@ void GWallet::OnError(wxString msg)
    wxMessageDialog dialog(NULL, msg, _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
    if (dialog.ShowModal() == wxID_OK)
       return;
+}
+
+void GWallet::OnChangeLanguage(wxCommandEvent& WXUNUSED(event))
+{
+   wxArrayInt languageCodes;
+   wxArrayString languageNames;
+
+   languageCodes.Add(wxLANGUAGE_CHINESE);
+   languageNames.Add(_("Chinese"));
+   languageCodes.Add(wxLANGUAGE_SPANISH);
+   languageNames.Add(_("Spanish"));
+   languageCodes.Add(wxLANGUAGE_ENGLISH);
+   languageNames.Add(_("English"));
+   int lang = wxGetSingleChoiceIndex(_("Select language:"), _("Language"), languageNames);
+   if(lang != -1)
+   {
+      SelectLanguage(languageCodes[lang]);
+   }
+}
+
+void GWallet::SelectLanguage(int lang)
+{
+   delete m_locale;
+   m_locale = new wxLocale(lang);
+   if(m_locale->Init(lang)) {
+      config->Write("Lang", lang);
+      config->Flush();
+
+      wxMessageDialog dialog(NULL,
+            _("Language changed, however you need to restart G-Wallet for changes to take effect"),
+            _("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);
+      if (dialog.ShowModal() == wxID_OK)
+         return;
+   }
 }

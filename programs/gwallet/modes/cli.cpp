@@ -15,7 +15,7 @@ void Cli::CreateControls()
    wxBoxSizer* sizerCommandCtrls = new wxBoxSizer(wxHORIZONTAL);
    p_GWallet->sizers.cli->Add(sizerCommandCtrls, 0, wxGROW|wxALL);
 
-   sendCliText = new wxTextCtrl( p_GWallet->panel, ID_CLITEXT, _("about"),
+   sendCliText = new wxTextCtrl( p_GWallet->panel, ID_CLITEXT, wxT("about"),
          wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
    sizerCommandCtrls->Add(sendCliText, 10, wxGROW|wxALL, 5);
 
@@ -45,7 +45,7 @@ void Cli::CreateEvents()
          wxCommandEventHandler(Cli::OnCliClear), NULL, this);
 }
 
-void Cli::OnCliCommand(wxCommandEvent & WXUNUSED(event))
+void Cli::OnCliCommand(wxCommandEvent& WXUNUSED(event))
 {
    const auto line = sendCliText->GetValue();
    const auto wallet_api = fc::api<graphene::wallet::wallet_api>(p_GWallet->bitshares.wallet_api_ptr);
@@ -83,7 +83,7 @@ void Cli::OnCliCommand(wxCommandEvent & WXUNUSED(event))
    }
 }
 
-void Cli::OnCliClear(wxCommandEvent & WXUNUSED(event))
+void Cli::OnCliClear(wxCommandEvent& WXUNUSED(event))
 {
    itemTextCLI->SetValue("");
 }
