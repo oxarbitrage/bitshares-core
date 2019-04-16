@@ -274,12 +274,9 @@ void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
    const auto balance = strings.balances[selected].ToStdString();
    const auto precision = strings.precisions[selected].ToStdString();
 
-   const auto dividend = pow(10, std::stoi(precision));
+   auto pretty_balance = DoPrettyBalance(std::stoi(precision), std::stod(balance));
 
-   stringstream pretty_balance;
-   pretty_balance << fixed << std::setprecision(std::stoi(precision)) << std::stod(balance)/dividend;
-
-   strings.balance->SetLabel(pretty_balance.str() + " " + asset_name);
+   strings.balance->SetLabel(pretty_balance + " " + asset_name);
 
    modes.p_sendreceive->send_asset->SetSelection(selected);
    strings.selected_asset = asset_name;
@@ -338,9 +335,7 @@ void GWallet::DoAssets(std::string account)
    const auto& account_balances = bitshares.wallet_api_ptr->list_account_balances(account);
    for(auto& account_balance : account_balances) {
 
-      std::string asset_id_string = fc::to_string(account_balance.asset_id.space_id)
-            + "." + fc::to_string(account_balance.asset_id.type_id)
-            + "." + fc::to_string(account_balance.asset_id.instance.value);
+      std::string asset_id_string = IdToString(account_balance.asset_id);
 
       const auto& asset_object = bitshares.wallet_api_ptr->get_asset(asset_id_string);
       const auto& asset_symbol = asset_object.symbol;
@@ -348,10 +343,9 @@ void GWallet::DoAssets(std::string account)
       const auto& amount_value = account_balance.amount.value;
 
       if(n == 0) {
-         const auto dividend = pow(10, precision);
-         stringstream pretty_balance;
-         pretty_balance << fixed << std::setprecision(precision)  << amount_value/dividend;
-         strings.balance->SetLabel(pretty_balance.str() + " " + asset_symbol);
+         auto pretty_balance = DoPrettyBalance(precision, amount_value);
+
+         strings.balance->SetLabel(pretty_balance + " " + asset_symbol);
          sizers.info->Layout();
       }
       strings.assets.Add(asset_symbol);
@@ -566,3 +560,23 @@ void GWallet::SelectLanguage(int lang)
          return;
    }
 }
+
+template<typename T>
+std::string GWallet::IdToString(T id)
+{
+   return fc::to_string(id.space_id) + "." + fc::to_string(id.type_id) + "." + fc::to_string(id.instance.value);
+}
+
+std::string GWallet::IdToString(object_id_type id)
+{
+   return fc::to_string(id.space()) + "." + fc::to_string(id.type()) + "." + fc::to_string(id.instance());
+}
+
+std::string GWallet::DoPrettyBalance(int precision, double balance)
+{
+   const auto divisor = pow(10, precision);
+   stringstream pretty_balance;
+   pretty_balance << fixed << std::setprecision(precision) << balance/divisor;
+   return pretty_balance.str();
+}
+

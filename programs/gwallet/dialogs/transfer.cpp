@@ -202,10 +202,10 @@ void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 
    try {
       auto result = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v, to_v, amount_v, asset_v, memo_v, false);
-
       if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm transfer?"),
             wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
          p_GWallet->bitshares.wallet_api_ptr->transfer(from_v, to_v, amount_v, asset_v, memo_v, true);
+         Close(true);
       }
    }
    catch (const fc::exception &e) {

@@ -183,17 +183,16 @@ void BorrowAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
    try {
       auto result = p_GWallet->bitshares.wallet_api_ptr->borrow_asset(seller_value, borrow_amount_value,
             borrow_asset_value, collateral_amount_value, false);
-
       if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm Borrow Asset?"),
                                 wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-         auto result = p_GWallet->bitshares.wallet_api_ptr->borrow_asset(seller_value, borrow_amount_value,
-               borrow_asset_value, collateral_amount_value, false);
+         p_GWallet->bitshares.wallet_api_ptr->borrow_asset(seller_value, borrow_amount_value,
+               borrow_asset_value, collateral_amount_value, true);
+         Close(true);
       }
    }
    catch (const fc::exception &e) {
       p_GWallet->OnError(e.to_detail_string());
    }
-
 }
 
 

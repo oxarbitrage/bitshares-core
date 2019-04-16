@@ -2,6 +2,7 @@
 #include "../include/dialogs/transfer.hpp"
 #include "../include/dialogs/sellasset.hpp"
 #include "../include/dialogs/borrowasset.hpp"
+#include "../include/dialogs/cancelorder.hpp"
 
 Wallet::Wallet(GWallet* gwallet) : wxFrame()
 {
@@ -132,7 +133,7 @@ void Wallet::OnBorrowAsset(wxCommandEvent& event)
 
 void Wallet::OnCancelOrder(wxCommandEvent& event)
 {
-
+   CancelOrderDialog CancelOrderDialog( this, -1, _("Cancel open order"), wxDefaultPosition, wxSize(-1, 300));
 }
 
 void Wallet::OnSetProxy(wxCommandEvent& event)

@@ -170,7 +170,7 @@ List and execute wallet operations.
 
 ![Wallet mode](readme_images/wallet_mode.png)
 
-The buttons will open dialogs for each command, only `transfer`, `sell_asset` and `borrow_assetr` commands are available ATM, cancel order coming soon.
+The buttons will open dialogs for each command, only `transfer`, `sell_asset`,`borrow_asset` and `cancel_order` commands are available ATM, `update_proxy` coming soon.
 
 Transfer dialog:
 
@@ -183,6 +183,10 @@ Sell Asset dialog:
 Borrow Asset dialog:
 
 ![Borrow Asset dialog](readme_images/borrowasset_dialog.png)
+
+Cancel Order dialog:
+
+![Cancel order dialog](readme_images/cancel_order.png)
 
 
 ## Install
@@ -241,7 +245,7 @@ G-Wallet is currently available in English(default), Spanish and Chinese.
  
 ### Translate my wallet
 
-Go to File -> Change language anbd select one of the 3 options.
+Go to File -> Change language and select one of the 3 options.
 
 If you dont have the locale for the language selected you will see an error and the wallet will not be translated. 
 

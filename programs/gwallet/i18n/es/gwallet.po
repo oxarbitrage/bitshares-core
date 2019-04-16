@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gwallet\n"
 "POT-Creation-Date: 2019-04-14 12:22-0300\n"
-"PO-Revision-Date: 2019-04-15 08:49-0300\n"
+"PO-Revision-Date: 2019-04-15 13:42-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -321,7 +321,7 @@ msgstr "Acerca de G-Wallet"
 
 #: gwallet.cpp:217
 msgid "Some problem when locking, try again ..."
-msgstr "Algún problema bloqueando, prueba nuevamente ...-"
+msgstr "Algún problema bloqueando, prueba nuevamente ..."
 
 #: gwallet.cpp:238
 msgid "Password is incorrect, please try again."
@@ -557,7 +557,7 @@ msgstr "Selecciona un comando"
 
 #: modes/wallet.cpp:23
 msgid "Transfer an amount from one account to another."
-msgstr "Transfiere una cantidad de una cuenta a la otra"
+msgstr "Transfiere una cantidad de una cuenta a la otra."
 
 #: modes/wallet.cpp:27
 msgid "Transfer"
@@ -577,15 +577,15 @@ msgstr ""
 
 #: modes/wallet.cpp:51 modes/wallet.cpp:130
 msgid "Borrow asset"
-msgstr ""
+msgstr "Pedir prestado activo"
 
 #: modes/wallet.cpp:59
 msgid "Cancel an existing order."
-msgstr ""
+msgstr "Cancelar una orden existente."
 
 #: modes/wallet.cpp:63
 msgid "Cancel order"
-msgstr ""
+msgstr "Cancelar orden"
 
 #: modes/wallet.cpp:71
 msgid "Set the voting proxy for an account."
@@ -601,17 +601,21 @@ msgstr "Transferir activo"
 
 #: wizards/welcome.cpp:16
 msgid "This wizard will help you setup a new wallet.\n"
-msgstr ""
+msgstr "Este wizard le ayudara a configurar una nueva billetera..\n"
 
 #: wizards/welcome.cpp:23
 msgid ""
 "Click Next to get started..\n"
 "Click Cancel to start the program now."
 msgstr ""
+"Pulse Siguiente para comenzar.\n"
+"Pulse Cancelar para salir del wizard."
 
 #: wizards/welcome.cpp:39
 msgid "First step to start using G-Wallet is to create a wallet file.\n"
 msgstr ""
+"El primer paso para empezar a usar G-Wallet es crear un archivo de "
+"billetera.\n"
 
 #: wizards/welcome.cpp:44
 msgid ""
@@ -622,15 +626,15 @@ msgstr ""
 
 #: wizards/welcome.cpp:51
 msgid "Select wallet path and name:"
-msgstr ""
+msgstr "Selecciona la ruta a archivo y el nombre del mismo:"
 
 #: wizards/welcome.cpp:75
 msgid "Click on Next to continue with the configuration."
-msgstr ""
+msgstr "Pulsa Siguiente para continuar con la configuración."
 
 #: wizards/welcome.cpp:92
 msgid "Select your wallet directory"
-msgstr ""
+msgstr "Selecciona el directorio de tu billetera"
 
 #: wizards/welcome.cpp:106
 msgid ""
@@ -672,7 +676,7 @@ msgstr ""
 
 #: wizards/welcome.cpp:268
 msgid "Private key:"
-msgstr ""
+msgstr "LLave privada:"
 
 #: wizards/welcome.cpp:297 wizards/welcome.cpp:345
 msgid "Account can't be empty"
@@ -680,15 +684,15 @@ msgstr ""
 
 #: wizards/welcome.cpp:314
 msgid "Account looks good"
-msgstr ""
+msgstr "Cuenta luce bien"
 
 #: wizards/welcome.cpp:322 wizards/welcome.cpp:362
 msgid "Private key can't be empty"
-msgstr ""
+msgstr "Llave privada no puede estar vaciá"
 
 #: wizards/welcome.cpp:338
 msgid "Please wait, setting up everything ..."
-msgstr ""
+msgstr "Espere por favor, finalizando la configuración ..."
 
 #~ msgid "&New\tCtrl+N"
 #~ msgstr "Nuevo"

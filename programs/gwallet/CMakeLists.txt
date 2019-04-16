@@ -4,6 +4,7 @@ add_executable( gwallet
 		dialogs/transfer.cpp
 		dialogs/sellasset.cpp
 		dialogs/borrowasset.cpp
+		dialogs/cancelorder.cpp
 		modes/home.cpp
 		modes/wallet.cpp
 		modes/cli.cpp

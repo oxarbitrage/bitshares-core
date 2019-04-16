@@ -41,7 +41,6 @@ SellAssetDialog::SellAssetDialog(wxWindow* parent, wxWindowID id, const wxString
 
    itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-   wxArrayString itemComboBox1Strings;
    seller = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->strings.selected_account,
          wxDefaultPosition, wxDefaultSize, p_GWallet->strings.accounts, wxCB_DROPDOWN|wxCB_READONLY );
    itemBoxSizer9->Add(seller, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -71,7 +70,7 @@ SellAssetDialog::SellAssetDialog(wxWindow* parent, wxWindowID id, const wxString
    itemBoxSizer18->Add(sell_amount, 6, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    sell_asset = new wxComboBox( itemDialog1, wxID_ANY, p_GWallet->strings.selected_asset,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings.assets, wxCB_DROPDOWN, wxTextValidator(wxFILTER_EMPTY) );
+         wxDefaultPosition, wxDefaultSize, p_GWallet->strings.assets, wxCB_DROPDOWN|wxCB_READONLY );
    itemBoxSizer18->Add(sell_asset, 3, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
    itemBoxSizer18->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -236,11 +235,11 @@ void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
    try {
       auto result = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
             sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, false);
-
       if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm Sell Asset?"),
             wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-         auto result = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
+         p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
                sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, true);
+         Close(true);
       }
    }
    catch (const fc::exception &e) {
