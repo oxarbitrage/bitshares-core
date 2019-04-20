@@ -91,9 +91,6 @@ public:
    void DoAccounts();
    void DoModes();
 
-   template<typename T>
-   std::string IdToString(T id);
-   std::string IdToString(object_id_type id);
    std::string DoPrettyBalance(int precision, double balance);
 
    wxConfig* config;

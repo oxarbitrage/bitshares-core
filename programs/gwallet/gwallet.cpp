@@ -335,7 +335,7 @@ void GWallet::DoAssets(std::string account)
    const auto& account_balances = bitshares.wallet_api_ptr->list_account_balances(account);
    for(auto& account_balance : account_balances) {
 
-      std::string asset_id_string = IdToString(account_balance.asset_id);
+      std::string asset_id_string = std::string(object_id_type(account_balance.asset_id));
 
       const auto& asset_object = bitshares.wallet_api_ptr->get_asset(asset_id_string);
       const auto& asset_symbol = asset_object.symbol;
@@ -559,17 +559,6 @@ void GWallet::SelectLanguage(int lang)
       if (dialog.ShowModal() == wxID_OK)
          return;
    }
-}
-
-template<typename T>
-std::string GWallet::IdToString(T id)
-{
-   return fc::to_string(id.space_id) + "." + fc::to_string(id.type_id) + "." + fc::to_string(id.instance.value);
-}
-
-std::string GWallet::IdToString(object_id_type id)
-{
-   return fc::to_string(id.space()) + "." + fc::to_string(id.type()) + "." + fc::to_string(id.instance());
 }
 
 std::string GWallet::DoPrettyBalance(int precision, double balance)
