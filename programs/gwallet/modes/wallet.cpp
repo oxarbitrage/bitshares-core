@@ -3,6 +3,8 @@
 #include "../include/dialogs/sellasset.hpp"
 #include "../include/dialogs/borrowasset.hpp"
 #include "../include/dialogs/cancelorder.hpp"
+#include "../include/dialogs/setproxy.hpp"
+
 
 Wallet::Wallet(GWallet* gwallet) : wxFrame()
 {
@@ -138,5 +140,6 @@ void Wallet::OnCancelOrder(wxCommandEvent& event)
 
 void Wallet::OnSetProxy(wxCommandEvent& event)
 {
+   SetProxyDialog SetProxyDialog( this, -1, _("Update your voting account"), wxDefaultPosition, wxSize(-1, 300));
 
 }

@@ -170,7 +170,7 @@ List and execute wallet operations.
 
 ![Wallet mode](readme_images/wallet_mode.png)
 
-The buttons will open dialogs for each command, only `transfer`, `sell_asset`,`borrow_asset` and `cancel_order` commands are available ATM, `update_proxy` coming soon.
+The buttons will open dialogs for each command, only `transfer`, `sell_asset`,`borrow_asset`,  `cancel_order` and `set_voting_proxy` commands are available ATM, more coming soon.
 
 Transfer dialog:
 
@@ -187,6 +187,10 @@ Borrow Asset dialog:
 Cancel Order dialog:
 
 ![Cancel order dialog](readme_images/cancel_order.png)
+
+Update Proxy dialog:
+
+![Update Proxy dialog](readme_images/update_proxy.png)
 
 
 ## Install
