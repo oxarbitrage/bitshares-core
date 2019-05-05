@@ -1,6 +1,8 @@
 #include "../include/modes/home.hpp"
 
-#include <wx/hyperlink.h>
+#include <wx/statline.h>
+#include <wx/numformatter.h>
+#include <wx/busyinfo.h>
 
 Home::Home(GWallet* gwallet) : wxFrame()
 {
@@ -351,6 +353,9 @@ void Home::CreateEvents()
 {
    Connect(ID_TIMER_SLOW, wxEVT_TIMER, wxTimerEventHandler(Home::OnTimerSlow), NULL, this);
    Connect(ID_TIMER_FAST, wxEVT_TIMER, wxTimerEventHandler(Home::OnTimerFast), NULL, this);
+
+   p_GWallet->panel->Connect(ID_VIEW_WITNESSES, wxEVT_HYPERLINK, wxHyperlinkEventHandler(Home::OnWitness), NULL, this);
+   p_GWallet->panel->Connect(ID_VIEW_COMMITTEE, wxEVT_HYPERLINK, wxHyperlinkEventHandler(Home::OnCommittee), NULL, this);
 }
 
 void Home::DoInitialData()
@@ -533,4 +538,89 @@ void Home::DoAccount()
    account.registrar->SetLabel(account.registrar_value);
    account.voting_as->SetLabel(account.voting_as_value);
    account.total_ops->SetLabel(account.total_ops_value);
+}
+
+void Home::OnWitness(wxHyperlinkEvent& event)
+{
+   wxDialog dlg;
+   if (!wxXmlResource::Get()->LoadDialog(&dlg, NULL, "ID_ACTIVEWITNESS"))
+      return;
+
+   wxGrid* grid = XRCCTRL(dlg, "ID_GRID", wxGrid);
+   if (grid) {
+      grid->CreateGrid(21, 4);
+
+      grid->SetColLabelValue(0, "ID");
+      grid->SetColLabelValue(1, "Account");
+      grid->SetColLabelValue(2, "Votes");
+      grid->SetColLabelValue(3, "Last block");
+
+      grid->BeginBatch();
+      grid->ClearSelection();
+
+      wxWindowDisabler disableAll;
+      wxBusyInfo wait(_("Please wait, updating active witnesses info ..."));
+      wxTheApp->Yield();
+
+      const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+      auto z = 0;
+      for( auto& active_witness : info["active_witnesses"].get_array() ) {
+
+         const auto witness = p_GWallet->bitshares.wallet_api_ptr->get_witness(active_witness.as_string());
+         grid->SetCellValue(z, 0, active_witness.as_string());
+         grid->SetCellValue(z, 1, string(object_id_type(witness.witness_account)));
+         grid->SetCellValue(z, 2, wxNumberFormatter::ToString(long(witness.total_votes)));
+         grid->SetCellValue(z, 3, wxNumberFormatter::ToString(long(witness.last_confirmed_block_num)));
+
+         ++z;
+      }
+
+      //wait.~wxBusyInfo();
+      grid->AutoSize();
+      grid->ForceRefresh();
+      grid->EndBatch();
+   }
+
+   dlg.ShowModal();
+
+}
+
+void Home::OnCommittee(wxHyperlinkEvent& event)
+{
+   wxDialog dlg;
+   if (!wxXmlResource::Get()->LoadDialog(&dlg, NULL, "ID_ACTIVECOMMITTE"))
+      return;
+
+   wxGrid* grid = XRCCTRL(dlg, "ID_GRID", wxGrid);
+   if (grid) {
+      grid->CreateGrid(11, 3);
+
+      grid->SetColLabelValue(0, "ID");
+      grid->SetColLabelValue(1, "Account");
+      grid->SetColLabelValue(2, "Votes");
+
+      grid->BeginBatch();
+      grid->ClearSelection();
+
+      wxWindowDisabler disableAll;
+      wxBusyInfo wait(_("Please wait, updating active committee members info ..."));
+      wxTheApp->Yield();
+
+      const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+      auto z = 0;
+      for( auto& active_committee : info["active_committee_members"].get_array() ) {
+
+         const auto committee = p_GWallet->bitshares.wallet_api_ptr->get_committee_member(active_committee.as_string());
+         grid->SetCellValue(z, 0, active_committee.as_string());
+         grid->SetCellValue(z, 1, string(object_id_type(committee.committee_member_account)));
+         grid->SetCellValue(z, 2, wxNumberFormatter::ToString(long(committee.total_votes)));
+
+         ++z;
+      }
+
+      grid->AutoSize();
+      grid->ForceRefresh();
+      grid->EndBatch();
+   }
+   dlg.ShowModal();
 }

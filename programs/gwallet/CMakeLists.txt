@@ -13,7 +13,7 @@ add_executable( gwallet
 		modes/history.cpp
 		wizards/welcome.cpp)
 
-find_package(wxWidgets COMPONENTS core base adv REQUIRED)
+find_package(wxWidgets COMPONENTS core base adv xrc REQUIRED)
 include(${wxWidgets_USE_FILE})
 
 target_link_libraries( gwallet

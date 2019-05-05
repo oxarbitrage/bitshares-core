@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <wx/hyperlink.h>
 
 #ifndef GWALLET_H
 #include "../gwallet.hpp"
@@ -45,7 +46,6 @@ struct Software
    std::string boost_version_value;
    std::string openssl_version_value;
    std::string build_value;
-
 };
 
 struct Market
@@ -74,13 +74,17 @@ public:
    void DoInitialData();
    void DoAccount();
 
+   GWallet* p_GWallet;
+
 private:
    void OnTimerSlow(wxTimerEvent& event);
    void OnTimerFast(wxTimerEvent& event);
 
+   void OnWitness(wxHyperlinkEvent& event);
+   void OnCommittee(wxHyperlinkEvent& event);
+
    void DoTimers();
 
-   GWallet* p_GWallet;
 
    Blockchain blockchain;
    Account account;
@@ -93,3 +97,6 @@ private:
 
 const int ID_TIMER_SLOW = 991;
 const int ID_TIMER_FAST = 992;
+
+const int ID_VIEW_WITNESSES = 993;
+const int ID_VIEW_COMMITTEE = 994;

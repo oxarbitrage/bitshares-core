@@ -295,6 +295,9 @@ void GWallet::DoInitialConfig()
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    directory = f.GetPath();
 
+   wxXmlResource::Get()->InitAllHandlers();
+   wxXmlResource::Get()->LoadAllFiles(directory + wxT("/resources"));
+
    const wxIcon application_icon(directory + wxT("/icons/btslogo.png"), wxBITMAP_TYPE_PNG);
    SetIcon(application_icon);
 

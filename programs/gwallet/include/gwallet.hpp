@@ -8,6 +8,7 @@
 #include <wx/wizard.h>
 #include <wx/config.h>
 #include <wx/grid.h>
+#include <wx/xrc/xmlres.h>
 
 class Home;
 class Cli;
@@ -165,6 +166,3 @@ const int ID_ICON_COMMAND = 125;
 const int ID_ICON_SENDRECEIVE = 126;
 const int ID_ICON_HISTORY = 127;
 const int ID_ICON_WALLET = 128;
-
-const int ID_VIEW_WITNESSES = 4225;
-const int ID_VIEW_COMMITTEE = 4226;
