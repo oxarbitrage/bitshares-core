@@ -56,7 +56,9 @@ void Cli::OnCliCommand(wxCommandEvent& WXUNUSED(event))
       const auto command = line_variants[0].get_string();
       const auto arguments_variants = fc::variants( line_variants.begin()+1,line_variants.end());
       const auto response = p_GWallet->bitshares.wallet_cli->receive_call(api_id, command, arguments_variants);
-      const auto output = fc::json::to_pretty_string(response);
+      auto output = fc::json::to_pretty_string(response);
+
+      boost::replace_all(output, "\\n", "\n");
 
       std::string prompt = "";
       if( p_GWallet->bitshares.wallet_api_ptr->is_new() )
