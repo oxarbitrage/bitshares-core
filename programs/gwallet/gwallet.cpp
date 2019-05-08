@@ -245,7 +245,7 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
 }
 void GWallet::OnImportKey(wxCommandEvent& WXUNUSED(event))
 {
-   ImportKeyDialog importKeyDialog( this, -1, _("Import key"), wxDefaultPosition, wxDefaultSize );
+   ImportKeyDialog importKeyDialog( this );
 }
 
 void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))

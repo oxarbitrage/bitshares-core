@@ -1,18 +1,24 @@
 #include <wx/wx.h>
 
-class ImportKeyDialog: public wxDialog
-{
-public:
-   ImportKeyDialog(wxWindow * parent, wxWindowID id, const wxString & title, const wxPoint & pos = wxDefaultPosition,
-         const wxSize & size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+#include "../gwallet.hpp"
+
+class ImportKeyDialog : public wxDialog {
+protected:
+   wxTextCtrl* account;
+   wxTextCtrl* key;
 
 private:
-   wxTextCtrl *account;
-   wxTextCtrl *key;
-
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("ImportKeyDialog"), wxT("wxDialog"));
+      account = XRCCTRL(*this,"account",wxTextCtrl);
+      key = XRCCTRL(*this,"key",wxTextCtrl);
+   }
    void OnOk(wxCommandEvent& event);
-   void OnCancel(wxCommandEvent& event);
+public:
+   ImportKeyDialog(wxWindow *parent=NULL){
+      InitWidgetsFromXRC((wxWindow *)parent);
+      Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ImportKeyDialog::OnOk));
+      ShowModal();
+   }
 };
 
-const int ID_IMPORTKEY_OK = 107;
-const int ID_IMPORTKEY_CANCEL = 108;
