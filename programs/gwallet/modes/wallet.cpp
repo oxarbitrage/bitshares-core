@@ -120,7 +120,8 @@ void Wallet::DisableOperations()
 
 void Wallet::OnTransfer(wxCommandEvent& event)
 {
-   TransferDialog TransferDialog( this, -1, _("Transfer asset"), wxDefaultPosition, wxSize(-1, 500));
+   //TransferDialog TransferDialog( this, -1, _("Transfer asset"), wxDefaultPosition, wxSize(-1, 500));
+   TransferDialog TransferDialog( this );
 }
 
 void Wallet::OnSellAsset(wxCommandEvent& event)

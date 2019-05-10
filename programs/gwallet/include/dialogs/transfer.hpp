@@ -2,13 +2,8 @@
 
 #include "../gwallet.hpp"
 
-class TransferDialog: public wxDialog
-{
-public:
-   TransferDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos = wxDefaultPosition,
-         const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
-
-private:
+class TransferDialog : public wxDialog {
+protected:
    GWallet* p_GWallet;
 
    wxComboBox* from;
@@ -19,12 +14,18 @@ private:
    wxCheckBox* broadcast;
    wxCheckBox* cli;
 
-   void CreateEvents();
+private:
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("TransferDialog"), wxT("wxDialog"));
+      from = XRCCTRL(*this,"from",wxComboBox);
+      to = XRCCTRL(*this,"to",wxTextCtrl);
+      amount = XRCCTRL(*this,"amount",wxTextCtrl);
+      asset = XRCCTRL(*this,"asset",wxComboBox);
+      memo = XRCCTRL(*this,"memo",wxTextCtrl);
+      broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
+      cli = XRCCTRL(*this,"cli",wxCheckBox);
+   }
    void OnOk(wxCommandEvent& event);
+public:
+   TransferDialog(wxWindow *parent=NULL);
 };
-
-const int ID_DIALOG_TRANSFER_OK = 11100;
-const int ID_DIALOG_TRANSFER_CANCEL = 11101;
-
-const int ID_DIALOG_TRANSFER_BROADCAST = 11102;
-const int ID_DIALOG_TRANSFER_CLI = 11103;
