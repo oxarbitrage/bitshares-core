@@ -30,16 +30,6 @@ struct States {
    bool modes_created = false;
 };
 
-struct Sizers {
-   wxBoxSizer* main;
-   wxBoxSizer* info;
-   wxBoxSizer* cli;
-   wxBoxSizer* history;
-   wxBoxSizer* transfer;
-   wxBoxSizer* home;
-   wxBoxSizer* wallet;
-};
-
 struct Modes {
    Home* p_home;
    Cli* p_cli;
@@ -73,14 +63,6 @@ struct Welcome {
    Welcome4* page4;
 };
 
-struct Navigation {
-   wxToolBar* itemToolBar;
-   wxMenuBar* menubar;
-   wxMenu* wallet;
-   wxMenu* file;
-   wxMenu* help;
-};
-
 class GWallet : public wxFrame
 {
 public:
@@ -97,15 +79,33 @@ public:
    wxConfig* config;
    wxString directory;
    States state;
-   wxPanel* panel;
-   Sizers sizers;
    Bitshares bitshares;
-   Navigation navi;
    Modes modes;
    Strings strings;
    Welcome welcome;
 
+protected:
+
+   wxMenuBar* menubar;
+   wxToolBar* toolbar;
+
+   wxComboBox* t_accounts;
+   wxComboBox* t_assets;
+   wxStaticText* t_balance;
+
+   wxPanel* main_panel;
+
+
 private:
+
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GWallet"), wxT("wxFrame"));
+      toolbar = XRCCTRL(*this,"toolbar",wxToolBar);
+      t_accounts = XRCCTRL(*this,"t_accounts",wxComboBox);
+      t_assets = XRCCTRL(*this,"t_assets",wxComboBox);
+      t_balance = XRCCTRL(*this,"t_balance",wxStaticText);
+      main_panel = XRCCTRL(*this,"main_panel",wxPanel);
+   }
 
    void OnNew(wxCommandEvent& event);
    void OnOpen(wxCommandEvent& event);
@@ -124,18 +124,14 @@ private:
 
    void OnHomeMode(wxCommandEvent& event);
    void OnCommandMode(wxCommandEvent& event);
-   void OnTransferMode(wxCommandEvent& event);
+   void OnSendReceiveMode(wxCommandEvent& event);
    void OnHistoryMode(wxCommandEvent& event);
    void OnWalletMode(wxCommandEvent& event);
 
    void OnChangeAccount(wxCommandEvent& event);
    void OnChangeAsset(wxCommandEvent& event);
 
-   void CreateMenu();
-   void CreateTool();
    void CreateEvents();
-   void CreateInfo();
-   void CreateMain();
 
    void DoInitialConfig();
 
@@ -145,24 +141,3 @@ private:
    wxLocale* m_locale;
 };
 
-const int ID_CONNECT = 105;
-const int ID_DISCONNECT = 106;
-const int ID_SETPASSWORD = 107;
-const int ID_LOCK = 109;
-const int ID_UNLOCK = 110;
-const int ID_IMPORTKEY = 111;
-const int ID_LANG = 112;
-
-const int ID_ICON_CONNECT = 113;
-const int ID_ICON_DISCONNECT = 114;
-const int ID_ICON_LOCK = 115;
-const int ID_ICON_UNLOCK = 116;
-
-const int ID_COMBO_ACCOUNTS = 122;
-const int ID_COMBO_ASSETS = 123;
-
-const int ID_ICON_HOME = 124;
-const int ID_ICON_COMMAND = 125;
-const int ID_ICON_SENDRECEIVE = 126;
-const int ID_ICON_HISTORY = 127;
-const int ID_ICON_WALLET = 128;

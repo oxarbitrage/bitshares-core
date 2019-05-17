@@ -1,5 +1,5 @@
 add_executable( gwallet
-		main.cpp gwallet.cpp bitshares.cpp gui_create.cpp
+		main.cpp gwallet.cpp bitshares.cpp
 		dialogs/importkey.cpp
 		dialogs/transfer.cpp
 		dialogs/sellasset.cpp

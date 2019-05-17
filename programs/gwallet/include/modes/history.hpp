@@ -4,17 +4,22 @@
 #include "../gwallet.hpp"
 #endif
 
-class History : public wxFrame
+class History : public wxPanel
 {
 public:
 
     History(GWallet* gwallet);
-    void CreateControls();
-    void CreateEvents();
     void DoHistory(std::string account);
 
     GWallet* p_GWallet;
-    wxGrid* grid;
+
+protected:
+   wxGrid* grid;
 
 private:
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("History"), wxT("wxPanel"));
+      grid = XRCCTRL(*this,"grid",wxGrid);
+   }
+
 };

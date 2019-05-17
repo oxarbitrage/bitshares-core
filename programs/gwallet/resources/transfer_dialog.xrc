@@ -254,6 +254,7 @@
                         <border>0</border>
                         <option>10</option>
                         <object class="wxTextCtrl" name="memo">
+                            <enabled>0</enabled>
                             <style>wxTE_MULTILINE</style>
                         </object>
                     </object>

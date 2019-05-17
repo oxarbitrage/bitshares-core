@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+    <object class="wxFrame" name="GWallet">
+        <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX</style>
+        <size>1200,900</size>
+        <title>G-Wallet | Secure Bitshares Wallet</title>
+        <centered>1</centered>
+        <object class="wxMenuBar" name="menubar">
+            <object class="wxMenu">
+                <label>File</label>
+                <object class="wxMenuItem" name="wxID_NEW">
+                    <label>New</label>
+                </object>
+                <object class="wxMenuItem" name="wxID_OPEN">
+                    <label>Open</label>
+                </object>
+                <object class="wxMenuItem" name="wxID_SAVE">
+                    <label>Save</label>
+                </object>
+                <object class="wxMenuItem" name="wxID_NETWORK">
+                    <label>Connection</label>
+                </object>
+                <object class="separator">
+                </object>
+                <object class="wxMenuItem" name="m_lang">
+                    <label>Change language</label>
+                </object>
+                <object class="wxMenuItem" name="wxID_EXIT">
+                    <label>Quit</label>
+                </object>
+            </object>
+            <object class="wxMenu">
+                <label>Wallet</label>
+                <object class="wxMenuItem" name="m_connect">
+                    <label>Connect</label>
+                </object>
+                <object class="wxMenuItem" name="m_disconnect">
+                    <label>Disconnect</label>
+                    <enabled>0</enabled>
+                </object>
+                <object class="separator">
+                </object>
+                <object class="wxMenuItem" name="m_set_password">
+                    <label>Set password</label>
+                    <enabled>0</enabled>
+                </object>
+                <object class="wxMenuItem" name="m_lock">
+                    <label>Lock</label>
+                    <enabled>0</enabled>
+                </object>
+                <object class="wxMenuItem" name="m_unlock">
+                    <label>Unlock</label>
+                    <enabled>0</enabled>
+                </object>
+                <object class="wxMenuItem" name="m_import_key">
+                    <label>Import key</label>
+                    <enabled>0</enabled>
+                </object>
+            </object>
+            <object class="wxMenu">
+                <label>Help</label>
+                <object class="wxMenuItem" name="wx_ID_ABOUT">
+                    <label>About</label>
+                </object>
+            </object>
+        </object>
+        <object class="wxToolBar" name="toolbar">
+            <style>wxTB_FLAT|wxTB_HORIZONTAL</style>
+            <object class="tool" name="t_connect">
+                <bitmap>../icons/network-transmit.png</bitmap>
+            </object>
+            <object class="tool" name="t_disconnect">
+                <bitmap>../icons/network-offline.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="tool" name="t_lock">
+                <bitmap>../icons/object-locked.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="tool" name="t_unlock">
+                <bitmap>../icons/object-unlocked.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="separator">
+            </object>
+            <object class="tool" name="t_home">
+                <bitmap>../icons/go-home-5.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="tool" name="t_cli">
+                <bitmap>../icons/utilities-terminal-6.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="tool" name="t_sendreceive">
+                <bitmap>../icons/emblem-money.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="tool" name="t_history">
+                <bitmap>../icons/x-office-spreadsheet-2.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="tool" name="t_wallet">
+                <bitmap>../icons/wallet-open.png</bitmap>
+                <disabled>1</disabled>
+            </object>
+            <object class="space">
+            </object>
+            <object class="wxComboBox" name="t_accounts">
+                <style>wxCB_DROPDOWN</style>
+                <enabled>0</enabled>
+                <content>
+                    <item>MY ACCOUNTS</item>
+                </content>
+            </object>
+            <object class="wxComboBox" name="t_assets">
+                <style>wxCB_DROPDOWN</style>
+                <enabled>0</enabled>
+            </object>
+            <object class="separator">
+            </object>
+            <object class="wxStaticText" name="t_balance">
+                <font>
+                    <size>12</size>
+                    <family>swiss</family>
+                    <face>Noto Sans</face>
+                </font>
+                <label>0.00 BTS</label>
+            </object>
+        </object>
+        <object class="wxPanel" name="main_panel">
+            <size>1200,800</size>
+            <style>wxTAB_TRAVERSAL</style>
+            <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
+            <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="spacer">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>20</border>
+                    <size>5,5</size>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxStaticBitmap" name="wxID_STATIC">
+                        <size>70,70</size>
+                        <bitmap>../icons/btslogo.png</bitmap>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxStaticText" name="wxID_STATIC">
+                        <font>
+                            <size>14</size>
+                            <family>swiss</family>
+                            <face>Noto Sans</face>
+                        </font>
+                        <label>Welcome to G-Wallet</label>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxStaticText" name="wxID_STATIC">
+                        <label>Version 0.0.1</label>
+                    </object>
+                </object>
+                <object class="spacer">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>30</border>
+                    <size>5,5</size>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBitmapButton" name="new_button">
+                                <style>wxBU_AUTODRAW</style>
+                                <bitmap>../icons/document-new-6.png</bitmap>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <size>600,-1</size>
+                                <label>Setup a new wallet by following the wizard. Please note you need a created account and private key in order to use the software.</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxStaticLine" name="wxID_STATIC">
+                        <size>720,-1</size>
+                        <style>wxLI_HORIZONTAL</style>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBitmapButton" name="open_button">
+                                <style>wxBU_AUTODRAW</style>
+                                <bitmap>../icons/document-import.png</bitmap>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <size>600,-1</size>
+                                <label>If you already have a wallet.json file somewhere please use this option to import it to G-Wallet.</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxStaticLine" name="wxID_STATIC">
+                        <size>720,-1</size>
+                        <style>wxLI_HORIZONTAL</style>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBitmapButton" name="connect_button">
+                                <style>wxBU_AUTODRAW</style>
+                                <bitmap>../icons/network-transmit.png</bitmap>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <size>600,-1</size>
+                                <label>If your wallet is all set, connect to Bitshares.</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+        <object class="wxStatusBar" name="statusbar">
+            <style>wxST_SIZEGRIP|wxNO_BORDER</style>
+            <fields>2</fields>
+            <widths></widths>
+        </object>
+    </object>
+</resource>

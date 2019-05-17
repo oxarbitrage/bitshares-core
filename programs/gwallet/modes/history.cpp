@@ -1,16 +1,13 @@
 #include "../include/modes/history.hpp"
 
-History::History(GWallet* gwallet) : wxFrame()
+History::History(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 }
 
-void History::CreateControls()
+void History::DoHistory(std::string account)
 {
-   p_GWallet->sizers.history = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->sizers.main->Add(p_GWallet->sizers.history, 0, wxGROW|wxALL);
-
-   grid = new wxGrid(p_GWallet->panel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
    grid->CreateGrid(10, 5);
 
    grid->SetColLabelValue(0, "ID");
@@ -20,27 +17,11 @@ void History::CreateControls()
    grid->SetColLabelValue(4, "Memo");
    //grid->SetColLabelValue(5, "Raw");
 
-   grid->Enable(false);
-   p_GWallet->sizers.history->Add(grid, 0, wxALL, 5);
-
-   p_GWallet->sizers.main->Hide(p_GWallet->sizers.history, true);
-   p_GWallet->sizers.main->Layout();
-}
-
-void History::CreateEvents()
-{
-
-}
-
-void History::DoHistory(std::string account)
-{
    grid->DeleteRows(0, 25);
 
    const auto my_account_history = p_GWallet->bitshares.wallet_api_ptr->get_account_history(account, 25);
 
    auto z = 0;
-
-   grid->Enable(true);
 
    grid->BeginBatch();
    grid->ClearSelection();

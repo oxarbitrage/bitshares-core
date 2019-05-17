@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+
+        <object class="wxPanel" name="Wallet">
+            <size>1200, 800</size>
+            <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+            <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
+            <object class="wxStaticBoxSizer" name="wxID_ANY">
+                <orient>wxVERTICAL</orient>
+                <label>Select a Command</label>
+                <object class="sizeritem">
+                    <flag>wxGROW|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>10</option>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <label>Transfer an amount from one account to another.</label>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>2</option>
+                            <object class="wxButton" name="transfer">
+                                <label>Transfer</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxGROW|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>10</option>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <label>Place a limit order attempting to sell one asset for another.</label>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>2</option>
+                            <object class="wxButton" name="sell_asset">
+                                <label>Sell asset</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxGROW|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>10</option>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <label>Borrow an asset or update the debt/collateral ratio for the loan.</label>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>2</option>
+                            <object class="wxButton" name="borrow_asset">
+                                <label>Borrow asset</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxGROW|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>10</option>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <label>Cancel an existing order.</label>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>2</option>
+                            <object class="wxButton" name="cancel_order">
+                                <label>Cancel order</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object class="sizeritem">
+                    <flag>wxGROW|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>10</option>
+                            <object class="wxStaticText" name="wxID_STATIC">
+                                <label>Set the voting proxy for an account.</label>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>5</border>
+                            <option>2</option>
+                            <object class="wxButton" name="update_proxy">
+                                <label>Update proxy</label>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+
+</resource>

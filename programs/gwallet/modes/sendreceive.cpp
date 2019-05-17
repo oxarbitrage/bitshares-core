@@ -1,139 +1,18 @@
 #include "../include/modes/sendreceive.hpp"
 
-SendReceive::SendReceive(GWallet* gwallet) : wxFrame()
+SendReceive::SendReceive(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
-}
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
-void SendReceive::CreateControls()
-{
-   wxBitmap qr_image(p_GWallet->directory + wxT("/icons/qr.png"), wxBITMAP_TYPE_PNG);
+   Connect(XRCID("send_from"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SendReceive::OnSearchAccount), NULL, this);
+   Connect(XRCID("receive_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SendReceive::OnSearchAsset), NULL, this);
+   Connect(XRCID("send"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnTransferOk), NULL, this);
+   Connect(XRCID("generate_url_send"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnSendUrl), NULL, this);
+   Connect(XRCID("generate_url_receive"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnReceiveUrl), NULL, this);
 
-   p_GWallet->sizers.transfer = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->sizers.main->Add(p_GWallet->sizers.transfer, 0, wxGROW|wxALL);
-
-   wxBoxSizer* itemBoxSizer1 = new wxBoxSizer(wxVERTICAL);
-   p_GWallet->sizers.transfer->Add(itemBoxSizer1, 0, wxGROW|wxALL);
-
-   wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
-   itemBoxSizer1->Add(itemBoxSizer2, 0, wxGROW|wxALL, 5);
-
-   wxStaticBox* itemStaticBoxSizer3Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Send"));
-   wxStaticBoxSizer* itemStaticBoxSizer3 = new wxStaticBoxSizer(itemStaticBoxSizer3Static, wxVERTICAL);
-   itemBoxSizer2->Add(itemStaticBoxSizer3, 6, wxALIGN_TOP|wxALL, 5);
-
-   wxStaticText* itemStaticText4 = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         _("Receipient:"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer3->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL, 5);
-
-   send_to = new wxSearchCtrl( itemStaticBoxSizer3->GetStaticBox(), ID_SEND_FROM,
-         wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY) );
-   itemStaticBoxSizer3->Add(send_to, 0, wxGROW|wxALL, 5);
-
-   wxStaticText* itemStaticText6 = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         _("Amount:"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer3->Add(itemStaticText6, 0, wxALIGN_LEFT|wxALL, 5);
-
-   wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-   itemStaticBoxSizer3->Add(itemBoxSizer7, 0, wxGROW|wxALL, 0);
-
-   send_amount = new wxTextCtrl( itemStaticBoxSizer3->GetStaticBox(), wxID_ANY,
-         wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY|wxFILTER_DIGITS) );
-   itemBoxSizer7->Add(send_amount, 8, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   send_asset = new wxComboBox( itemStaticBoxSizer3->GetStaticBox(), wxID_ANY, p_GWallet->strings.selected_asset,
-         wxDefaultPosition, wxDefaultSize, p_GWallet->strings.assets, wxCB_DROPDOWN, wxTextValidator(wxFILTER_EMPTY) );
-   itemBoxSizer7->Add(send_asset, 4, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-   itemStaticBoxSizer3->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALL, 0);
-
-   wxButton* itemButton5 = new wxButton( itemStaticBoxSizer3->GetStaticBox(), ID_SEND_GENERATE_URL,
-         _("Generate Url"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer4->Add(itemButton5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   wxButton* itemButton6 = new wxButton( itemStaticBoxSizer3->GetStaticBox(), ID_TRANSFER_OK,
-         _("Send"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer4->Add(itemButton6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   wxStaticText* itemStaticText5 = new wxStaticText( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         _("Generated URL for transfer:"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer3->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALL, 5);
-
-   send_url = new wxTextCtrl( itemStaticBoxSizer3->GetStaticBox(), wxID_ANY,
-         wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-   send_url->Enable(false);
-   itemStaticBoxSizer3->Add(send_url, 0, wxGROW|wxALL, 5);
-
-   wxStaticBitmap* itemStaticBitmap7 = new wxStaticBitmap( itemStaticBoxSizer3->GetStaticBox(), wxID_STATIC,
-         qr_image, wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer3->Add(itemStaticBitmap7, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-   wxStaticBox* itemStaticBoxSizer11Static = new wxStaticBox(p_GWallet->panel, wxID_ANY, _("Receive"));
-   wxStaticBoxSizer* itemStaticBoxSizer11 = new wxStaticBoxSizer(itemStaticBoxSizer11Static, wxVERTICAL);
-   itemBoxSizer2->Add(itemStaticBoxSizer11, 6, wxALIGN_TOP|wxALL, 5);
-
-   wxStaticText* itemStaticText9 = new wxStaticText( itemStaticBoxSizer11->GetStaticBox(), wxID_STATIC,
-         _("From:"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer11->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALL, 5);
-
-   receive_from = new wxSearchCtrl( itemStaticBoxSizer11->GetStaticBox(), wxID_ANY,
-         wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY) );
-   itemStaticBoxSizer11->Add(receive_from, 0, wxGROW|wxALL, 5);
-
-   wxStaticText* itemStaticText11 = new wxStaticText( itemStaticBoxSizer11->GetStaticBox(), wxID_STATIC,
-         _("Amount and asset to receive:"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer11->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALL, 5);
-
-   wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-   itemStaticBoxSizer11->Add(itemBoxSizer3, 0, wxGROW|wxALL, 0);
-
-   receive_amount = new wxTextCtrl( itemStaticBoxSizer11->GetStaticBox(), wxID_ANY,
-         wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY|wxFILTER_DIGITS) );
-   itemBoxSizer3->Add(receive_amount, 8, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   receive_asset = new wxSearchCtrl( itemStaticBoxSizer11->GetStaticBox(), ID_RECEIVE_ASSET,
-           wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_EMPTY) );
-   itemBoxSizer3->Add(receive_asset, 4, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   wxButton* itemButton1 = new wxButton( itemStaticBoxSizer11->GetStaticBox(), ID_RECEIVE_GENERATE_URL,
-         _("Generate URL"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer11->Add(itemButton1, 0, wxALIGN_RIGHT|wxALL, 5);
-
-   wxStaticText* itemStaticText7 = new wxStaticText( itemStaticBoxSizer11->GetStaticBox(), wxID_STATIC,
-         _("To receive asset simply send your account name and amount to the sender, send URL or QR:"),
-         wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer11->Add(itemStaticText7, 0, wxGROW|wxALL, 5);
-
-   receive_url = new wxTextCtrl( itemStaticBoxSizer11->GetStaticBox(), wxID_ANY,
-         wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-   receive_url->Enable(false);
-   itemStaticBoxSizer11->Add(receive_url, 0, wxGROW|wxALL, 5);
-
-   wxStaticBitmap* itemStaticBitmap12 = new wxStaticBitmap( itemStaticBoxSizer11->GetStaticBox(), wxID_STATIC,
-         qr_image, wxDefaultPosition, wxDefaultSize, 0 );
-   itemStaticBoxSizer11->Add(itemStaticBitmap12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-   p_GWallet->sizers.main->Hide(p_GWallet->sizers.transfer, true);
-   p_GWallet->sizers.main->Layout();
-}
-
-void SendReceive::CreateEvents()
-{
-   p_GWallet->panel->Connect(ID_SEND_FROM, wxEVT_SEARCHCTRL_SEARCH_BTN,
-         wxCommandEventHandler(SendReceive::OnSearchAccount), NULL, this);
-
-   p_GWallet->panel->Connect(ID_RECEIVE_ASSET, wxEVT_SEARCHCTRL_SEARCH_BTN,
-         wxCommandEventHandler(SendReceive::OnSearchAsset), NULL, this);
-
-   p_GWallet->panel->Connect(ID_TRANSFER_OK, wxEVT_COMMAND_BUTTON_CLICKED,
-         wxCommandEventHandler(SendReceive::OnTransferOk), NULL, this);
-
-   p_GWallet->panel->Connect(ID_SEND_GENERATE_URL, wxEVT_COMMAND_BUTTON_CLICKED,
-         wxCommandEventHandler(SendReceive::OnSendUrl), NULL, this);
-
-   p_GWallet->panel->Connect(ID_RECEIVE_GENERATE_URL, wxEVT_COMMAND_BUTTON_CLICKED,
-         wxCommandEventHandler(SendReceive::OnReceiveUrl), NULL, this);
+   send_asset->Set(p_GWallet->strings.assets);
+   send_asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 }
 
 void SendReceive::OnSearchAccount(wxCommandEvent & event)
@@ -181,8 +60,8 @@ void SendReceive::OnSendUrl(wxCommandEvent &event)
       const auto url = "bitshares://operation/transfer?to=" + to_v + "&from=" + from_v + "&asset=" + asset_v + "&amount=" +
             amount_v;
 
-      send_url->WriteText(url);
-      send_url->Enable(true);
+      generated_url_send->WriteText(url);
+      generated_url_send->Enable(true);
    }
 }
 
@@ -197,8 +76,8 @@ void SendReceive::OnReceiveUrl(wxCommandEvent &event)
       const auto url = "bitshares://operation/transfer?to=" + to_v + "&from=" + from_v + "&asset=" + asset_v + "&amount=" +
             amount_v;
 
-      receive_url->WriteText(url);
-      receive_url->Enable(true);
+      generated_url_receive->WriteText(url);
+      generated_url_receive->Enable(true);
    }
 }
 

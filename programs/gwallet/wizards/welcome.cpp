@@ -169,7 +169,7 @@ void Welcome3::OnTestServer(wxCommandEvent& WXUNUSED(event))
 
    wxString path;
    if ( p_GWallet->config->Read("WalletPath", &path) ) {
-      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
+      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, XRCID("ID_CONNECT"));
       p_GWallet->ProcessWindowEvent(event_connect);
       try
       {
@@ -217,7 +217,7 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
       p_GWallet->config->Flush();
 
       if (!p_GWallet->state.is_connected) {
-         wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, ID_CONNECT);
+         wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, XRCID("ID_CONNECT"));
          p_GWallet->ProcessWindowEvent(event_connect);
       }
 
