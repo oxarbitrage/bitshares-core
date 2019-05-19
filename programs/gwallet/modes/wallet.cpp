@@ -42,7 +42,7 @@ void Wallet::OnTransfer(wxCommandEvent& event)
 
 void Wallet::OnSellAsset(wxCommandEvent& event)
 {
-   SellAssetDialog SellAssetDialog( this, -1, _("Sell asset"), wxDefaultPosition, wxSize(-1, 500));
+   SellAssetDialog SellAssetDialog( this );
 }
 
 void Wallet::OnBorrowAsset(wxCommandEvent& event)

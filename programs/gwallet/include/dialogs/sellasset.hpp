@@ -9,12 +9,9 @@
 class SellAssetDialog: public wxDialog
 {
 public:
-   SellAssetDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos = wxDefaultPosition,
-         const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
+   SellAssetDialog(wxWindow *parent=NULL);
 
-private:
-   GWallet* p_GWallet;
-
+protected:
    wxComboBox* seller;
    wxTextCtrl* sell_amount;
    wxComboBox* sell_asset;
@@ -26,12 +23,23 @@ private:
    wxCheckBox* broadcast;
    wxCheckBox* cli;
 
-   void CreateEvents();
+private:
+   GWallet* p_GWallet;
+
    void OnOk(wxCommandEvent& event);
+
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAssetDialog"), wxT("wxDialog"));
+      seller = XRCCTRL(*this,"seller",wxComboBox);
+      sell_amount = XRCCTRL(*this,"sell_amount",wxTextCtrl);
+      sell_asset = XRCCTRL(*this,"sell_asset",wxComboBox);
+      receive_amount = XRCCTRL(*this,"receive_amount",wxTextCtrl);
+      receive_asset = XRCCTRL(*this,"receive_asset",wxSearchCtrl);
+      date = XRCCTRL(*this,"date",wxDatePickerCtrl);
+      time = XRCCTRL(*this,"time",wxTimePickerCtrl);
+      fill_or_kill = XRCCTRL(*this,"fill_or_kill",wxCheckBox);
+      broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
+      cli = XRCCTRL(*this,"cli",wxCheckBox);
+   }
 };
 
-//const int ID_DIALOG_TRANSFER_OK = 11100;
-//const int ID_DIALOG_TRANSFER_CANCEL = 11101;
-
-//const int ID_DIALOG_TRANSFER_BROADCAST = 11102;
-//const int ID_DIALOG_TRANSFER_CLI = 11103;

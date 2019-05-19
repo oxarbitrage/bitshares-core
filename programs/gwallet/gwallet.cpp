@@ -24,7 +24,6 @@
 #include <wx/filedlg.h>
 #include <wx/filectrl.h>
 
-//GWallet::GWallet(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200, 900))
 GWallet::GWallet(const wxString& title)
 {
    DoInitialConfig();
