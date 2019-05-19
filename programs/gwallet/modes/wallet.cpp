@@ -47,7 +47,7 @@ void Wallet::OnSellAsset(wxCommandEvent& event)
 
 void Wallet::OnBorrowAsset(wxCommandEvent& event)
 {
-   BorrowAssetDialog BorrowAssetDialog( this, -1, _("Borrow asset"), wxDefaultPosition, wxSize(-1, 400));
+   BorrowAssetDialog BorrowAssetDialog( this );
 }
 
 void Wallet::OnCancelOrder(wxCommandEvent& event)
