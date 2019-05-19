@@ -52,7 +52,7 @@ void Wallet::OnBorrowAsset(wxCommandEvent& event)
 
 void Wallet::OnCancelOrder(wxCommandEvent& event)
 {
-   CancelOrderDialog CancelOrderDialog( this, -1, _("Cancel open order"), wxDefaultPosition, wxSize(-1, 300));
+   CancelOrderDialog CancelOrderDialog( this );
 }
 
 void Wallet::OnSetProxy(wxCommandEvent& event)

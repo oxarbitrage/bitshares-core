@@ -5,110 +5,21 @@
 #include <wx/statline.h>
 #include <wx/combo.h>
 
-CancelOrderDialog::CancelOrderDialog(wxWindow* parent, wxWindowID id, const wxString& title,
-      const wxPoint &position, const wxSize& size, long style) : wxDialog( parent, id, title, position, size, style)
+CancelOrderDialog::CancelOrderDialog(wxWindow* parent)
 {
+   InitWidgetsFromXRC((wxWindow *)parent);
+
    Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
    p_GWallet = p_Wallet->p_GWallet;
 
-   CancelOrderDialog* itemDialog1 = this;
-
    DoOpenOrders();
+   order->Append(open_orders_strings);
 
-   wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
-   itemDialog1->SetSizer(itemBoxSizer2);
-
-   itemBoxSizer2->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 2);
-
-   wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-   itemBoxSizer2->Add(itemBoxSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-   wxStaticText* itemStaticText4 = new wxStaticText( itemDialog1, wxID_STATIC,
-         _("Cancel an open order"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
-   itemBoxSizer2->Add(itemBoxSizer5, 0, wxGROW|wxALL, 0);
-
-   itemBoxSizer5->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   wxStaticText* itemStaticText7 = new wxStaticText( itemDialog1, wxID_STATIC,
-         _("Order to cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemBoxSizer5->Add(itemStaticText7, 10, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-   itemBoxSizer5->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   wxBoxSizer* itemBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
-   itemBoxSizer2->Add(itemBoxSizer9, 0, wxGROW|wxALL, 0);
-
-   itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   order = new wxListBox( itemDialog1, wxID_ANY,
-         wxDefaultPosition, wxDefaultSize, open_orders_strings, wxLB_SINGLE );
-   itemBoxSizer9->Add(order, 10, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   itemBoxSizer9->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   itemBoxSizer2->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 2);
-
-   wxBoxSizer* itemBoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-   itemBoxSizer2->Add(itemBoxSizer1, 0, wxGROW|wxALL, 0);
-
-   itemBoxSizer1->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   broadcast = new wxCheckBox( itemDialog1, wxID_ANY,
-         _("Broadcast transaction"), wxDefaultPosition, wxDefaultSize, 0 );
-   broadcast->SetValue(true);
-   broadcast->Enable(false);
-   itemBoxSizer1->Add(broadcast, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   cli = new wxCheckBox( itemDialog1, wxID_ANY,
-         _("Show output in CLI mode"), wxDefaultPosition, wxDefaultSize, 0 );
-   cli->SetValue(false);
-   cli->Enable(false);
-   itemBoxSizer1->Add(cli, 5, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   itemBoxSizer1->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   itemBoxSizer2->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 2);
-
-   wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
-   itemBoxSizer2->Add(itemBoxSizer8, 0, wxGROW|wxALL, 0);
-
-   itemBoxSizer8->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   wxStaticLine* itemStaticLine10 = new wxStaticLine( itemDialog1, wxID_STATIC,
-         wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-   itemBoxSizer8->Add(itemStaticLine10, 10, wxGROW|wxALL, 0);
-
-   itemBoxSizer8->Add(5, 5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-   itemBoxSizer2->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 2);
-
-   wxStdDialogButtonSizer* itemStdDialogButtonSizer14 = new wxStdDialogButtonSizer;
-
-   itemBoxSizer2->Add(itemStdDialogButtonSizer14, 0, wxGROW|wxALL, 5);
-   wxButton* itemButton15 = new wxButton( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-   if(open_orders_strings.IsEmpty())
-      itemButton15->Enable(false);
-   itemStdDialogButtonSizer14->AddButton(itemButton15);
-
-   wxButton* itemButton16 = new wxButton( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-   itemStdDialogButtonSizer14->AddButton(itemButton16);
-
-   itemStdDialogButtonSizer14->Realize();
-
-   CreateEvents();
-
-   Centre();
-   ShowModal();
-   Destroy();
-}
-
-void CancelOrderDialog::CreateEvents()
-{
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(CancelOrderDialog::OnOk));
+
+   ShowModal();
 }
+
 
 void CancelOrderDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 {

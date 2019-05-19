@@ -5,20 +5,27 @@
 class CancelOrderDialog: public wxDialog
 {
 public:
-   CancelOrderDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos = wxDefaultPosition,
-         const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
+   CancelOrderDialog(wxWindow* parent);
 
-private:
-   GWallet* p_GWallet;
-
+protected:
    wxListBox* order;
    wxCheckBox* broadcast;
    wxCheckBox* cli;
 
+private:
+   GWallet* p_GWallet;
+
    wxArrayString open_orders_strings;
    vector<object_id_type> open_orders_ids;
 
-   void CreateEvents();
    void OnOk(wxCommandEvent& event);
    void DoOpenOrders();
+
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrderDialog"), wxT("wxDialog"));
+      order = XRCCTRL(*this,"order",wxListBox);
+      broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
+      cli = XRCCTRL(*this,"cli",wxCheckBox);
+   }
+
 };
