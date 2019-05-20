@@ -37,25 +37,25 @@ void Wallet::DisableOperations()
 
 void Wallet::OnTransfer(wxCommandEvent& event)
 {
-   TransferDialog TransferDialog( this );
+   TransferDialog TransferDialog(this);
 }
 
 void Wallet::OnSellAsset(wxCommandEvent& event)
 {
-   SellAssetDialog SellAssetDialog( this );
+   SellAssetDialog SellAssetDialog(this);
 }
 
 void Wallet::OnBorrowAsset(wxCommandEvent& event)
 {
-   BorrowAssetDialog BorrowAssetDialog( this );
+   BorrowAssetDialog BorrowAssetDialog(this);
 }
 
 void Wallet::OnCancelOrder(wxCommandEvent& event)
 {
-   CancelOrderDialog CancelOrderDialog( this );
+   CancelOrderDialog CancelOrderDialog(this);
 }
 
 void Wallet::OnSetProxy(wxCommandEvent& event)
 {
-   SetProxyDialog SetProxyDialog( this, -1, _("Update your voting account"), wxDefaultPosition, wxSize(-1, 300));
+   SetProxyDialog SetProxyDialog(this);
 }

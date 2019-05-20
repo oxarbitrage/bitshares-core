@@ -11,7 +11,7 @@ SendReceive::SendReceive(GWallet* gwallet) : wxPanel()
    Connect(XRCID("generate_url_send"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnSendUrl), NULL, this);
    Connect(XRCID("generate_url_receive"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnReceiveUrl), NULL, this);
 
-   send_asset->Set(p_GWallet->strings.assets);
+   send_asset->Append(p_GWallet->strings.assets);
    send_asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 }
 

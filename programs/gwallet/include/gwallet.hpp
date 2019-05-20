@@ -42,9 +42,6 @@ struct Strings {
    wxStaticText* main;
    wxStaticText* balance;
 
-   wxComboBox* combo_accounts;
-   wxComboBox* combo_assets;
-
    wxArrayString accounts;
    wxArrayString assets;
    wxArrayString balances;

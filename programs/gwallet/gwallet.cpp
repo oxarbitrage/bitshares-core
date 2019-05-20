@@ -126,6 +126,7 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
       }
       catch(const fc::exception &e) {
          OnError(_("Problem at connecting, please try again ..."));
+         return;
       }
 
       if (bitshares.wallet_api_ptr->is_new()) {
@@ -213,6 +214,7 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    catch(const fc::exception& e)
    {
       OnError(_("Some problem when locking, try again ..."));
+      return;
    }
    state.is_locked = true;
    state.is_unlocked = false;
@@ -234,6 +236,7 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
       catch(const fc::exception& e)
       {
          OnError(_("Password is incorrect, please try again."));
+         return;
       }
       state.is_locked = false;
       state.is_unlocked = true;
@@ -252,7 +255,7 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
    wxBusyInfo wait(_("Please wait, switching accounts ..."));
    wxTheApp->Yield();
 
-   const auto selected = strings.combo_accounts->GetCurrentSelection();
+   const auto selected = t_accounts->GetCurrentSelection();
    const auto account_name = strings.accounts[selected];
 
    DoAssets(account_name.ToStdString());
@@ -596,6 +599,9 @@ void GWallet::DoState() {
       toolbar->EnableTool(XRCID("t_history"), false);
       toolbar->EnableTool(XRCID("t_sendreceive"), false);
       toolbar->EnableTool(XRCID("t_wallet"), false);
+
+      toolbar->EnableTool(XRCID("t_accounts"), true);
+      toolbar->EnableTool(XRCID("t_assets"), true);
 
       if(state.is_new) {
          SetStatusText(_("Connected | New"));

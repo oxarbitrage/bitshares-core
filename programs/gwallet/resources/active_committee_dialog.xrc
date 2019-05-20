@@ -92,6 +92,11 @@
                     </object>
                 </object>
             </object>
+            <object class="spacer">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>2</border>
+                <size>5,5</size>
+            </object>
         </object>
     </object>
 </resource>
