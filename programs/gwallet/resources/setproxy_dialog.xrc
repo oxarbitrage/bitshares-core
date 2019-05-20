@@ -1,225 +1,251 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
     <object class="wxDialog" name="SetProxyDialog">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_VALIDATE_RECURSIVELY|wxWS_EX_BLOCK_EVENTS</exstyle>
-        <size>400,300</size>
+        <size>400,295</size>
         <title>Update your proxy</title>
         <centered>1</centered>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
+                        <option>0</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <label>Change the proxy of your account</label>
+                            <tooltip> If a user does not wish to take an active part in voting, they can choose to allow another account to vote their stake.\n\nSetting a vote proxy does not remove your previous votes from the blockchain, they remain there but are ignored.  If you later null out your vote proxy, your previous votes will take effect again.\n\n This setting can be changed at any time.</tooltip>
+                            <label>Set the voting proxy for an account.</label>
+                            <wrap>-1</wrap>
                         </object>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <option>10</option>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>Account to modify</label>
+                            <wrap>-1</wrap>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>10</option>
                         <object class="wxComboBox" name="account_to_modify">
                             <style>wxCB_DROPDOWN</style>
+                            <tooltip>The name or id of the account to update.</tooltip>
+                            <value></value>
+                            <content />
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <option>10</option>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>Voting account</label>
+                            <wrap>-1</wrap>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>10</option>
                         <object class="wxSearchCtrl" name="voting_account">
+                            <tooltip>The name or id of an account authorized to vote account__to__modify&apos;s shares, or null to vote your own shares.</tooltip>
+                            <value></value>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>5</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>5</option>
                         <object class="wxCheckBox" name="broadcast">
+                            <enabled>0</enabled>
+                            <tooltip>Check if you wish to broadcast the transaction to the network.</tooltip>
                             <label>Broadcast transaction</label>
-                            <checked>0</checked>
+                            <checked>1</checked>
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <option>5</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>5</option>
                         <object class="wxCheckBox" name="cli">
+                            <enabled>0</enabled>
                             <label>Show output in CLI mode</label>
                             <checked>0</checked>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>0</border>
                         <option>10</option>
+                        <flag>wxEXPAND|wxALL</flag>
+                        <border>0</border>
                         <object class="wxStaticLine" name="wxID_STATIC">
                             <style>wxLI_HORIZONTAL</style>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>5</border>
                 <object class="wxStdDialogButtonSizer">
                     <object class="button">
@@ -239,6 +265,7 @@
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>

@@ -1,301 +1,338 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
     <object class="wxDialog" name="TransferDialog">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_VALIDATE_RECURSIVELY|wxWS_EX_BLOCK_EVENTS</exstyle>
-        <size>400,300</size>
+        <size>400,430</size>
         <title>Transfer Asset</title>
         <centered>1</centered>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
+                        <option>0</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>Transfer asset to another bitshares account</label>
+                            <wrap>-1</wrap>
                         </object>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <option>10</option>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>From</label>
+                            <wrap>0</wrap>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>10</option>
                         <object class="wxComboBox" name="from">
                             <style>wxCB_READONLY</style>
+                            <tooltip>The name or id of the account sending the funds</tooltip>
+                            <value></value>
+                            <content />
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <option>10</option>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>To</label>
+                            <wrap>0</wrap>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>10</option>
                         <object class="wxTextCtrl" name="to">
+                            <tooltip>The name or id of the account receiving the funds</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <option>10</option>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>Amount</label>
+                            <wrap>0</wrap>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>7</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>7</option>
                         <object class="wxTextCtrl" name="amount">
+                            <tooltip>The amount to send (in nominal units -- to send half of a BTS, specify 0.5)</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <option>3</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>3</option>
                         <object class="wxComboBox" name="asset">
-                            <size>100,-1</size>
                             <style>wxCB_READONLY</style>
+                            <size>100,-1</size>
+                            <tooltip>The symbol or id of the asset to send</tooltip>
+                            <value></value>
+                            <content />
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <option>10</option>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>Memo</label>
+                            <wrap>0</wrap>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>10</option>
                         <object class="wxTextCtrl" name="memo">
-                            <enabled>0</enabled>
                             <style>wxTE_MULTILINE</style>
+                            <enabled>0</enabled>
+                            <tooltip>A memo to attach to the transaction.  The memo will be encrypted in the transaction and readable for the receiver.  There is no length limit other than the limit imposed by maximum transaction size, but transaction increase with transaction size</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
+                        <option>5</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>5</option>
                         <object class="wxCheckBox" name="broadcast">
                             <enabled>0</enabled>
+                            <tooltip>Broadcast the transaction on the network</tooltip>
                             <label>Broadcast Transaction</label>
                             <checked>1</checked>
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <option>5</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>5</option>
                         <object class="wxCheckBox" name="cli">
                             <enabled>0</enabled>
                             <label>Show output in CLI mode</label>
@@ -303,52 +340,56 @@
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>0</border>
                         <option>10</option>
+                        <flag>wxEXPAND|wxALL</flag>
+                        <border>0</border>
                         <object class="wxStaticLine" name="wxID_STATIC">
                             <style>wxLI_HORIZONTAL</style>
                         </object>
                     </object>
                     <object class="spacer">
+                        <option>1</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <option>1</option>
                         <size>5,5</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
-                <flag>wxGROW|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
                 <border>5</border>
                 <object class="wxStdDialogButtonSizer">
                     <object class="button">
@@ -368,6 +409,7 @@
                 </object>
             </object>
             <object class="spacer">
+                <option>0</option>
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>

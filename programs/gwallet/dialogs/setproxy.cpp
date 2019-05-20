@@ -36,7 +36,7 @@ void SetProxyDialog::DoVotingAccount()
    }
    catch(const fc::exception& e)
    {
-
+      p_GWallet->OnError(e.to_detail_string());
    }
 }
 

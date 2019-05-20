@@ -17,7 +17,6 @@ protected:
 private:
    GWallet* p_GWallet;
 
-
    wxString current_voting_account;
 
    void OnOk(wxCommandEvent& event);

@@ -20,21 +20,26 @@ CancelOrderDialog::CancelOrderDialog(wxWindow* parent)
    ShowModal();
 }
 
-
 void CancelOrderDialog::OnOk(wxCommandEvent& WXUNUSED(event))
 {
-   const auto order_id = open_orders_ids[order->GetSelection()];
-
-   try {
-      auto result = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, false);
-      if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm cancel order?"),
-                                wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-         p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, true);
-         Close(true);
-      }
+   if(order->IsEmpty()) {
+      p_GWallet->OnError(_("No order selected"));
+      return;
    }
-   catch (const fc::exception &e) {
-      p_GWallet->OnError(e.to_detail_string());
+   else {
+      const auto order_id = open_orders_ids[order->GetSelection()];
+
+      try {
+         auto result = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, false);
+         if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm cancel order?"),
+                                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+            p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, true);
+            Close(true);
+         }
+      }
+      catch (const fc::exception &e) {
+         p_GWallet->OnError(e.to_detail_string());
+      }
    }
 }
 
