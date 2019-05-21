@@ -10,7 +10,7 @@ class Home : public wxPanel
 public:
    Home(GWallet* gwallet);
    void DoInitialData();
-   void DoAccount();
+   void DoAccount(bool update_head_block = true);
 
    GWallet* p_GWallet;
 
@@ -26,6 +26,7 @@ protected:
    wxStaticText* registrar;
    wxStaticText* voting_as;
    wxStaticText* total_ops;
+   wxStaticText* membership_type;
    wxStaticText* client_version;
    wxStaticText* graphene_revision;
    wxStaticText* revision_age;
@@ -41,6 +42,9 @@ protected:
    wxStaticText* gold_bts;
    wxStaticText* silver_bts;
    wxStaticText* btc_bts;
+   wxStaticText* ruble_bts;
+   wxStaticText* jpy_bts;
+   wxStaticText* cad_bts;
 
 private:
 
@@ -60,6 +64,7 @@ private:
       registrar = XRCCTRL(*this,"registrar",wxStaticText);
       voting_as = XRCCTRL(*this,"voting_as",wxStaticText);
       total_ops = XRCCTRL(*this,"total_ops",wxStaticText);
+      membership_type = XRCCTRL(*this,"membership_type",wxStaticText);
       client_version = XRCCTRL(*this,"client_version",wxStaticText);
       graphene_revision = XRCCTRL(*this,"graphene_revision",wxStaticText);
       revision_age = XRCCTRL(*this,"revision_age",wxStaticText);
@@ -75,5 +80,8 @@ private:
       gold_bts = XRCCTRL(*this,"gold_bts",wxStaticText);
       silver_bts = XRCCTRL(*this,"silver_bts",wxStaticText);
       btc_bts = XRCCTRL(*this,"btc_bts",wxStaticText);
+      ruble_bts = XRCCTRL(*this,"ruble_bts",wxStaticText);
+      jpy_bts = XRCCTRL(*this,"jpy_bts",wxStaticText);
+      cad_bts = XRCCTRL(*this,"cad_bts",wxStaticText);
    }
 };

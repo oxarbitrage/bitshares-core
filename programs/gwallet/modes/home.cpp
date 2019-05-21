@@ -19,7 +19,7 @@ void Home::DoInitialData()
 {
    const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
-   head_block_num->SetLabel(info["head_block_num"].as_string());
+   head_block_num->SetLabel(wxNumberFormatter::ToString((long)info["head_block_num"].as_uint64()));
    head_block_age->SetLabel(info["head_block_age"].as_string());
    next_maintenance_time->SetLabel(info["next_maintenance_time"].as_string());
    partcipation->SetLabel(info["participation"].as_string());
@@ -37,34 +37,8 @@ void Home::DoInitialData()
    openssl_version->SetLabel(about["openssl_version"].as_string());
    os_build->SetLabel(about["build"].as_string());
 
-   if(!p_GWallet->state.is_new) {
-      const auto account_object = p_GWallet->bitshares.wallet_api_ptr->get_account(
-            p_GWallet->strings.selected_account.ToStdString());
-
-      name->SetLabel(account_object.name);
-
-      id->SetLabel(string(object_id_type(account_object.id)));
-
-      const auto referrer_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.referrer).get_array()[0]["name"];
-      referrer->SetLabel(referrer_name.as_string());
-
-      const auto registrar_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.registrar).get_array()[0]["name"];
-      registrar->SetLabel(registrar_name.as_string());
-
-      auto voting_as_name = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.options.voting_account).get_array()[0]["name"];
-      voting_as->SetLabel(voting_as_name.as_string());
-
-      const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.statistics).get_array()[0];
-      total_ops->SetLabel(stats["total_ops"].as_string());
-   }
-   else {
-      name->SetLabel("MY ACCOUNT");
-      id->SetLabel("MY ID");
-      referrer->SetLabel("MY REFERRER");
-      registrar->SetLabel("MY REGISTRAR");
-      voting_as->SetLabel("SELF");
-      total_ops->SetLabel("0");
-   }
+   if(!p_GWallet->state.is_new)
+      DoAccount(false);
 
    usd_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("USD", "BTS").latest.substr(0, 8));
    cny_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("CNY", "BTS").latest.substr(0, 8));
@@ -72,18 +46,19 @@ void Home::DoInitialData()
    gold_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("GOLD", "BTS").latest.substr(0, 8));
    silver_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("SILVER", "BTS").latest.substr(0, 8));
    btc_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("BTC", "BTS").latest.substr(0, 8));
+   ruble_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("RUBLE", "BTS").latest.substr(0, 8));
+   jpy_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("JPY", "BTS").latest.substr(0, 8));
+   cad_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("CAD", "BTS").latest.substr(0, 8));
 }
 
-void Home::DoAccount()
+void Home::DoAccount(bool update_head_block)
 {
-   const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
+   if(update_head_block) {
+      const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
-   const auto head_block_num_string = fc::json::to_string(info["head_block_num"]);
-   const auto head_block_age_string = fc::json::to_string(info["head_block_age"]);
-
-   head_block_num->SetLabel(info["head_block_num"].as_string());
-   head_block_age->SetLabel(info["head_block_age"].as_string());
-
+      head_block_num->SetLabel(wxNumberFormatter::ToString((long)info["head_block_num"].as_uint64()));
+      head_block_age->SetLabel(info["head_block_age"].as_string());
+   }
    const auto account_object = p_GWallet->bitshares.wallet_api_ptr->get_account(p_GWallet->strings.selected_account.ToStdString());
 
    name->SetLabel(account_object.name);
@@ -100,7 +75,12 @@ void Home::DoAccount()
    voting_as->SetLabel(voting_as_name.as_string());
 
    const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.statistics).get_array()[0];
+   total_ops->SetLabel(stats["total_ops"].as_string());
 
+   if(account_object.is_lifetime_member())
+      membership_type->SetLabel(_("LIFETIME MEMBER"));
+   else
+      membership_type->SetLabel(_("FREE MEMBER"));
 }
 
 void Home::OnWitness(wxHyperlinkEvent& event)
