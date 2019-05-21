@@ -24,6 +24,8 @@ void Home::DoInitialData()
    next_maintenance_time->SetLabel(info["next_maintenance_time"].as_string());
    partcipation->SetLabel(info["participation"].as_string());
    chain_id->SetLabel(info["chain_id"].as_string().substr(info["chain_id"].as_string().length()-11, 10));
+   core_asset->SetLabel(GRAPHENE_SYMBOL);
+   blockchain_name->SetLabel("Bitshares 3.0");
 
    const auto about = p_GWallet->bitshares.wallet_api_ptr->about();
 
@@ -75,12 +77,17 @@ void Home::DoAccount(bool update_head_block)
    voting_as->SetLabel(voting_as_name.as_string());
 
    const auto stats = p_GWallet->bitshares.wallet_api_ptr->get_object(account_object.statistics).get_array()[0];
-   total_ops->SetLabel(stats["total_ops"].as_string());
+
+   total_ops->SetLabel(wxNumberFormatter::ToString((long)stats["total_ops"].as_uint64()));
 
    if(account_object.is_lifetime_member())
       membership_type->SetLabel(_("LIFETIME MEMBER"));
    else
       membership_type->SetLabel(_("FREE MEMBER"));
+
+   last_vote_date->SetLabel(stats["last_vote_time"].as_string());
+   auto pretty_balance = p_GWallet->DoPrettyBalance(5, std::stod(stats["lifetime_fees_paid"].as_string()));
+   lifetime_fees_paid->SetLabel(pretty_balance + " " + GRAPHENE_SYMBOL);
 }
 
 void Home::OnWitness(wxHyperlinkEvent& event)

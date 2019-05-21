@@ -180,6 +180,52 @@
                                 </object>
                             </object>
                         </object>
+                        <object class="sizeritem">
+                            <flag>wxGROW|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="wxID_STATIC">
+                                        <label>Core asset:</label>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="core_asset">
+                                        <label></label>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxGROW|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="wxID_STATIC">
+                                        <label>Blockchain name:</label>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="blockchain_name">
+                                        <label></label>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
                     </object>
                 </object>
                 <object class="sizeritem">
@@ -345,6 +391,52 @@
                                     <border>5</border>
                                     <option>6</option>
                                     <object class="wxStaticText" name="membership_type">
+                                        <label></label>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxGROW|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="wxID_STATIC">
+                                        <label>Last vote date:</label>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="last_vote_date">
+                                        <label></label>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <flag>wxGROW|wxALL</flag>
+                            <border>5</border>
+                            <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="wxID_STATIC">
+                                        <label>Lifetime fees paid:</label>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                    <border>5</border>
+                                    <option>6</option>
+                                    <object class="wxStaticText" name="lifetime_fees_paid">
                                         <label></label>
                                     </object>
                                 </object>
