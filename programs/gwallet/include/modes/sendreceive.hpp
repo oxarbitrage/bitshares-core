@@ -26,10 +26,13 @@ protected:
    wxButton* generate_url_receive;
    wxTextCtrl* generated_url_receive;
 
-
 private:
    void OnTransferOk(wxCommandEvent &event);
-   void OnSearchAccount(wxCommandEvent &event);
+
+   void OnSearchAccountTo(wxCommandEvent &event);
+   void OnSearchAccountFrom(wxCommandEvent &event);
+   wxString SearchAccount(string keyword);
+
    void OnSearchAsset(wxCommandEvent &event);
 
    void OnSendUrl(wxCommandEvent &event);

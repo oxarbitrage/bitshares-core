@@ -19,8 +19,24 @@ SellAssetDialog::SellAssetDialog(wxWindow *parent)
    sell_asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SellAssetDialog::OnOk));
+   Connect(XRCID("receive_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SellAssetDialog::OnSearchAsset), NULL, this);
 
    ShowModal();
+}
+
+void SellAssetDialog::OnSearchAsset(wxCommandEvent& event)
+{
+   const auto keyword = event.GetString().ToStdString();
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->list_assets(keyword, 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.symbol);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Assets found"), _("Please select an asset"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      receive_asset->SetValue(dialog.GetStringSelection());
 }
 
 void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
@@ -30,7 +46,7 @@ void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
    const auto sell_asset_value = p_GWallet->strings.assets[sell_asset->GetCurrentSelection()].ToStdString();
    const auto receive_amount_value = receive_amount->GetValue().ToStdString();
    const auto receive_asset_value = receive_asset->GetValue().ToStdString();
-   const auto fill_or_kill_value = receive_asset->GetValue() == "true" ? true : false;
+   const auto fill_or_kill_value = fill_or_kill->GetValue() ? true : false;
 
    const auto date_value = date->GetValue().ToUTC().GetValue().ToLong()/1000;
    const auto time_second = time->GetValue().ToUTC().GetSecond();

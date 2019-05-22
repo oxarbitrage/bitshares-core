@@ -15,6 +15,7 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    Connect(XRCID("borrow_asset"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnBorrowAsset), NULL, this);
    Connect(XRCID("cancel_order"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnCancelOrder), NULL, this);
    Connect(XRCID("update_proxy"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSetProxy), NULL, this);
+   Connect(XRCID("suggest_brain_key"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSuggestBrainKey), NULL, this);
 }
 
 void Wallet::EnableOperations()
@@ -58,4 +59,10 @@ void Wallet::OnCancelOrder(wxCommandEvent& event)
 void Wallet::OnSetProxy(wxCommandEvent& event)
 {
    SetProxyDialog SetProxyDialog(this);
+}
+
+void Wallet::OnSuggestBrainKey(wxCommandEvent& event)
+{
+   auto result = p_GWallet->bitshares.wallet_api_ptr->suggest_brain_key();
+   wxMessageBox(result.brain_priv_key, _("Suggested Brain key"), wxNO_DEFAULT|wxOK|wxICON_INFORMATION, this);
 }

@@ -20,8 +20,26 @@ SetProxyDialog::SetProxyDialog(wxWindow* parent)
    voting_account->SetLabelText(current_voting_account);
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SetProxyDialog::OnOk));
+   Connect(XRCID("voting_account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SetProxyDialog::OnSearchAccount), NULL, this);
 
    ShowModal();
+}
+
+void SetProxyDialog::OnSearchAccount(wxCommandEvent& event)
+{
+   const auto keyword = event.GetString().ToStdString();
+
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->lookup_accounts(keyword, 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.first);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+
+      voting_account->SetValue(dialog.GetStringSelection());
 }
 
 void SetProxyDialog::DoVotingAccount()

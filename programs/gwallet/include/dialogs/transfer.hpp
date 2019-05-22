@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <wx/srchctrl.h>
 
 #include "../gwallet.hpp"
 
@@ -7,7 +8,7 @@ protected:
    GWallet* p_GWallet;
 
    wxComboBox* from;
-   wxTextCtrl* to;
+   wxSearchCtrl* to;
    wxTextCtrl* amount;
    wxComboBox* asset;
    wxTextCtrl* memo;
@@ -18,7 +19,7 @@ private:
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("TransferDialog"), wxT("wxDialog"));
       from = XRCCTRL(*this,"from",wxComboBox);
-      to = XRCCTRL(*this,"to",wxTextCtrl);
+      to = XRCCTRL(*this,"to",wxSearchCtrl);
       amount = XRCCTRL(*this,"amount",wxTextCtrl);
       asset = XRCCTRL(*this,"asset",wxComboBox);
       memo = XRCCTRL(*this,"memo",wxTextCtrl);
@@ -26,6 +27,8 @@ private:
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
    void OnOk(wxCommandEvent& event);
+   void OnSearchAccount(wxCommandEvent &event);
+
 public:
    TransferDialog(wxWindow *parent=NULL);
 };

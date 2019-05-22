@@ -140,12 +140,10 @@
                     </object>
                     <object class="sizeritem">
                         <option>10</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALL</flag>
                         <border>0</border>
-                        <object class="wxTextCtrl" name="to">
-                            <tooltip>The name or id of the account receiving the funds</tooltip>
+                        <object class="wxSearchCtrl" name="to">
                             <value></value>
-                            <maxlength>0</maxlength>
                         </object>
                     </object>
                     <object class="spacer">

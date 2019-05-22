@@ -5,7 +5,8 @@ SendReceive::SendReceive(GWallet* gwallet) : wxPanel()
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
-   Connect(XRCID("send_from"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SendReceive::OnSearchAccount), NULL, this);
+   Connect(XRCID("send_to"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SendReceive::OnSearchAccountTo), NULL, this);
+   Connect(XRCID("receive_from"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SendReceive::OnSearchAccountFrom), NULL, this);
    Connect(XRCID("receive_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SendReceive::OnSearchAsset), NULL, this);
    Connect(XRCID("send"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnTransferOk), NULL, this);
    Connect(XRCID("generate_url_send"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SendReceive::OnSendUrl), NULL, this);
@@ -15,19 +16,48 @@ SendReceive::SendReceive(GWallet* gwallet) : wxPanel()
    send_asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 }
 
-void SendReceive::OnSearchAccount(wxCommandEvent & event)
+void SendReceive::OnSearchAccountTo(wxCommandEvent& event)
 {
-   const auto keyword = event.GetString();
-   wdump((keyword.ToStdString()));
+   const auto keyword = event.GetString().ToStdString();
+   send_to->SetValue(SearchAccount(keyword));
 }
 
-void SendReceive::OnSearchAsset(wxCommandEvent & event)
+void SendReceive::OnSearchAccountFrom(wxCommandEvent & event)
 {
-   const auto keyword = event.GetString();
-   wdump((keyword.ToStdString()));
+   const auto keyword = event.GetString().ToStdString();
+   receive_from->SetValue(SearchAccount(keyword));
 }
 
-void SendReceive::OnTransferOk(wxCommandEvent & event)
+wxString SendReceive::SearchAccount(string keyword)
+{
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->lookup_accounts(keyword, 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.first);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      return dialog.GetStringSelection();
+}
+
+void SendReceive::OnSearchAsset(wxCommandEvent& event)
+{
+   const auto keyword = event.GetString().ToStdString();
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->list_assets(keyword, 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.symbol);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Assets found"), _("Please select an asset"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      receive_asset->SetValue(dialog.GetStringSelection());
+}
+
+void SendReceive::OnTransferOk(wxCommandEvent& event)
 {
    if (ValidateSend()) {
       const auto to_v = send_to->GetValue().ToStdString();
@@ -49,7 +79,7 @@ void SendReceive::OnTransferOk(wxCommandEvent & event)
       }
    }
 }
-void SendReceive::OnSendUrl(wxCommandEvent &event)
+void SendReceive::OnSendUrl(wxCommandEvent& event)
 {
    if(ValidateSend()) {
       const auto to_v = send_to->GetValue().ToStdString();
@@ -65,7 +95,7 @@ void SendReceive::OnSendUrl(wxCommandEvent &event)
    }
 }
 
-void SendReceive::OnReceiveUrl(wxCommandEvent &event)
+void SendReceive::OnReceiveUrl(wxCommandEvent& event)
 {
    if(ValidateReceive()) {
       const auto from_v = receive_from->GetValue().ToStdString();

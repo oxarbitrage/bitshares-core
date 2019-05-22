@@ -20,6 +20,7 @@ private:
    GWallet* p_GWallet;
 
    void OnOk(wxCommandEvent& event);
+   void OnSearchAsset(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAsset"), wxT("wxDialog"));

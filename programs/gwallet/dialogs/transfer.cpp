@@ -21,7 +21,26 @@ TransferDialog::TransferDialog(wxWindow *parent) {
    asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TransferDialog::OnOk));
+   Connect(XRCID("to"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(TransferDialog::OnSearchAccount), NULL, this);
+
    ShowModal();
+}
+
+void TransferDialog::OnSearchAccount(wxCommandEvent& event)
+{
+   const auto keyword = event.GetString().ToStdString();
+
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->lookup_accounts(keyword, 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.first);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+
+   to->SetValue(dialog.GetStringSelection());
 }
 
 void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))

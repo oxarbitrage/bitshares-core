@@ -20,6 +20,7 @@ private:
    wxString current_voting_account;
 
    void OnOk(wxCommandEvent& event);
+   void OnSearchAccount(wxCommandEvent& event);
    //void OnChangeAccount(wxCommandEvent& event);
    void DoVotingAccount();
 

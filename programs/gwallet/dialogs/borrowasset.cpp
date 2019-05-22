@@ -16,8 +16,24 @@ BorrowAssetDialog::BorrowAssetDialog(wxWindow* parent)
    seller->SetSelection(p_GWallet->strings.accounts.Index(p_GWallet->strings.selected_account));
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(BorrowAssetDialog::OnOk));
+   Connect(XRCID("borrow_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(BorrowAssetDialog::OnSearchAsset), NULL, this);
 
    ShowModal();
+}
+
+void BorrowAssetDialog::OnSearchAsset(wxCommandEvent& event)
+{
+   const auto keyword = event.GetString().ToStdString();
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->list_assets(keyword, 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.symbol);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Assets found"), _("Please select an asset"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      borrow_asset->SetValue(dialog.GetStringSelection());
 }
 
 void BorrowAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
