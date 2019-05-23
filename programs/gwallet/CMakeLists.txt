@@ -6,6 +6,7 @@ add_executable( gwallet
 		dialogs/borrowasset.cpp
 		dialogs/cancelorder.cpp
 		dialogs/setproxy.cpp
+		dialogs/getcommitteemember.cpp
 		modes/home.cpp
 		modes/wallet.cpp
 		modes/cli.cpp

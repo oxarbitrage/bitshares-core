@@ -4,6 +4,7 @@
 #include "../include/dialogs/borrowasset.hpp"
 #include "../include/dialogs/cancelorder.hpp"
 #include "../include/dialogs/setproxy.hpp"
+#include "../include/dialogs/getcommitteemember.hpp"
 
 Wallet::Wallet(GWallet* gwallet) : wxPanel()
 {
@@ -16,6 +17,7 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    Connect(XRCID("cancel_order"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnCancelOrder), NULL, this);
    Connect(XRCID("update_proxy"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSetProxy), NULL, this);
    Connect(XRCID("suggest_brain_key"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSuggestBrainKey), NULL, this);
+   Connect(XRCID("get_committee_member"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetCommitteeMember), NULL, this);
 }
 
 void Wallet::EnableOperations()
@@ -25,6 +27,8 @@ void Wallet::EnableOperations()
    borrow_asset->Enable(true);
    cancel_order->Enable(true);
    update_proxy->Enable(true);
+   suggest_brain_key->Enable(true);
+   get_committee_member->Enable(true);
 }
 
 void Wallet::DisableOperations()
@@ -34,6 +38,8 @@ void Wallet::DisableOperations()
    borrow_asset->Enable(false);
    cancel_order->Enable(false);
    update_proxy->Enable(false);
+   suggest_brain_key->Enable(false);
+   get_committee_member->Enable(false);
 }
 
 void Wallet::OnTransfer(wxCommandEvent& event)
@@ -65,4 +71,9 @@ void Wallet::OnSuggestBrainKey(wxCommandEvent& event)
 {
    auto result = p_GWallet->bitshares.wallet_api_ptr->suggest_brain_key();
    wxMessageBox(result.brain_priv_key, _("Suggested Brain key"), wxNO_DEFAULT|wxOK|wxICON_INFORMATION, this);
+}
+
+void Wallet::OnGetCommitteeMember(wxCommandEvent& event)
+{
+   GetCommitteeMemberDialog GetCommitteeMemberDialog(this);
 }

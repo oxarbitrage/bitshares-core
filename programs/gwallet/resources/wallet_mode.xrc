@@ -148,7 +148,7 @@
                 </object>
             </object>
             <object class="sizeritem">
-                <option>1</option>
+                <option>0</option>
                 <flag>wxALL|wxEXPAND</flag>
                 <border>5</border>
                 <object class="wxBoxSizer">
@@ -175,6 +175,35 @@
                     </object>
                 </object>
             </object>
+            <object class="sizeritem">
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="wxID_STATIC">
+                            <label>Returns information about the given committee member.</label>
+                            <wrap>-1</wrap>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <option>2</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="get_committee_member">
+                            <label>Get committee member</label>
+                            <default>0</default>
+                            <markup>0</markup>
+                            <bitmap />
+                        </object>
+                    </object>
+                </object>
+            </object>
         </object>
     </object>
 </resource>
+
