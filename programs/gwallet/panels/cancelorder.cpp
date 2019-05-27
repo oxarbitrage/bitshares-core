@@ -1,26 +1,22 @@
-#include "../include/dialogs/cancelorder.hpp"
-#include "../include/modes/wallet.hpp"
+#include "../include/panels/cancelorder.hpp"
+#include "../include/panels/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/statline.h>
 #include <wx/combo.h>
 
-CancelOrderDialog::CancelOrderDialog(wxWindow* parent)
+CancelOrder::CancelOrder(GWallet* gwallet) : wxPanel()
 {
-   InitWidgetsFromXRC((wxWindow *)parent);
-
-   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   p_GWallet = p_Wallet->p_GWallet;
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
    DoOpenOrders();
    order->Append(open_orders_strings);
 
-   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(CancelOrderDialog::OnOk));
-
-   ShowModal();
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(CancelOrder::OnOk));
 }
 
-void CancelOrderDialog::OnOk(wxCommandEvent& WXUNUSED(event))
+void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    if(order->IsEmpty()) {
       p_GWallet->OnError(_("No order selected"));
@@ -43,7 +39,7 @@ void CancelOrderDialog::OnOk(wxCommandEvent& WXUNUSED(event))
    }
 }
 
-void CancelOrderDialog::DoOpenOrders()
+void CancelOrder::DoOpenOrders()
 {
    auto full = p_GWallet->bitshares.wallet_api_ptr->get_full_account(p_GWallet->strings.selected_account.ToStdString());
    if(full.limit_orders.size() > 0) {

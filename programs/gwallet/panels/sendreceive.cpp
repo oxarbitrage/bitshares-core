@@ -1,4 +1,4 @@
-#include "../include/modes/sendreceive.hpp"
+#include "../include/panels/sendreceive.hpp"
 
 SendReceive::SendReceive(GWallet* gwallet) : wxPanel()
 {

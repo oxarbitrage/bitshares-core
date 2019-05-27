@@ -1,9 +1,11 @@
-#include "../include/modes/history.hpp"
+#include "../include/panels/history.hpp"
 
 History::History(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   DoHistory(p_GWallet->strings.first_account_name.ToStdString());
 }
 
 void History::DoHistory(std::string account)

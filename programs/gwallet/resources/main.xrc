@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
     <object class="wxFrame" name="GWallet">
-        <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX</style>
+        <style>wxCAPTION|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER|wxSYSTEM_MENU</style>
         <size>1200,900</size>
         <title>G-Wallet | Secure Bitshares Wallet</title>
         <centered>1</centered>
@@ -65,6 +65,39 @@
                 </object>
             </object>
             <object class="wxMenu" name="m_menu3">
+                <label>View</label>
+                <object class="separator" />
+                <object class="wxMenuItem" name="m_welcome">
+                    <label>Welcome</label>
+                    <help></help>
+                    <checkable>1</checkable>
+                    <checked>1</checked>
+                    <enabled>0</enabled>
+                </object>
+                <object class="separator" />
+                <object class="wxMenuItem" name="m_view_info">
+                    <label>Blockchain information</label>
+                    <help></help>
+                    <checkable>1</checkable>
+                    <checked>0</checked>
+                    <enabled>0</enabled>
+                </object>
+                <object class="wxMenuItem" name="m_view_wallet">
+                    <label>Wallet</label>
+                    <help></help>
+                    <checkable>1</checkable>
+                    <checked>0</checked>
+                    <enabled>0</enabled>
+                </object>
+                <object class="wxMenuItem" name="m_view_cli">
+                    <label>CLI</label>
+                    <help></help>
+                    <checkable>1</checkable>
+                    <checked>0</checked>
+                    <enabled>0</enabled>
+                </object>
+            </object>
+            <object class="wxMenu" name="m_menu4">
                 <label>Help</label>
                 <object class="wxMenuItem" name="wxID_ABOUT">
                     <label>About</label>
@@ -102,36 +135,11 @@
                 <longhelp></longhelp>
                 <bitmap>../icons/object-unlocked.png</bitmap>
             </object>
-            <object class="separator" />
-            <object class="tool" name="t_home">
+            <object class="tool" name="t_importkey">
                 <label></label>
-                <tooltip>Home mode</tooltip>
+                <tooltip>Import Key</tooltip>
                 <longhelp></longhelp>
-                <bitmap>../icons/go-home-5.png</bitmap>
-            </object>
-            <object class="tool" name="t_cli">
-                <label></label>
-                <tooltip>Command line mode</tooltip>
-                <longhelp></longhelp>
-                <bitmap>../icons/utilities-terminal-6.png</bitmap>
-            </object>
-            <object class="tool" name="t_sendreceive">
-                <label></label>
-                <tooltip>Sent/Receive mode</tooltip>
-                <longhelp></longhelp>
-                <bitmap>../icons/emblem-money.png</bitmap>
-            </object>
-            <object class="tool" name="t_history">
-                <label></label>
-                <tooltip>History mode</tooltip>
-                <longhelp></longhelp>
-                <bitmap>../icons/x-office-spreadsheet-2.png</bitmap>
-            </object>
-            <object class="tool" name="t_wallet">
-                <label></label>
-                <tooltip>Wallet mode</tooltip>
-                <longhelp></longhelp>
-                <bitmap>../icons/wallet-open.png</bitmap>
+                <bitmap>../icons/kgpg_import.png</bitmap>
             </object>
             <object class="space">
             </object>

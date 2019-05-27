@@ -3,10 +3,10 @@
 
 #include "../gwallet.hpp"
 
-class BorrowAssetDialog: public wxDialog
+class BorrowAsset: public wxPanel
 {
 public:
-   BorrowAssetDialog(wxWindow *parent);
+   BorrowAsset(GWallet* gwallet);
 
 protected:
    wxComboBox* seller;
@@ -23,7 +23,7 @@ private:
    void OnSearchAsset(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAsset"), wxT("wxDialog"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAsset"), wxT("wxPanel"));
       seller = XRCCTRL(*this,"seller",wxComboBox);
       borrow_amount = XRCCTRL(*this,"borrow_amount",wxTextCtrl);
       borrow_asset = XRCCTRL(*this,"borrow_asset",wxSearchCtrl);

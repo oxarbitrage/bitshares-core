@@ -2,10 +2,10 @@
 
 #include "../gwallet.hpp"
 
-class CancelOrderDialog: public wxDialog
+class CancelOrder: public wxPanel
 {
 public:
-   CancelOrderDialog(wxWindow* parent);
+   CancelOrder(GWallet* gwallet);
 
 protected:
    wxListBox* order;
@@ -22,7 +22,7 @@ private:
    void DoOpenOrders();
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrderDialog"), wxT("wxDialog"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrder"), wxT("wxPanel"));
       order = XRCCTRL(*this,"order",wxListBox);
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
       cli = XRCCTRL(*this,"cli",wxCheckBox);

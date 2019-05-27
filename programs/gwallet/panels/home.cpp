@@ -1,4 +1,4 @@
-#include "../include/modes/home.hpp"
+#include "../include/panels/home.hpp"
 
 #include <wx/statline.h>
 #include <wx/numformatter.h>

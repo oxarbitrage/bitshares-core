@@ -1,16 +1,14 @@
-#include "../include/dialogs/sellasset.hpp"
-#include "../include/modes/wallet.hpp"
+#include "../include/panels/sellasset.hpp"
+#include "../include/panels/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/statline.h>
 #include <wx/combo.h>
 
-SellAssetDialog::SellAssetDialog(wxWindow *parent)
+SellAsset::SellAsset(GWallet* gwallet) : wxPanel()
 {
-   InitWidgetsFromXRC((wxWindow *)parent);
-
-   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   p_GWallet = p_Wallet->p_GWallet;
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
    seller->Append(p_GWallet->strings.accounts);
    seller->SetSelection(p_GWallet->strings.accounts.Index(p_GWallet->strings.selected_account));
@@ -18,13 +16,11 @@ SellAssetDialog::SellAssetDialog(wxWindow *parent)
    sell_asset->Append(p_GWallet->strings.assets);
    sell_asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 
-   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SellAssetDialog::OnOk));
-   Connect(XRCID("receive_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SellAssetDialog::OnSearchAsset), NULL, this);
-
-   ShowModal();
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SellAsset::OnOk));
+   Connect(XRCID("receive_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SellAsset::OnSearchAsset), NULL, this);
 }
 
-void SellAssetDialog::OnSearchAsset(wxCommandEvent& event)
+void SellAsset::OnSearchAsset(wxCommandEvent& event)
 {
    const auto keyword = event.GetString().ToStdString();
    wxArrayString choices;
@@ -39,7 +35,7 @@ void SellAssetDialog::OnSearchAsset(wxCommandEvent& event)
       receive_asset->SetValue(dialog.GetStringSelection());
 }
 
-void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
+void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto seller_value = p_GWallet->strings.accounts[seller->GetCurrentSelection()].ToStdString();
    const auto sell_amount_value = sell_amount->GetValue().ToStdString();
@@ -81,5 +77,3 @@ void SellAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
       p_GWallet->OnError(e.to_detail_string());
    }
 }
-
-

@@ -1,4 +1,4 @@
-#include "../include/modes/cli.hpp"
+#include "../include/panels/cli.hpp"
 
 #include <wx/hyperlink.h>
 

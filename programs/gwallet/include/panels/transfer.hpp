@@ -3,7 +3,7 @@
 
 #include "../gwallet.hpp"
 
-class TransferDialog : public wxDialog {
+class Transfer : public wxPanel {
 protected:
    GWallet* p_GWallet;
 
@@ -17,7 +17,7 @@ protected:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("TransferDialog"), wxT("wxDialog"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("Transfer"), wxT("wxPanel"));
       from = XRCCTRL(*this,"from",wxComboBox);
       to = XRCCTRL(*this,"to",wxSearchCtrl);
       amount = XRCCTRL(*this,"amount",wxTextCtrl);
@@ -30,5 +30,5 @@ private:
    void OnSearchAccount(wxCommandEvent &event);
 
 public:
-   TransferDialog(wxWindow *parent=NULL);
+   Transfer(GWallet* gwallet);
 };

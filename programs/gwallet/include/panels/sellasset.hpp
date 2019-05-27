@@ -6,12 +6,14 @@
 
 #include "../gwallet.hpp"
 
-class SellAssetDialog: public wxDialog
+class SellAsset: public wxPanel
 {
 public:
-   SellAssetDialog(wxWindow *parent=NULL);
+   SellAsset(GWallet* gwallet);
 
 protected:
+   GWallet* p_GWallet;
+
    wxComboBox* seller;
    wxTextCtrl* sell_amount;
    wxComboBox* sell_asset;
@@ -24,13 +26,12 @@ protected:
    wxCheckBox* cli;
 
 private:
-   GWallet* p_GWallet;
 
    void OnOk(wxCommandEvent& event);
    void OnSearchAsset(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAssetDialog"), wxT("wxDialog"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAsset"), wxT("wxPanel"));
       seller = XRCCTRL(*this,"seller",wxComboBox);
       sell_amount = XRCCTRL(*this,"sell_amount",wxTextCtrl);
       sell_asset = XRCCTRL(*this,"sell_asset",wxComboBox);

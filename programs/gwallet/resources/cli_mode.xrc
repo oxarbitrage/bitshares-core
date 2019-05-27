@@ -2,7 +2,7 @@
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
 
         <object class="wxPanel" name="Cli">
-            <size>1200,800</size>
+            <size>1200,200</size>
             <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
             <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
             <object class="wxBoxSizer">

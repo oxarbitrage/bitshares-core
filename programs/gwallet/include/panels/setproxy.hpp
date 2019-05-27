@@ -3,10 +3,10 @@
 
 #include "../gwallet.hpp"
 
-class SetProxyDialog: public wxDialog
+class SetProxy: public wxPanel
 {
 public:
-   SetProxyDialog(wxWindow* parent);
+   SetProxy(GWallet* gwallet);
 
 protected:
    wxComboBox* account_to_modify;
@@ -21,16 +21,13 @@ private:
 
    void OnOk(wxCommandEvent& event);
    void OnSearchAccount(wxCommandEvent& event);
-   //void OnChangeAccount(wxCommandEvent& event);
    void DoVotingAccount();
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxyDialog"), wxT("wxDialog"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxy"), wxT("wxPanel"));
       account_to_modify = XRCCTRL(*this,"account_to_modify",wxComboBox);
       voting_account = XRCCTRL(*this,"voting_account",wxSearchCtrl);
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
-
-
 };

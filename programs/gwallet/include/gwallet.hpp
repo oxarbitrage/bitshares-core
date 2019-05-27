@@ -10,6 +10,8 @@
 #include <wx/grid.h>
 #include <wx/xrc/xmlres.h>
 
+#include <wx/aui/aui.h>
+
 class Home;
 class Cli;
 class SendReceive;
@@ -81,6 +83,13 @@ public:
    Strings strings;
    Welcome welcome;
 
+   wxAuiManager m_mgr;
+
+   ~GWallet()
+   {
+      m_mgr.UnInit();
+   }
+
 protected:
 
    wxMenuBar* menubar;
@@ -119,11 +128,7 @@ private:
    void OnUnlock(wxCommandEvent& event);
    void OnImportKey(wxCommandEvent& event);
 
-   void OnHomeMode(wxCommandEvent& event);
-   void OnCommandMode(wxCommandEvent& event);
-   void OnSendReceiveMode(wxCommandEvent& event);
-   void OnHistoryMode(wxCommandEvent& event);
-   void OnWalletMode(wxCommandEvent& event);
+   void OnViewInfo(wxCommandEvent& event);
 
    void OnChangeAccount(wxCommandEvent& event);
    void OnChangeAsset(wxCommandEvent& event);

@@ -1,11 +1,10 @@
-#include "../include/dialogs/transfer.hpp"
-#include "../include/modes/wallet.hpp"
+#include "../include/panels/transfer.hpp"
+#include "../include/panels/wallet.hpp"
 
-TransferDialog::TransferDialog(wxWindow *parent) {
-   InitWidgetsFromXRC((wxWindow *)parent);
-
-   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   p_GWallet = p_Wallet->p_GWallet;
+Transfer::Transfer(GWallet* gwallet) : wxPanel()
+{
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
    wxTextValidator* numeric_validator = new wxTextValidator(wxFILTER_EMPTY|wxFILTER_NUMERIC);
    wxTextValidator* empty_validator = new wxTextValidator(wxFILTER_EMPTY);
@@ -20,13 +19,11 @@ TransferDialog::TransferDialog(wxWindow *parent) {
    asset->Append(p_GWallet->strings.assets);
    asset->SetSelection(p_GWallet->strings.assets.Index(p_GWallet->strings.selected_asset));
 
-   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TransferDialog::OnOk));
-   Connect(XRCID("to"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(TransferDialog::OnSearchAccount), NULL, this);
-
-   ShowModal();
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Transfer::OnOk));
+   Connect(XRCID("to"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(Transfer::OnSearchAccount), NULL, this);
 }
 
-void TransferDialog::OnSearchAccount(wxCommandEvent& event)
+void Transfer::OnSearchAccount(wxCommandEvent& event)
 {
    const auto keyword = event.GetString().ToStdString();
 
@@ -43,7 +40,7 @@ void TransferDialog::OnSearchAccount(wxCommandEvent& event)
    to->SetValue(dialog.GetStringSelection());
 }
 
-void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
+void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto from_v = p_GWallet->strings.accounts[from->GetCurrentSelection()].ToStdString();
    const auto to_v = to->GetValue().ToStdString();
@@ -74,4 +71,3 @@ void TransferDialog::OnOk(wxCommandEvent& WXUNUSED(event))
       p_GWallet->OnError(e.to_detail_string());
    }
 }
-

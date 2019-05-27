@@ -1,23 +1,19 @@
-#include "../include/dialogs/getcommitteemember.hpp"
-#include "../include/modes/wallet.hpp"
+#include "../include/panels/getcommitteemember.hpp"
+#include "../include/panels/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/numformatter.h>
 
-GetCommitteeMemberDialog::GetCommitteeMemberDialog(wxWindow* parent)
+GetCommitteeMember::GetCommitteeMember(GWallet* gwallet) : wxPanel()
 {
-   InitWidgetsFromXRC((wxWindow *)parent);
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
-   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   p_GWallet = p_Wallet->p_GWallet;
-
-   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GetCommitteeMemberDialog::OnOk));
-   Connect(XRCID("owner_account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(GetCommitteeMemberDialog::OnSearchAccount), NULL, this);
-
-   ShowModal();
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GetCommitteeMember::OnOk));
+   Connect(XRCID("owner_account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(GetCommitteeMember::OnSearchAccount), NULL, this);
 }
 
-void GetCommitteeMemberDialog::OnSearchAccount(wxCommandEvent& event)
+void GetCommitteeMember::OnSearchAccount(wxCommandEvent& event)
 {
    const auto keyword = event.GetString().ToStdString();
 
@@ -33,7 +29,7 @@ void GetCommitteeMemberDialog::OnSearchAccount(wxCommandEvent& event)
       owner_account->SetValue(dialog.GetStringSelection());
 }
 
-void GetCommitteeMemberDialog::OnOk(wxCommandEvent& WXUNUSED(event))
+void GetCommitteeMember::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto account = owner_account->GetValue().ToStdString();
    committee_member_object result;

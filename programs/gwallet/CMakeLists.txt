@@ -1,20 +1,25 @@
 add_executable( gwallet
 		main.cpp gwallet.cpp bitshares.cpp
-		dialogs/importkey.cpp
-		dialogs/transfer.cpp
-		dialogs/sellasset.cpp
-		dialogs/borrowasset.cpp
-		dialogs/cancelorder.cpp
-		dialogs/setproxy.cpp
-		dialogs/getcommitteemember.cpp
-		modes/home.cpp
-		modes/wallet.cpp
-		modes/cli.cpp
-		modes/sendreceive.cpp
-		modes/history.cpp
-		wizards/welcome.cpp)
 
-find_package(wxWidgets COMPONENTS core base adv xrc REQUIRED)
+		dialogs/importkey.cpp
+
+		panels/transfer.cpp
+        panels/sellasset.cpp
+        panels/borrowasset.cpp
+        panels/cancelorder.cpp
+        panels/setproxy.cpp
+        panels/getcommitteemember.cpp
+        panels/home.cpp
+        panels/wallet.cpp
+        panels/cli.cpp
+        panels/sendreceive.cpp
+        panels/history.cpp
+        panels/dashboard.cpp
+
+		wizards/welcome.cpp
+		)
+
+find_package(wxWidgets COMPONENTS core base adv xrc aui REQUIRED)
 include(${wxWidgets_USE_FILE})
 
 target_link_libraries( gwallet

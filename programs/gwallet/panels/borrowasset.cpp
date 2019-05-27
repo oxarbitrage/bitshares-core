@@ -1,27 +1,23 @@
-#include "../include/dialogs/borrowasset.hpp"
-#include "../include/modes/wallet.hpp"
+#include "../include/panels/borrowasset.hpp"
+#include "../include/panels/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/statline.h>
 #include <wx/combo.h>
 
-BorrowAssetDialog::BorrowAssetDialog(wxWindow* parent)
+BorrowAsset::BorrowAsset(GWallet* gwallet) : wxPanel()
 {
-   InitWidgetsFromXRC((wxWindow *)parent);
-
-   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   p_GWallet = p_Wallet->p_GWallet;
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
    seller->Append(p_GWallet->strings.accounts);
    seller->SetSelection(p_GWallet->strings.accounts.Index(p_GWallet->strings.selected_account));
 
-   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(BorrowAssetDialog::OnOk));
-   Connect(XRCID("borrow_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(BorrowAssetDialog::OnSearchAsset), NULL, this);
-
-   ShowModal();
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(BorrowAsset::OnOk));
+   Connect(XRCID("borrow_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(BorrowAsset::OnSearchAsset), NULL, this);
 }
 
-void BorrowAssetDialog::OnSearchAsset(wxCommandEvent& event)
+void BorrowAsset::OnSearchAsset(wxCommandEvent& event)
 {
    const auto keyword = event.GetString().ToStdString();
    wxArrayString choices;
@@ -36,7 +32,7 @@ void BorrowAssetDialog::OnSearchAsset(wxCommandEvent& event)
       borrow_asset->SetValue(dialog.GetStringSelection());
 }
 
-void BorrowAssetDialog::OnOk(wxCommandEvent& WXUNUSED(event))
+void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto seller_value = p_GWallet->strings.accounts[seller->GetCurrentSelection()].ToStdString();
    const auto borrow_amount_value = borrow_amount->GetValue().ToStdString();

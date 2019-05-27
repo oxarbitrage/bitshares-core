@@ -1,16 +1,14 @@
-#include "../include/dialogs/setproxy.hpp"
-#include "../include/modes/wallet.hpp"
+#include "../include/panels/setproxy.hpp"
+#include "../include/panels/wallet.hpp"
 
 #include <wx/wx.h>
 #include <wx/statline.h>
 #include <wx/combo.h>
 
-SetProxyDialog::SetProxyDialog(wxWindow* parent)
+SetProxy::SetProxy(GWallet* gwallet) : wxPanel()
 {
-   InitWidgetsFromXRC((wxWindow *)parent);
-
-   Wallet* p_Wallet = dynamic_cast<Wallet*>(GetParent());
-   p_GWallet = p_Wallet->p_GWallet;
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
    DoVotingAccount();
 
@@ -19,13 +17,11 @@ SetProxyDialog::SetProxyDialog(wxWindow* parent)
 
    voting_account->SetLabelText(current_voting_account);
 
-   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SetProxyDialog::OnOk));
-   Connect(XRCID("voting_account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SetProxyDialog::OnSearchAccount), NULL, this);
-
-   ShowModal();
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SetProxy::OnOk));
+   Connect(XRCID("voting_account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(SetProxy::OnSearchAccount), NULL, this);
 }
 
-void SetProxyDialog::OnSearchAccount(wxCommandEvent& event)
+void SetProxy::OnSearchAccount(wxCommandEvent& event)
 {
    const auto keyword = event.GetString().ToStdString();
 
@@ -42,7 +38,7 @@ void SetProxyDialog::OnSearchAccount(wxCommandEvent& event)
       voting_account->SetValue(dialog.GetStringSelection());
 }
 
-void SetProxyDialog::DoVotingAccount()
+void SetProxy::DoVotingAccount()
 {
    const auto selected_account = p_GWallet->strings.selected_account.ToStdString();
 
@@ -58,7 +54,7 @@ void SetProxyDialog::DoVotingAccount()
    }
 }
 
-void SetProxyDialog::OnOk(wxCommandEvent& WXUNUSED(event))
+void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto account_value = p_GWallet->strings.accounts[account_to_modify->GetCurrentSelection()].ToStdString();
    const auto voting_account_value = voting_account->GetValue().ToStdString();

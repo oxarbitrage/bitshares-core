@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-    <object class="wxDialog" name="SellAssetDialog">
-        <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
-        <exstyle>wxWS_EX_VALIDATE_RECURSIVELY|wxWS_EX_BLOCK_EVENTS</exstyle>
-        <size>400,452</size>
-        <title>Sell Asset</title>
-        <centered>1</centered>
+    <object class="wxPanel" name="Transfer">
+        <style>wxTAB_TRAVERSAL</style>
+        <size>-1,-1</size>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="spacer">
@@ -25,8 +22,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <tooltip>Buying and selling are the same operation on Graphene; if you want to buy BTS with USD, you should sell USD for BTS.\n\nThe blockchain will attempt to sell the symbol__to__sell for as much symbol__to__receive as possible, as long as the price is at least min__to__receive / amount__to__sell.\n       \nIn addition to the transaction fees, market fees will apply as specified by the issuer of both the selling asset and the receiving asset as a percentage of the amount exchanged.\n       \nIf either the selling asset or the receiving asset is whitelist restricted, the order will only be created if the seller is on the whitelist of the restricted asset type.\n       \n Market orders are matched in the order they are included in the block chain.</tooltip>
-                            <label> Place a limit order attempting to sell one asset for another.</label>
+                            <label>Transfer asset to another bitshares account</label>
                             <wrap>-1</wrap>
                         </object>
                     </object>
@@ -49,8 +45,8 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <label>Seller account</label>
-                            <wrap>-1</wrap>
+                            <label>From</label>
+                            <wrap>0</wrap>
                         </object>
                     </object>
                     <object class="spacer">
@@ -77,9 +73,9 @@
                         <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object class="wxComboBox" name="seller">
-                            <style>wxCB_DROPDOWN</style>
-                            <tooltip>The account providing the asset being sold, and which will receive the proceeds of the sale.</tooltip>
+                        <object class="wxComboBox" name="from">
+                            <style>wxCB_READONLY</style>
+                            <tooltip>The name or id of the account sending the funds</tooltip>
                             <value></value>
                             <content />
                         </object>
@@ -115,8 +111,8 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <label>Amount to sell</label>
-                            <wrap>-1</wrap>
+                            <label>To</label>
+                            <wrap>0</wrap>
                         </object>
                     </object>
                     <object class="spacer">
@@ -126,54 +122,6 @@
                         <size>5,5</size>
                     </object>
                 </object>
-            </object>
-            <object class="sizeritem">
-                <option>0</option>
-                <flag>wxEXPAND|wxALL</flag>
-                <border>0</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <size>5,5</size>
-                    </object>
-                    <object class="sizeritem">
-                        <option>7</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxTextCtrl" name="sell_amount">
-                            <tooltip>The amount of the asset being sold to sell (in nominal units).</tooltip>
-                            <value></value>
-                            <maxlength>0</maxlength>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <option>3</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxComboBox" name="sell_asset">
-                            <style>wxCB_DROPDOWN</style>
-                            <size>100,-1</size>
-                            <tooltip>The name or id of the asset to sell.</tooltip>
-                            <value></value>
-                            <content />
-                        </object>
-                    </object>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <size>5,5</size>
-                    </object>
-                </object>
-            </object>
-            <object class="spacer">
-                <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>2</border>
-                <size>5,5</size>
             </object>
             <object class="sizeritem">
                 <option>0</option>
@@ -189,50 +137,9 @@
                     </object>
                     <object class="sizeritem">
                         <option>10</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="wxID_STATIC">
-                            <label>Minimum amount to receive</label>
-                            <wrap>-1</wrap>
-                        </object>
-                    </object>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALL</flag>
                         <border>0</border>
-                        <size>5,5</size>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <option>0</option>
-                <flag>wxEXPAND|wxALL</flag>
-                <border>0</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <size>5,5</size>
-                    </object>
-                    <object class="sizeritem">
-                        <option>7</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxTextCtrl" name="receive_amount">
-                            <tooltip>The minimum amount you are willing to receive in return for selling the entire amount__to__sell.</tooltip>
-                            <value></value>
-                            <maxlength>0</maxlength>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <option>3</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxSearchCtrl" name="receive_asset">
-                            <size>100,-1</size>
-                            <tooltip>The name or id of the asset you wish to receive.</tooltip>
+                        <object class="wxSearchCtrl" name="to">
                             <value></value>
                         </object>
                     </object>
@@ -267,7 +174,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <label>Timeout</label>
+                            <label>Amount</label>
                             <wrap>0</wrap>
                         </object>
                     </object>
@@ -295,18 +202,22 @@
                         <option>7</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object class="wxDatePickerCtrl" name="date">
-                            <style>wxDP_DEFAULT</style>
-                            <tooltip>If the order does not fill immediately, this is the length of  time the order will remain on the order books before it is cancelled and the un-spent funds are returned to the seller&apos;s account.</tooltip>
+                        <object class="wxTextCtrl" name="amount">
+                            <tooltip>The amount to send (in nominal units -- to send half of a BTS, specify 0.5)</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
                         </object>
                     </object>
                     <object class="sizeritem">
                         <option>3</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object class="wxTimePickerCtrl" name="time">
-                            <style>wxTP_DEFAULT</style>
-                            <tooltip>If the order does not fill immediately, this is the length of  time the order will remain on the order books before it is cancelled and the un-spent funds are returned to the seller&apos;s account</tooltip>
+                        <object class="wxComboBox" name="asset">
+                            <style>wxCB_READONLY</style>
+                            <size>100,-1</size>
+                            <tooltip>The symbol or id of the asset to send</tooltip>
+                            <value></value>
+                            <content />
                         </object>
                     </object>
                     <object class="spacer">
@@ -338,11 +249,42 @@
                     <object class="sizeritem">
                         <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="wxID_STATIC">
+                            <label>Memo</label>
+                            <wrap>0</wrap>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object class="wxCheckBox" name="fill_or_kill">
-                            <tooltip>If checked, the order will only be included in the blockchain if it is filled immediately; if not checked, an open order will be left on the books to fill any amount that cannot be filled immediately.</tooltip>
-                            <label>Fill or Kill</label>
-                            <checked>0</checked>
+                        <size>5,5</size>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
+                <border>0</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <size>5,5</size>
+                    </object>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxTextCtrl" name="memo">
+                            <style>wxTE_MULTILINE</style>
+                            <enabled>0</enabled>
+                            <tooltip>A memo to attach to the transaction.  The memo will be encrypted in the transaction and readable for the receiver.  There is no length limit other than the limit imposed by maximum transaction size, but transaction increase with transaction size</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
                         </object>
                     </object>
                     <object class="spacer">
@@ -377,8 +319,8 @@
                         <border>0</border>
                         <object class="wxCheckBox" name="broadcast">
                             <enabled>0</enabled>
-                            <tooltip>Check to broadcast the transaction on the network</tooltip>
-                            <label>Broadcast transaction</label>
+                            <tooltip>Broadcast the transaction on the network</tooltip>
+                            <label>Broadcast Transaction</label>
                             <checked>1</checked>
                         </object>
                     </object>
@@ -450,13 +392,6 @@
                         <border>5</border>
                         <object class="wxButton" name="wxID_OK">
                             <label>&amp;OK</label>
-                        </object>
-                    </object>
-                    <object class="button">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxButton" name="wxID_CANCEL">
-                            <label>&amp;Cancel</label>
                         </object>
                     </object>
                 </object>
