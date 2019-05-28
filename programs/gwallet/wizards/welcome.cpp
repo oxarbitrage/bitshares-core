@@ -225,13 +225,13 @@ void Welcome3::OnWizardPageChanging(wxWizardEvent& event)
          p_GWallet->bitshares.wallet_api_ptr->set_password(password.ToStdString());
       }
       catch (const fc::exception &e) {
-         p_GWallet->OnError(e.to_detail_string());
+         p_GWallet->OnError(this, e.to_detail_string());
       }
       try {
          p_GWallet->bitshares.wallet_api_ptr->unlock(password.ToStdString());
       }
       catch (const fc::exception &e) {
-         p_GWallet->OnError(e.to_detail_string());
+         p_GWallet->OnError(this, e.to_detail_string());
       }
       p_GWallet->state.is_locked = false;
       p_GWallet->state.is_new = false;
@@ -307,7 +307,7 @@ void Welcome4::OnAccount(wxCommandEvent& WXUNUSED(event))
       }
       catch(const fc::exception& e)
       {
-         p_GWallet->OnError(_("Account is invalid"));
+         p_GWallet->OnError(this, _("Account is invalid"));
          accountCtrl->SetFocus();
          return;
       }
@@ -352,7 +352,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
             p_GWallet->bitshares.wallet_api_ptr->get_account(account.ToStdString());
          }
          catch (const fc::exception &e) {
-            p_GWallet->OnError("Account is invalid");
+            p_GWallet->OnError(this, "Account is invalid");
             accountCtrl->SetFocus();
             return;
          }
@@ -373,7 +373,7 @@ void Welcome4::OnWizardPageChanging(wxWizardEvent& event)
       }
       catch (const fc::exception &e) {
          //p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
-         p_GWallet->OnError(e.to_detail_string());
+         p_GWallet->OnError(this, e.to_detail_string());
          event.Veto();
       }
 

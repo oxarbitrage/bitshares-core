@@ -16,7 +16,7 @@ void ImportKeyDialog::OnOk(wxCommandEvent &WXUNUSED(event)) {
       }
       catch (const fc::exception &e) {
          //p_GWallet->OnError(_("Account/Key pair is invalid, please try again."));
-         p_GWallet->OnError(e.to_detail_string());
+         p_GWallet->OnError(this, e.to_detail_string());
          return;
       }
 

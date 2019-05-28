@@ -5,10 +5,10 @@
 #include "../gwallet.hpp"
 #endif
 
-class Home : public wxPanel
+class Info : public wxPanel
 {
 public:
-   Home(GWallet* gwallet);
+   Info(GWallet* gwallet);
    void DoInitialData();
    void DoAccount(bool update_head_block = true);
 
@@ -56,7 +56,7 @@ private:
    void OnCommittee(wxHyperlinkEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("Home"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("Info"), wxT("wxPanel"));
       head_block_num = XRCCTRL(*this,"head_block_num",wxStaticText);
       head_block_age = XRCCTRL(*this,"head_block_age",wxStaticText);
       next_maintenance_time = XRCCTRL(*this,"next_maintenance_time",wxStaticText);

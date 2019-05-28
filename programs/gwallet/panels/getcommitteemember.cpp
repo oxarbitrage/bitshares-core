@@ -1,10 +1,7 @@
 #include "../include/panels/getcommitteemember.hpp"
 #include "../include/panels/wallet.hpp"
 
-#include <wx/wx.h>
-#include <wx/numformatter.h>
-
-GetCommitteeMember::GetCommitteeMember(GWallet* gwallet) : wxPanel()
+GetCommitteeMember::GetCommitteeMember(GWallet* gwallet)
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
@@ -39,30 +36,47 @@ void GetCommitteeMember::OnOk(wxCommandEvent& WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(_("Account is not a committee member"));
+      p_GWallet->OnError(this, _("Account is not a committee member"));
       owner_account->SetFocus();
       return;
    }
 
-   response_panel->Show(true);
-   const auto root = response_tree->AddRoot("Committee member object");
+   wxAuiPaneInfo info;
+   info.Top();
+   info.Name("Committee member response");
+   info.Caption("Committee member response");
+   info.PinButton();
+   info.Position(2);
+   info.MaximizeButton();
+   info.MinimizeButton();
 
-   const auto id = response_tree->AppendItem(root, "ID");
-   response_tree->AppendItem(id, string(object_id_type(result.id)));
+   GetCommitteeMemberResponse *response_panel = new GetCommitteeMemberResponse(p_GWallet);
 
-   const auto committee_member_account = response_tree->AppendItem(root, "Committee member account");
-   response_tree->AppendItem(committee_member_account, string(object_id_type(result.committee_member_account)));
+   const auto root = response_panel->response_tree->AddRoot("Committee member object");
 
-   const auto vote_id = response_tree->AppendItem(root, "Vote ID");
-   response_tree->AppendItem(vote_id, fc::json::to_string(result.vote_id));
+   const auto id = response_panel->response_tree->AppendItem(root, "ID");
+   response_panel->response_tree->AppendItem(id, string(object_id_type(result.id)));
 
-   const auto total_votes = response_tree->AppendItem(root, "Total votes");
-   response_tree->AppendItem(total_votes, wxNumberFormatter::ToString((long)(result.total_votes/pow(10, 5))));
+   const auto committee_member_account = response_panel->response_tree->AppendItem(root, "Committee member account");
+   response_panel->response_tree->AppendItem(committee_member_account, string(object_id_type(result.committee_member_account)));
 
-   const auto url = response_tree->AppendItem(root, "Url");
-   response_tree->AppendItem(url, fc::json::to_string(result.url));
+   const auto vote_id = response_panel->response_tree->AppendItem(root, "Vote ID");
+   response_panel->response_tree->AppendItem(vote_id, fc::json::to_string(result.vote_id));
 
-   response_tree->ExpandAll();
+   const auto total_votes = response_panel->response_tree->AppendItem(root, "Total votes");
+   response_panel->response_tree->AppendItem(total_votes, wxNumberFormatter::ToString((long)(result.total_votes/pow(10, 5))));
 
-   Fit();
+   const auto url = response_panel->response_tree->AppendItem(root, "Url");
+   response_panel->response_tree->AppendItem(url, fc::json::to_string(result.url));
+
+   response_panel->response_tree->ExpandAll();
+
+   p_GWallet->m_mgr.AddPane(response_panel, info);
+   p_GWallet->m_mgr.Update();
 }
+
+GetCommitteeMemberResponse::GetCommitteeMemberResponse(GWallet* gwallet)
+{
+   InitWidgetsFromXRC((wxWindow *)gwallet);
+}
+

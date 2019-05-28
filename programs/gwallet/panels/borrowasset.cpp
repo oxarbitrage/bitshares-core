@@ -1,10 +1,6 @@
 #include "../include/panels/borrowasset.hpp"
 #include "../include/panels/wallet.hpp"
 
-#include <wx/wx.h>
-#include <wx/statline.h>
-#include <wx/combo.h>
-
 BorrowAsset::BorrowAsset(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
@@ -45,7 +41,7 @@ void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(_("Asset is invalid"));
+      p_GWallet->OnError(this, _("Asset is invalid"));
       borrow_asset->SetFocus();
       return;
    }
@@ -61,6 +57,6 @@ void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
       }
    }
    catch (const fc::exception &e) {
-      p_GWallet->OnError(e.to_detail_string());
+      p_GWallet->OnError(this, e.to_detail_string());
    }
 }

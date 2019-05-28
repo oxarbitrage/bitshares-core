@@ -1,10 +1,6 @@
 #include "../include/panels/sellasset.hpp"
 #include "../include/panels/wallet.hpp"
 
-#include <wx/wx.h>
-#include <wx/statline.h>
-#include <wx/combo.h>
-
 SellAsset::SellAsset(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
@@ -58,7 +54,7 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(_("Asset is invalid"));
+      p_GWallet->OnError(this, _("Asset is invalid"));
       receive_asset->SetFocus();
       return;
    }
@@ -74,6 +70,6 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
       }
    }
    catch (const fc::exception &e) {
-      p_GWallet->OnError(e.to_detail_string());
+      p_GWallet->OnError(this, e.to_detail_string());
    }
 }

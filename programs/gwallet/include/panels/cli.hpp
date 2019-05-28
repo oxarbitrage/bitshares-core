@@ -7,7 +7,7 @@
 class Cli : public wxPanel
 {
 public:
-    Cli(GWallet* gwallet);
+   Cli(GWallet* gwallet);
 
    Cli(wxWindow *parent=NULL){
       InitWidgetsFromXRC((wxWindow *)parent);

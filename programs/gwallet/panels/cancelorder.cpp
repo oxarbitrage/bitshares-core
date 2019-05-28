@@ -1,10 +1,6 @@
 #include "../include/panels/cancelorder.hpp"
 #include "../include/panels/wallet.hpp"
 
-#include <wx/wx.h>
-#include <wx/statline.h>
-#include <wx/combo.h>
-
 CancelOrder::CancelOrder(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
@@ -19,7 +15,7 @@ CancelOrder::CancelOrder(GWallet* gwallet) : wxPanel()
 void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    if(order->IsEmpty()) {
-      p_GWallet->OnError(_("No order selected"));
+      p_GWallet->OnError(this, _("No order selected"));
       return;
    }
    else {
@@ -34,7 +30,7 @@ void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
          }
       }
       catch (const fc::exception &e) {
-         p_GWallet->OnError(e.to_detail_string());
+         p_GWallet->OnError(this, e.to_detail_string());
       }
    }
 }

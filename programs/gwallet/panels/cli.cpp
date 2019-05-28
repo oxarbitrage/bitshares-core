@@ -1,7 +1,5 @@
 #include "../include/panels/cli.hpp"
 
-#include <wx/hyperlink.h>
-
 Cli::Cli(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
@@ -49,7 +47,7 @@ void Cli::OnCliCommand(wxCommandEvent& WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(e.to_detail_string());
+      p_GWallet->OnError(this, e.to_detail_string());
    }
 }
 

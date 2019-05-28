@@ -6,7 +6,7 @@
 
 #include "include/wizards/welcome.hpp"
 
-#include "include/panels/home.hpp"
+#include "include/panels/info.hpp"
 #include "include/panels/cli.hpp"
 #include "include/panels/sendreceive.hpp"
 #include "include/panels/history.hpp"
@@ -28,12 +28,7 @@
 GWallet::GWallet(const wxString& title)
 {
    DoInitialConfig();
-
-   wxImage::AddHandler(new wxPNGHandler);
-   InitWidgetsFromXRC((wxWindow *)NULL);
-
-   // full size
-   wxTopLevelWindow::Maximize(true);
+   DoInitialSize();
 
    CreateEvents();
    DoState();
@@ -131,7 +126,7 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
          bitshares.Connect(server.ToStdString(), path.ToStdString());
       }
       catch(const fc::exception &e) {
-         OnError(_("Problem at connecting, please try again ..."));
+         OnError(this, _("Problem at connecting, please try again ..."));
          return;
       }
 
@@ -176,7 +171,7 @@ void GWallet::OnDisconnect(wxCommandEvent& WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      OnError(_("Some problem when disconnecting, try again ..."));
+      OnError(this, _("Some problem when disconnecting, try again ..."));
    }
    SetStatusText(_("Disconnected"));
 
@@ -219,14 +214,14 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      OnError(_("Some problem when locking, try again ..."));
+      OnError(this, _("Some problem when locking, try again ..."));
       return;
    }
    state.is_locked = true;
    state.is_unlocked = false;
    DoState();
 
-   modes.p_wallet->DisableOperations();
+   panels.p_wallet->DisableOperations();
 }
 
 void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
@@ -241,13 +236,14 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
       }
       catch(const fc::exception& e)
       {
-         OnError(_("Password is incorrect, please try again."));
+         OnError(this, _("Password is incorrect, please try again."));
          return;
       }
       state.is_locked = false;
       state.is_unlocked = true;
       DoState();
-      modes.p_wallet->EnableOperations();
+
+      panels.p_wallet->EnableOperations();
    }
 }
 void GWallet::OnImportKey(wxCommandEvent& WXUNUSED(event))
@@ -265,12 +261,12 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
    const auto account_name = strings.accounts[selected];
 
    DoAssets(account_name.ToStdString());
-   modes.p_history->DoHistory(account_name.ToStdString());
+   //modes.p_history->DoHistory(account_name.ToStdString());
 
    strings.selected_account = strings.accounts[selected];
    strings.selected_asset = strings.assets[0];
 
-   modes.p_home->DoAccount();
+   panels.p_info->DoAccount();
 }
 
 void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
@@ -286,11 +282,18 @@ void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
    strings.selected_asset = asset_name;
 }
 
+void GWallet::DoInitialSize()
+{
+   wxImage::AddHandler(new wxPNGHandler);
+
+   InitWidgetsFromXRC((wxWindow *)NULL);
+
+   wxTopLevelWindow::Maximize(true);
+   wxTopLevelWindow::SetMinSize(wxSize(600, 450));
+}
+
 void GWallet::DoInitialConfig()
 {
-
-
-   wxTopLevelWindow::SetMinSize(wxSize(600, 450));
 
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    directory = f.GetPath();
@@ -378,19 +381,30 @@ void GWallet::DoAccounts()
 void GWallet::DoModes()
 {
    Dashboard *dashboard = new Dashboard(this);
-   dashboard->SetSize(this->GetClientSize());
-   //modes.p_home = home;
-   //Home *home = new Home(this);
-   //modes.p_home = home;
-   //modes.p_history = history;
-
-   Wallet *wallet = new Wallet(this);
-   //modes.p_wallet = wallet;
+   dashboard->SetSize(this->GetClientSize().x - 10, this->GetClientSize().y - 10);
+   dashboard->Center();
 
    m_mgr.SetManagedWindow(dashboard);
    m_mgr.SetFlags(wxAUI_MGR_ALLOW_ACTIVE_PANE);
 
+   Wallet *wallet = new Wallet(this);
+   panels.p_wallet = wallet;
 
+   Info *information = new Info(this);
+   panels.p_info = information;
+
+   Cli *cli = new Cli(this);
+   panels.p_cli = cli;
+
+   CreateWalletPane(wallet);
+   CreateInfoPane(information);
+   CreateCliPane(cli);
+
+   m_mgr.Update();
+}
+
+void GWallet::CreateWalletPane(Wallet* wallet)
+{
    wxAuiPaneInfo info;
 
    info.Top();
@@ -410,21 +424,20 @@ void GWallet::DoModes()
    info.Name("Wallet");
    info.Dock();
 
-   //info.dock_proportion = 1;
-
    m_mgr.AddPane(wallet, info);
-   //m_mgr.Update();
+}
 
-   Home *home = new Home(this);
-   //modes.p_home = home;
+void GWallet::CreateInfoPane(Info* information)
+{
+   wxAuiPaneInfo info;
 
    info.Top();
    info.PinButton();
    info.Caption(_("Information"));
    info.Position(1);
    //info.Row(1);
-   width = this->GetClientSize().x/2;
-   height = this->GetClientSize().y - this->GetClientSize().y/4;
+   auto width = this->GetClientSize().x/2;
+   auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
    info.BestSize(width, height);
    //info.Resizable();
@@ -435,40 +448,19 @@ void GWallet::DoModes()
    info.Name("Information");
    info.Dock();
 
-   //info.dock_proportion = 1;
+   m_mgr.AddPane(information, info);
+}
 
-   m_mgr.AddPane(home, info);
-
-   /*
-   History *history = new History(this);
-
-   info.Top();
-   info.PinButton();
-   info.Caption(_("History"));
-   info.Position(3);
-   //info.Row(1);
-   info.MinSize(600, 600);
-   info.BestSize(600, 600);
-   //info.Resizable();
-   info.dock_proportion = 2;
-   info.PinButton();
-   info.MaximizeButton();
-   info.MinimizeButton();
-   info.Name("History");
-   info.Dock();
-
-   //info.dock_proportion = 1;
-
-   m_mgr.AddPane(history, info);
-   */
-   Cli *cli = new Cli(this);
+void GWallet::CreateCliPane(Cli* cli)
+{
+   wxAuiPaneInfo info;
 
    info.Bottom();
    info.PinButton();
    info.Caption(_("Cli"));
    info.Position(0);
    info.Row(2);
-   width = this->GetClientSize().x;
+   auto width = this->GetClientSize().x;
    info.MinSize(width, this->GetClientSize().y/4);
    info.BestSize(width, this->GetClientSize().y/4);
    info.dock_proportion = 2;
@@ -478,32 +470,7 @@ void GWallet::DoModes()
    info.Name("Cli");
    info.Dock();
 
-
    m_mgr.AddPane(cli, info);
-
-
-
-   //History *history = new History(this);
-   //modes.p_history = history;
-   //modes.p_history->Hide();
-
-
-   m_mgr.Update();
-
-   //modes.p_cli = cli;
-   //modes.p_cli->Hide();
-
-   //Wallet *wallet = new Wallet(this);
-   //modes.p_wallet = wallet;
-   //modes.p_wallet->Hide();
-
-   //SendReceive *sendreceive = new SendReceive(this);
-   //modes.p_sendreceive = sendreceive;
-   //modes.p_sendreceive->Hide();
-
-   //History *history = new History(this);
-   //modes.p_history = history;
-   //modes.p_history->Hide();
 }
 
 void GWallet::LoadWelcomeWidget()
@@ -529,26 +496,8 @@ void GWallet::LoadWelcomeWidget()
 void GWallet::OnViewInfo(wxCommandEvent& WXUNUSED(event))
 {
    if(menubar->IsChecked(XRCID("m_view_info"))) {
-      // open
-      Home *home = new Home(this);
-
-      wxAuiPaneInfo info;
-      info.Top();
-      info.PinButton();
-      info.Caption(_("Information"));
-      info.Position(1);
-      auto width = this->GetClientSize().x/2;
-      auto height = this->GetClientSize().y - this->GetClientSize().y/4;
-      info.MinSize(width, height);
-      info.BestSize(width, height);
-      info.dock_proportion = 2;
-      info.PinButton();
-      info.MaximizeButton();
-      info.MinimizeButton();
-      info.Name("Information");
-      info.Dock();
-
-      m_mgr.AddPane(home, info);
+      Info *information = new Info(this);
+      CreateInfoPane(information);
    }
    else {
       wxWindow* wnd = m_mgr.GetPane("Information").window;
@@ -556,6 +505,47 @@ void GWallet::OnViewInfo(wxCommandEvent& WXUNUSED(event))
       wnd->Destroy();
    }
    m_mgr.Update();
+}
+
+void GWallet::OnViewWallet(wxCommandEvent& WXUNUSED(event))
+{
+   if(menubar->IsChecked(XRCID("m_view_wallet"))) {
+      Wallet *wallet = new Wallet(this);
+      CreateWalletPane(wallet);
+   }
+   else {
+      wxWindow* wnd = m_mgr.GetPane("Wallet").window;
+      m_mgr.DetachPane(wnd);
+      wnd->Destroy();
+   }
+   m_mgr.Update();
+}
+
+void GWallet::OnViewCli(wxCommandEvent& WXUNUSED(event))
+{
+   if(menubar->IsChecked(XRCID("m_view_cli"))) {
+      Cli *cli = new Cli(this);
+      CreateCliPane(cli);
+   }
+   else {
+      wxWindow* wnd = m_mgr.GetPane("Cli").window;
+      m_mgr.DetachPane(wnd);
+      wnd->Destroy();
+   }
+   m_mgr.Update();
+}
+
+void GWallet::OnPanelClose(wxAuiManagerEvent& event)
+{
+   const auto name = event.GetPane()->name;
+   
+   if(name == "Information")
+      menubar->Check(XRCID("m_view_info"), false);
+   if(name == "Wallet")
+      menubar->Check(XRCID("m_view_wallet"), false);
+   if(name == "Cli")
+      menubar->Check(XRCID("m_view_cli"), false);
+
 }
 
 void GWallet::CreateEvents()
@@ -568,6 +558,10 @@ void GWallet::CreateEvents()
    Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnAbout));
 
    Connect(XRCID("m_view_info"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewInfo));
+   Connect(XRCID("m_view_wallet"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewWallet));
+   Connect(XRCID("m_view_cli"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewCli));
+
+   m_mgr.Connect(wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler(GWallet::OnPanelClose), NULL, this);
 
    Connect(XRCID("m_lang"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnChangeLanguage));
    Connect(XRCID("m_connect"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnConnect));
@@ -577,19 +571,11 @@ void GWallet::CreateEvents()
    Connect(XRCID("m_import_key"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnImportKey));
    Connect(XRCID("m_disconnect"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnDisconnect));
 
-
-
    Connect(XRCID("t_connect"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnConnect));
    Connect(XRCID("t_disconnect"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnDisconnect));
    Connect(XRCID("t_lock"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnLock));
    Connect(XRCID("t_unlock"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnUnlock));
    Connect(XRCID("t_importkey"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnImportKey));
-
-   //Connect(XRCID("t_home"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnHomeMode));
-   //Connect(XRCID("t_cli"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnCommandMode));
-   //Connect(XRCID("t_sendreceive"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnSendReceiveMode));
-   //Connect(XRCID("t_history"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnHistoryMode));
-   //Connect(XRCID("t_wallet"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnWalletMode));
 
    Connect(XRCID("t_accounts"), wxEVT_COMBOBOX, wxCommandEventHandler(GWallet::OnChangeAccount));
    Connect(XRCID("t_assets"), wxEVT_COMBOBOX, wxCommandEventHandler(GWallet::OnChangeAsset));
@@ -599,9 +585,9 @@ void GWallet::CreateEvents()
    Connect(XRCID("connect_button"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GWallet::OnConnect));
 }
 
-void GWallet::OnError(wxString msg)
+void GWallet::OnError(wxWindow* parent, wxString msg)
 {
-   wxMessageDialog dialog(NULL, msg, _("Error"), wxNO_DEFAULT|wxOK|wxICON_ERROR);
+   wxMessageDialog dialog(parent, msg, _("Error"), wxOK|wxICON_ERROR);
    if (dialog.ShowModal() == wxID_OK)
       return;
 }
@@ -670,11 +656,6 @@ void GWallet::DoState() {
       toolbar->EnableTool(XRCID("t_lock"), true);
       toolbar->EnableTool(XRCID("t_unlock"), true);
       toolbar->EnableTool(XRCID("t_importkey"), true);
-      //toolbar->EnableTool(XRCID("t_home"), true);
-      //toolbar->EnableTool(XRCID("t_cli"), true);
-      //toolbar->EnableTool(XRCID("t_history"), true);
-      //toolbar->EnableTool(XRCID("t_sendreceive"), true);
-      //toolbar->EnableTool(XRCID("t_wallet"), true);
 
       SetStatusText(_("No Config"), 0);
    }
@@ -707,12 +688,6 @@ void GWallet::DoState() {
       menubar->Enable(XRCID("m_view_wallet"), true);
       menubar->Enable(XRCID("m_view_cli"), true);
 
-      //toolbar->EnableTool(XRCID("t_home"), false);
-      //toolbar->EnableTool(XRCID("t_cli"), false);
-      //toolbar->EnableTool(XRCID("t_history"), false);
-      //toolbar->EnableTool(XRCID("t_sendreceive"), false);
-      //toolbar->EnableTool(XRCID("t_wallet"), false);
-
       toolbar->EnableTool(XRCID("t_accounts"), true);
       toolbar->EnableTool(XRCID("t_assets"), true);
 
@@ -734,10 +709,6 @@ void GWallet::DoState() {
          menubar->Enable(XRCID("m_import_key"), false);
 
          toolbar->EnableTool(XRCID("t_unlock"), true);
-
-         //toolbar->EnableTool(XRCID("t_unlock"), true);
-         //toolbar->EnableTool(XRCID("t_cli"), true);
-         //toolbar->EnableTool(XRCID("t_home"), true);
       }
       else if(state.is_unlocked) {
          SetStatusText(_("Connected | Unlocked"));
@@ -750,11 +721,6 @@ void GWallet::DoState() {
          toolbar->EnableTool(XRCID("t_lock"), true);
          toolbar->EnableTool(XRCID("t_unlock"), false);
          toolbar->EnableTool(XRCID("t_importkey"), true);
-         //toolbar->EnableTool(XRCID("t_home"), true);
-         //toolbar->EnableTool(XRCID("t_cli"), true);
-         //toolbar->EnableTool(XRCID("t_history"), true);
-         //toolbar->EnableTool(XRCID("t_sendreceive"), true);
-         //toolbar->EnableTool(XRCID("t_wallet"), true);
       }
       wxString server;
       if(config->Read("Server", &server)) {
@@ -768,11 +734,6 @@ void GWallet::DoState() {
       toolbar->EnableTool(XRCID("t_accounts"), false);
       toolbar->EnableTool(XRCID("t_assets"), false);
 
-      //toolbar->EnableTool(XRCID("t_home"), false);
-      //toolbar->EnableTool(XRCID("t_cli"), false);
-      //toolbar->EnableTool(XRCID("t_history"), false);
-      //toolbar->EnableTool(XRCID("t_sendreceive"), false);
-      //toolbar->EnableTool(XRCID("t_wallet"), false);
       toolbar->EnableTool(XRCID("t_connect"), true);
       toolbar->EnableTool(XRCID("t_disconnect"), false);
       toolbar->EnableTool(XRCID("t_lock"), false);

@@ -1,10 +1,6 @@
 #include "../include/panels/setproxy.hpp"
 #include "../include/panels/wallet.hpp"
 
-#include <wx/wx.h>
-#include <wx/statline.h>
-#include <wx/combo.h>
-
 SetProxy::SetProxy(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
@@ -50,7 +46,7 @@ void SetProxy::DoVotingAccount()
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(e.to_detail_string());
+      p_GWallet->OnError(this, e.to_detail_string());
    }
 }
 
@@ -65,7 +61,7 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(_("Account is invalid"));
+      p_GWallet->OnError(this, _("Account is invalid"));
       voting_account->SetFocus();
       return;
    }
@@ -80,7 +76,7 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
       }
    }
    catch (const fc::exception &e) {
-      p_GWallet->OnError(e.to_detail_string());
+      p_GWallet->OnError(this, e.to_detail_string());
    }
 }
 

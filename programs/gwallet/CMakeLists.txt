@@ -9,7 +9,7 @@ add_executable( gwallet
         panels/cancelorder.cpp
         panels/setproxy.cpp
         panels/getcommitteemember.cpp
-        panels/home.cpp
+        panels/info.cpp
         panels/wallet.cpp
         panels/cli.cpp
         panels/sendreceive.cpp

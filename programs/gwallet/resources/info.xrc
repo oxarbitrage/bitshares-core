@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
 
-        <object class="wxPanel" name="Home">
+        <object class="wxPanel" name="Info">
             <size>1200, 800</size>
             <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
             <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>

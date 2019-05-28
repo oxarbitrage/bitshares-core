@@ -48,13 +48,14 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
    const auto asset_v = p_GWallet->strings.assets[asset->GetCurrentSelection()].ToStdString();
    const auto memo_v = memo->GetValue().ToStdString();
 
+   wxWindow* wnd = p_GWallet->m_mgr.GetPane("Transfer").window;
    try
    {
       p_GWallet->bitshares.wallet_api_ptr->get_account(to_v);
    }
    catch(const fc::exception& e)
    {
-      p_GWallet->OnError(_("Account is invalid"));
+      p_GWallet->OnError(wnd, _("Account is invalid"));
       to->SetFocus();
       return;
    }
@@ -68,6 +69,6 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
       }
    }
    catch (const fc::exception &e) {
-      p_GWallet->OnError(e.to_detail_string());
+      p_GWallet->OnError(wnd, e.to_detail_string());
    }
 }

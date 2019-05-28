@@ -12,7 +12,7 @@
 
 #include <wx/aui/aui.h>
 
-class Home;
+class Info;
 class Cli;
 class SendReceive;
 class History;
@@ -32,13 +32,13 @@ struct States {
    bool modes_created = false;
 };
 
-struct Modes {
-   Home* p_home;
+
+struct Panels {
+   Info* p_info;
    Cli* p_cli;
-   SendReceive* p_sendreceive;
-   History* p_history;
    Wallet* p_wallet;
 };
+
 
 struct Strings {
    wxStaticText* main;
@@ -68,7 +68,7 @@ public:
    GWallet(const wxString& title);
 
    void DoState();
-   void OnError(wxString msg);
+   void OnError(wxWindow* parent, wxString msg);
    void DoAssets(std::string account);
    void DoAccounts();
    void DoModes();
@@ -79,7 +79,7 @@ public:
    wxString directory;
    States state;
    Bitshares bitshares;
-   Modes modes;
+   Panels panels;
    Strings strings;
    Welcome welcome;
 
@@ -106,6 +106,7 @@ private:
 
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("GWallet"), wxT("wxFrame"));
+      menubar = XRCCTRL(*this,"menubar",wxMenuBar);
       toolbar = XRCCTRL(*this,"toolbar",wxToolBar);
       t_accounts = XRCCTRL(*this,"t_accounts",wxComboBox);
       t_assets = XRCCTRL(*this,"t_assets",wxComboBox);
@@ -128,18 +129,28 @@ private:
    void OnUnlock(wxCommandEvent& event);
    void OnImportKey(wxCommandEvent& event);
 
-   void OnViewInfo(wxCommandEvent& event);
-
    void OnChangeAccount(wxCommandEvent& event);
    void OnChangeAsset(wxCommandEvent& event);
 
    void CreateEvents();
 
    void DoInitialConfig();
+   void DoInitialSize();
 
    void LoadWelcomeWidget();
 
    void SelectLanguage(int lang);
    wxLocale* m_locale;
+
+   void OnViewInfo(wxCommandEvent& event);
+   void OnViewWallet(wxCommandEvent& event);
+   void OnViewCli(wxCommandEvent& event);
+
+   void CreateWalletPane(Wallet* wallet);
+   void CreateInfoPane(Info* info);
+   void CreateCliPane(Cli* cli);
+
+   void OnPanelClose(wxAuiManagerEvent& event);
+
 };
 

@@ -75,7 +75,7 @@ void SendReceive::OnTransferOk(wxCommandEvent& event)
          }
       }
       catch(const fc::exception &e) {
-         p_GWallet->OnError(e.to_detail_string());
+         p_GWallet->OnError(this, e.to_detail_string());
       }
    }
 }
@@ -130,7 +130,7 @@ bool SendReceive::ValidateSend()
       }
       catch(const fc::exception& e)
       {
-         p_GWallet->OnError("Account is invalid");
+         p_GWallet->OnError(this, "Account is invalid");
          send_to->SetFocus();
          return false;
       }
@@ -166,7 +166,7 @@ bool SendReceive::ValidateReceive()
       }
       catch(const fc::exception& e)
       {
-         p_GWallet->OnError("Account is invalid");
+         p_GWallet->OnError(this, "Account is invalid");
          receive_from->SetFocus();
          return false;
       }
@@ -197,7 +197,7 @@ bool SendReceive::ValidateReceive()
       }
       catch(const fc::exception& e)
       {
-         p_GWallet->OnError("Asset is invalid");
+         p_GWallet->OnError(this, "Asset is invalid");
          receive_asset->SetFocus();
          return false;
       }

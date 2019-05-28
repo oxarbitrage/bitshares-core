@@ -3,8 +3,9 @@
 #include <wx/timectrl.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
+#include <wx/xrc/xmlres.h>
 
-#include "../gwallet.hpp"
+class GWallet;
 
 class SellAsset: public wxPanel
 {

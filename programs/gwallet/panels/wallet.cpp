@@ -48,7 +48,7 @@ void Wallet::OnTransfer(wxCommandEvent& event)
 {
    Transfer *transfer = new Transfer(p_GWallet);
 
-   if(p_GWallet->m_mgr.GetPane("Information").IsValid()) {
+   if(p_GWallet->m_mgr.GetPane("Information").IsOk()) {
       wxWindow* wnd = p_GWallet->m_mgr.GetPane("Information").window;
       p_GWallet->m_mgr.DetachPane(wnd);
       wnd->Destroy();

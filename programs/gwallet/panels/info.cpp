@@ -1,21 +1,21 @@
-#include "../include/panels/home.hpp"
+#include "../include/panels/info.hpp"
 
 #include <wx/statline.h>
 #include <wx/numformatter.h>
 #include <wx/busyinfo.h>
 
-Home::Home(GWallet* gwallet) : wxPanel()
+Info::Info(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
 
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
    DoInitialData();
 
-   Connect(XRCID("ID_VIEW_WITNESSES"), wxEVT_HYPERLINK, wxHyperlinkEventHandler(Home::OnWitness), NULL, this);
-   Connect(XRCID("ID_VIEW_COMMITTEE"), wxEVT_HYPERLINK, wxHyperlinkEventHandler(Home::OnCommittee), NULL, this);
+   Connect(XRCID("ID_VIEW_WITNESSES"), wxEVT_HYPERLINK, wxHyperlinkEventHandler(Info::OnWitness), NULL, this);
+   Connect(XRCID("ID_VIEW_COMMITTEE"), wxEVT_HYPERLINK, wxHyperlinkEventHandler(Info::OnCommittee), NULL, this);
 }
 
-void Home::DoInitialData()
+void Info::DoInitialData()
 {
    const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
@@ -53,7 +53,7 @@ void Home::DoInitialData()
    cad_bts->SetLabel(p_GWallet->bitshares.database_api->get_ticker("CAD", "BTS").latest.substr(0, 8));
 }
 
-void Home::DoAccount(bool update_head_block)
+void Info::DoAccount(bool update_head_block)
 {
    if(update_head_block) {
       const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
@@ -90,7 +90,7 @@ void Home::DoAccount(bool update_head_block)
    lifetime_fees_paid->SetLabel(pretty_balance + " " + GRAPHENE_SYMBOL);
 }
 
-void Home::OnWitness(wxHyperlinkEvent& event)
+void Info::OnWitness(wxHyperlinkEvent& event)
 {
    wxDialog dlg;
    if (!wxXmlResource::Get()->LoadDialog(&dlg, NULL, "ID_ACTIVEWITNESS"))
@@ -135,7 +135,7 @@ void Home::OnWitness(wxHyperlinkEvent& event)
 
 }
 
-void Home::OnCommittee(wxHyperlinkEvent& event)
+void Info::OnCommittee(wxHyperlinkEvent& event)
 {
    wxDialog dlg;
    if (!wxXmlResource::Get()->LoadDialog(&dlg, NULL, "ID_ACTIVECOMMITTE"))

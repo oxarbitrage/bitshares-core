@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <wx/xrc/xmlres.h>
 
 #include "../gwallet.hpp"
 
@@ -27,5 +28,4 @@ private:
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
-
 };
