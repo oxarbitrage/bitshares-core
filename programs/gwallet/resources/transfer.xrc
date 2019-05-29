@@ -319,7 +319,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="broadcast">
-                            <enabled>0</enabled>
                             <tooltip>Broadcast the transaction on the network</tooltip>
                             <label>Broadcast Transaction</label>
                             <checked>1</checked>
@@ -330,7 +329,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="cli">
-                            <enabled>0</enabled>
                             <label>Show output in CLI mode</label>
                             <checked>0</checked>
                         </object>
@@ -402,6 +400,22 @@
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>2</border>
                 <size>5,5</size>
+            </object>
+        </object>
+    </object>
+    <object class="wxPanel" name="TransferResponse">
+        <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+        <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
+        <size>-1,-1</size>
+        <object class="wxBoxSizer">
+            <orient>wxHORIZONTAL</orient>
+            <object class="sizeritem">
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxTreeCtrl" name="response_tree">
+                    <style>wxTR_DEFAULT_STYLE|wxBORDER_STATIC</style>
+                </object>
             </object>
         </object>
     </object>

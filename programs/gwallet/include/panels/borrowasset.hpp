@@ -1,10 +1,7 @@
 #include <wx/wx.h>
 #include <wx/srchctrl.h>
-#include <wx/statline.h>
-#include <wx/combo.h>
 #include <wx/xrc/xmlres.h>
 
-//#include "../gwallet.hpp"
 class GWallet;
 
 class BorrowAsset: public wxPanel

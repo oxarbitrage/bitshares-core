@@ -12,16 +12,17 @@ public:
    Cli(wxWindow *parent=NULL){
       InitWidgetsFromXRC((wxWindow *)parent);
    }
+   void OnCliCommand(wxCommandEvent& event);
+
    GWallet* p_GWallet;
+   wxTextCtrl* command;
 
 protected:
-   wxTextCtrl* command;
    wxButton* run;
    wxButton* clear;
    wxTextCtrl* output;
 
 private:
-   void OnCliCommand(wxCommandEvent& event);
    void OnCliClear(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){

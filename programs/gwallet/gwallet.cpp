@@ -385,7 +385,7 @@ void GWallet::DoModes()
    dashboard->Center();
 
    m_mgr.SetManagedWindow(dashboard);
-   m_mgr.SetFlags(wxAUI_MGR_ALLOW_ACTIVE_PANE);
+   m_mgr.SetFlags(wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_TRANSPARENT_HINT|wxAUI_MGR_TRANSPARENT_DRAG);
 
    Wallet *wallet = new Wallet(this);
    panels.p_wallet = wallet;
@@ -416,7 +416,7 @@ void GWallet::CreateWalletPane(Wallet* wallet)
    auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
    info.BestSize(width, height);
-   //info.Resizable();
+   info.Resizable();
    info.dock_proportion = 2;
    info.PinButton();
    info.MaximizeButton();
@@ -440,7 +440,7 @@ void GWallet::CreateInfoPane(Info* information)
    auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
    info.BestSize(width, height);
-   //info.Resizable();
+   info.Resizable();
    info.dock_proportion = 2;
    info.PinButton();
    info.MaximizeButton();
@@ -463,6 +463,7 @@ void GWallet::CreateCliPane(Cli* cli)
    auto width = this->GetClientSize().x;
    info.MinSize(width, this->GetClientSize().y/4);
    info.BestSize(width, this->GetClientSize().y/4);
+   info.Resizable();
    info.dock_proportion = 2;
    info.PinButton();
    info.MaximizeButton();
@@ -538,14 +539,13 @@ void GWallet::OnViewCli(wxCommandEvent& WXUNUSED(event))
 void GWallet::OnPanelClose(wxAuiManagerEvent& event)
 {
    const auto name = event.GetPane()->name;
-   
+
    if(name == "Information")
       menubar->Check(XRCID("m_view_info"), false);
    if(name == "Wallet")
       menubar->Check(XRCID("m_view_wallet"), false);
    if(name == "Cli")
       menubar->Check(XRCID("m_view_cli"), false);
-
 }
 
 void GWallet::CreateEvents()

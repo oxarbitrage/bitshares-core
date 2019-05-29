@@ -14,6 +14,7 @@ public:
 
 protected:
    wxSearchCtrl* owner_account;
+   wxCheckBox* cli;
 
 private:
    GWallet* p_GWallet;
@@ -24,13 +25,14 @@ private:
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("GetCommitteeMember"), wxT("wxPanel"));
       owner_account = XRCCTRL(*this,"owner_account",wxSearchCtrl);
+      cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };
 
 class GetCommitteeMemberResponse: public wxPanel
 {
 public:
-   GetCommitteeMemberResponse(GWallet* gwallet);
+   GetCommitteeMemberResponse(GWallet* gwallet, wxAny any_response);
    wxTreeCtrl* response_tree;
 
 private:

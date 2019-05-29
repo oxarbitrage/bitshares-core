@@ -19,7 +19,8 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    Connect(XRCID("suggest_brain_key"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSuggestBrainKey), NULL, this);
    Connect(XRCID("get_committee_member"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetCommitteeMember), NULL, this);
 
-   DisableOperations();
+   if(p_GWallet->bitshares.wallet_api_ptr->is_locked())
+      DisableOperations();
 }
 
 void Wallet::EnableOperations()
@@ -48,11 +49,7 @@ void Wallet::OnTransfer(wxCommandEvent& event)
 {
    Transfer *transfer = new Transfer(p_GWallet);
 
-   if(p_GWallet->m_mgr.GetPane("Information").IsOk()) {
-      wxWindow* wnd = p_GWallet->m_mgr.GetPane("Information").window;
-      p_GWallet->m_mgr.DetachPane(wnd);
-      wnd->Destroy();
-   }
+   CloseInformationPane();
 
    wxAuiPaneInfo info;
    info.Top();
@@ -60,19 +57,9 @@ void Wallet::OnTransfer(wxCommandEvent& event)
    info.Caption(_("Transfer"));
    info.PinButton();
    info.Position(2);
-   //info.Row(1);
-   //info.Dock();
-   //info.LeftDockable();
-   //info.MinSize(600, 600);
-   //info.BestSize(600, 600);
-   //info.dock_proportion = 1;
    info.MaximizeButton();
    info.MinimizeButton();
    info.Name("Transfer");
-
-   //wxWindow* wnd = p_GWallet->m_mgr.GetPane("Home").window;
-   //p_GWallet->m_mgr.DetachPane(wnd);
-   //wnd->Destroy();
 
    p_GWallet->m_mgr.AddPane(transfer, info);
    p_GWallet->m_mgr.Update();
@@ -82,6 +69,8 @@ void Wallet::OnTransfer(wxCommandEvent& event)
 void Wallet::OnSellAsset(wxCommandEvent& event)
 {
    SellAsset *sellasset = new SellAsset(p_GWallet);
+
+   CloseInformationPane();
 
    wxAuiPaneInfo info;
    info.Top();
@@ -100,6 +89,8 @@ void Wallet::OnBorrowAsset(wxCommandEvent& event)
 {
    BorrowAsset *borrow_asset = new BorrowAsset(p_GWallet);
 
+   CloseInformationPane();
+
    wxAuiPaneInfo info;
    info.Top();
    info.Name("Borrow Asset");
@@ -117,6 +108,8 @@ void Wallet::OnCancelOrder(wxCommandEvent& event)
 {
    CancelOrder *cancel_order = new CancelOrder(p_GWallet);
 
+   CloseInformationPane();
+
    wxAuiPaneInfo info;
    info.Top();
    info.Name("Cancel Order");
@@ -133,6 +126,8 @@ void Wallet::OnCancelOrder(wxCommandEvent& event)
 void Wallet::OnSetProxy(wxCommandEvent& event)
 {
    SetProxy *set_proxy = new SetProxy(p_GWallet);
+
+   CloseInformationPane();
 
    wxAuiPaneInfo info;
    info.Top();
@@ -157,6 +152,8 @@ void Wallet::OnGetCommitteeMember(wxCommandEvent& event)
 {
    GetCommitteeMember *cm = new GetCommitteeMember(p_GWallet);
 
+   CloseInformationPane();
+
    wxAuiPaneInfo info;
    info.Top();
    info.Name("Committee member");
@@ -168,4 +165,13 @@ void Wallet::OnGetCommitteeMember(wxCommandEvent& event)
 
    p_GWallet->m_mgr.AddPane(cm, info);
    p_GWallet->m_mgr.Update();
+}
+
+void Wallet::CloseInformationPane()
+{
+   if(p_GWallet->m_mgr.GetPane("Information").IsOk()) {
+      wxWindow* wnd = p_GWallet->m_mgr.GetPane("Information").window;
+      p_GWallet->m_mgr.DetachPane(wnd);
+      wnd->Destroy();
+   }
 }

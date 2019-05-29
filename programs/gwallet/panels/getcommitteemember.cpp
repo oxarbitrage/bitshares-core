@@ -1,5 +1,6 @@
 #include "../include/panels/getcommitteemember.hpp"
 #include "../include/panels/wallet.hpp"
+#include "../include/panels/cli.hpp"
 
 GetCommitteeMember::GetCommitteeMember(GWallet* gwallet)
 {
@@ -29,10 +30,12 @@ void GetCommitteeMember::OnSearchAccount(wxCommandEvent& event)
 void GetCommitteeMember::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto account = owner_account->GetValue().ToStdString();
-   committee_member_object result;
+   committee_member_object result_obj;
+   wxAny response;
    try
    {
-      result = p_GWallet->bitshares.wallet_api_ptr->get_committee_member(account);
+      result_obj = p_GWallet->bitshares.wallet_api_ptr->get_committee_member(account);
+      response = result_obj;
    }
    catch(const fc::exception& e)
    {
@@ -41,42 +44,52 @@ void GetCommitteeMember::OnOk(wxCommandEvent& WXUNUSED(event))
       return;
    }
 
+   new GetCommitteeMemberResponse(p_GWallet, response);
+
+   if(cli->IsChecked())
+   {
+      auto command = "get_committee_member " + account;
+      p_GWallet->panels.p_cli->command->SetValue(command);
+      wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
+      p_GWallet->panels.p_cli->OnCliCommand(event);
+   }
+}
+
+GetCommitteeMemberResponse::GetCommitteeMemberResponse(GWallet* gwallet, wxAny any_response)
+{
+   InitWidgetsFromXRC((wxWindow *)gwallet);
+
    wxAuiPaneInfo info;
    info.Top();
    info.Name("Committee member response");
    info.Caption("Committee member response");
    info.PinButton();
-   info.Position(2);
+   info.Position(3);
    info.MaximizeButton();
    info.MinimizeButton();
 
-   GetCommitteeMemberResponse *response_panel = new GetCommitteeMemberResponse(p_GWallet);
+   committee_member_object result = any_response.As<committee_member_object>();
 
-   const auto root = response_panel->response_tree->AddRoot("Committee member object");
+   const auto root = response_tree->AddRoot("Committee member object");
 
-   const auto id = response_panel->response_tree->AppendItem(root, "ID");
-   response_panel->response_tree->AppendItem(id, string(object_id_type(result.id)));
+   const auto id = response_tree->AppendItem(root, "ID");
+   response_tree->AppendItem(id, string(object_id_type(result.id)));
 
-   const auto committee_member_account = response_panel->response_tree->AppendItem(root, "Committee member account");
-   response_panel->response_tree->AppendItem(committee_member_account, string(object_id_type(result.committee_member_account)));
+   const auto committee_member_account = response_tree->AppendItem(root, "Committee member account");
+   response_tree->AppendItem(committee_member_account, string(object_id_type(result.committee_member_account)));
 
-   const auto vote_id = response_panel->response_tree->AppendItem(root, "Vote ID");
-   response_panel->response_tree->AppendItem(vote_id, fc::json::to_string(result.vote_id));
+   const auto vote_id = response_tree->AppendItem(root, "Vote ID");
+   response_tree->AppendItem(vote_id, fc::json::to_string(result.vote_id));
 
-   const auto total_votes = response_panel->response_tree->AppendItem(root, "Total votes");
-   response_panel->response_tree->AppendItem(total_votes, wxNumberFormatter::ToString((long)(result.total_votes/pow(10, 5))));
+   const auto total_votes = response_tree->AppendItem(root, "Total votes");
+   response_tree->AppendItem(total_votes, wxNumberFormatter::ToString((long)(result.total_votes/pow(10, 5))));
 
-   const auto url = response_panel->response_tree->AppendItem(root, "Url");
-   response_panel->response_tree->AppendItem(url, fc::json::to_string(result.url));
+   const auto url = response_tree->AppendItem(root, "Url");
+   response_tree->AppendItem(url, fc::json::to_string(result.url));
 
-   response_panel->response_tree->ExpandAll();
+   response_tree->ExpandAll();
 
-   p_GWallet->m_mgr.AddPane(response_panel, info);
-   p_GWallet->m_mgr.Update();
-}
-
-GetCommitteeMemberResponse::GetCommitteeMemberResponse(GWallet* gwallet)
-{
-   InitWidgetsFromXRC((wxWindow *)gwallet);
+   gwallet->m_mgr.AddPane(this, info);
+   gwallet->m_mgr.Update();
 }
 

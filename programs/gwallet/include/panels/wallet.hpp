@@ -39,7 +39,6 @@ private:
       update_proxy = XRCCTRL(*this,"update_proxy",wxButton);
       suggest_brain_key = XRCCTRL(*this,"suggest_brain_key",wxButton);
       get_committee_member = XRCCTRL(*this,"get_committee_member",wxButton);
-
    }
 
    void OnTransfer(wxCommandEvent& event);
@@ -49,4 +48,6 @@ private:
    void OnSetProxy(wxCommandEvent& event);
    void OnSuggestBrainKey(wxCommandEvent& event);
    void OnGetCommitteeMember(wxCommandEvent& event);
+
+   void CloseInformationPane();
 };
