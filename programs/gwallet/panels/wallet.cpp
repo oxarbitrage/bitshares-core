@@ -63,7 +63,6 @@ void Wallet::OnTransfer(wxCommandEvent& event)
 
    p_GWallet->m_mgr.AddPane(transfer, info);
    p_GWallet->m_mgr.Update();
-
 }
 
 void Wallet::OnSellAsset(wxCommandEvent& event)

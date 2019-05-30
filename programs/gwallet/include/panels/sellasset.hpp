@@ -3,6 +3,7 @@
 #include <wx/timectrl.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
+#include <wx/treectrl.h>
 #include <wx/xrc/xmlres.h>
 
 class GWallet;
@@ -46,3 +47,15 @@ private:
    }
 };
 
+class SellAssetResponse: public wxPanel
+{
+public:
+   SellAssetResponse(GWallet* gwallet, wxAny any_response);
+   wxTreeCtrl* response_tree;
+
+private:
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAssetResponse"), wxT("wxPanel"));
+      response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
+   }
+};

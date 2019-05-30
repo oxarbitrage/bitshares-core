@@ -405,8 +405,13 @@ void GWallet::DoModes()
 
 void GWallet::CreateWalletPane(Wallet* wallet)
 {
-   wxAuiPaneInfo info;
+   if(m_mgr.GetPane("Wallet").IsOk()) {
+      wxWindow* wnd = m_mgr.GetPane("Wallet").window;
+      m_mgr.DetachPane(wnd);
+      wnd->Destroy();
+   }
 
+   wxAuiPaneInfo info;
    info.Top();
    info.PinButton();
    info.Caption(_("Wallet"));
@@ -429,8 +434,13 @@ void GWallet::CreateWalletPane(Wallet* wallet)
 
 void GWallet::CreateInfoPane(Info* information)
 {
-   wxAuiPaneInfo info;
+   if(m_mgr.GetPane("Information").IsOk()) {
+      wxWindow* wnd = m_mgr.GetPane("Information").window;
+      m_mgr.DetachPane(wnd);
+      wnd->Destroy();
+   }
 
+   wxAuiPaneInfo info;
    info.Top();
    info.PinButton();
    info.Caption(_("Information"));
@@ -453,8 +463,13 @@ void GWallet::CreateInfoPane(Info* information)
 
 void GWallet::CreateCliPane(Cli* cli)
 {
-   wxAuiPaneInfo info;
+   if(m_mgr.GetPane("Cli").IsOk()) {
+      wxWindow* wnd = m_mgr.GetPane("Cli").window;
+      m_mgr.DetachPane(wnd);
+      wnd->Destroy();
+   }
 
+   wxAuiPaneInfo info;
    info.Bottom();
    info.PinButton();
    info.Caption(_("Cli"));

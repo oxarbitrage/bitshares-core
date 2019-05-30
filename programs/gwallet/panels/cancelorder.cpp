@@ -1,5 +1,6 @@
 #include "../include/panels/cancelorder.hpp"
 #include "../include/panels/wallet.hpp"
+#include "../include/panels/cli.hpp"
 
 CancelOrder::CancelOrder(GWallet* gwallet) : wxPanel()
 {
@@ -20,17 +21,36 @@ void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
    }
    else {
       const auto order_id = open_orders_ids[order->GetSelection()];
+      string broadcast_v = "false";
+      if(broadcast->IsChecked())
+         broadcast_v = "true";
 
-      try {
-         auto result = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, false);
-         if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm cancel order?"),
-                                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-            p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, true);
-            Close(true);
-         }
+      signed_transaction result_obj;
+      wxAny response;
+
+      if(cli->IsChecked())
+      {
+         auto command = "cancel_order " + std::string(object_id_type(order_id)) + " " + broadcast_v;
+         p_GWallet->panels.p_cli->command->SetValue(command);
+         wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
+         p_GWallet->panels.p_cli->OnCliCommand(event);
       }
-      catch (const fc::exception &e) {
-         p_GWallet->OnError(this, e.to_detail_string());
+      else
+      {
+         try {
+            auto result_obj = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, false);
+            if(broadcast->IsChecked()) {
+               if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm cancel order?"),
+                     wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+                  result_obj = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, true);
+               }
+            }
+            response = result_obj;
+            new CancelOrderResponse(p_GWallet, response);
+         }
+         catch (const fc::exception &e) {
+            p_GWallet->OnError(this, e.to_detail_string());
+         }
       }
    }
 }
@@ -56,4 +76,45 @@ void CancelOrder::DoOpenOrders()
          open_orders_ids.push_back(limit_order.id);
       }
    }
+}
+
+CancelOrderResponse::CancelOrderResponse(GWallet* gwallet, wxAny any_response)
+{
+   InitWidgetsFromXRC((wxWindow *)gwallet);
+
+   wxAuiPaneInfo info;
+   info.Top();
+   info.Name("Cancel order response");
+   info.Caption("Cancel order response");
+   info.PinButton();
+   info.Position(3);
+   info.MaximizeButton();
+   info.MinimizeButton();
+
+   signed_transaction result = any_response.As<signed_transaction>();
+
+   const auto root = response_tree->AddRoot("Signed Transaction");
+
+   const auto ref_block_num = response_tree->AppendItem(root, "Reference block number");
+   response_tree->AppendItem(ref_block_num, to_string(result.ref_block_num));
+
+   const auto ref_block_prefix = response_tree->AppendItem(root, "Reference block prefix");
+   response_tree->AppendItem(ref_block_prefix, to_string(result.ref_block_prefix));
+
+   const auto expiration = response_tree->AppendItem(root, "Expiration");
+   response_tree->AppendItem(expiration, result.expiration.to_iso_string());
+
+   const auto operations = response_tree->AppendItem(root, "Operations");
+   response_tree->AppendItem(operations, fc::json::to_string(result.operations));
+
+   const auto extensions = response_tree->AppendItem(root, "Extensions");
+   response_tree->AppendItem(extensions, fc::json::to_string(result.extensions));
+
+   const auto signatures = response_tree->AppendItem(root, "Signatures");
+   response_tree->AppendItem(signatures, fc::json::to_string(result.signatures));
+
+   response_tree->ExpandAll();
+
+   gwallet->m_mgr.AddPane(this, info);
+   gwallet->m_mgr.Update();
 }

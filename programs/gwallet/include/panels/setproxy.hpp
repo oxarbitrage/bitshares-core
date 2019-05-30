@@ -1,5 +1,6 @@
 #include <wx/wx.h>
 #include <wx/srchctrl.h>
+#include <wx/treectrl.h>
 #include <wx/xrc/xmlres.h>
 
 class GWallet;
@@ -30,5 +31,18 @@ private:
       voting_account = XRCCTRL(*this,"voting_account",wxSearchCtrl);
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
+   }
+};
+
+class SetProxyResponse: public wxPanel
+{
+public:
+   SetProxyResponse(GWallet* gwallet, wxAny any_response);
+   wxTreeCtrl* response_tree;
+
+private:
+   void InitWidgetsFromXRC(wxWindow *parent){
+         wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxyResponse"), wxT("wxPanel"));
+         response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

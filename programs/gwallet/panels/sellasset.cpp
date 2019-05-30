@@ -1,5 +1,6 @@
 #include "../include/panels/sellasset.hpp"
 #include "../include/panels/wallet.hpp"
+#include "../include/panels/cli.hpp"
 
 SellAsset::SellAsset(GWallet* gwallet) : wxPanel()
 {
@@ -47,6 +48,12 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
    const auto time_value = (time_hour*3600) + (time_minute*60) + time_second;
    auto now = wxDateTime::Now().ToUTC().GetValue().ToLong()/1000;
    uint32_t expiration_value = date_value + time_value - now;
+   string broadcast_v = "false";
+   if(broadcast->IsChecked())
+      broadcast_v = "true";
+   string fill_or_kill_v = "false";
+   if(fill_or_kill->IsChecked())
+      fill_or_kill_v = "true";
 
    try
    {
@@ -59,17 +66,77 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
       return;
    }
 
-   try {
-      auto result = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
-            sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, false);
-      if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm Sell Asset?"),
-            wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-         p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
-               sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, true);
-         Close(true);
+   signed_transaction result_obj;
+   wxAny response;
+
+   if(cli->IsChecked())
+   {
+      auto command = "sell_asset " + seller_value + " " + sell_amount_value + " " + sell_asset_value + " " +
+            receive_amount_value + " " + receive_asset_value + " " + to_string(expiration_value) + " " +
+            " " + fill_or_kill_v + " " + broadcast_v;
+      p_GWallet->panels.p_cli->command->SetValue(command);
+      wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
+      p_GWallet->panels.p_cli->OnCliCommand(event);
+   }
+
+   else
+   {
+      try {
+         auto result_obj = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
+               sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, false);
+         if(broadcast->IsChecked()) {
+            if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm Sell Asset?"),
+                                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+               result_obj = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
+                     sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, true);
+            }
+         }
+         response = result_obj;
+         new SellAssetResponse(p_GWallet, response);
+      }
+      catch (const fc::exception &e) {
+         p_GWallet->OnError(this, e.to_detail_string());
       }
    }
-   catch (const fc::exception &e) {
-      p_GWallet->OnError(this, e.to_detail_string());
-   }
+}
+
+SellAssetResponse::SellAssetResponse(GWallet* gwallet, wxAny any_response)
+{
+   InitWidgetsFromXRC((wxWindow *)gwallet);
+
+   wxAuiPaneInfo info;
+   info.Top();
+   info.Name("Sell asset response");
+   info.Caption("Sell Asset response");
+   info.PinButton();
+   info.Position(3);
+   info.MaximizeButton();
+   info.MinimizeButton();
+
+   signed_transaction result = any_response.As<signed_transaction>();
+
+   const auto root = response_tree->AddRoot("Signed Transaction");
+
+   const auto ref_block_num = response_tree->AppendItem(root, "Reference block number");
+   response_tree->AppendItem(ref_block_num, to_string(result.ref_block_num));
+
+   const auto ref_block_prefix = response_tree->AppendItem(root, "Reference block prefix");
+   response_tree->AppendItem(ref_block_prefix, to_string(result.ref_block_prefix));
+
+   const auto expiration = response_tree->AppendItem(root, "Expiration");
+   response_tree->AppendItem(expiration, result.expiration.to_iso_string());
+
+   const auto operations = response_tree->AppendItem(root, "Operations");
+   response_tree->AppendItem(operations, fc::json::to_string(result.operations));
+
+   const auto extensions = response_tree->AppendItem(root, "Extensions");
+   response_tree->AppendItem(extensions, fc::json::to_string(result.extensions));
+
+   const auto signatures = response_tree->AppendItem(root, "Signatures");
+   response_tree->AppendItem(signatures, fc::json::to_string(result.signatures));
+
+   response_tree->ExpandAll();
+
+   gwallet->m_mgr.AddPane(this, info);
+   gwallet->m_mgr.Update();
 }

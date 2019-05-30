@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <wx/treectrl.h>
 #include <wx/xrc/xmlres.h>
 
 #include "../gwallet.hpp"
@@ -27,5 +28,18 @@ private:
       order = XRCCTRL(*this,"order",wxListBox);
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
+   }
+};
+
+class CancelOrderResponse: public wxPanel
+{
+public:
+   CancelOrderResponse(GWallet* gwallet, wxAny any_response);
+   wxTreeCtrl* response_tree;
+
+private:
+   void InitWidgetsFromXRC(wxWindow *parent){
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrderResponse"), wxT("wxPanel"));
+      response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

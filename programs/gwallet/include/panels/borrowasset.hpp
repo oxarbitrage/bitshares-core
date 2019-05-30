@@ -1,5 +1,6 @@
 #include <wx/wx.h>
 #include <wx/srchctrl.h>
+#include <wx/treectrl.h>
 #include <wx/xrc/xmlres.h>
 
 class GWallet;
@@ -33,3 +34,17 @@ private:
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };
+
+class BorrowAssetResponse: public wxPanel
+{
+public:
+   BorrowAssetResponse(GWallet* gwallet, wxAny any_response);
+   wxTreeCtrl* response_tree;
+
+private:
+   void InitWidgetsFromXRC(wxWindow *parent){
+         wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAssetResponse"), wxT("wxPanel"));
+         response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
+   }
+};
+

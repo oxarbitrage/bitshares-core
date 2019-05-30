@@ -1,5 +1,6 @@
 #include "../include/panels/setproxy.hpp"
 #include "../include/panels/wallet.hpp"
+#include "../include/panels/cli.hpp"
 
 SetProxy::SetProxy(GWallet* gwallet) : wxPanel()
 {
@@ -30,7 +31,6 @@ void SetProxy::OnSearchAccount(wxCommandEvent& event)
 
    wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
    if (dialog.ShowModal() == wxID_OK)
-
       voting_account->SetValue(dialog.GetStringSelection());
 }
 
@@ -54,6 +54,9 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
 {
    const auto account_value = p_GWallet->strings.accounts[account_to_modify->GetCurrentSelection()].ToStdString();
    const auto voting_account_value = voting_account->GetValue().ToStdString();
+   string broadcast_v = "false";
+   if(broadcast->IsChecked())
+      broadcast_v = "true";
 
    try
    {
@@ -66,19 +69,73 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
       return;
    }
 
-   try
+   signed_transaction result_obj;
+   wxAny response;
+
+   if(cli->IsChecked())
    {
-      auto result = p_GWallet->bitshares.wallet_api_ptr->set_voting_proxy(account_value, voting_account_value, false);
-      if (wxYES == wxMessageBox(fc::json::to_pretty_string(result.operations[0]), _("Confirm update of voting account?"),
-            wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
-         p_GWallet->bitshares.wallet_api_ptr->set_voting_proxy(account_value, voting_account_value, true);
-         Close(true);
-      }
+      auto command = "set_voting_proxy " + account_value + " " + voting_account_value + " " + broadcast_v;
+      p_GWallet->panels.p_cli->command->SetValue(command);
+      wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
+      p_GWallet->panels.p_cli->OnCliCommand(event);
    }
-   catch (const fc::exception &e) {
-      p_GWallet->OnError(this, e.to_detail_string());
+   else
+   {
+      try {
+         auto result_obj = p_GWallet->bitshares.wallet_api_ptr->set_voting_proxy(account_value, voting_account_value, false);
+
+         if(broadcast->IsChecked()) {
+            if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]),
+               _("Confirm update of voting account?"), wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+               result_obj = p_GWallet->bitshares.wallet_api_ptr->set_voting_proxy(account_value, voting_account_value, true);
+            }
+            response = result_obj;
+            new SetProxyResponse(p_GWallet, response);
+         }
+      }
+      catch (const fc::exception &e) {
+         p_GWallet->OnError(this, e.to_detail_string());
+      }
    }
 }
 
+SetProxyResponse::SetProxyResponse(GWallet* gwallet, wxAny any_response)
+{
+   InitWidgetsFromXRC((wxWindow *)gwallet);
 
+   wxAuiPaneInfo info;
+   info.Top();
+   info.Name("Set proxy response");
+   info.Caption("Set proxy response");
+   info.PinButton();
+   info.Position(3);
+   info.MaximizeButton();
+   info.MinimizeButton();
 
+   signed_transaction result = any_response.As<signed_transaction>();
+
+   const auto root = response_tree->AddRoot("Signed Transaction");
+
+   const auto ref_block_num = response_tree->AppendItem(root, "Reference block number");
+   response_tree->AppendItem(ref_block_num, to_string(result.ref_block_num));
+
+   const auto ref_block_prefix = response_tree->AppendItem(root, "Reference block prefix");
+   response_tree->AppendItem(ref_block_prefix, to_string(result.ref_block_prefix));
+
+   const auto expiration = response_tree->AppendItem(root, "Expiration");
+   response_tree->AppendItem(expiration, result.expiration.to_iso_string());
+
+   const auto operations = response_tree->AppendItem(root, "Operations");
+   response_tree->AppendItem(operations, fc::json::to_string(result.operations));
+
+   const auto extensions = response_tree->AppendItem(root, "Extensions");
+   response_tree->AppendItem(extensions, fc::json::to_string(result.extensions));
+
+   const auto signatures = response_tree->AppendItem(root, "Signatures");
+   response_tree->AppendItem(signatures, fc::json::to_string(result.signatures));
+
+   response_tree->ExpandAll();
+
+   gwallet->m_mgr.AddPane(this, info);
+   gwallet->m_mgr.Update();
+}
