@@ -17,6 +17,8 @@ Info::Info(GWallet* gwallet) : wxPanel()
 
 void Info::DoInitialData()
 {
+   wxBusyInfo wait(_("Please wait, getting blockchain info ..."));
+
    const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 
    head_block_num->SetLabel(wxNumberFormatter::ToString((long)info["head_block_num"].as_uint64()));

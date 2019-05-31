@@ -27,7 +27,7 @@ protected:
    wxButton* update_proxy;
    wxButton* suggest_brain_key;
    wxButton* get_committee_member;
-
+   wxButton* get_account_history;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent) {
@@ -39,6 +39,7 @@ private:
       update_proxy = XRCCTRL(*this,"update_proxy",wxButton);
       suggest_brain_key = XRCCTRL(*this,"suggest_brain_key",wxButton);
       get_committee_member = XRCCTRL(*this,"get_committee_member",wxButton);
+      get_account_history = XRCCTRL(*this,"get_account_history",wxButton);
    }
 
    void OnTransfer(wxCommandEvent& event);
@@ -48,6 +49,7 @@ private:
    void OnSetProxy(wxCommandEvent& event);
    void OnSuggestBrainKey(wxCommandEvent& event);
    void OnGetCommitteeMember(wxCommandEvent& event);
+   void OnGetAccountHistory(wxCommandEvent& event);
 
    void CloseInformationPane();
 };

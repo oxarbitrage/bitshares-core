@@ -5,6 +5,7 @@
 #include "../include/panels/cancelorder.hpp"
 #include "../include/panels/setproxy.hpp"
 #include "../include/panels/getcommitteemember.hpp"
+#include "../include/panels/getaccounthistory.hpp"
 
 Wallet::Wallet(GWallet* gwallet) : wxPanel()
 {
@@ -18,6 +19,7 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    Connect(XRCID("update_proxy"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSetProxy), NULL, this);
    Connect(XRCID("suggest_brain_key"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSuggestBrainKey), NULL, this);
    Connect(XRCID("get_committee_member"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetCommitteeMember), NULL, this);
+   Connect(XRCID("get_account_history"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetAccountHistory), NULL, this);
 
    if(p_GWallet->bitshares.wallet_api_ptr->is_locked())
       DisableOperations();
@@ -32,6 +34,7 @@ void Wallet::EnableOperations()
    update_proxy->Enable(true);
    suggest_brain_key->Enable(true);
    get_committee_member->Enable(true);
+   get_account_history->Enable(true);
 }
 
 void Wallet::DisableOperations()
@@ -43,6 +46,7 @@ void Wallet::DisableOperations()
    update_proxy->Enable(false);
    suggest_brain_key->Enable(false);
    get_committee_member->Enable(false);
+   get_account_history->Enable(false);
 }
 
 void Wallet::OnTransfer(wxCommandEvent& event)
@@ -166,6 +170,25 @@ void Wallet::OnGetCommitteeMember(wxCommandEvent& event)
    p_GWallet->m_mgr.Update();
 }
 
+void Wallet::OnGetAccountHistory(wxCommandEvent& event)
+{
+   GetAccountHistory *ah = new GetAccountHistory(p_GWallet);
+
+   CloseInformationPane();
+
+   wxAuiPaneInfo info;
+   info.Top();
+   info.Name("Account history");
+   info.Caption("Account history");
+   info.PinButton();
+   info.Position(2);
+   info.MaximizeButton();
+   info.MinimizeButton();
+
+   p_GWallet->m_mgr.AddPane(ah, info);
+   p_GWallet->m_mgr.Update();
+}
+
 void Wallet::CloseInformationPane()
 {
    if(p_GWallet->m_mgr.GetPane("Information").IsOk()) {
@@ -173,4 +196,5 @@ void Wallet::CloseInformationPane()
       p_GWallet->m_mgr.DetachPane(wnd);
       wnd->Destroy();
    }
+   p_GWallet->menubar->Check(XRCID("m_view_info"), false);
 }

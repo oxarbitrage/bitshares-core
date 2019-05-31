@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
     <object class="wxPanel" name="Wallet">
-        <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
+        <style>wxBORDER_SUNKEN|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
         <size>1200, 800</size>
         <object class="wxStaticBoxSizer">
@@ -14,7 +14,7 @@
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -23,7 +23,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="transfer">
@@ -42,7 +42,7 @@
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -51,7 +51,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="sell_asset">
@@ -70,7 +70,7 @@
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -79,7 +79,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="borrow_asset">
@@ -98,7 +98,7 @@
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -107,7 +107,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="cancel_order">
@@ -126,7 +126,7 @@
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -135,7 +135,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="update_proxy">
@@ -154,7 +154,7 @@
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -163,7 +163,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="suggest_brain_key">
@@ -176,13 +176,13 @@
                 </object>
             </object>
             <object class="sizeritem">
-                <option>1</option>
+                <option>0</option>
                 <flag>wxALL|wxEXPAND</flag>
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>8</option>
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
@@ -191,7 +191,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>2</option>
+                        <option>4</option>
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="get_committee_member">
@@ -203,7 +203,34 @@
                     </object>
                 </object>
             </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <option>8</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="wxID_STATIC">
+                            <label>Returns the most recent operations on the named account.</label>
+                            <wrap>-1</wrap>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <option>4</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="get_account_history">
+                            <label>Get account history</label>
+                            <default>0</default>
+                            <markup>0</markup>
+                            <bitmap />
+                        </object>
+                    </object>
+                </object>
+            </object>
         </object>
     </object>
 </resource>
-

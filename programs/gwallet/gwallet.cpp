@@ -13,18 +13,6 @@
 #include "include/panels/wallet.hpp"
 #include "include/panels/dashboard.hpp"
 
-#include <wx/stattext.h>
-#include <wx/statline.h>
-#include <wx/busyinfo.h>
-#include <wx/listctrl.h>
-#include <wx/combobox.h>
-#include <wx/notebook.h>
-#include <wx/filename.h>
-#include <wx/stdpaths.h>
-#include <wx/hyperlink.h>
-#include <wx/filedlg.h>
-#include <wx/filectrl.h>
-
 GWallet::GWallet(const wxString& title)
 {
    DoInitialConfig();
@@ -389,16 +377,15 @@ void GWallet::DoModes()
 
    Wallet *wallet = new Wallet(this);
    panels.p_wallet = wallet;
-
-   Info *information = new Info(this);
-   panels.p_info = information;
+   CreateWalletPane(wallet);
 
    Cli *cli = new Cli(this);
    panels.p_cli = cli;
-
-   CreateWalletPane(wallet);
-   CreateInfoPane(information);
    CreateCliPane(cli);
+
+   Info *information = new Info(this);
+   panels.p_info = information;
+   CreateInfoPane(information);
 
    m_mgr.Update();
 }
@@ -417,7 +404,7 @@ void GWallet::CreateWalletPane(Wallet* wallet)
    info.Caption(_("Wallet"));
    info.Position(0);
    //info.Row(1);
-   auto width = this->GetClientSize().x/2;
+   auto width = this->GetClientSize().x/3;
    auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
    info.BestSize(width, height);
@@ -446,7 +433,7 @@ void GWallet::CreateInfoPane(Info* information)
    info.Caption(_("Information"));
    info.Position(1);
    //info.Row(1);
-   auto width = this->GetClientSize().x/2;
+   auto width = this->GetClientSize().x - this->GetClientSize().x/3;
    auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
    info.BestSize(width, height);

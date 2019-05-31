@@ -4,7 +4,6 @@
 #include <wx/numformatter.h>
 #include <wx/xrc/xmlres.h>
 
-//#include "../gwallet.hpp"
 class GWallet;
 
 class GetCommitteeMember: public wxPanel

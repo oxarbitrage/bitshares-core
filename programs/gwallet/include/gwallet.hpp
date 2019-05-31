@@ -9,8 +9,14 @@
 #include <wx/config.h>
 #include <wx/grid.h>
 #include <wx/xrc/xmlres.h>
-
 #include <wx/aui/aui.h>
+
+#include <wx/busyinfo.h>
+#include <wx/filename.h>
+#include <wx/stdpaths.h>
+#include <wx/hyperlink.h>
+#include <wx/filedlg.h>
+#include <wx/filectrl.h>
 
 class Info;
 class Cli;
@@ -31,7 +37,6 @@ struct States {
    bool is_account_linked = false;
    bool modes_created = false;
 };
-
 
 struct Panels {
    Info* p_info;
@@ -84,6 +89,7 @@ public:
    Welcome welcome;
 
    wxAuiManager m_mgr;
+   wxMenuBar* menubar;
 
    ~GWallet()
    {
@@ -91,8 +97,6 @@ public:
    }
 
 protected:
-
-   wxMenuBar* menubar;
    wxToolBar* toolbar;
 
    wxComboBox* t_accounts;
@@ -101,9 +105,7 @@ protected:
 
    wxPanel* main_panel;
 
-
 private:
-
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("GWallet"), wxT("wxFrame"));
       menubar = XRCCTRL(*this,"menubar",wxMenuBar);
@@ -151,6 +153,4 @@ private:
    void CreateCliPane(Cli* cli);
 
    void OnPanelClose(wxAuiManagerEvent& event);
-
 };
-
