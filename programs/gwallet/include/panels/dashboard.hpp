@@ -14,7 +14,6 @@ public:
    }
    GWallet* p_GWallet;
 
-
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("Dashboard"), wxT("wxPanel"));

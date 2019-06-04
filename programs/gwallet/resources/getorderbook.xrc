@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-    <object class="wxPanel" name="GetAccountHistory">
+    <object class="wxPanel" name="GetOrderBook">
         <style>wxBORDER_SUNKEN|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
         <size>-1,-1</size>
@@ -8,7 +8,7 @@
             <orient>wxVERTICAL</orient>
             <object class="spacer">
                 <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <flag></flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
@@ -29,7 +29,8 @@
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="m_staticText1">
-                            <label>Returns the most recent operations on the named account.</label>
+                            <style>wxALIGN_CENTER_HORIZONTAL</style>
+                            <label>Return the order book for a given market</label>
                             <wrap>-1</wrap>
                         </object>
                     </object>
@@ -44,7 +45,7 @@
             <object class="sizeritem">
                 <option>0</option>
                 <flag>wxEXPAND</flag>
-                <border>0</border>
+                <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
@@ -58,7 +59,7 @@
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="m_staticText2">
-                            <label>Account name</label>
+                            <label>Market</label>
                             <wrap>-1</wrap>
                         </object>
                     </object>
@@ -79,27 +80,45 @@
                     <object class="spacer">
                         <option>1</option>
                         <flag>wxEXPAND</flag>
-                        <border>0</border>
+                        <border>5</border>
                         <size>0,0</size>
                     </object>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>5</option>
                         <flag>wxALL</flag>
                         <border>0</border>
-                        <object class="wxSearchCtrl" name="name">
+                        <object class="wxSearchCtrl" name="base">
+                            <value></value>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <option>0</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="m_staticText4">
+                            <label>/</label>
+                            <wrap>-1</wrap>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <option>5</option>
+                        <flag>wxALL</flag>
+                        <border>0</border>
+                        <object class="wxSearchCtrl" name="quote">
+                            <value></value>
                         </object>
                     </object>
                     <object class="spacer">
                         <option>1</option>
                         <flag>wxEXPAND</flag>
-                        <border>0</border>
+                        <border>5</border>
                         <size>0,0</size>
                     </object>
                 </object>
             </object>
             <object class="spacer">
                 <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <flag>wxEXPAND</flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
@@ -135,7 +154,7 @@
             <object class="sizeritem">
                 <option>0</option>
                 <flag>wxEXPAND</flag>
-                <border>5</border>
+                <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
@@ -201,56 +220,6 @@
                                 <item>48</item>
                                 <item>49</item>
                                 <item>50</item>
-                                <item>51</item>
-                                <item>52</item>
-                                <item>53</item>
-                                <item>54</item>
-                                <item>55</item>
-                                <item>56</item>
-                                <item>57</item>
-                                <item>58</item>
-                                <item>59</item>
-                                <item>60</item>
-                                <item>61</item>
-                                <item>62</item>
-                                <item>63</item>
-                                <item>64</item>
-                                <item>65</item>
-                                <item>66</item>
-                                <item>67</item>
-                                <item>68</item>
-                                <item>69</item>
-                                <item>70</item>
-                                <item>71</item>
-                                <item>72</item>
-                                <item>73</item>
-                                <item>74</item>
-                                <item>75</item>
-                                <item>76</item>
-                                <item>77</item>
-                                <item>78</item>
-                                <item>79</item>
-                                <item>80</item>
-                                <item>81</item>
-                                <item>82</item>
-                                <item>83</item>
-                                <item>84</item>
-                                <item>85</item>
-                                <item>86</item>
-                                <item>87</item>
-                                <item>88</item>
-                                <item>89</item>
-                                <item>90</item>
-                                <item>91</item>
-                                <item>92</item>
-                                <item>93</item>
-                                <item>94</item>
-                                <item>95</item>
-                                <item>96</item>
-                                <item>97</item>
-                                <item>98</item>
-                                <item>99</item>
-                                <item>100</item>
                             </content>
                         </object>
                     </object>
@@ -264,14 +233,14 @@
             </object>
             <object class="spacer">
                 <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <flag></flag>
                 <border>2</border>
                 <size>5,5</size>
             </object>
             <object class="sizeritem">
                 <option>0</option>
                 <flag>wxEXPAND</flag>
-                <border>5</border>
+                <border>0</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="spacer">
@@ -312,12 +281,12 @@
                     <object class="spacer">
                         <option>1</option>
                         <flag>wxEXPAND</flag>
-                        <border>0</border>
+                        <border>5</border>
                         <size>0,0</size>
                     </object>
                     <object class="sizeritem">
                         <option>10</option>
-                        <flag>wxEXPAND | wxALL</flag>
+                        <flag>wxALL|wxEXPAND</flag>
                         <border>0</border>
                         <object class="wxStaticLine" name="m_staticline1">
                             <style>wxLI_HORIZONTAL</style>
@@ -326,7 +295,7 @@
                     <object class="spacer">
                         <option>1</option>
                         <flag>wxEXPAND</flag>
-                        <border>0</border>
+                        <border>5</border>
                         <size>0,0</size>
                     </object>
                 </object>
@@ -354,7 +323,7 @@
             </object>
         </object>
     </object>
-    <object class="wxPanel" name="GetAccountHistoryResponse">
+    <object class="wxPanel" name="GetOrderBookResponse">
         <style>wxBORDER_SUNKEN|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
         <object class="wxBoxSizer">

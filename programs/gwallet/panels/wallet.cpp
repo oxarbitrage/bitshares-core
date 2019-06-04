@@ -6,6 +6,9 @@
 #include "../include/panels/setproxy.hpp"
 #include "../include/panels/getcommitteemember.hpp"
 #include "../include/panels/getaccounthistory.hpp"
+#include "../include/panels/getorderbook.hpp"
+
+#include "../include/panels/commands.hpp"
 
 Wallet::Wallet(GWallet* gwallet) : wxPanel()
 {
@@ -20,6 +23,7 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    Connect(XRCID("suggest_brain_key"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSuggestBrainKey), NULL, this);
    Connect(XRCID("get_committee_member"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetCommitteeMember), NULL, this);
    Connect(XRCID("get_account_history"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetAccountHistory), NULL, this);
+   Connect(XRCID("get_order_book"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetOrderBook), NULL, this);
 
    if(p_GWallet->bitshares.wallet_api_ptr->is_locked())
       DisableOperations();
@@ -35,6 +39,7 @@ void Wallet::EnableOperations()
    suggest_brain_key->Enable(true);
    get_committee_member->Enable(true);
    get_account_history->Enable(true);
+   get_order_book->Enable(true);
 }
 
 void Wallet::DisableOperations()
@@ -47,102 +52,42 @@ void Wallet::DisableOperations()
    suggest_brain_key->Enable(false);
    get_committee_member->Enable(false);
    get_account_history->Enable(false);
+   get_order_book->Enable(false);
 }
 
 void Wallet::OnTransfer(wxCommandEvent& event)
 {
+   OpenCommandsPane();
    Transfer *transfer = new Transfer(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.PinButton();
-   info.Caption(_("Transfer"));
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-   info.Name("Transfer");
-
-   p_GWallet->m_mgr.AddPane(transfer, info);
-   p_GWallet->m_mgr.Update();
+   p_GWallet->panels.p_commands->notebook->AddPage(transfer, "Transfer");
 }
 
 void Wallet::OnSellAsset(wxCommandEvent& event)
 {
-   SellAsset *sellasset = new SellAsset(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Sell Asset");
-   info.Caption("Sell Asset");
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
-   p_GWallet->m_mgr.AddPane(sellasset, info);
-   p_GWallet->m_mgr.Update();
+   OpenCommandsPane();
+   SellAsset *sell_asset = new SellAsset(p_GWallet);
+   p_GWallet->panels.p_commands->notebook->AddPage(sell_asset, "Sell Asset");
 }
 
 void Wallet::OnBorrowAsset(wxCommandEvent& event)
 {
+   OpenCommandsPane();
    BorrowAsset *borrow_asset = new BorrowAsset(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Borrow Asset");
-   info.Caption("Borrow Asset");
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
-   p_GWallet->m_mgr.AddPane(borrow_asset, info);
-   p_GWallet->m_mgr.Update();
+   p_GWallet->panels.p_commands->notebook->AddPage(borrow_asset, "Borrow Asset");
 }
 
 void Wallet::OnCancelOrder(wxCommandEvent& event)
 {
+   OpenCommandsPane();
    CancelOrder *cancel_order = new CancelOrder(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Cancel Order");
-   info.Caption("Cancel Order");
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
-   p_GWallet->m_mgr.AddPane(cancel_order, info);
-   p_GWallet->m_mgr.Update();
+   p_GWallet->panels.p_commands->notebook->AddPage(cancel_order, "Cancel order");
 }
 
 void Wallet::OnSetProxy(wxCommandEvent& event)
 {
+   OpenCommandsPane();
    SetProxy *set_proxy = new SetProxy(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Set proxy");
-   info.Caption("Set proxy");
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
-   p_GWallet->m_mgr.AddPane(set_proxy, info);
-   p_GWallet->m_mgr.Update();
+   p_GWallet->panels.p_commands->notebook->AddPage(set_proxy, "Set proxy");
 }
 
 void Wallet::OnSuggestBrainKey(wxCommandEvent& event)
@@ -153,48 +98,33 @@ void Wallet::OnSuggestBrainKey(wxCommandEvent& event)
 
 void Wallet::OnGetCommitteeMember(wxCommandEvent& event)
 {
-   GetCommitteeMember *cm = new GetCommitteeMember(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Committee member");
-   info.Caption("Committee member");
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
-   p_GWallet->m_mgr.AddPane(cm, info);
-   p_GWallet->m_mgr.Update();
+   OpenCommandsPane();
+   GetCommitteeMember *committee_member = new GetCommitteeMember(p_GWallet);
+   p_GWallet->panels.p_commands->notebook->AddPage(committee_member, "Committee member");
 }
 
 void Wallet::OnGetAccountHistory(wxCommandEvent& event)
 {
-   GetAccountHistory *ah = new GetAccountHistory(p_GWallet);
-
-   CloseInformationPane();
-
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Account history");
-   info.Caption("Account history");
-   info.PinButton();
-   info.Position(2);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
-   p_GWallet->m_mgr.AddPane(ah, info);
-   p_GWallet->m_mgr.Update();
+   OpenCommandsPane();
+   GetAccountHistory *account_history = new GetAccountHistory(p_GWallet);
+   p_GWallet->panels.p_commands->notebook->AddPage(account_history, "Account history");
 }
 
-void Wallet::CloseInformationPane()
+void Wallet::OnGetOrderBook(wxCommandEvent& event)
 {
-   if(p_GWallet->m_mgr.GetPane("Information").IsOk()) {
-      wxWindow* wnd = p_GWallet->m_mgr.GetPane("Information").window;
-      p_GWallet->m_mgr.DetachPane(wnd);
-      wnd->Destroy();
+   OpenCommandsPane();
+   GetOrderBook *order_book = new GetOrderBook(p_GWallet);
+   p_GWallet->panels.p_commands->notebook->AddPage(order_book, "Order book");
+}
+
+void Wallet::OpenCommandsPane()
+{
+   if(!p_GWallet->m_mgr.GetPane("Commands").IsShown()) {
+      Commands *commands = new Commands(p_GWallet);
+      p_GWallet->panels.p_commands = commands;
+      p_GWallet->CreateCommandsPane(commands);
+      p_GWallet->m_mgr.Update();
+
+      p_GWallet->menubar->Check(XRCID("m_view_commands"), true);
    }
-   p_GWallet->menubar->Check(XRCID("m_view_info"), false);
 }

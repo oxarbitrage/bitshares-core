@@ -9,9 +9,9 @@
 #include "include/panels/info.hpp"
 #include "include/panels/cli.hpp"
 #include "include/panels/sendreceive.hpp"
-#include "include/panels/history.hpp"
 #include "include/panels/wallet.hpp"
 #include "include/panels/dashboard.hpp"
+#include "include/panels/commands.hpp"
 
 GWallet::GWallet(const wxString& title)
 {
@@ -102,19 +102,17 @@ void GWallet::OnQuit(wxCommandEvent& WXUNUSED(event))
 
 void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
 {
-   wxWindowDisabler disableAll;
-   wxBusyInfo wait(_("Please wait, connecting ..."));
-   wxTheApp->Yield();
-
    wxString path;
    wxString server;
    if (config->Read("WalletPath", &path) && config->Read("Server", &server)) {
-
       try {
+         wxWindowDisabler disableAll;
+         wxBusyInfo wait(_("Please wait, connecting ..."));
+         wxTheApp->Yield();
          bitshares.Connect(server.ToStdString(), path.ToStdString());
       }
       catch(const fc::exception &e) {
-         OnError(this, _("Problem at connecting, please try again ..."));
+         OnError(this, _("Problem connecting to: \n\n" + server + "\n\nPlease try again or change server."));
          return;
       }
 
@@ -369,7 +367,7 @@ void GWallet::DoAccounts()
 void GWallet::DoModes()
 {
    Dashboard *dashboard = new Dashboard(this);
-   dashboard->SetSize(this->GetClientSize().x - 10, this->GetClientSize().y - 10);
+   dashboard->SetSize(this->GetClientSize().x, this->GetClientSize().y);
    dashboard->Center();
 
    m_mgr.SetManagedWindow(dashboard);
@@ -385,7 +383,12 @@ void GWallet::DoModes()
 
    Info *information = new Info(this);
    panels.p_info = information;
-   CreateInfoPane(information);
+
+   Commands *commands = new Commands(this);
+   panels.p_commands = commands;
+   commands->notebook->AddPage(information, "Information");
+
+   CreateCommandsPane(commands);
 
    m_mgr.Update();
 }
@@ -419,10 +422,10 @@ void GWallet::CreateWalletPane(Wallet* wallet)
    m_mgr.AddPane(wallet, info);
 }
 
-void GWallet::CreateInfoPane(Info* information)
+void GWallet::CreateCommandsPane(Commands* commands)
 {
-   if(m_mgr.GetPane("Information").IsOk()) {
-      wxWindow* wnd = m_mgr.GetPane("Information").window;
+   if(m_mgr.GetPane("Commands").IsOk()) {
+      wxWindow* wnd = m_mgr.GetPane("Commands").window;
       m_mgr.DetachPane(wnd);
       wnd->Destroy();
    }
@@ -430,7 +433,7 @@ void GWallet::CreateInfoPane(Info* information)
    wxAuiPaneInfo info;
    info.Top();
    info.PinButton();
-   info.Caption(_("Information"));
+   info.Caption(_("Commands"));
    info.Position(1);
    //info.Row(1);
    auto width = this->GetClientSize().x - this->GetClientSize().x/3;
@@ -442,10 +445,10 @@ void GWallet::CreateInfoPane(Info* information)
    info.PinButton();
    info.MaximizeButton();
    info.MinimizeButton();
-   info.Name("Information");
+   info.Name("Commands");
    info.Dock();
 
-   m_mgr.AddPane(information, info);
+   m_mgr.AddPane(commands, info);
 }
 
 void GWallet::CreateCliPane(Cli* cli)
@@ -460,8 +463,7 @@ void GWallet::CreateCliPane(Cli* cli)
    info.Bottom();
    info.PinButton();
    info.Caption(_("Cli"));
-   info.Position(0);
-   info.Row(2);
+   info.Position(3);
    auto width = this->GetClientSize().x;
    info.MinSize(width, this->GetClientSize().y/4);
    info.BestSize(width, this->GetClientSize().y/4);
@@ -496,14 +498,25 @@ void GWallet::LoadWelcomeWidget()
    welcome.wizard->RunWizard(welcome.page1);
 }
 
-void GWallet::OnViewInfo(wxCommandEvent& WXUNUSED(event))
+void GWallet::OnViewWelcome(wxCommandEvent& WXUNUSED(event))
 {
-   if(menubar->IsChecked(XRCID("m_view_info"))) {
-      Info *information = new Info(this);
-      CreateInfoPane(information);
+   if(menubar->IsChecked(XRCID("m_view_welcome"))) {
+      main_panel->Raise();
    }
    else {
-      wxWindow* wnd = m_mgr.GetPane("Information").window;
+      main_panel->Lower();
+   }
+}
+
+void GWallet::OnViewCommands(wxCommandEvent& WXUNUSED(event))
+{
+   if(menubar->IsChecked(XRCID("m_view_commands"))) {
+      Commands *commands = new Commands(this);
+      panels.p_commands = commands;
+      CreateCommandsPane(commands);
+   }
+   else {
+      wxWindow* wnd = m_mgr.GetPane("Commands").window;
       m_mgr.DetachPane(wnd);
       wnd->Destroy();
    }
@@ -514,6 +527,7 @@ void GWallet::OnViewWallet(wxCommandEvent& WXUNUSED(event))
 {
    if(menubar->IsChecked(XRCID("m_view_wallet"))) {
       Wallet *wallet = new Wallet(this);
+      panels.p_wallet = wallet;
       CreateWalletPane(wallet);
    }
    else {
@@ -528,6 +542,7 @@ void GWallet::OnViewCli(wxCommandEvent& WXUNUSED(event))
 {
    if(menubar->IsChecked(XRCID("m_view_cli"))) {
       Cli *cli = new Cli(this);
+      panels.p_cli = cli;
       CreateCliPane(cli);
    }
    else {
@@ -542,8 +557,8 @@ void GWallet::OnPanelClose(wxAuiManagerEvent& event)
 {
    const auto name = event.GetPane()->name;
 
-   if(name == "Information")
-      menubar->Check(XRCID("m_view_info"), false);
+   if(name == "Commands")
+      menubar->Check(XRCID("m_view_commands"), false);
    if(name == "Wallet")
       menubar->Check(XRCID("m_view_wallet"), false);
    if(name == "Cli")
@@ -559,7 +574,8 @@ void GWallet::CreateEvents()
    Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnQuit));
    Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnAbout));
 
-   Connect(XRCID("m_view_info"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewInfo));
+   Connect(XRCID("m_view_welcome"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewWelcome));
+   Connect(XRCID("m_view_commands"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewCommands));
    Connect(XRCID("m_view_wallet"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewWallet));
    Connect(XRCID("m_view_cli"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnViewCli));
 
@@ -680,13 +696,13 @@ void GWallet::DoState() {
       toolbar->EnableTool(XRCID("t_unlock"), false);
       toolbar->EnableTool(XRCID("t_importkey"), false);
 
-      menubar->Check(XRCID("m_welcome"), false);
-      menubar->Check(XRCID("m_view_info"), true);
+      menubar->Check(XRCID("m_view_welcome"), false);
+      menubar->Check(XRCID("m_view_commands"), true);
       menubar->Check(XRCID("m_view_wallet"), true);
       menubar->Check(XRCID("m_view_cli"), true);
 
-      menubar->Enable(XRCID("m_welcome"), true);
-      menubar->Enable(XRCID("m_view_info"), true);
+      menubar->Enable(XRCID("m_view_welcome"), true);
+      menubar->Enable(XRCID("m_view_commands"), true);
       menubar->Enable(XRCID("m_view_wallet"), true);
       menubar->Enable(XRCID("m_view_cli"), true);
 

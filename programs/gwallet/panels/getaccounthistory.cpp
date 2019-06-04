@@ -1,6 +1,7 @@
 #include "../include/panels/getaccounthistory.hpp"
 #include "../include/panels/wallet.hpp"
 #include "../include/panels/cli.hpp"
+#include "../include/panels/commands.hpp"
 
 GetAccountHistory::GetAccountHistory(GWallet* gwallet)
 {
@@ -63,6 +64,7 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
+   /*
    wxAuiPaneInfo info;
    info.Top();
    info.Name("Account history response");
@@ -71,6 +73,7 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
    info.Position(3);
    info.MaximizeButton();
    info.MinimizeButton();
+    */
 
    response_grid->CreateGrid(10, 5);
 
@@ -83,7 +86,7 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
    response_grid->DeleteRows(0, 25);
 
    auto results = any_response.As<vector<graphene::wallet::operation_detail>>();
-   
+
    auto z = 0;
 
    response_grid->BeginBatch();
@@ -107,7 +110,7 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
    response_grid->ForceRefresh();
    response_grid->EndBatch();
 
-   gwallet->m_mgr.AddPane(this, info);
-   gwallet->m_mgr.Update();
-
+   //gwallet->m_mgr.AddPane(this, info);
+   //gwallet->m_mgr.Update();
+   gwallet->panels.p_commands->notebook->AddPage(this, "Account history response");
 }

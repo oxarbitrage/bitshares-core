@@ -1,6 +1,7 @@
 #include "../include/panels/sellasset.hpp"
 #include "../include/panels/wallet.hpp"
 #include "../include/panels/cli.hpp"
+#include "../include/panels/commands.hpp"
 
 SellAsset::SellAsset(GWallet* gwallet) : wxPanel()
 {
@@ -104,15 +105,6 @@ SellAssetResponse::SellAssetResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Sell asset response");
-   info.Caption("Sell Asset response");
-   info.PinButton();
-   info.Position(3);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
    signed_transaction result = any_response.As<signed_transaction>();
 
    const auto root = response_tree->AddRoot("Signed Transaction");
@@ -137,6 +129,5 @@ SellAssetResponse::SellAssetResponse(GWallet* gwallet, wxAny any_response)
 
    response_tree->ExpandAll();
 
-   gwallet->m_mgr.AddPane(this, info);
-   gwallet->m_mgr.Update();
+   gwallet->panels.p_commands->notebook->AddPage(this, "Sell asset response");
 }

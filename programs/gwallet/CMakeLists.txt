@@ -10,12 +10,13 @@ add_executable( gwallet
         panels/setproxy.cpp
         panels/getcommitteemember.cpp
 		panels/getaccounthistory.cpp
+		panels/getorderbook.cpp
 		panels/info.cpp
         panels/wallet.cpp
         panels/cli.cpp
         panels/sendreceive.cpp
-        panels/history.cpp
         panels/dashboard.cpp
+		panels/commands.cpp
 
 		wizards/welcome.cpp
 		)

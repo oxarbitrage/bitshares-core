@@ -205,39 +205,17 @@
         </object>
     </object>
     <object class="wxPanel" name="GetCommitteeMemberResponse">
-        <style>wxSUNKEN_BORDER|wxTAB_TRAVERSAL</style>
-        <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
+        <style>wxTAB_TRAVERSAL</style>
+        <size>500,300</size>
         <object class="wxBoxSizer">
-            <orient>wxHORIZONTAL</orient>
-            <object class="spacer">
-                <option>1</option>
-                <flag>wxEXPAND</flag>
-                <border>5</border>
-                <size>0,0</size>
-            </object>
+            <orient>wxVERTICAL</orient>
             <object class="sizeritem">
-                <option>10</option>
-                <flag>wxEXPAND</flag>
-                <border>5</border>
-                <object class="wxStaticBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <label>Response</label>
-                    <object class="sizeritem">
-                        <option>1</option>
-                        <flag>wxALL</flag>
-                        <border>5</border>
-                        <object class="wxTreeCtrl" name="response_tree">
-                            <style>wxTR_DEFAULT_STYLE|wxBORDER_STATIC</style>
-                            <bg>#f0f0f0</bg>
-                        </object>
-                    </object>
-                </object>
-            </object>
-            <object class="spacer">
                 <option>1</option>
-                <flag>wxEXPAND</flag>
+                <flag>wxALL|wxEXPAND</flag>
                 <border>5</border>
-                <size>0,0</size>
+                <object class="wxTreeCtrl" name="response_tree">
+                    <style>wxTR_DEFAULT_STYLE|wxBORDER_STATIC</style>
+                </object>
             </object>
         </object>
     </object>

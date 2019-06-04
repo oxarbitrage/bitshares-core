@@ -28,6 +28,7 @@ protected:
    wxButton* suggest_brain_key;
    wxButton* get_committee_member;
    wxButton* get_account_history;
+   wxButton* get_order_book;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent) {
@@ -40,6 +41,7 @@ private:
       suggest_brain_key = XRCCTRL(*this,"suggest_brain_key",wxButton);
       get_committee_member = XRCCTRL(*this,"get_committee_member",wxButton);
       get_account_history = XRCCTRL(*this,"get_account_history",wxButton);
+      get_order_book = XRCCTRL(*this,"get_order_book",wxButton);
    }
 
    void OnTransfer(wxCommandEvent& event);
@@ -50,6 +52,7 @@ private:
    void OnSuggestBrainKey(wxCommandEvent& event);
    void OnGetCommitteeMember(wxCommandEvent& event);
    void OnGetAccountHistory(wxCommandEvent& event);
+   void OnGetOrderBook(wxCommandEvent& event);
 
-   void CloseInformationPane();
+   void OpenCommandsPane();
 };

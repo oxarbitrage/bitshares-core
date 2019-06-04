@@ -17,12 +17,14 @@
 #include <wx/hyperlink.h>
 #include <wx/filedlg.h>
 #include <wx/filectrl.h>
+#include <wx/xrc/xh_auinotbk.h>
 
 class Info;
 class Cli;
 class SendReceive;
-class History;
 class Wallet;
+
+class Commands;
 
 class Welcome2;
 class Welcome3;
@@ -42,8 +44,8 @@ struct Panels {
    Info* p_info;
    Cli* p_cli;
    Wallet* p_wallet;
+   Commands* p_commands;
 };
-
 
 struct Strings {
    wxStaticText* main;
@@ -96,6 +98,8 @@ public:
       m_mgr.UnInit();
    }
 
+   void CreateCommandsPane(Commands* commands);
+
 protected:
    wxToolBar* toolbar;
 
@@ -144,12 +148,12 @@ private:
    void SelectLanguage(int lang);
    wxLocale* m_locale;
 
-   void OnViewInfo(wxCommandEvent& event);
+   void OnViewWelcome(wxCommandEvent& event);
+   void OnViewCommands(wxCommandEvent& event);
    void OnViewWallet(wxCommandEvent& event);
    void OnViewCli(wxCommandEvent& event);
 
    void CreateWalletPane(Wallet* wallet);
-   void CreateInfoPane(Info* info);
    void CreateCliPane(Cli* cli);
 
    void OnPanelClose(wxAuiManagerEvent& event);

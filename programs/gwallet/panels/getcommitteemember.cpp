@@ -1,6 +1,7 @@
 #include "../include/panels/getcommitteemember.hpp"
 #include "../include/panels/wallet.hpp"
 #include "../include/panels/cli.hpp"
+#include "../include/panels/commands.hpp"
 
 GetCommitteeMember::GetCommitteeMember(GWallet* gwallet)
 {
@@ -59,15 +60,6 @@ GetCommitteeMemberResponse::GetCommitteeMemberResponse(GWallet* gwallet, wxAny a
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Committee member response");
-   info.Caption("Committee member response");
-   info.PinButton();
-   info.Position(3);
-   info.MaximizeButton();
-   info.MinimizeButton();
-
    committee_member_object result = any_response.As<committee_member_object>();
 
    const auto root = response_tree->AddRoot("Committee member object");
@@ -89,7 +81,6 @@ GetCommitteeMemberResponse::GetCommitteeMemberResponse(GWallet* gwallet, wxAny a
 
    response_tree->ExpandAll();
 
-   gwallet->m_mgr.AddPane(this, info);
-   gwallet->m_mgr.Update();
+   gwallet->panels.p_commands->notebook->AddPage(this, "Committee member response");
 }
 

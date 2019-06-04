@@ -67,7 +67,7 @@
             <object class="wxMenu" name="m_menu3">
                 <label>View</label>
                 <object class="separator" />
-                <object class="wxMenuItem" name="m_welcome">
+                <object class="wxMenuItem" name="m_view_welcome">
                     <label>Welcome</label>
                     <help></help>
                     <checkable>1</checkable>
@@ -75,8 +75,8 @@
                     <enabled>0</enabled>
                 </object>
                 <object class="separator" />
-                <object class="wxMenuItem" name="m_view_info">
-                    <label>Blockchain information</label>
+                <object class="wxMenuItem" name="m_view_commands">
+                    <label>Commands</label>
                     <help></help>
                     <checkable>1</checkable>
                     <checked>0</checked>
@@ -215,7 +215,7 @@
                     <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                     <border>5</border>
                     <object class="wxStaticText" name="wxID_STATIC">
-                        <label>Version 0.2.0</label>
+                        <label>Version 0.3.0</label>
                         <wrap>-1</wrap>
                     </object>
                 </object>

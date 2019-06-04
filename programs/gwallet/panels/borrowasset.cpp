@@ -1,6 +1,7 @@
 #include "../include/panels/borrowasset.hpp"
 #include "../include/panels/wallet.hpp"
 #include "../include/panels/cli.hpp"
+#include "../include/panels/commands.hpp"
 
 BorrowAsset::BorrowAsset(GWallet* gwallet) : wxPanel()
 {
@@ -86,6 +87,7 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
+   /*
    wxAuiPaneInfo info;
    info.Top();
    info.Name("Sell asset response");
@@ -94,6 +96,7 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
    info.Position(3);
    info.MaximizeButton();
    info.MinimizeButton();
+    */
 
    signed_transaction result = any_response.As<signed_transaction>();
 
@@ -119,6 +122,7 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
 
    response_tree->ExpandAll();
 
-   gwallet->m_mgr.AddPane(this, info);
-   gwallet->m_mgr.Update();
+   gwallet->panels.p_commands->notebook->AddPage(this, "Sell asset response");
+   //gwallet->m_mgr.AddPane(this, info);
+   //gwallet->m_mgr.Update();
 }
