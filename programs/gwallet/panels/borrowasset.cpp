@@ -87,17 +87,6 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
-   /*
-   wxAuiPaneInfo info;
-   info.Top();
-   info.Name("Sell asset response");
-   info.Caption("Sell Asset response");
-   info.PinButton();
-   info.Position(3);
-   info.MaximizeButton();
-   info.MinimizeButton();
-    */
-
    signed_transaction result = any_response.As<signed_transaction>();
 
    const auto root = response_tree->AddRoot("Signed Transaction");
@@ -123,6 +112,4 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
    response_tree->ExpandAll();
 
    gwallet->panels.p_commands->notebook->AddPage(this, "Sell asset response");
-   //gwallet->m_mgr.AddPane(this, info);
-   //gwallet->m_mgr.Update();
 }

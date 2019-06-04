@@ -1,24 +1,25 @@
 #include <wx/wx.h>
+#include <wx/srchctrl.h>
+#include <wx/xrc/xmlres.h>
 
-#include "../gwallet.hpp"
+class GWallet;
 
 class ImportKeyDialog : public wxDialog {
 protected:
-   wxTextCtrl* account;
+   GWallet* p_GWallet;
+
+   wxSearchCtrl* account;
    wxTextCtrl* key;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("ImportKeyDialog"), wxT("wxDialog"));
-      account = XRCCTRL(*this,"account",wxTextCtrl);
+      account = XRCCTRL(*this,"account",wxSearchCtrl);
       key = XRCCTRL(*this,"key",wxTextCtrl);
    }
    void OnOk(wxCommandEvent& event);
-public:
-   ImportKeyDialog(wxWindow *parent=NULL){
-      InitWidgetsFromXRC((wxWindow *)parent);
-      Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ImportKeyDialog::OnOk));
-      ShowModal();
-   }
-};
+   void OnSearchAccount(wxCommandEvent& event);
 
+public:
+   ImportKeyDialog(GWallet* gwallet);
+};

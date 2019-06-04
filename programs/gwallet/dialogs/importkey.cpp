@@ -1,15 +1,21 @@
 #include "../include/dialogs/importkey.hpp"
 #include "../include/gwallet.hpp"
 
-#include <wx/wx.h>
+ImportKeyDialog::ImportKeyDialog(GWallet* gwallet)
+{
+   p_GWallet = gwallet;
+   InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ImportKeyDialog::OnOk));
+   Connect(XRCID("account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(ImportKeyDialog::OnSearchAccount), NULL, this);
+   ShowModal();
+}
 
 void ImportKeyDialog::OnOk(wxCommandEvent &WXUNUSED(event)) {
 
    if(!account->IsEmpty() && !key->IsEmpty()) {
       const auto acct = account->GetValue();
       const auto pkey = key->GetValue();
-
-      GWallet *p_GWallet = dynamic_cast<GWallet *>(GetParent());
 
       try {
          p_GWallet->bitshares.wallet_api_ptr->import_key(acct.ToStdString(), pkey.ToStdString());
@@ -32,9 +38,22 @@ void ImportKeyDialog::OnOk(wxCommandEvent &WXUNUSED(event)) {
       if (dialog.ShowModal() == wxID_OK)
          return;
    } else {
-      wxMessageDialog dialog(NULL, _("Account and key can not be empty"), _("Error"),
-                             wxNO_DEFAULT | wxOK | wxICON_ERROR);
+      wxMessageDialog dialog(NULL, _("Account and key can not be empty"), _("Error"), wxNO_DEFAULT | wxOK | wxICON_ERROR);
       if (dialog.ShowModal() == wxID_OK)
          return;
    }
+}
+
+void ImportKeyDialog::OnSearchAccount(wxCommandEvent& event)
+{
+   const auto keyword = event.GetString().ToStdString();
+
+   wxArrayString choices;
+   auto findings = p_GWallet->bitshares.database_api->lookup_accounts(keyword, 100);
+   for(auto f : findings)
+      choices.Add(f.first);
+
+   wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      account->SetValue(dialog.GetStringSelection());
 }
