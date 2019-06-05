@@ -14,105 +14,115 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+   
+   const auto root = wallet_tree->AddRoot("Operations");
 
-   Connect(XRCID("transfer"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnTransfer), NULL, this);
-   Connect(XRCID("sell_asset"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSellAsset), NULL, this);
-   Connect(XRCID("borrow_asset"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnBorrowAsset), NULL, this);
-   Connect(XRCID("cancel_order"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnCancelOrder), NULL, this);
-   Connect(XRCID("update_proxy"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSetProxy), NULL, this);
-   Connect(XRCID("suggest_brain_key"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnSuggestBrainKey), NULL, this);
-   Connect(XRCID("get_committee_member"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetCommitteeMember), NULL, this);
-   Connect(XRCID("get_account_history"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetAccountHistory), NULL, this);
-   Connect(XRCID("get_order_book"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Wallet::OnGetOrderBook), NULL, this);
+   wallet_tree->AppendItem(root, "Transfer");
+   wallet_tree->AppendItem(root, "Sell asset");
+   wallet_tree->AppendItem(root, "Borrow asset");
+   wallet_tree->AppendItem(root, "Cancel order");
+   wallet_tree->AppendItem(root, "Set proxy");
+   wallet_tree->AppendItem(root, "Suggest brain key");
+   wallet_tree->AppendItem(root, "Get committee member");
+   wallet_tree->AppendItem(root, "Get account history");
+   wallet_tree->AppendItem(root, "Get order book");
+
+   wallet_tree->ExpandAll();
 
    if(p_GWallet->bitshares.wallet_api_ptr->is_locked())
       DisableOperations();
+
+   Connect(wallet_tree->GetId(), wxEVT_TREE_ITEM_ACTIVATED, wxTreeEventHandler(Wallet::OnCommand), NULL, this);
 }
 
 void Wallet::EnableOperations()
 {
-   transfer->Enable(true);
-   sell_asset->Enable(true);
-   borrow_asset->Enable(true);
-   cancel_order->Enable(true);
-   update_proxy->Enable(true);
-   suggest_brain_key->Enable(true);
-   get_committee_member->Enable(true);
-   get_account_history->Enable(true);
-   get_order_book->Enable(true);
+   wallet_tree->Enable(true);
 }
 
 void Wallet::DisableOperations()
 {
-   transfer->Enable(false);
-   sell_asset->Enable(false);
-   borrow_asset->Enable(false);
-   cancel_order->Enable(false);
-   update_proxy->Enable(false);
-   suggest_brain_key->Enable(false);
-   get_committee_member->Enable(false);
-   get_account_history->Enable(false);
-   get_order_book->Enable(false);
+   wallet_tree->Enable(false);
 }
 
-void Wallet::OnTransfer(wxCommandEvent& event)
+void Wallet::OnCommand(wxTreeEvent& event)
 {
+   auto selected = wallet_tree->GetItemText(event.GetItem()).ToStdString();
+
    OpenCommandsPane();
+
+   if(selected == "Transfer")
+      DoTransfer();
+   else if(selected == "Sell asset")
+      DoSellAsset();
+   else if(selected == "Sell asset")
+      DoSellAsset();
+   else if(selected == "Borrow asset")
+      DoBorrowAsset();
+   else if(selected == "Cancel order")
+      DoCancelOrder();
+   else if(selected == "Set proxy")
+      DoSetProxy();
+   else if(selected == "Suggest brain key")
+      DoSuggestBrainKey();
+   else if(selected == "Get committee member")
+      DoGetCommitteeMember();
+   else if(selected == "Get account history")
+      DoGetAccountHistory();
+   else if(selected == "Get order book")
+      DoGetOrderBook();
+}
+
+void Wallet::DoTransfer()
+{
    Transfer *transfer = new Transfer(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(transfer, "Transfer");
 }
 
-void Wallet::OnSellAsset(wxCommandEvent& event)
+void Wallet::DoSellAsset()
 {
-   OpenCommandsPane();
    SellAsset *sell_asset = new SellAsset(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(sell_asset, "Sell Asset");
 }
 
-void Wallet::OnBorrowAsset(wxCommandEvent& event)
+void Wallet::DoBorrowAsset()
 {
-   OpenCommandsPane();
    BorrowAsset *borrow_asset = new BorrowAsset(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(borrow_asset, "Borrow Asset");
 }
 
-void Wallet::OnCancelOrder(wxCommandEvent& event)
+void Wallet::DoCancelOrder()
 {
-   OpenCommandsPane();
    CancelOrder *cancel_order = new CancelOrder(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(cancel_order, "Cancel order");
 }
 
-void Wallet::OnSetProxy(wxCommandEvent& event)
+void Wallet::DoSetProxy()
 {
-   OpenCommandsPane();
    SetProxy *set_proxy = new SetProxy(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(set_proxy, "Set proxy");
 }
 
-void Wallet::OnSuggestBrainKey(wxCommandEvent& event)
+void Wallet::DoSuggestBrainKey()
 {
    auto result = p_GWallet->bitshares.wallet_api_ptr->suggest_brain_key();
    wxMessageBox(result.brain_priv_key, _("Suggested Brain key"), wxNO_DEFAULT|wxOK|wxICON_INFORMATION, this);
 }
 
-void Wallet::OnGetCommitteeMember(wxCommandEvent& event)
+void Wallet::DoGetCommitteeMember()
 {
-   OpenCommandsPane();
    GetCommitteeMember *committee_member = new GetCommitteeMember(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(committee_member, "Committee member");
 }
 
-void Wallet::OnGetAccountHistory(wxCommandEvent& event)
+void Wallet::DoGetAccountHistory()
 {
-   OpenCommandsPane();
    GetAccountHistory *account_history = new GetAccountHistory(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(account_history, "Account history");
 }
 
-void Wallet::OnGetOrderBook(wxCommandEvent& event)
+void Wallet::DoGetOrderBook()
 {
-   OpenCommandsPane();
    GetOrderBook *order_book = new GetOrderBook(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(order_book, "Order book");
 }

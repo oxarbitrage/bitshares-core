@@ -1,6 +1,7 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <wx/treectrl.h>
 
 #ifndef GWALLET_H
 #include "../gwallet.hpp"
@@ -20,39 +21,26 @@ public:
    }
 
 protected:
-   wxButton* transfer;
-   wxButton* sell_asset;
-   wxButton* borrow_asset;
-   wxButton* cancel_order;
-   wxButton* update_proxy;
-   wxButton* suggest_brain_key;
-   wxButton* get_committee_member;
-   wxButton* get_account_history;
-   wxButton* get_order_book;
+   wxTreeCtrl* wallet_tree;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent) {
       wxXmlResource::Get()->LoadObject(this,parent,wxT("Wallet"), wxT("wxPanel"));
-      transfer = XRCCTRL(*this,"transfer",wxButton);
-      sell_asset = XRCCTRL(*this,"sell_asset",wxButton);
-      borrow_asset = XRCCTRL(*this,"borrow_asset",wxButton);
-      cancel_order = XRCCTRL(*this,"cancel_order",wxButton);
-      update_proxy = XRCCTRL(*this,"update_proxy",wxButton);
-      suggest_brain_key = XRCCTRL(*this,"suggest_brain_key",wxButton);
-      get_committee_member = XRCCTRL(*this,"get_committee_member",wxButton);
-      get_account_history = XRCCTRL(*this,"get_account_history",wxButton);
-      get_order_book = XRCCTRL(*this,"get_order_book",wxButton);
+      wallet_tree = XRCCTRL(*this,"wallet_tree",wxTreeCtrl);
+
    }
 
-   void OnTransfer(wxCommandEvent& event);
-   void OnSellAsset(wxCommandEvent& event);
-   void OnBorrowAsset(wxCommandEvent& event);
-   void OnCancelOrder(wxCommandEvent& event);
-   void OnSetProxy(wxCommandEvent& event);
-   void OnSuggestBrainKey(wxCommandEvent& event);
-   void OnGetCommitteeMember(wxCommandEvent& event);
-   void OnGetAccountHistory(wxCommandEvent& event);
-   void OnGetOrderBook(wxCommandEvent& event);
+   void OnCommand(wxTreeEvent& event);
+
+   void DoTransfer();
+   void DoSellAsset();
+   void DoBorrowAsset();
+   void DoCancelOrder();
+   void DoSetProxy();
+   void DoSuggestBrainKey();
+   void DoGetCommitteeMember();
+   void DoGetAccountHistory();
+   void DoGetOrderBook();
 
    void OpenCommandsPane();
 };

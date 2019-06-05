@@ -731,7 +731,7 @@ void GWallet::DoState() {
       else if(state.is_unlocked) {
          SetStatusText(_("Connected | Unlocked"));
 
-         menubar->Enable(XRCID("m_setpassword"), false);
+         menubar->Enable(XRCID("m_set_password"), false);
          menubar->Enable(XRCID("m_lock"), true);
          menubar->Enable(XRCID("m_unlock"), false);
          menubar->Enable(XRCID("m_import_key"), true);
@@ -760,7 +760,7 @@ void GWallet::DoState() {
 
       menubar->Enable(XRCID("m_connect"), true);
       menubar->Enable(XRCID("m_disconnect"), false);
-      menubar->Enable(XRCID("m_setpassword"), false);
+      menubar->Enable(XRCID("m_set_password"), false);
       menubar->Enable(XRCID("m_lock"), false);
       menubar->Enable(XRCID("m_unlock"), false);
       menubar->Enable(XRCID("m_import_key"), false);
