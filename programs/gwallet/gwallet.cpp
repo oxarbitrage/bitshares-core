@@ -7,6 +7,8 @@
 #include "include/wizards/welcome.hpp"
 
 #include "include/panels/info.hpp"
+#include "include/panels/about.hpp"
+
 #include "include/panels/cli.hpp"
 #include "include/panels/sendreceive.hpp"
 #include "include/panels/wallet.hpp"
@@ -239,20 +241,17 @@ void GWallet::OnImportKey(wxCommandEvent& WXUNUSED(event))
 
 void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
 {
-   wxWindowDisabler disableAll;
-   wxBusyInfo wait(_("Please wait, switching accounts ..."));
-   wxTheApp->Yield();
+   //wxWindowDisabler disableAll;
+   //wxBusyInfo wait(_("Please wait, switching accounts ..."));
+   //wxTheApp->Yield();
 
    const auto selected = t_accounts->GetCurrentSelection();
    const auto account_name = strings.accounts[selected];
 
    DoAssets(account_name.ToStdString());
-   //modes.p_history->DoHistory(account_name.ToStdString());
 
    strings.selected_account = strings.accounts[selected];
    strings.selected_asset = strings.assets[0];
-
-   panels.p_info->DoAccount();
 }
 
 void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))
@@ -381,12 +380,14 @@ void GWallet::DoModes()
    panels.p_cli = cli;
    CreateCliPane(cli);
 
-   Info *information = new Info(this);
-   panels.p_info = information;
-
    Commands *commands = new Commands(this);
    panels.p_commands = commands;
-   commands->notebook->AddPage(information, "Information");
+
+   Info *information = new Info(this);
+   About *about = new About(this);
+
+   commands->notebook->AddPage(information, "Blockchain information");
+   commands->notebook->AddPage(about, "Software information");
 
    CreateCommandsPane(commands);
 

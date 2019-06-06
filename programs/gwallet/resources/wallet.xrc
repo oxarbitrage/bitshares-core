@@ -7,6 +7,16 @@
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="sizeritem">
+                <option>0</option>
+                <flag>wxALL</flag>
+                <border>5</border>
+                <object class="wxStaticText" name="locked_msg">
+                    <fg>#f01b1b</fg>
+                    <label>Please unlock your wallet</label>
+                    <wrap>-1</wrap>
+                </object>
+            </object>
+            <object class="sizeritem">
                 <option>1</option>
                 <flag>wxALL|wxEXPAND</flag>
                 <border>5</border>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-    <object class="wxPanel" name="Info">
+    <object class="wxPanel" name="About">
         <style>wxTAB_TRAVERSAL</style>
         <size>500,300</size>
         <object class="wxBoxSizer">
@@ -29,7 +29,7 @@
                         <border>5</border>
                         <object class="wxStaticBoxSizer">
                             <orient>wxVERTICAL</orient>
-                            <label>Blockchain information</label>
+                            <label>Software information</label>
                             <object class="spacer">
                                 <option>0</option>
                                 <flag>wxEXPAND</flag>
@@ -46,8 +46,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText28">
-                                            <label>Head block number:</label>
+                                        <object class="wxStaticText" name="m_staticText10">
+                                            <label>Client version:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -55,7 +55,7 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="head_block_num">
+                                        <object class="wxStaticText" name="client_version">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -72,8 +72,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText30">
-                                            <label>Block age:</label>
+                                        <object class="wxStaticText" name="m_staticText12">
+                                            <label>Graphene revision:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -81,7 +81,7 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="head_block_age">
+                                        <object class="wxStaticText" name="graphene_revision">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -98,8 +98,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText32">
-                                            <label>Next maintenance time:</label>
+                                        <object class="wxStaticText" name="m_staticText14">
+                                            <label>Revision age:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -107,7 +107,7 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="next_maintenance_time">
+                                        <object class="wxStaticText" name="revision_age">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -124,8 +124,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText34">
-                                            <label>Participation:</label>
+                                        <object class="wxStaticText" name="m_staticText16">
+                                            <label>FC revision:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -133,7 +133,7 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="participation">
+                                        <object class="wxStaticText" name="fc_revision">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -150,62 +150,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText36">
-                                            <label>Active witnesses:</label>
-                                            <wrap>-1</wrap>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <option>5</option>
-                                        <flag>wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxHyperlinkCtrl" name="view_witnesses">
-                                            <label>View</label>
-                                            <url>http://www.wxformbuilder.org</url>
-                                            <style>wxHL_ALIGN_LEFT</style>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <option>0</option>
-                                <flag>wxEXPAND</flag>
-                                <border>5</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <option>5</option>
-                                        <flag>wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText38">
-                                            <label>Active committee:</label>
-                                            <wrap>-1</wrap>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <option>5</option>
-                                        <flag>wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxHyperlinkCtrl" name="view_committee">
-                                            <label>View</label>
-                                            <url>http://www.wxformbuilder.org</url>
-                                            <style>wxHL_ALIGN_LEFT</style>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <option>0</option>
-                                <flag>wxEXPAND</flag>
-                                <border>5</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <option>5</option>
-                                        <flag>wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText40">
-                                            <label>Chain ID:</label>
+                                        <object class="wxStaticText" name="m_staticText18">
+                                            <label>FC revision age:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -213,7 +159,7 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="chain_id">
+                                        <object class="wxStaticText" name="fc_revision_age">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -230,8 +176,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText42">
-                                            <label>Core asset:</label>
+                                        <object class="wxStaticText" name="m_staticText20">
+                                            <label>Compile date:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -239,7 +185,7 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="core_asset">
+                                        <object class="wxStaticText" name="compile_date">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -256,8 +202,8 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="m_staticText44">
-                                            <label>Blockchain name:</label>
+                                        <object class="wxStaticText" name="m_staticText22">
+                                            <label>Boost version:</label>
                                             <wrap>-1</wrap>
                                         </object>
                                     </object>
@@ -265,7 +211,59 @@
                                         <option>5</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
-                                        <object class="wxStaticText" name="blockchain_name">
+                                        <object class="wxStaticText" name="boost_version">
+                                            <label></label>
+                                            <wrap>-1</wrap>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <option>0</option>
+                                <flag>wxEXPAND</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <option>5</option>
+                                        <flag>wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="m_staticText24">
+                                            <label>OpenSSL version:</label>
+                                            <wrap>-1</wrap>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <option>5</option>
+                                        <flag>wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="openssl_version">
+                                            <label></label>
+                                            <wrap>-1</wrap>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <option>0</option>
+                                <flag>wxEXPAND</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <option>5</option>
+                                        <flag>wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="m_staticText26">
+                                            <label>OS build:</label>
+                                            <wrap>-1</wrap>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <option>5</option>
+                                        <flag>wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="os_build">
                                             <label></label>
                                             <wrap>-1</wrap>
                                         </object>
@@ -283,7 +281,7 @@
                 </object>
             </object>
             <object class="spacer">
-                <option>0</option>
+                <option>1</option>
                 <flag>wxEXPAND</flag>
                 <border>2</border>
                 <size>10,10</size>

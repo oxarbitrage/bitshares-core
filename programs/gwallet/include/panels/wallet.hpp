@@ -22,12 +22,13 @@ public:
 
 protected:
    wxTreeCtrl* wallet_tree;
+   wxStaticText* locked_msg;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent) {
       wxXmlResource::Get()->LoadObject(this,parent,wxT("Wallet"), wxT("wxPanel"));
       wallet_tree = XRCCTRL(*this,"wallet_tree",wxTreeCtrl);
-
+      locked_msg = XRCCTRL(*this,"locked_msg",wxStaticText);
    }
 
    void OnCommand(wxTreeEvent& event);
@@ -41,6 +42,10 @@ private:
    void DoGetCommitteeMember();
    void DoGetAccountHistory();
    void DoGetOrderBook();
+   void DoAbout();
+   void DoInfo();
+   void DoActiveWitnesses();
+   void DoActiveCommittee();
 
    void OpenCommandsPane();
 };

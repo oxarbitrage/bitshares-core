@@ -41,7 +41,6 @@ struct States {
 };
 
 struct Panels {
-   Info* p_info;
    Cli* p_cli;
    Wallet* p_wallet;
    Commands* p_commands;

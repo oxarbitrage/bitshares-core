@@ -32,6 +32,10 @@ void GetAccountHistory::OnSearchAccount(wxCommandEvent& event)
 
 void GetAccountHistory::OnOk(wxCommandEvent& WXUNUSED(event))
 {
+   wxWindowDisabler disableAll;
+   wxBusyInfo wait(_("Please wait, getting account history ..."));
+   wxTheApp->Yield();
+
    const auto name_v = name->GetValue().ToStdString();
    const auto limit_v = limit->GetString(limit->GetSelection());
 

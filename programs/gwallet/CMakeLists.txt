@@ -18,6 +18,10 @@ add_executable( gwallet
         panels/dashboard.cpp
 		panels/commands.cpp
 
+		panels/about.cpp
+		panels/active_witnesses.cpp
+		panels/active_committee.cpp
+
 		wizards/welcome.cpp
 		)
 
