@@ -142,7 +142,7 @@ private:
    void DoInitialConfig();
    void DoInitialSize();
 
-   void LoadWelcomeWidget();
+   void LoadRegistrationWizardWidget();
 
    void SelectLanguage(int lang);
    wxLocale* m_locale;

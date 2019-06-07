@@ -4,7 +4,7 @@
 #endif
 #include "include/dialogs/importkey.hpp"
 
-#include "include/wizards/welcome.hpp"
+#include "include/wizards/registration.hpp"
 
 #include "include/panels/info.hpp"
 #include "include/panels/about.hpp"
@@ -33,7 +33,7 @@ GWallet::GWallet(const wxString& title)
 
 void GWallet::OnNew(wxCommandEvent& WXUNUSED(event))
 {
-   LoadWelcomeWidget();
+   LoadRegistrationWizardWidget();
 }
 
 void GWallet::OnOpen(wxCommandEvent& WXUNUSED(event))
@@ -479,24 +479,10 @@ void GWallet::CreateCliPane(Cli* cli)
    m_mgr.AddPane(cli, info);
 }
 
-void GWallet::LoadWelcomeWidget()
+void GWallet::LoadRegistrationWizardWidget()
 {
-   const wxFileName f(wxStandardPaths::Get().GetExecutablePath());
-   const wxString directory(f.GetPath());
-
-   const wxBitmap wizard_icon(directory + wxT("/icons/wizard.png"), wxBITMAP_TYPE_PNG);
-
-   welcome.wizard = new wxWizard(main_panel, ID_WIZARD, _("Welcome to Bitshares G-Wallet"),
-         wizard_icon, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
-
-   welcome.page1 = new Welcome1(welcome.wizard, this);
-   welcome.page2 = new Welcome2(welcome.wizard, this);
-   welcome.page3 = new Welcome3(welcome.wizard, this);
-   welcome.page4 = new Welcome4(welcome.wizard, this);
-
-   (*welcome.page1).Chain(welcome.page2).Chain(welcome.page3).Chain(welcome.page4);
-
-   welcome.wizard->RunWizard(welcome.page1);
+   Registration *registration = new Registration(this);
+   registration->RunWizard(registration->page1);
 }
 
 void GWallet::OnViewWelcome(wxCommandEvent& WXUNUSED(event))
