@@ -51,12 +51,12 @@ void GWallet::OnOpen(wxCommandEvent& WXUNUSED(event))
       config->Flush();
 
       if(state.is_connected) {
-         wxCommandEvent event_disconnect(wxEVT_COMMAND_MENU_SELECTED, XRCID("ID_DISCONNECT"));
+         wxCommandEvent event_disconnect(wxEVT_COMMAND_MENU_SELECTED, XRCID("t_disconnect"));
          ProcessWindowEvent(event_disconnect);
          wxSleep(1);
       }
 
-      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, XRCID("ID_CONNECT"));
+      wxCommandEvent event_connect(wxEVT_COMMAND_MENU_SELECTED, XRCID("t_connect"));
       ProcessWindowEvent(event_connect);
    }
 }

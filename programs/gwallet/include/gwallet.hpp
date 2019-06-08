@@ -26,10 +26,6 @@ class Wallet;
 
 class Commands;
 
-class Welcome2;
-class Welcome3;
-class Welcome4;
-
 struct States {
    bool is_noconfig = false;
    bool is_connected = false;
