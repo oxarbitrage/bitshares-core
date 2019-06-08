@@ -60,14 +60,6 @@ struct Strings {
    wxString selected_asset;
 };
 
-struct Welcome {
-   wxWizard* wizard;
-   wxWizardPageSimple* page1;
-   Welcome2* page2;
-   Welcome3* page3;
-   Welcome4* page4;
-};
-
 class GWallet : public wxFrame
 {
 public:
@@ -87,7 +79,6 @@ public:
    Bitshares bitshares;
    Panels panels;
    Strings strings;
-   Welcome welcome;
 
    wxAuiManager m_mgr;
    wxMenuBar* menubar;
