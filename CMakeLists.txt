@@ -33,6 +33,7 @@ if (USE_PCH)
 endif(USE_PCH)
 
 option(USE_PROFILER "Build with GPROF support(Linux)." OFF)
+option(GWALLET "Build G-Wallet." OFF)
 
 IF( NOT WIN32 )
   list( APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/fc/CMakeModules" )
@@ -211,4 +212,5 @@ endif(ENABLE_INSTALLER)
 
 MESSAGE( STATUS "" )
 MESSAGE( STATUS "PROFILER: ${USE_PROFILER}" )
+MESSAGE( STATUS "BUILD GWALLET: ${GWALLET}" )
 MESSAGE( STATUS "" )
