@@ -121,7 +121,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="cli">
-                            <label>Show output ‌ CLI mode</label>
+                            <label>Show output in CLI mode</label>
                             <checked>0</checked>
                         </object>
                     </object>

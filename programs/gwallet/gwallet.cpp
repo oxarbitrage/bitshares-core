@@ -48,6 +48,12 @@ void GWallet::OnOpen(wxCommandEvent& WXUNUSED(event))
    {
       const wxString path = dialog.GetPath();
       config->Write("WalletPath", path);
+
+      // get ws_server form wallet
+      auto _wallet = fc::json::from_file( path.ToStdString() ).as< graphene::wallet::wallet_data >( 2 * GRAPHENE_MAX_NESTED_OBJECTS );
+      wxString ws_server(_wallet.ws_server);
+      config->Write("Server", ws_server);
+
       config->Flush();
 
       if(state.is_connected) {
@@ -241,10 +247,6 @@ void GWallet::OnImportKey(wxCommandEvent& WXUNUSED(event))
 
 void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
 {
-   //wxWindowDisabler disableAll;
-   //wxBusyInfo wait(_("Please wait, switching accounts ..."));
-   //wxTheApp->Yield();
-
    const auto selected = t_accounts->GetCurrentSelection();
    const auto account_name = strings.accounts[selected];
 
@@ -386,8 +388,8 @@ void GWallet::DoModes()
    Info *information = new Info(this);
    About *about = new About(this);
 
-   commands->notebook->AddPage(information, "Blockchain information");
-   commands->notebook->AddPage(about, "Software information");
+   commands->notebook->AddPage(information, _("Blockchain information"));
+   commands->notebook->AddPage(about, _("Software information"));
 
    CreateCommandsPane(commands);
 
@@ -407,7 +409,6 @@ void GWallet::CreateWalletPane(Wallet* wallet)
    info.PinButton();
    info.Caption(_("Wallet"));
    info.Position(0);
-   //info.Row(1);
    auto width = this->GetClientSize().x/3;
    auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
@@ -436,7 +437,6 @@ void GWallet::CreateCommandsPane(Commands* commands)
    info.PinButton();
    info.Caption(_("Commands"));
    info.Position(1);
-   //info.Row(1);
    auto width = this->GetClientSize().x - this->GetClientSize().x/3;
    auto height = this->GetClientSize().y - this->GetClientSize().y/4;
    info.MinSize(width, height);
@@ -646,21 +646,24 @@ void GWallet::DoState() {
    if(state.is_noconfig) {
       menubar->Enable(XRCID("wxID_NEW"), true);
       menubar->Enable(XRCID("wxID_OPEN"), true);
-      menubar->Enable(XRCID("wxID_SAVE"), true);
-      menubar->Enable(XRCID("wxID_NETWORK"), true);
+      menubar->Enable(XRCID("wxID_SAVE"), false);
+      menubar->Enable(XRCID("wxID_NETWORK"), false);
 
-      menubar->Enable(XRCID("m_connect"), true);
-      menubar->Enable(XRCID("m_disconnect"), true);
-      menubar->Enable(XRCID("m_set_password"), true);
-      menubar->Enable(XRCID("m_lock"), true);
-      menubar->Enable(XRCID("m_import"), true);
-      menubar->Enable(XRCID("m_import_key"), true);
+      menubar->Enable(XRCID("m_connect"), false);
+      menubar->Enable(XRCID("m_disconnect"), false);
+      menubar->Enable(XRCID("m_set_password"), false);
+      menubar->Enable(XRCID("m_lock"), false);
+      menubar->Enable(XRCID("m_unlock"), false);
+      menubar->Enable(XRCID("m_import"), false);
+      menubar->Enable(XRCID("m_import_key"), false);
 
-      toolbar->EnableTool(XRCID("t_connect"), true);
-      toolbar->EnableTool(XRCID("t_disconnect"), true);
-      toolbar->EnableTool(XRCID("t_lock"), true);
-      toolbar->EnableTool(XRCID("t_unlock"), true);
-      toolbar->EnableTool(XRCID("t_importkey"), true);
+      toolbar->EnableTool(XRCID("t_connect"), false);
+      toolbar->EnableTool(XRCID("t_disconnect"), false);
+      toolbar->EnableTool(XRCID("t_lock"), false);
+      toolbar->EnableTool(XRCID("t_unlock"), false);
+      toolbar->EnableTool(XRCID("t_importkey"), false);
+
+      connect_button->Enable(false);
 
       SetStatusText(_("No Config"), 0);
    }
@@ -695,6 +698,8 @@ void GWallet::DoState() {
 
       toolbar->EnableTool(XRCID("t_accounts"), true);
       toolbar->EnableTool(XRCID("t_assets"), true);
+
+      connect_button->Enable(false);
 
       if(state.is_new) {
          SetStatusText(_("Connected | New"));
@@ -751,6 +756,8 @@ void GWallet::DoState() {
       menubar->Enable(XRCID("m_lock"), false);
       menubar->Enable(XRCID("m_unlock"), false);
       menubar->Enable(XRCID("m_import_key"), false);
+
+      connect_button->Enable(true);
 
       SetStatusText(_("Disconnected"), 0);
    }

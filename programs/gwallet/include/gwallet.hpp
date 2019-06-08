@@ -94,6 +94,7 @@ protected:
    wxStaticText* t_balance;
 
    wxPanel* main_panel;
+   wxBitmapButton* connect_button;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
@@ -104,6 +105,7 @@ private:
       t_assets = XRCCTRL(*this,"t_assets",wxComboBox);
       t_balance = XRCCTRL(*this,"t_balance",wxStaticText);
       main_panel = XRCCTRL(*this,"main_panel",wxPanel);
+      connect_button = XRCCTRL(*this,"connect_button",wxBitmapButton);
    }
 
    void OnNew(wxCommandEvent& event);
