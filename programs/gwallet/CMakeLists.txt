@@ -14,7 +14,6 @@ add_executable( gwallet
     panels/info.cpp
     panels/wallet.cpp
     panels/cli.cpp
-    panels/sendreceive.cpp
     panels/dashboard.cpp
     panels/commands.cpp
 

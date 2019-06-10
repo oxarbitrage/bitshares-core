@@ -20,11 +20,11 @@ The program use the same wallet file format as the `cli_wallet` software, you ca
 
 The program will display a welcome window when started:
 
-![G-Wallet](readme_images/welcome.png)
+![Welcome](readme_images/welcome.png)
 
 If we already have an account and connect the main mode of the program will open with 3 different `wxAUI`(advanced user interface) panes:
 
-![G-Wallet](readme_images/connected.png)
+![Connected](readme_images/connected.png)
 
 The top left pane(`Wallet`) is a list of commands the program currently supports. You need to be unlocked to use the commands.
 
@@ -62,14 +62,19 @@ Simply run the following to get started:
 
     ./programs/gwallet/gwallet
     
-Use the File -> New (CTRL-N) to start the cponfiguration wizard when running the first time:
+Use the File -> New (CTRL-N) to start the configuration wizard when running the first time:
 
-![G-Wallet](readme_images/wizard.png)
+![Wizard](readme_images/wizard.png)
 
 ## Language
 
 Use File -> Change language to translate the wallet, English, Spanish and Chinese are supported.
 
 
+## Usage
+
+The interface is pretty straight forward, in the following short video a transfer is made:
+
+![Transfer](readme_images/transfer.gif)
 
 

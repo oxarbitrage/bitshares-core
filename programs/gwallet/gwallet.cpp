@@ -10,7 +10,6 @@
 #include "include/panels/about.hpp"
 
 #include "include/panels/cli.hpp"
-#include "include/panels/sendreceive.hpp"
 #include "include/panels/wallet.hpp"
 #include "include/panels/dashboard.hpp"
 #include "include/panels/commands.hpp"
