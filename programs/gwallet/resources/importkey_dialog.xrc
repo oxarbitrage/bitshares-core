@@ -9,9 +9,10 @@
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="spacer">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <option>0</option>
+                <flag>wxEXPAND</flag>
                 <border>2</border>
-                <size>5,5</size>
+                <size>10,10</size>
             </object>
             <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>

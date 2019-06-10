@@ -7,9 +7,9 @@
             <orient>wxVERTICAL</orient>
             <object class="spacer">
                 <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <flag>wxEXPAND</flag>
                 <border>2</border>
-                <size>5,5</size>
+                <size>10,10</size>
             </object>
             <object class="sizeritem">
                 <option>0</option>
@@ -20,7 +20,7 @@
                     <object class="sizeritem">
                         <option>0</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <label>Cancel an existing order</label>
                             <wrap>-1</wrap>

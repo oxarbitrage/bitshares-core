@@ -7,9 +7,9 @@
             <orient>wxVERTICAL</orient>
             <object class="spacer">
                 <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <flag>wxEXPAND</flag>
                 <border>2</border>
-                <size>5,5</size>
+                <size>10,10</size>
             </object>
             <object class="sizeritem">
                 <option>0</option>
@@ -20,7 +20,7 @@
                     <object class="sizeritem">
                         <option>0</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <tooltip> If a user does not wish to take an active part in voting, they can choose to allow another account to vote their stake.\n\nSetting a vote proxy does not remove your previous votes from the blockchain, they remain there but are ignored.  If you later null out your vote proxy, your previous votes will take effect again.\n\n This setting can be changed at any time.</tooltip>
                             <label>Set the voting proxy for an account.</label>

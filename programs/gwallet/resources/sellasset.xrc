@@ -7,9 +7,9 @@
             <orient>wxVERTICAL</orient>
             <object class="spacer">
                 <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <flag>wxEXPAND</flag>
                 <border>2</border>
-                <size>5,5</size>
+                <size>10,10</size>
             </object>
             <object class="sizeritem">
                 <option>0</option>
@@ -20,7 +20,7 @@
                     <object class="sizeritem">
                         <option>0</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <tooltip>Buying and selling are the same operation on Graphene; if you want to buy BTS with USD, you should sell USD for BTS.\n\nThe blockchain will attempt to sell the symbol__to__sell for as much symbol__to__receive as possible, as long as the price is at least min__to__receive / amount__to__sell.\n       \nIn addition to the transaction fees, market fees will apply as specified by the issuer of both the selling asset and the receiving asset as a percentage of the amount exchanged.\n       \nIf either the selling asset or the receiving asset is whitelist restricted, the order will only be created if the seller is on the whitelist of the restricted asset type.\n       \n Market orders are matched in the order they are included in the block chain.</tooltip>
                             <label> Place a limit order attempting to sell one asset for another.</label>
@@ -333,7 +333,7 @@
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
-                        <option>10</option>
+                        <option>4</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="fill_or_kill">
@@ -342,34 +342,8 @@
                             <checked>0</checked>
                         </object>
                     </object>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <size>5,5</size>
-                    </object>
-                </object>
-            </object>
-            <object class="spacer">
-                <option>0</option>
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>2</border>
-                <size>5,5</size>
-            </object>
-            <object class="sizeritem">
-                <option>0</option>
-                <flag>wxEXPAND|wxALL</flag>
-                <border>0</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <size>5,5</size>
-                    </object>
                     <object class="sizeritem">
-                        <option>5</option>
+                        <option>3</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="broadcast">
@@ -379,7 +353,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>5</option>
+                        <option>3</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="cli">
