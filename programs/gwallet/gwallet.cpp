@@ -277,12 +277,11 @@ void GWallet::DoInitialSize()
    InitWidgetsFromXRC((wxWindow *)NULL);
 
    wxTopLevelWindow::Maximize(true);
-   wxTopLevelWindow::SetMinSize(wxSize(600, 450));
+   //wxTopLevelWindow::SetMinSize(wxSize(600, 450));
 }
 
 void GWallet::DoInitialConfig()
 {
-
    wxFileName f(wxStandardPaths::Get().GetExecutablePath());
    directory = f.GetPath();
 
