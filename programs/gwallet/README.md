@@ -28,7 +28,7 @@ If we already have an account and connect the main mode of the program will open
 
 The top left pane(`Wallet`) is a list of commands the program currently supports. You need to be unlocked to use the commands.
 
-Top right pane(`Commands`) will display command input forms and outputs.
+Top right pane(`Commands`) will display command input forms and outputs. You can move your tabs and create new notebooks inside this area to match your visualization needs.
 
 The bottom(`Cli`) pane provides the same functionality as the `cli_wallet` program.
 
