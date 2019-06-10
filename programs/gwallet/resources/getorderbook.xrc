@@ -167,7 +167,7 @@
                         <flag>wxALL</flag>
                         <border>0</border>
                         <object class="wxChoice" name="limit">
-                            <selection>24</selection>
+                            <selection>9</selection>
                             <content>
                                 <item>1</item>
                                 <item>2</item>
@@ -322,8 +322,7 @@
         </object>
     </object>
     <object class="wxPanel" name="GetOrderBookResponse">
-        <style>wxBORDER_SUNKEN|wxTAB_TRAVERSAL</style>
-        <exstyle>wxWS_EX_VALIDATE_RECURSIVELY</exstyle>
+        <style>wxTAB_TRAVERSAL</style>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="sizeritem">

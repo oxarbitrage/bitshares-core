@@ -71,11 +71,17 @@ GetOrderBookResponse::GetOrderBookResponse(GWallet* gwallet, wxAny any_response,
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
-   response_grid->CreateGrid(10, 3);
+   response_grid->CreateGrid(0, 3);
+
+   response_grid->EnableDragCell();
+   response_grid->EnableDragColMove();
+   response_grid->EnableDragColSize();
+   response_grid->EnableDragGridSize();
+   response_grid->EnableDragRowSize();
+
    response_grid->SetColLabelValue(0, "Price");
    response_grid->SetColLabelValue(1, "Quote");
    response_grid->SetColLabelValue(2, "Base");
-   response_grid->DeleteRows(0, 25);
 
    auto results = any_response.As<order_book>();
    auto z = 0;

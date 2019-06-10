@@ -68,15 +68,18 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
-   response_grid->CreateGrid(10, 5);
+   response_grid->CreateGrid(0, 4);
+
+   response_grid->EnableDragCell();
+   response_grid->EnableDragColMove();
+   response_grid->EnableDragColSize();
+   response_grid->EnableDragGridSize();
+   response_grid->EnableDragRowSize();
 
    response_grid->SetColLabelValue(0, "ID");
    response_grid->SetColLabelValue(1, "Date");
    response_grid->SetColLabelValue(2, "Block");
    response_grid->SetColLabelValue(3, "Text");
-   response_grid->SetColLabelValue(4, "Memo");
-
-   response_grid->DeleteRows(0, 25);
 
    auto results = any_response.As<vector<graphene::wallet::operation_detail>>();
 
@@ -95,7 +98,6 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
       response_grid->SetCellValue(z, 1, b->timestamp.to_iso_string());
       response_grid->SetCellValue(z, 2, fc::to_string(ah.op.block_num));
       response_grid->SetCellValue(z, 3, ah.description);
-      response_grid->SetCellValue(z, 4, ah.memo);
 
       ++z;
    }
