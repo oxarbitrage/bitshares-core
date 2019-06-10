@@ -409,8 +409,8 @@ void GWallet::CreateWalletPane(Wallet* wallet)
    info.PinButton();
    info.Caption(_("Wallet"));
    info.Position(0);
-   auto width = this->GetClientSize().x/3;
-   auto height = this->GetClientSize().y - this->GetClientSize().y/4;
+   auto width = this->GetClientSize().x/4;
+   auto height = this->GetClientSize().y - this->GetClientSize().y/5;
    info.MinSize(width, height);
    info.BestSize(width, height);
    info.Resizable();
@@ -420,6 +420,7 @@ void GWallet::CreateWalletPane(Wallet* wallet)
    info.MinimizeButton();
    info.Name("Wallet");
    info.Dock();
+   info.Movable();
 
    m_mgr.AddPane(wallet, info);
 }
@@ -437,8 +438,8 @@ void GWallet::CreateCommandsPane(Commands* commands)
    info.PinButton();
    info.Caption(_("Commands"));
    info.Position(1);
-   auto width = this->GetClientSize().x - this->GetClientSize().x/3;
-   auto height = this->GetClientSize().y - this->GetClientSize().y/4;
+   auto width = this->GetClientSize().x - this->GetClientSize().x/4;
+   auto height = this->GetClientSize().y - this->GetClientSize().y/5;
    info.MinSize(width, height);
    info.BestSize(width, height);
    info.Resizable();
@@ -448,6 +449,7 @@ void GWallet::CreateCommandsPane(Commands* commands)
    info.MinimizeButton();
    info.Name("Commands");
    info.Dock();
+   info.Movable();
 
    m_mgr.AddPane(commands, info);
 }
@@ -466,8 +468,8 @@ void GWallet::CreateCliPane(Cli* cli)
    info.Caption(_("Cli"));
    info.Position(3);
    auto width = this->GetClientSize().x;
-   info.MinSize(width, this->GetClientSize().y/4);
-   info.BestSize(width, this->GetClientSize().y/4);
+   info.MinSize(width, this->GetClientSize().y/5);
+   info.BestSize(width, this->GetClientSize().y/5);
    info.Resizable();
    info.dock_proportion = 2;
    info.PinButton();
@@ -475,6 +477,7 @@ void GWallet::CreateCliPane(Cli* cli)
    info.MinimizeButton();
    info.Name("Cli");
    info.Dock();
+   info.Movable();
 
    m_mgr.AddPane(cli, info);
 }
