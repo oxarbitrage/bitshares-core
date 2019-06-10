@@ -39,6 +39,10 @@ void GetOrderBook::OnOk(wxCommandEvent& WXUNUSED(event))
 
    order_book result;
    wxAny response;
+
+   wxBusyCursor wait;
+   wxTheApp->Yield(true);
+
    try
    {
       result = p_GWallet->bitshares.wallet_api_ptr->get_order_book(base_v, quote_v, wxAtoi(limit_v));

@@ -215,7 +215,7 @@
                     <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                     <border>5</border>
                     <object class="wxStaticText" name="wxID_STATIC">
-                        <label>Version 0.3.0</label>
+                        <label>Version 0.4.0</label>
                         <wrap>-1</wrap>
                     </object>
                 </object>

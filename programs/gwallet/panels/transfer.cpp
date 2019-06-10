@@ -69,6 +69,9 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
    signed_transaction result_obj;
    wxAny response;
 
+   wxBusyCursor wait;
+   wxTheApp->Yield(true);
+
    if(cli->IsChecked())
    {
       auto command = "transfer " + from_v + " " + to_v + " " + amount_v + " " + asset_v + " \"" + memo_v + "\" " + broadcast_v;
@@ -85,6 +88,7 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
          if(broadcast->IsChecked()) {
             if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm transfer?"),
                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+               wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v, to_v, amount_v, asset_v, memo_v, true);
             }
          }

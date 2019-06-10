@@ -54,6 +54,9 @@ void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
    signed_transaction result_obj;
    wxAny response;
 
+   wxBusyCursor wait;
+   wxTheApp->Yield(true);
+
    if(cli->IsChecked())
    {
       auto command = "borrow_asset " + seller_value + " " + borrow_amount_value + " " + borrow_asset_value + " " +
@@ -70,6 +73,7 @@ void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
          if(broadcast->IsChecked()) {
             if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm Borrow Asset?"),
                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+               wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->borrow_asset(seller_value, borrow_amount_value,
                      borrow_asset_value, collateral_amount_value, true);
             }

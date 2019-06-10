@@ -33,6 +33,10 @@ void GetCommitteeMember::OnOk(wxCommandEvent& WXUNUSED(event))
    const auto account = owner_account->GetValue().ToStdString();
    committee_member_object result_obj;
    wxAny response;
+
+   wxBusyCursor wait;
+   wxTheApp->Yield(true);
+
    try
    {
       result_obj = p_GWallet->bitshares.wallet_api_ptr->get_committee_member(account);

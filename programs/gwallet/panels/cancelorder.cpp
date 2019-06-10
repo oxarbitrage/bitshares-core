@@ -29,6 +29,9 @@ void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
       signed_transaction result_obj;
       wxAny response;
 
+      wxBusyCursor wait;
+      wxTheApp->Yield(true);
+
       if(cli->IsChecked())
       {
          auto command = "cancel_order " + std::string(object_id_type(order_id)) + " " + broadcast_v;
@@ -43,6 +46,7 @@ void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
             if(broadcast->IsChecked()) {
                if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm cancel order?"),
                      wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+                  wxTheApp->Yield(true);
                   result_obj = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, true);
                }
             }

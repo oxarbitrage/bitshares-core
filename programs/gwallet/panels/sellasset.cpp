@@ -70,6 +70,9 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
    signed_transaction result_obj;
    wxAny response;
 
+   wxBusyCursor wait;
+   wxTheApp->Yield(true);
+
    if(cli->IsChecked())
    {
       auto command = "sell_asset " + seller_value + " " + sell_amount_value + " " + sell_asset_value + " " +
@@ -88,6 +91,7 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
          if(broadcast->IsChecked()) {
             if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm Sell Asset?"),
                                    wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+               wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
                      sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, true);
             }
