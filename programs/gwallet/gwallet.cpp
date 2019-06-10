@@ -216,6 +216,8 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
    DoState();
 
    panels.p_wallet->DisableOperations();
+   panels.p_wallet->locked_msg->SetForegroundColour("Red");
+   panels.p_wallet->locked_msg->SetLabel(_("Please double click a command from below"));
 }
 
 void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))

@@ -2,7 +2,7 @@
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
     <object class="wxWizard" name="Registration">
         <style>wxDEFAULT_DIALOG_STYLE</style>
-        <title></title>
+        <title>Setup wizard</title>
         <centered>1</centered>
         <bitmap>../icons/wizard.png</bitmap>
         <object class="wxWizardPageSimple" name="page1">

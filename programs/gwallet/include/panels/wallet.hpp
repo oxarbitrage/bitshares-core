@@ -20,9 +20,10 @@ public:
       InitWidgetsFromXRC((wxWindow *)parent);
    }
 
+   wxStaticText* locked_msg;
+
 protected:
    wxTreeCtrl* wallet_tree;
-   wxStaticText* locked_msg;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent) {
