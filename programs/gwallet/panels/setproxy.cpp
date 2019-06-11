@@ -82,6 +82,7 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
       p_GWallet->panels.p_cli->command->SetValue(command);
       wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
       p_GWallet->panels.p_cli->OnCliCommand(event);
+      p_GWallet->DoAssets(account_value);
    }
    else
    {
@@ -93,6 +94,7 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
                _("Confirm update of voting account?"), wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
                wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->set_voting_proxy(account_value, voting_account_value, true);
+               p_GWallet->DoAssets(account_value);
             }
             response = result_obj;
             new SetProxyResponse(p_GWallet, response);

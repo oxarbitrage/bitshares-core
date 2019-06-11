@@ -13,6 +13,15 @@ ActiveWitnesses::ActiveWitnesses(GWallet* gwallet) : wxPanel()
 
    response_grid->CreateGrid(21, 4);
 
+   response_grid->EnableDragCell();
+   response_grid->EnableDragColMove();
+   response_grid->EnableDragColSize();
+   response_grid->EnableDragGridSize();
+   response_grid->EnableDragRowSize();
+
+   response_grid->SetLabelBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BACKGROUND ) );
+   response_grid->SetDefaultCellBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BACKGROUND ) );
+
    response_grid->SetColLabelValue(0, "ID");
    response_grid->SetColLabelValue(1, "Account");
    response_grid->SetColLabelValue(2, "Votes");

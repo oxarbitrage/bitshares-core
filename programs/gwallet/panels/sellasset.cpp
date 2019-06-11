@@ -81,8 +81,8 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
       p_GWallet->panels.p_cli->command->SetValue(command);
       wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
       p_GWallet->panels.p_cli->OnCliCommand(event);
+      p_GWallet->DoAssets(seller_value);
    }
-
    else
    {
       try {
@@ -90,10 +90,11 @@ void SellAsset::OnOk(wxCommandEvent& WXUNUSED(event))
                sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, false);
          if(broadcast->IsChecked()) {
             if (wxYES == wxMessageBox(fc::json::to_pretty_string(result_obj.operations[0]), _("Confirm Sell Asset?"),
-                                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
+                  wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
                wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->sell_asset(seller_value, sell_amount_value,
                      sell_asset_value, receive_amount_value, receive_asset_value, expiration_value, fill_or_kill_value, true);
+               p_GWallet->DoAssets(seller_value);
             }
          }
          response = result_obj;

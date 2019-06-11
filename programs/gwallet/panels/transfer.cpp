@@ -78,8 +78,8 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
       p_GWallet->panels.p_cli->command->SetValue(command);
       wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
       p_GWallet->panels.p_cli->OnCliCommand(event);
+      p_GWallet->DoAssets(from_v);
    }
-
    else
    {
       try {
@@ -90,6 +90,7 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
                   wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
                wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->transfer(from_v, to_v, amount_v, asset_v, memo_v, true);
+               p_GWallet->DoAssets(from_v);
             }
          }
          response = result_obj;

@@ -221,7 +221,7 @@ void GWallet::OnLock(wxCommandEvent & WXUNUSED(event))
 
 void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
 {
-   wxPasswordEntryDialog dialog(this, _("Enter password"));
+   wxPasswordEntryDialog dialog(this, _("Unlock wallet"));
    if (dialog.ShowModal() == wxID_OK)
    {
       const wxString password = dialog.GetValue();

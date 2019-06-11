@@ -38,6 +38,7 @@ void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
          p_GWallet->panels.p_cli->command->SetValue(command);
          wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
          p_GWallet->panels.p_cli->OnCliCommand(event);
+         p_GWallet->DoAssets(p_GWallet->strings.selected_account.ToStdString());
       }
       else
       {
@@ -48,6 +49,8 @@ void CancelOrder::OnOk(wxCommandEvent& WXUNUSED(event))
                      wxNO_DEFAULT | wxYES_NO | wxICON_QUESTION, this)) {
                   wxTheApp->Yield(true);
                   result_obj = p_GWallet->bitshares.wallet_api_ptr->cancel_order(order_id, true);
+                  p_GWallet->DoAssets(p_GWallet->strings.selected_account.ToStdString());
+                  order->Delete(order->GetSelection());
                }
             }
             response = result_obj;
@@ -76,8 +79,8 @@ void CancelOrder::DoOpenOrders()
          auto pretty_balance_to_receive = p_GWallet->DoPrettyBalance(
                assets[1]->precision, limit_order.amount_to_receive().amount.value);
 
-         open_orders_strings.Add(std::string(object_id_type(limit_order.id)) + "- Selling "+ pretty_balance_for_sale + " " +
-               assets[0]->symbol + " for " + pretty_balance_to_receive + " " + assets[1]->symbol);
+         open_orders_strings.Add(std::string(object_id_type(limit_order.id)) + " - Selling "+ pretty_balance_for_sale
+               + " " + assets[0]->symbol + " for " + pretty_balance_to_receive + " " + assets[1]->symbol);
          open_orders_ids.push_back(limit_order.id);
       }
    }

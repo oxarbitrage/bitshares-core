@@ -64,6 +64,7 @@ void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
       p_GWallet->panels.p_cli->command->SetValue(command);
       wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
       p_GWallet->panels.p_cli->OnCliCommand(event);
+      p_GWallet->DoAssets(seller_value);
    }
    else
    {
@@ -76,6 +77,7 @@ void BorrowAsset::OnOk(wxCommandEvent& WXUNUSED(event))
                wxTheApp->Yield(true);
                result_obj = p_GWallet->bitshares.wallet_api_ptr->borrow_asset(seller_value, borrow_amount_value,
                      borrow_asset_value, collateral_amount_value, true);
+               p_GWallet->DoAssets(seller_value);
             }
          }
          response = result_obj;
