@@ -39,6 +39,8 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
 
    if(p_GWallet->bitshares.wallet_api_ptr->is_locked())
       DisableOperations();
+   else
+      EnableOperations();
 
    Connect(wallet_tree->GetId(), wxEVT_TREE_ITEM_ACTIVATED, wxTreeEventHandler(Wallet::OnCommand), NULL, this);
 }

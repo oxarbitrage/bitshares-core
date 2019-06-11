@@ -490,12 +490,18 @@ void GWallet::LoadRegistrationWizardWidget()
 
 void GWallet::OnViewWelcome(wxCommandEvent& WXUNUSED(event))
 {
+   bool enable = false;
    if(menubar->IsChecked(XRCID("m_view_welcome"))) {
       main_panel->Raise();
    }
    else {
       main_panel->Lower();
+      enable = true;
    }
+
+   menubar->Enable(XRCID("m_view_commands"), enable);
+   menubar->Enable(XRCID("m_view_wallet"), enable);
+   menubar->Enable(XRCID("m_view_cli"), enable);
 }
 
 void GWallet::OnViewCommands(wxCommandEvent& WXUNUSED(event))
