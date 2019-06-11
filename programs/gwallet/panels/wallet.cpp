@@ -19,21 +19,21 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
-   const auto root = wallet_tree->AddRoot("Operations");
+   const auto root = wallet_tree->AddRoot(_("Operations"));
 
-   wallet_tree->AppendItem(root, "Transfer");
-   wallet_tree->AppendItem(root, "Sell asset");
-   wallet_tree->AppendItem(root, "Borrow asset");
-   wallet_tree->AppendItem(root, "Cancel order");
-   wallet_tree->AppendItem(root, "Set proxy");
-   wallet_tree->AppendItem(root, "Suggest brain key");
-   wallet_tree->AppendItem(root, "Get committee member");
-   wallet_tree->AppendItem(root, "Get account history");
-   wallet_tree->AppendItem(root, "Get order book");
-   wallet_tree->AppendItem(root, "About");
-   wallet_tree->AppendItem(root, "Info");
-   wallet_tree->AppendItem(root, "Active witnesses");
-   wallet_tree->AppendItem(root, "Active committee");
+   tree.transfer = wallet_tree->AppendItem(root, _("Transfer"));
+   tree.sell_asset = wallet_tree->AppendItem(root, _("Sell asset"));
+   tree.borrow_asset = wallet_tree->AppendItem(root, _("Borrow asset"));
+   tree.cancel_order = wallet_tree->AppendItem(root, _("Cancel order"));
+   tree.set_proxy = wallet_tree->AppendItem(root, _("Set proxy"));
+   tree.suggest_brain_key = wallet_tree->AppendItem(root, _("Suggest brain key"));
+   tree.get_committee_member = wallet_tree->AppendItem(root, _("Get committee member"));
+   tree.get_account_history = wallet_tree->AppendItem(root, _("Get account history"));
+   tree.get_order_book = wallet_tree->AppendItem(root, _("Get order book"));
+   tree.about = wallet_tree->AppendItem(root, _("About"));
+   tree.info = wallet_tree->AppendItem(root, _("Info"));
+   tree.active_witnesses = wallet_tree->AppendItem(root, _("Active witnesses"));
+   tree.active_committee = wallet_tree->AppendItem(root, _("Active committee"));
 
    wallet_tree->ExpandAll();
 
@@ -59,39 +59,36 @@ void Wallet::DisableOperations()
 
 void Wallet::OnCommand(wxTreeEvent& event)
 {
-   auto selected = wallet_tree->GetItemText(event.GetItem()).ToStdString();
+   auto selected = wallet_tree->GetSelection();
 
    OpenCommandsPane();
 
-   if(selected == "Transfer")
+   if(selected == tree.transfer)
       DoTransfer();
-   else if(selected == "Sell asset")
+   else if(selected == tree.sell_asset)
       DoSellAsset();
-   else if(selected == "Sell asset")
-      DoSellAsset();
-   else if(selected == "Borrow asset")
+   else if(selected == tree.borrow_asset)
       DoBorrowAsset();
-   else if(selected == "Cancel order")
+   else if(selected == tree.cancel_order)
       DoCancelOrder();
-   else if(selected == "Set proxy")
+   else if(selected == tree.set_proxy)
       DoSetProxy();
-   else if(selected == "Suggest brain key")
+   else if(selected == tree.suggest_brain_key)
       DoSuggestBrainKey();
-   else if(selected == "Get committee member")
+   else if(selected == tree.get_committee_member)
       DoGetCommitteeMember();
-   else if(selected == "Get account history")
+   else if(selected == tree.get_account_history)
       DoGetAccountHistory();
-   else if(selected == "Get order book")
+   else if(selected == tree.get_order_book)
       DoGetOrderBook();
-   else if(selected == "About")
+   else if(selected == tree.about)
       DoAbout();
-   else if(selected == "Info")
+   else if(selected == tree.info)
       DoInfo();
-   else if(selected == "Active witnesses")
+   else if(selected == tree.active_witnesses)
       DoActiveWitnesses();
-   else if(selected == "Active committee")
+   else if(selected == tree.active_committee)
       DoActiveCommittee();
-
 }
 
 void Wallet::DoTransfer()

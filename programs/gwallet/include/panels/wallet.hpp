@@ -7,6 +7,23 @@
 #include "../gwallet.hpp"
 #endif
 
+struct treeItems
+{
+   wxTreeItemId transfer;
+   wxTreeItemId sell_asset;
+   wxTreeItemId borrow_asset;
+   wxTreeItemId cancel_order;
+   wxTreeItemId set_proxy;
+   wxTreeItemId suggest_brain_key;
+   wxTreeItemId get_committee_member;
+   wxTreeItemId get_account_history;
+   wxTreeItemId get_order_book;
+   wxTreeItemId about;
+   wxTreeItemId info;
+   wxTreeItemId active_witnesses;
+   wxTreeItemId active_committee;
+};
+
 class Wallet : public wxPanel
 {
 public:
@@ -24,6 +41,7 @@ public:
 
 protected:
    wxTreeCtrl* wallet_tree;
+   treeItems tree;
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent) {

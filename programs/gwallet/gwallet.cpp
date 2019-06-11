@@ -119,7 +119,7 @@ void GWallet::OnConnect(wxCommandEvent& WXUNUSED(event))
          bitshares.Connect(server.ToStdString(), path.ToStdString());
       }
       catch(const fc::exception &e) {
-         OnError(this, _("Problem connecting to: \n\n" + server + "\n\nPlease try again or change server."));
+         OnError(this, _("Problem connecting to:") + "\n\n" + server + "\n\n" + _("Please try again or change server."));
          return;
       }
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-15 09:22-0300\n"
-"PO-Revision-Date: 2019-04-15 10:01-0300\n"
+"POT-Creation-Date: 2019-06-11 19:48-0300\n"
+"PO-Revision-Date: 2019-06-11 20:04-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh\n"
@@ -15,677 +15,1402 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: dialogs/borrowasset.cpp:25
-msgid "Borrow Asset"
-msgstr "借资产"
-
-#: dialogs/borrowasset.cpp:34 dialogs/sellasset.cpp:34
-msgid "Seller account"
-msgstr "卖家帐户"
-
-#: dialogs/borrowasset.cpp:58
-msgid "Amount to borrow"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:86
-msgid "Amount of collateral"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:101
-msgid " BTS"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:114 dialogs/sellasset.cpp:157
-msgid "Broadcast transaction"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:120 dialogs/sellasset.cpp:163
-#: dialogs/transfer.cpp:139
-msgid "Show output in CLI mode"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:145 dialogs/sellasset.cpp:188
-#: dialogs/transfer.cpp:164
-msgid "&OK"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:148 dialogs/sellasset.cpp:191
-#: dialogs/transfer.cpp:167
-msgid "&Cancel"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:178 dialogs/sellasset.cpp:231
-msgid "Asset is invalid"
-msgstr ""
-
-#: dialogs/borrowasset.cpp:187
-msgid "Confirm Borrow Asset?"
-msgstr ""
-
-#: dialogs/importkey.cpp:24
-msgid "Account Name"
-msgstr ""
-
-#: dialogs/importkey.cpp:47
-msgid "Private Key"
-msgstr ""
-
-#: dialogs/importkey.cpp:92
-msgid "OK"
-msgstr ""
-
-#: dialogs/importkey.cpp:98
-msgid "Cancel"
-msgstr ""
-
-#: dialogs/importkey.cpp:140
+#: dialogs/importkey.cpp:37
 msgid "Account imported"
-msgstr ""
+msgstr "帐户已导入"
 
-#: dialogs/importkey.cpp:140 gwallet.cpp:564 wizards/welcome.cpp:178
+#: dialogs/importkey.cpp:37 gwallet.cpp:637 wizards/registration.cpp:48
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
-#: dialogs/sellasset.cpp:25
-msgid "Buy or sell asset"
-msgstr ""
+#: dialogs/importkey.cpp:41
+msgid "Account and key can not be empty"
+msgstr "帐户和密钥不能为空"
 
-#: dialogs/sellasset.cpp:59
-msgid "Amount to sell"
-msgstr ""
+#: dialogs/importkey.cpp:41 gwallet.cpp:604 wizards/registration.cpp:54
+#: wizards/registration.cpp:83 wizards/registration.cpp:101
+#: wizards/registration.cpp:109 wizards/registration.cpp:152
+#: wizards/registration.cpp:169
+msgid "Error"
+msgstr "错误"
 
-#: dialogs/sellasset.cpp:87
-msgid "Minimum amount to receive"
-msgstr ""
+#: dialogs/importkey.cpp:56 panels/getaccounthistory.cpp:28
+#: panels/getcommitteemember.cpp:26 panels/setproxy.cpp:33
+#: panels/transfer.cpp:39 wizards/registration.cpp:72
+msgid "Accounts found"
+msgstr "找到帐户"
 
-#: dialogs/sellasset.cpp:115
-msgid "Timeout"
-msgstr ""
+#: dialogs/importkey.cpp:56 panels/getaccounthistory.cpp:28
+#: panels/getcommitteemember.cpp:26 panels/setproxy.cpp:33
+#: panels/transfer.cpp:39 wizards/registration.cpp:72
+msgid "Please select an account"
+msgstr "帐户和密钥不能为空"
 
-#: dialogs/sellasset.cpp:143
-msgid "Fill or Kill"
-msgstr ""
-
-#: dialogs/sellasset.cpp:240
-msgid "Confirm Sell Asset?"
-msgstr ""
-
-#: dialogs/transfer.cpp:25
-msgid "Transfer asset to another bitshares account"
-msgstr ""
-
-#: dialogs/transfer.cpp:34
-msgid "From"
-msgstr ""
-
-#: dialogs/transfer.cpp:58
-msgid "To"
-msgstr ""
-
-#: dialogs/transfer.cpp:82
-msgid "Amount"
-msgstr ""
-
-#: dialogs/transfer.cpp:110
-msgid "Memo"
-msgstr ""
-
-#: dialogs/transfer.cpp:133
-msgid "Broadcast Transaction"
-msgstr ""
-
-#: dialogs/transfer.cpp:198 wizards/welcome.cpp:310
-msgid "Account is invalid"
-msgstr ""
-
-#: dialogs/transfer.cpp:206 modes/sendreceive.cpp:163
-msgid "Confirm transfer?"
-msgstr ""
-
-#: gui_create.cpp:8
-msgid "&New"
-msgstr "新"
-
-#: gui_create.cpp:9
-msgid "&Open"
-msgstr "打开"
-
-#: gui_create.cpp:10
-msgid "&Save"
-msgstr "保存"
-
-#: gui_create.cpp:11
-msgid "Conn&ection"
-msgstr "连接"
-
-#: gui_create.cpp:13
-msgid "&Change language"
-msgstr "改变语言"
-
-#: gui_create.cpp:14
-msgid "&Quit"
-msgstr "放弃"
-
-#: gui_create.cpp:15
-msgid "&File"
-msgstr "文件"
-
-#: gui_create.cpp:18
-msgid "&Connect"
-msgstr "连"
-
-#: gui_create.cpp:19
-msgid "&Disconnect"
-msgstr "断开"
-
-#: gui_create.cpp:21
-msgid "&Set password"
-msgstr "设置密码"
-
-#: gui_create.cpp:22
-msgid "&Lock"
-msgstr "锁"
-
-#: gui_create.cpp:23
-msgid "&Unlock"
-msgstr "开锁"
-
-#: gui_create.cpp:24
-msgid "&Import Key"
-msgstr "导入密钥"
-
-#: gui_create.cpp:25
-msgid "&Wallet"
-msgstr "钱包"
-
-#: gui_create.cpp:28
-msgid "&About"
-msgstr "关于"
-
-#: gui_create.cpp:29
-msgid "&Help"
-msgstr "救命"
-
-#: gui_create.cpp:50
-msgid "Connect"
-msgstr "连"
-
-#: gui_create.cpp:52
-msgid "Disconnect"
-msgstr "断开"
-
-#: gui_create.cpp:54
-msgid "Lock"
-msgstr "锁"
-
-#: gui_create.cpp:56
-msgid "Unlock"
-msgstr "开锁"
-
-#: gui_create.cpp:61
-msgid "Home"
-msgstr "家"
-
-#: gui_create.cpp:63
-msgid "Console"
-msgstr "安慰"
-
-#: gui_create.cpp:65
-msgid "Send/Receive"
-msgstr "发送/接收"
-
-#: gui_create.cpp:67
-msgid "Account History"
-msgstr "帐户历史记录"
-
-#: gui_create.cpp:69
-msgid "Wallet"
-msgstr "钱包"
-
-#: gui_create.cpp:75
-msgid "MY ACCOUNTS"
-msgstr "我的帐户"
-
-#: gui_create.cpp:82
-msgid "MY ASSETS"
-msgstr "我的资产"
-
-#: gui_create.cpp:116
-msgid "No Config"
-msgstr "没有配置"
-
-#: gui_create.cpp:144 gui_create.cpp:149
-msgid "Connected | New"
-msgstr "连接| 新"
-
-#: gui_create.cpp:146 gui_create.cpp:152
-msgid "G-Wallet New"
-msgstr "G-Wallet 新"
-
-#: gui_create.cpp:155 gwallet.cpp:190
-msgid "Connected | Locked"
-msgstr "连接|锁定"
-
-#: gui_create.cpp:165 gui_create.cpp:181
-msgid "G-Wallet Ready"
-msgstr "G-Wallet 准备"
-
-#: gui_create.cpp:168
-msgid "Connected | Unlocked"
-msgstr "连接|解锁"
-
-#: gui_create.cpp:214 gwallet.cpp:176
-msgid "Disconnected"
-msgstr "断开的"
-
-#: gui_create.cpp:225
-msgid "G-Wallet Offline"
-msgstr "G-Wallet 离线"
-
-#: gwallet.cpp:57 gwallet.cpp:82
+#: gwallet.cpp:45 gwallet.cpp:76
 msgid "Open a saved wallet"
 msgstr "打开已保存的钱包"
 
-#: gwallet.cpp:94
+#: gwallet.cpp:88
 msgid "Enter server"
 msgstr "输入服务器"
 
-#: gwallet.cpp:94
+#: gwallet.cpp:88
 msgid "Websocket endpoint"
-msgstr ""
+msgstr "Websocket端点"
 
-#: gwallet.cpp:119
+#: gwallet.cpp:117
 msgid "Please wait, connecting ..."
 msgstr "请稍等，连接......"
 
-#: gwallet.cpp:130
-msgid "Problem at connecting, please try again ..."
-msgstr ""
+#: gwallet.cpp:122
+msgid "Problem connecting to:"
+msgstr "连接问题："
 
-#: gwallet.cpp:174
+#: gwallet.cpp:122
+msgid "Please try again or change server."
+msgstr "请重试或更改服务器。"
+
+#: gwallet.cpp:167
 msgid "Some problem when disconnecting, try again ..."
-msgstr ""
+msgstr "断开连接时出现一些问题，请再试一次......"
 
-#: gwallet.cpp:184 gwallet.cpp:228
+#: gwallet.cpp:169 gwallet.cpp:771
+msgid "Disconnected"
+msgstr "断开的"
+
+#: gwallet.cpp:177
 msgid "Enter password"
-msgstr ""
+msgstr "输入密码"
 
-#: gwallet.cpp:205
+#: gwallet.cpp:183 gwallet.cpp:723
+msgid "Connected | Locked"
+msgstr "连接的 | 锁定"
+
+#: gwallet.cpp:198
 #, c-format
 msgid "Secure and simple bitshares wallet build with %s"
-msgstr ""
+msgstr "安全和简单的bitshares钱包构建 %s"
 
-#: gwallet.cpp:206
+#: gwallet.cpp:199
 msgid "About G-Wallet"
-msgstr ""
+msgstr "关于G-Wallet"
 
-#: gwallet.cpp:217
+#: gwallet.cpp:210
 msgid "Some problem when locking, try again ..."
-msgstr ""
+msgstr "锁定时有些问题，请再试一次......"
 
-#: gwallet.cpp:238
+#: gwallet.cpp:219 panels/wallet.cpp:52
+msgid "Please double click a command from below"
+msgstr "请双击下面的命令"
+
+#: gwallet.cpp:224
+msgid "Unlock wallet"
+msgstr "解锁钱包"
+
+#: gwallet.cpp:234
 msgid "Password is incorrect, please try again."
-msgstr ""
+msgstr "密码不正确，请重试。"
 
-#: gwallet.cpp:248
-msgid "Import key"
-msgstr ""
+#: gwallet.cpp:391 resources/info.xrc:32 panels/wallet.cpp:160
+msgid "Blockchain information"
+msgstr "区块链信息"
 
-#: gwallet.cpp:254
-msgid "Please wait, switching accounts ..."
-msgstr ""
+#: gwallet.cpp:392 resources/about.xrc:32
+msgid "Software information"
+msgstr "软件信息"
 
-#: gwallet.cpp:418
-msgid "Welcome to Bitshares G-Wallet"
-msgstr ""
+#: gwallet.cpp:410 resources/main.xrc:40 resources/main.xrc:86
+msgid "Wallet"
+msgstr "钱包"
 
-#: gwallet.cpp:473
-msgid "Please wait, pulling the last history of your account ..."
-msgstr ""
+#: gwallet.cpp:439 resources/main.xrc:79
+msgid "Commands"
+msgstr "命令"
 
-#: gwallet.cpp:531 modes/sendreceive.cpp:208 modes/sendreceive.cpp:230
-#: modes/sendreceive.cpp:244 modes/sendreceive.cpp:266
-#: modes/sendreceive.cpp:275 wizards/welcome.cpp:107 wizards/welcome.cpp:184
-#: wizards/welcome.cpp:201 wizards/welcome.cpp:209 wizards/welcome.cpp:297
-#: wizards/welcome.cpp:322 wizards/welcome.cpp:345 wizards/welcome.cpp:362
-msgid "Error"
-msgstr ""
+#: gwallet.cpp:468
+msgid "Cli"
+msgstr "CLI"
 
-#: gwallet.cpp:542
+#: gwallet.cpp:615
 msgid "Chinese"
-msgstr ""
+msgstr "中文"
 
-#: gwallet.cpp:544
+#: gwallet.cpp:617
 msgid "Spanish"
-msgstr ""
+msgstr "西班牙语"
 
-#: gwallet.cpp:546
+#: gwallet.cpp:619
 msgid "English"
-msgstr ""
+msgstr "英语"
 
-#: gwallet.cpp:547
+#: gwallet.cpp:620
 msgid "Select language:"
-msgstr ""
+msgstr "选择语言："
 
-#: gwallet.cpp:547
+#: gwallet.cpp:620
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
-#: gwallet.cpp:563
+#: gwallet.cpp:636
 msgid ""
 "Language changed, however you need to restart G-Wallet for changes to take "
 "effect"
+msgstr "语言已更改，但您需要重新启动G-Wallet才能使更改生效"
+
+#: gwallet.cpp:677
+msgid "No Config"
+msgstr "没有配置"
+
+#: gwallet.cpp:714 gwallet.cpp:718
+msgid "Connected | New"
+msgstr "连接的 | 新"
+
+#: gwallet.cpp:733
+msgid "Connected | Unlocked"
+msgstr "连接的 | 解锁"
+
+#: resources/about.xrc:50
+msgid "Client version:"
+msgstr "客户版本："
+
+#: resources/about.xrc:76
+msgid "Graphene revision:"
+msgstr "Graphene 调整 : "
+
+#: resources/about.xrc:102
+msgid "Revision age:"
+msgstr "修订年龄："
+
+#: resources/about.xrc:128
+msgid "FC revision:"
+msgstr "FC 调整 : "
+
+#: resources/about.xrc:154
+msgid "FC revision age:"
+msgstr "FC 修订年龄 : "
+
+#: resources/about.xrc:180
+msgid "Compile date:"
+msgstr "编译日期："
+
+#: resources/about.xrc:206
+msgid "Boost version:"
+msgstr "Boost 版:"
+
+#: resources/about.xrc:232
+msgid "OpenSSL version:"
+msgstr "OpenSSL 版:"
+
+#: resources/about.xrc:258
+msgid "OS build:"
+msgstr "OS 建立 : "
+
+#: resources/borrowasset.xrc:25
+msgid ""
+"This is the first step in shorting an asset.  Call sell_asset() to complete "
+"the short."
+msgstr "这是做空资产的第一步。 调用sell_asset（）来完成短线。"
+
+#: resources/borrowasset.xrc:26
+msgid "Borrow an asset or update the debt/collateral ratio for the loan."
+msgstr "借入资产或更新贷款的债务/抵押比率。"
+
+#: resources/borrowasset.xrc:49
+msgid "Borrower name"
+msgstr "借款人名称"
+
+#: resources/borrowasset.xrc:79
+msgid "The name or id of the account associated with the transaction."
+msgstr "与交易相关联的帐户的名称或ID。"
+
+#: resources/borrowasset.xrc:115
+msgid "Amount to borrow"
+msgstr "借款金额"
+
+#: resources/borrowasset.xrc:144
+msgid ""
+"The amount of the asset being borrowed.  Make this value negative to pay "
+"back debt."
+msgstr "借入的资产金额。 使这个价值为负值以偿还债务。"
+
+#: resources/borrowasset.xrc:154
+msgid "The symbol or id of the asset being borrowed."
+msgstr "借入资产的符号或ID。"
+
+#: resources/borrowasset.xrc:189
+msgid "Amount of collateral"
+msgstr "抵押金额"
+
+#: resources/borrowasset.xrc:218
+msgid ""
+"The amount of the backing asset to add to your collateral position.  Make "
+"this negative to claim back some of your collateral.\n"
+"The backing asset is defined in the bitasset_options for the asset being "
+"borrowed."
+msgstr ""
+"要添加到抵押品头寸的支持资产金额。 将此否定权归还一些抵押品。\n"
+"支持资产在bitasset_options中为借用的资产定义。"
+
+#: resources/borrowasset.xrc:228
+msgid " BTS"
 msgstr ""
 
-#: main.cpp:8
+#: resources/borrowasset.xrc:263 resources/cancelorder.xrc:113
+msgid "Check to broadcast the transaction on the network."
+msgstr "检查以在网络上广播该事务。"
+
+#: resources/borrowasset.xrc:264 resources/cancelorder.xrc:114
+#: resources/sellasset.xrc:351 resources/setproxy.xrc:180
+msgid "Broadcast transaction"
+msgstr "广播交易"
+
+#: resources/borrowasset.xrc:273 resources/cancelorder.xrc:123
+#: resources/getaccounthistory.xrc:287 resources/getcommitteemember.xrc:117
+#: resources/getorderbook.xrc:256 resources/sellasset.xrc:360
+#: resources/setproxy.xrc:189 resources/transfer.xrc:331
+msgid "Show output in CLI mode"
+msgstr "在CLI模式下显示输出"
+
+#: resources/borrowasset.xrc:334 resources/cancelorder.xrc:184
+#: resources/getaccounthistory.xrc:348 resources/getcommitteemember.xrc:184
+#: resources/getorderbook.xrc:317 resources/importkey_dialog.xrc:189
+#: resources/sellasset.xrc:421 resources/setproxy.xrc:250
+#: resources/transfer.xrc:392
+msgid "&OK"
+msgstr "&好"
+
+#: resources/cancelorder.xrc:25
+msgid "Cancel an existing order"
+msgstr "取消现有订单"
+
+#: resources/cancelorder.xrc:48
+msgid "Order to cancel"
+msgstr "要取消"
+
+#: resources/cancelorder.xrc:78
+msgid " Select order to be cancelled."
+msgstr "选择要取消的订单。"
+
+#: resources/cli.xrc:20
+msgid "about"
+msgstr ""
+
+#: resources/cli.xrc:28
+msgid "Run command"
+msgstr "运行命令"
+
+#: resources/cli.xrc:36
+msgid "Clear console"
+msgstr "清除控制台"
+
+#: resources/getaccounthistory.xrc:31
+msgid "Returns the most recent operations on the named account."
+msgstr "返回指定帐户的最新操作。"
+
+#: resources/getaccounthistory.xrc:60
+msgid "Account name"
+msgstr "用户名"
+
+#: resources/getaccounthistory.xrc:122 resources/getorderbook.xrc:141
+msgid "Limit"
+msgstr "限制"
+
+#: resources/getaccounthistory.xrc:153 resources/getorderbook.xrc:172
+msgid "1"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:154 resources/getorderbook.xrc:173
+msgid "2"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:155 resources/getorderbook.xrc:174
+msgid "3"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:156 resources/getorderbook.xrc:175
+msgid "4"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:157 resources/getorderbook.xrc:176
+msgid "5"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:158 resources/getorderbook.xrc:177
+msgid "6"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:159 resources/getorderbook.xrc:178
+msgid "7"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:160 resources/getorderbook.xrc:179
+msgid "8"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:161 resources/getorderbook.xrc:180
+msgid "9"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:162 resources/getorderbook.xrc:181
+msgid "10"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:163 resources/getorderbook.xrc:182
+msgid "11"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:164 resources/getorderbook.xrc:183
+msgid "12"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:165 resources/getorderbook.xrc:184
+msgid "13"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:166 resources/getorderbook.xrc:185
+msgid "14"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:167 resources/getorderbook.xrc:186
+msgid "15"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:168 resources/getorderbook.xrc:187
+msgid "16"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:169 resources/getorderbook.xrc:188
+msgid "17"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:170 resources/getorderbook.xrc:189
+msgid "18"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:171 resources/getorderbook.xrc:190
+msgid "19"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:172 resources/getorderbook.xrc:191
+msgid "20"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:173 resources/getorderbook.xrc:192
+msgid "21"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:174 resources/getorderbook.xrc:193
+msgid "22"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:175 resources/getorderbook.xrc:194
+msgid "23"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:176 resources/getorderbook.xrc:195
+msgid "24"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:177 resources/getorderbook.xrc:196
+msgid "25"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:178 resources/getorderbook.xrc:197
+msgid "26"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:179 resources/getorderbook.xrc:198
+msgid "27"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:180 resources/getorderbook.xrc:199
+msgid "28"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:181 resources/getorderbook.xrc:200
+msgid "29"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:182 resources/getorderbook.xrc:201
+msgid "30"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:183 resources/getorderbook.xrc:202
+msgid "31"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:184 resources/getorderbook.xrc:203
+msgid "32"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:185 resources/getorderbook.xrc:204
+msgid "33"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:186 resources/getorderbook.xrc:205
+msgid "34"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:187 resources/getorderbook.xrc:206
+msgid "35"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:188 resources/getorderbook.xrc:207
+msgid "36"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:189 resources/getorderbook.xrc:208
+msgid "37"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:190 resources/getorderbook.xrc:209
+msgid "38"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:191 resources/getorderbook.xrc:210
+msgid "39"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:192 resources/getorderbook.xrc:211
+msgid "40"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:193 resources/getorderbook.xrc:212
+msgid "41"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:194 resources/getorderbook.xrc:213
+msgid "42"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:195 resources/getorderbook.xrc:214
+msgid "43"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:196 resources/getorderbook.xrc:215
+msgid "44"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:197 resources/getorderbook.xrc:216
+msgid "45"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:198 resources/getorderbook.xrc:217
+msgid "46"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:199 resources/getorderbook.xrc:218
+msgid "47"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:200 resources/getorderbook.xrc:219
+msgid "48"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:201 resources/getorderbook.xrc:220
+msgid "49"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:202 resources/getorderbook.xrc:221
+msgid "50"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:203
+msgid "51"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:204
+msgid "52"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:205
+msgid "53"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:206
+msgid "54"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:207
+msgid "55"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:208
+msgid "56"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:209
+msgid "57"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:210
+msgid "58"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:211
+msgid "59"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:212
+msgid "60"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:213
+msgid "61"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:214
+msgid "62"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:215
+msgid "63"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:216
+msgid "64"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:217
+msgid "65"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:218
+msgid "66"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:219
+msgid "67"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:220
+msgid "68"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:221
+msgid "69"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:222
+msgid "70"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:223
+msgid "71"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:224
+msgid "72"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:225
+msgid "73"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:226
+msgid "74"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:227
+msgid "75"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:228
+msgid "76"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:229
+msgid "77"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:230
+msgid "78"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:231
+msgid "79"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:232
+msgid "80"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:233
+msgid "81"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:234
+msgid "82"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:235
+msgid "83"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:236
+msgid "84"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:237
+msgid "85"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:238
+msgid "86"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:239
+msgid "87"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:240
+msgid "88"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:241
+msgid "89"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:242
+msgid "90"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:243
+msgid "91"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:244
+msgid "92"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:245
+msgid "93"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:246
+msgid "94"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:247
+msgid "95"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:248
+msgid "96"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:249
+msgid "97"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:250
+msgid "98"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:251
+msgid "99"
+msgstr ""
+
+#: resources/getaccounthistory.xrc:252
+msgid "100"
+msgstr ""
+
+#: resources/getcommitteemember.xrc:31
+msgid "Returns information about the given committee member."
+msgstr "返回有关给定委员会成员的信息。"
+
+#: resources/getcommitteemember.xrc:60
+msgid "Owner Account"
+msgstr "所有者帐户"
+
+#: resources/getorderbook.xrc:32
+msgid "Return the order book for a given market"
+msgstr "退回给定市场的订单"
+
+#: resources/getorderbook.xrc:61
+msgid "Market"
+msgstr "市场"
+
+#: resources/getorderbook.xrc:98
+msgid "/"
+msgstr ""
+
+#: resources/importkey_dialog.xrc:7 resources/main.xrc:140
+msgid "Import Key"
+msgstr "导入密钥"
+
+#: resources/importkey_dialog.xrc:33
+msgid "Account Name"
+msgstr "用户名"
+
+#: resources/importkey_dialog.xrc:92
+msgid "Private Key"
+msgstr "私钥"
+
+#: resources/importkey_dialog.xrc:196
+msgid "&Cancel"
+msgstr "&取消"
+
+#: resources/info.xrc:50
+msgid "Head block number:"
+msgstr "头部编号"
+
+#: resources/info.xrc:76
+msgid "Block age:"
+msgstr "封锁年龄："
+
+#: resources/info.xrc:102
+msgid "Next maintenance time:"
+msgstr "下次维护时间："
+
+#: resources/info.xrc:128
+msgid "Participation:"
+msgstr "参与："
+
+#: resources/info.xrc:154
+msgid "Active witnesses:"
+msgstr "积极的证人："
+
+#: resources/info.xrc:163 resources/info.xrc:190 resources/main.xrc:68
+msgid "View"
+msgstr "视图"
+
+#: resources/info.xrc:181
+msgid "Active committee:"
+msgstr "积极委员会："
+
+#: resources/info.xrc:208
+msgid "Chain ID:"
+msgstr "链ID："
+
+#: resources/info.xrc:234
+msgid "Core asset:"
+msgstr "核心资产："
+
+#: resources/info.xrc:260
+msgid "Blockchain name:"
+msgstr "区块链名称："
+
+#: resources/main.xrc:6 main.cpp:8
 msgid "G-Wallet | Secure Bitshares Wallet"
 msgstr "G-Wallet | 安全Bitshares钱包"
 
-#: modes/cli.cpp:22
-msgid "Run Command"
+#: resources/main.xrc:12
+msgid "File"
+msgstr "文件"
+
+#: resources/main.xrc:14
+msgid "New"
+msgstr "新"
+
+#: resources/main.xrc:18
+msgid "Open"
+msgstr "打开"
+
+#: resources/main.xrc:22
+msgid "Save"
+msgstr "保存"
+
+#: resources/main.xrc:26
+msgid "Connection"
+msgstr "连接"
+
+#: resources/main.xrc:31
+msgid "Change language"
+msgstr "改变语言"
+
+#: resources/main.xrc:35
+msgid "Quit"
+msgstr "放弃"
+
+#: resources/main.xrc:42 resources/main.xrc:116
+msgid "Connect"
+msgstr "连"
+
+#: resources/main.xrc:46 resources/main.xrc:122
+msgid "Disconnect"
+msgstr "断开"
+
+#: resources/main.xrc:51
+msgid "Set password"
+msgstr "设置密码"
+
+#: resources/main.xrc:55 resources/main.xrc:128
+msgid "Lock"
+msgstr "锁"
+
+#: resources/main.xrc:59 resources/main.xrc:134
+msgid "Unlock"
+msgstr "开锁"
+
+#: resources/main.xrc:63
+msgid "Import key"
+msgstr "导入密钥"
+
+#: resources/main.xrc:71
+msgid "Welcome"
+msgstr "欢迎"
+
+#: resources/main.xrc:93
+msgid "CLI"
 msgstr ""
 
-#: modes/cli.cpp:26
-msgid "Clear Console"
+#: resources/main.xrc:101
+msgid "Help"
+msgstr "救命"
+
+#: resources/main.xrc:103 panels/wallet.cpp:33 panels/wallet.cpp:154
+msgid "About"
+msgstr "关于"
+
+#: resources/main.xrc:149
+msgid "My accounts"
+msgstr "我的帐户"
+
+#: resources/main.xrc:150
+msgid "MY ACCOUNTS"
+msgstr "我的帐户"
+
+#: resources/main.xrc:156
+msgid "My assets"
+msgstr "我的资产"
+
+#: resources/main.xrc:157
+msgid "MY ASSETS"
+msgstr "我的资产"
+
+#: resources/main.xrc:170
+msgid "My balance"
+msgstr "我的平衡"
+
+#: resources/main.xrc:171
+msgid "0.00 BTS"
 msgstr ""
 
-#: modes/home.cpp:20
-msgid "Blockchain Information"
+#: resources/main.xrc:209
+msgid "Welcome to G-Wallet"
+msgstr "欢迎来到G-Wallet"
+
+#: resources/main.xrc:218
+msgid "Version 0.5.0"
 msgstr ""
 
-#: modes/home.cpp:28
-msgid "Head block number:"
-msgstr ""
-
-#: modes/home.cpp:39
-msgid "Block age:"
-msgstr ""
-
-#: modes/home.cpp:50
-msgid "Next maintenance time:"
-msgstr ""
-
-#: modes/home.cpp:61
-msgid "Participation:"
-msgstr ""
-
-#: modes/home.cpp:72
-msgid "Active witnesses:"
-msgstr ""
-
-#: modes/home.cpp:76 modes/home.cpp:87
-msgid "View"
-msgstr ""
-
-#: modes/home.cpp:83
-msgid "Active committee:"
-msgstr ""
-
-#: modes/home.cpp:94
-msgid "Chain ID:"
-msgstr ""
-
-#: modes/home.cpp:101
-msgid "Account Information"
-msgstr ""
-
-#: modes/home.cpp:109
-msgid "Name:"
-msgstr ""
-
-#: modes/home.cpp:120
-msgid "ID:"
-msgstr ""
-
-#: modes/home.cpp:131
-msgid "Referrer"
-msgstr ""
-
-#: modes/home.cpp:142
-msgid "Registrar"
-msgstr ""
-
-#: modes/home.cpp:153
-msgid "Voting as"
-msgstr ""
-
-#: modes/home.cpp:164
-msgid "Total ops"
-msgstr ""
-
-#: modes/home.cpp:171
-msgid "Software Information"
-msgstr ""
-
-#: modes/home.cpp:179
-msgid "Client version:"
-msgstr ""
-
-#: modes/home.cpp:190
-msgid "Graphene revision:"
-msgstr ""
-
-#: modes/home.cpp:201
-msgid "Revision age:"
-msgstr ""
-
-#: modes/home.cpp:212
-msgid "FC revision:"
-msgstr ""
-
-#: modes/home.cpp:223
-msgid "FC revision age:"
-msgstr ""
-
-#: modes/home.cpp:234
-msgid "Compile date:"
-msgstr ""
-
-#: modes/home.cpp:245
-msgid "Boost version:"
-msgstr ""
-
-#: modes/home.cpp:256
-msgid "OpenSSL version:"
-msgstr ""
-
-#: modes/home.cpp:267
-msgid "OS build:"
-msgstr ""
-
-#: modes/home.cpp:275
-msgid "Market Prices"
-msgstr ""
-
-#: modes/sendreceive.cpp:21 modes/sendreceive.cpp:56
-msgid "Send"
-msgstr ""
-
-#: modes/sendreceive.cpp:26
-msgid "Receipient:"
-msgstr ""
-
-#: modes/sendreceive.cpp:34
-msgid "Amount:"
-msgstr ""
-
-#: modes/sendreceive.cpp:52
-msgid "Generate Url"
-msgstr ""
-
-#: modes/sendreceive.cpp:60
-msgid "Generated URL for transfer:"
-msgstr ""
-
-#: modes/sendreceive.cpp:72
-msgid "Receive"
-msgstr ""
-
-#: modes/sendreceive.cpp:77
-msgid "From:"
-msgstr ""
-
-#: modes/sendreceive.cpp:85
-msgid "Amount and asset to receive:"
-msgstr ""
-
-#: modes/sendreceive.cpp:100
-msgid "Generate URL"
-msgstr ""
-
-#: modes/sendreceive.cpp:104
+#: resources/main.xrc:250
 msgid ""
-"To receive asset simply send your account name and amount to the sender, "
-"send URL or QR:"
-msgstr ""
+"Setup a new wallet by following the wizard. Please note you need a created "
+"account and private key in order to use the software."
+msgstr "按照向导设置新钱包。 请注意，您需要创建帐户和私钥才能使用该软件。"
 
-#: modes/sendreceive.cpp:208 modes/sendreceive.cpp:244
-msgid "Receipient is empty"
-msgstr ""
-
-#: modes/sendreceive.cpp:230 modes/sendreceive.cpp:266
-msgid "Amount is empty"
-msgstr ""
-
-#: modes/sendreceive.cpp:275
-msgid "Asset is empty"
-msgstr ""
-
-#: modes/wallet.cpp:16
-msgid "Select a Command"
-msgstr ""
-
-#: modes/wallet.cpp:23
-msgid "Transfer an amount from one account to another."
-msgstr ""
-
-#: modes/wallet.cpp:27
-msgid "Transfer"
-msgstr ""
-
-#: modes/wallet.cpp:35
-msgid "Place a limit order attempting to sell one asset for another."
-msgstr ""
-
-#: modes/wallet.cpp:39 modes/wallet.cpp:125
-msgid "Sell asset"
-msgstr ""
-
-#: modes/wallet.cpp:47
-msgid "Borrow an asset or update the debt/collateral ratio for the loan."
-msgstr ""
-
-#: modes/wallet.cpp:51 modes/wallet.cpp:130
-msgid "Borrow asset"
-msgstr ""
-
-#: modes/wallet.cpp:59
-msgid "Cancel an existing order."
-msgstr ""
-
-#: modes/wallet.cpp:63
-msgid "Cancel order"
-msgstr ""
-
-#: modes/wallet.cpp:71
-msgid "Set the voting proxy for an account."
-msgstr ""
-
-#: modes/wallet.cpp:75
-msgid "Update proxy"
-msgstr ""
-
-#: modes/wallet.cpp:120
-msgid "Transfer asset"
-msgstr ""
-
-#: wizards/welcome.cpp:16
-msgid "This wizard will help you setup a new wallet.\n"
-msgstr ""
-
-#: wizards/welcome.cpp:23
+#: resources/main.xrc:287
 msgid ""
-"Click Next to get started..\n"
-"Click Cancel to start the program now."
-msgstr ""
+"If you already have a wallet.json file somewhere please use this option to "
+"import it to G-Wallet."
+msgstr "如果您已在某处拥有wallet.json文件，请使用此选项将其导入G-Wallet。"
 
-#: wizards/welcome.cpp:39
-msgid "First step to start using G-Wallet is to create a wallet file.\n"
-msgstr ""
+#: resources/main.xrc:324
+msgid "If your wallet is all set, connect to Bitshares."
+msgstr "如果您的钱包已全部设置，请连接到Bitshares。"
 
-#: wizards/welcome.cpp:44
+#: resources/registration_wizard.xrc:5
+msgid "Setup wizard"
+msgstr "安装向导"
+
+#: resources/registration_wizard.xrc:16
+msgid "This wizard will help you set up a new wallet."
+msgstr "该向导将帮助您设置新钱包。"
+
+#: resources/registration_wizard.xrc:25
+msgid "Click Next to get started."
+msgstr "单击“下一步”开始。"
+
+#: resources/registration_wizard.xrc:34
+msgid "Click Cancel to exit the wizard."
+msgstr "单击“取消”退出向导。"
+
+#: resources/registration_wizard.xrc:48
 msgid ""
-"This file is used to store configuration options that will be used to start "
-"the application next\n"
-"time you use it.\n"
+"First step to start using G-Wallet is to create a \n"
+"wallet file."
 msgstr ""
+"开始使用G-Wallet的第一步是创建一个\n"
+"钱包文件。"
 
-#: wizards/welcome.cpp:51
+#: resources/registration_wizard.xrc:57
+msgid ""
+"This file is used to store configuration options \n"
+"that will be used to start the application next \n"
+"time you use it."
+msgstr ""
+"此文件用于存储配置选项\n"
+"这将用于下一步启动应用程序\n"
+"你使用它的时间。"
+
+#: resources/registration_wizard.xrc:78
 msgid "Select wallet path and name:"
+msgstr "选择钱包路径和名称："
+
+#: resources/registration_wizard.xrc:119
+msgid ""
+"Next step is to insert your API endpoint and \n"
+"create a wallet password."
+msgstr ""
+"下一步是插入您的API端点和\n"
+"创建钱包密码。"
+
+#: resources/registration_wizard.xrc:128
+msgid "Introduce your API endpoint:"
+msgstr "介绍您的API端点："
+
+#: resources/registration_wizard.xrc:143
+msgid "wss://node.bitshares.eu"
 msgstr ""
 
-#: wizards/welcome.cpp:75
-msgid "Click on Next to continue with the configuration."
-msgstr ""
+#: resources/registration_wizard.xrc:168
+msgid "Wallet password:"
+msgstr "钱包密码："
 
-#: wizards/welcome.cpp:92
+#: resources/registration_wizard.xrc:186
+msgid "Repeat password:"
+msgstr "重复输入密码："
+
+#: resources/registration_wizard.xrc:215
+msgid ""
+"If you already have an account in Bitshares \n"
+"and have a private key use the Import account option. "
+msgstr ""
+"如果您已在Bitshares拥有帐户\n"
+"并使用私钥使用导入帐户选项。"
+
+#: resources/registration_wizard.xrc:224
+msgid ""
+"To register a new account please use the \n"
+"Create account option."
+msgstr ""
+"要注册新帐户，请使用\n"
+"创建帐户选项。"
+
+#: resources/registration_wizard.xrc:239
+msgid "Registration options:"
+msgstr "注册选项："
+
+#: resources/registration_wizard.xrc:248
+msgid ""
+"Import account - Need private key and \n"
+"account name pair."
+msgstr ""
+"导入帐户 - 需要私钥和\n"
+"帐户名称对。"
+
+#: resources/registration_wizard.xrc:258
+msgid ""
+"Create account - Will connect to a faucet \n"
+"service."
+msgstr ""
+"创建帐户 - 将连接到水龙头\n"
+"服务。"
+
+#: resources/registration_wizard.xrc:278
+msgid "Import your Bitshares account to G-Wallet."
+msgstr "将您的Bitshares帐户导入G-Wallet。"
+
+#: resources/registration_wizard.xrc:293
+msgid "Account:"
+msgstr "帐户："
+
+#: resources/registration_wizard.xrc:310
+msgid "Private key:"
+msgstr "私钥："
+
+#: resources/sellasset.xrc:25
+msgid ""
+"Buying and selling are the same operation on Graphene; if you want to buy "
+"BTS with USD, you should sell USD for BTS.\n"
+"\n"
+"The blockchain will attempt to sell the symbol_to_sell for as much "
+"symbol_to_receive as possible, as long as the price is at least "
+"min_to_receive / amount_to_sell.\n"
+"       \n"
+"In addition to the transaction fees, market fees will apply as specified by "
+"the issuer of both the selling asset and the receiving asset as a percentage "
+"of the amount exchanged.\n"
+"       \n"
+"If either the selling asset or the receiving asset is whitelist restricted, "
+"the order will only be created if the seller is on the whitelist of the "
+"restricted asset type.\n"
+"       \n"
+" Market orders are matched in the order they are included in the block chain."
+msgstr ""
+"购买和销售与石墨烯的操作相同; 如果你想用美元购买BTS，你应该卖BTS美元。\n"
+"\n"
+"只要价格至少为min_to_receive / amount_to_sell，区块链将尝试尽可能多地出售"
+"symbol_to_sell symbolitoceceive。\n"
+"       \n"
+"除交易费外，市场费用将按出售资产和接收资产的发行人的指定，按交换金额的百分比"
+"计算。\n"
+"       \n"
+"如果销售资产或接收资产是白名单限制，则只有在卖方位于受限资产类型的白名单中时"
+"才会创建订单。\n"
+"       \n"
+"  市场订单按它们包含在区块链中的顺序进行匹配。"
+
+#: resources/sellasset.xrc:26
+msgid " Place a limit order attempting to sell one asset for another."
+msgstr "下达限价单，试图将一种资产出售给另一种资产。"
+
+#: resources/sellasset.xrc:49
+msgid "Seller account"
+msgstr "卖家帐户"
+
+#: resources/sellasset.xrc:79
+msgid ""
+"The account providing the asset being sold, and which will receive the "
+"proceeds of the sale."
+msgstr "提供资产的账户，并将收到销售收益。"
+
+#: resources/sellasset.xrc:115
+msgid "Amount to sell"
+msgstr "出售金额"
+
+#: resources/sellasset.xrc:144
+msgid "The amount of the asset being sold to sell (in nominal units)."
+msgstr "出售的资产数量（以名义单位计算）。出售的资产数量（以名义单位计算）。"
+
+#: resources/sellasset.xrc:156
+msgid "The name or id of the asset to sell."
+msgstr "要出售的资产的名称或ID。"
+
+#: resources/sellasset.xrc:192
+msgid "Minimum amount to receive"
+msgstr "最低接收金额"
+
+#: resources/sellasset.xrc:221
+msgid ""
+"The minimum amount you are willing to receive in return for selling the "
+"entire amount_to_sell."
+msgstr "您出售整个amount_to_sell时愿意收到的最低金额。"
+
+#: resources/sellasset.xrc:232
+msgid "The name or id of the asset you wish to receive."
+msgstr "您希望收到的资产的名称或ID。"
+
+#: resources/sellasset.xrc:267
+msgid "Timeout"
+msgstr "超时"
+
+#: resources/sellasset.xrc:297
+msgid ""
+"If the order does not fill immediately, this is the length of  time the "
+"order will remain on the order books before it is cancelled and the un-spent "
+"funds are returned to the seller's account."
+msgstr ""
+"如果订单没有立即填写，这是订单在取消之前保留在订单簿上的时间长度，并且未用完"
+"的资金将返回到卖方的帐户。"
+
+#: resources/sellasset.xrc:306
+msgid ""
+"If the order does not fill immediately, this is the length of  time the "
+"order will remain on the order books before it is cancelled and the un-spent "
+"funds are returned to the seller's account"
+msgstr ""
+"如果订单没有立即填写，这是订单在取消之前保留在订单簿上的时间长度，并且未用完"
+"的资金将返回到卖方的帐户"
+
+#: resources/sellasset.xrc:340
+msgid ""
+"If checked, the order will only be included in the blockchain if it is "
+"filled immediately; if not checked, an open order will be left on the books "
+"to fill any amount that cannot be filled immediately."
+msgstr ""
+"如果选中，则只有在立即填写的情况下，订单才会包含在区块链中; 如果没有选中，则"
+"会在书上留下未结订单，以填写任何无法立即填写的金额。"
+
+#: resources/sellasset.xrc:341
+msgid "Fill or Kill"
+msgstr "填充或杀死"
+
+#: resources/sellasset.xrc:350
+msgid "Check to broadcast the transaction on the network"
+msgstr "检查以在网络上广播该事务"
+
+#: resources/setproxy.xrc:25
+msgid ""
+" If a user does not wish to take an active part in voting, they can choose "
+"to allow another account to vote their stake.\n"
+"\n"
+"Setting a vote proxy does not remove your previous votes from the "
+"blockchain, they remain there but are ignored.  If you later null out your "
+"vote proxy, your previous votes will take effect again.\n"
+"\n"
+" This setting can be changed at any time."
+msgstr ""
+"如果用户不希望积极参与投票，他们可以选择允许其他帐户投票。\n"
+"\n"
+"设置投票代理不会从区块链中删除您之前的投票，它们会保留在那里但会被忽略。 如果"
+"您之后取消了您的投票代理，您之前的投票将再次生效。\n"
+"\n"
+"  此设置可以随时更改。"
+
+#: resources/setproxy.xrc:26
+msgid "Set the voting proxy for an account."
+msgstr "设置帐户的投票代理。"
+
+#: resources/setproxy.xrc:49
+msgid "Account to modify"
+msgstr "帐户修改帐户修改"
+
+#: resources/setproxy.xrc:79
+msgid "The name or id of the account to update."
+msgstr "要更新的帐户的名称或ID。"
+
+#: resources/setproxy.xrc:115
+msgid "Voting account"
+msgstr "投票账号"
+
+#: resources/setproxy.xrc:144
+msgid ""
+"The name or id of an account authorized to vote account_to_modify's shares, "
+"or null to vote your own shares."
+msgstr ""
+"授权投票account_to_modify的股票的帐户的名称或ID，或null投票您自己的股票。"
+
+#: resources/setproxy.xrc:179
+msgid "Check if you wish to broadcast the transaction to the network."
+msgstr "检查您是否要将交易广播到网络。"
+
+#: resources/transfer.xrc:25
+msgid "Transfer asset to another bitshares account"
+msgstr "将资产转移到另一个bitshares帐户"
+
+#: resources/transfer.xrc:48
+msgid "From"
+msgstr "从"
+
+#: resources/transfer.xrc:78
+msgid "The name or id of the account sending the funds"
+msgstr "发送资金的帐户的名称或ID"
+
+#: resources/transfer.xrc:114
+msgid "To"
+msgstr "至"
+
+#: resources/transfer.xrc:177
+msgid "Amount"
+msgstr "量"
+
+#: resources/transfer.xrc:206
+msgid ""
+"The amount to send (in nominal units -- to send half of a BTS, specify 0.5)"
+msgstr "发送金额（以标称单位 - 发送一半BTS，指定0.5）"
+
+#: resources/transfer.xrc:218
+msgid "The symbol or id of the asset to send"
+msgstr "要发送的资产的符号或ID"
+
+#: resources/transfer.xrc:254
+msgid "Memo"
+msgstr "备忘录"
+
+#: resources/transfer.xrc:285
+msgid ""
+"A memo to attach to the transaction.  The memo will be encrypted in the "
+"transaction and readable for the receiver.  There is no length limit other "
+"than the limit imposed by maximum transaction size, but transaction increase "
+"with transaction size"
+msgstr ""
+"附加到交易的备忘录。 备忘录将在交易中加密，并为接收者可读。 除了最大事务大小"
+"所施加的限制之外没有长度限制，但事务随着事务大小而增加"
+
+#: resources/transfer.xrc:321
+msgid "Broadcast the transaction on the network"
+msgstr "在网络上广播交易在网络上广播交易"
+
+#: resources/transfer.xrc:322
+msgid "Broadcast Transaction"
+msgstr "广播交易"
+
+#: resources/wallet.xrc:15
+msgid "Please unlock your wallet"
+msgstr "请解锁你的钱包"
+
+#: panels/active_committee.cpp:9
+msgid "Please wait, updating active committee members info ..."
+msgstr ""
+"请稍等，更新活跃的委员会成员信息......请稍等，更新活跃的委员会成员信息......"
+
+#: panels/active_witnesses.cpp:9
+msgid "Please wait, updating active witnesses info ..."
+msgstr "请稍等，更新有效的证人信息..."
+
+#: panels/borrowasset.cpp:28 panels/getorderbook.cpp:26 panels/sellasset.cpp:31
+msgid "Assets found"
+msgstr "找到资产"
+
+#: panels/borrowasset.cpp:28 panels/getorderbook.cpp:26 panels/sellasset.cpp:31
+msgid "Please select an asset"
+msgstr "请选择一项资产"
+
+#: panels/borrowasset.cpp:49 panels/sellasset.cpp:65
+msgid "Asset is invalid"
+msgstr "资产无效"
+
+#: panels/borrowasset.cpp:75
+msgid "Confirm Borrow Asset?"
+msgstr "确认借入资产？"
+
+#: panels/cancelorder.cpp:20
+msgid "No order selected"
+msgstr "没有选择订单"
+
+#: panels/cancelorder.cpp:48
+msgid "Confirm cancel order?"
+msgstr "确认取消订单？"
+
+#: panels/getaccounthistory.cpp:36
+msgid "Please wait, getting account history ..."
+msgstr "请稍等，获取帐户历史记录..."
+
+#: panels/getaccounthistory.cpp:51
+msgid "Account not found"
+msgstr "找不到帐户"
+
+#: panels/getcommitteemember.cpp:47
+msgid "Account is not a committee member"
+msgstr "帐户不是委员会成员"
+
+#: panels/getorderbook.cpp:53
+msgid "Invalid market"
+msgstr "市场无效"
+
+#: panels/info.cpp:30 panels/wallet.cpp:35
+msgid "Active witnesses"
+msgstr "积极的证人"
+
+#: panels/info.cpp:36 panels/wallet.cpp:36 panels/wallet.cpp:172
+msgid "Active committee"
+msgstr "积极委员会"
+
+#: panels/sellasset.cpp:92
+msgid "Confirm Sell Asset?"
+msgstr "确认出售资产？"
+
+#: panels/setproxy.cpp:68 panels/transfer.cpp:64
+msgid "Account is invalid"
+msgstr "帐户无效"
+
+#: panels/setproxy.cpp:94
+msgid "Confirm update of voting account?"
+msgstr "确认投票账号的更新？"
+
+#: panels/transfer.cpp:89
+msgid "Confirm transfer?"
+msgstr "确认转移？"
+
+#: panels/wallet.cpp:22
+msgid "Operations"
+msgstr "操作"
+
+#: panels/wallet.cpp:24 panels/wallet.cpp:100
+msgid "Transfer"
+msgstr "传递"
+
+#: panels/wallet.cpp:25
+msgid "Sell asset"
+msgstr "出售资产"
+
+#: panels/wallet.cpp:26
+msgid "Borrow asset"
+msgstr "借入资产"
+
+#: panels/wallet.cpp:27 panels/wallet.cpp:118
+msgid "Cancel order"
+msgstr "取消订单"
+
+#: panels/wallet.cpp:28 panels/wallet.cpp:124
+msgid "Set proxy"
+msgstr "设置代理"
+
+#: panels/wallet.cpp:29
+msgid "Suggest brain key"
+msgstr "建议的脑键"
+
+#: panels/wallet.cpp:30
+msgid "Get committee member"
+msgstr "委员会成员"
+
+#: panels/wallet.cpp:31
+msgid "Get account history"
+msgstr "帐户历史记录"
+
+#: panels/wallet.cpp:32
+msgid "Get order book"
+msgstr "订单"
+
+#: panels/wallet.cpp:34
+msgid "Info"
+msgstr "信息"
+
+#: panels/wallet.cpp:106
+msgid "Sell Asset"
+msgstr "出售资产"
+
+#: panels/wallet.cpp:112
+msgid "Borrow Asset"
+msgstr "借入资产"
+
+#: panels/wallet.cpp:130
+msgid "Suggested Brain key"
+msgstr "建议的脑键"
+
+#: panels/wallet.cpp:136
+msgid "Committee member"
+msgstr "委员会成员"
+
+#: panels/wallet.cpp:142
+msgid "Account history"
+msgstr "帐户历史记录"
+
+#: panels/wallet.cpp:148
+msgid "Order book"
+msgstr "订单"
+
+#: panels/wallet.cpp:166
+msgid "Active witnsses"
+msgstr "积极的证人"
+
+#: wizards/registration.cpp:27
 msgid "Select your wallet directory"
-msgstr ""
+msgstr "选择您的钱包目录"
 
-#: wizards/welcome.cpp:106
+#: wizards/registration.cpp:48
+msgid "Connected to server"
+msgstr "连接到服务器"
+
+#: wizards/registration.cpp:54
+msgid "Some problem connecting"
+msgstr "连接有些问题"
+
+#: wizards/registration.cpp:82
 msgid ""
 "Wallet file exists, please close the welcome wizard and use File->Open from "
 "menu to use it."
-msgstr ""
+msgstr "存在钱包文件，请关闭欢迎向导并使用文件 - >打开菜单进行操作。"
 
-#: wizards/welcome.cpp:125
-msgid "Select your server:"
-msgstr ""
-
-#: wizards/welcome.cpp:144
-msgid "Wallet password:"
-msgstr ""
-
-#: wizards/welcome.cpp:151
-msgid "Repeat password:"
-msgstr ""
-
-#: wizards/welcome.cpp:178
-msgid "Connected to server"
-msgstr ""
-
-#: wizards/welcome.cpp:184
-msgid "Some problem connecting"
-msgstr ""
-
-#: wizards/welcome.cpp:200
+#: wizards/registration.cpp:100
 msgid "Password and confirmation are not the same"
-msgstr ""
+msgstr "密码和确认不一样"
 
-#: wizards/welcome.cpp:208
-msgid "Password or confirmation cant be empty"
-msgstr ""
+#: wizards/registration.cpp:108
+msgid "Password or confirmation can not be empty"
+msgstr "密码或确认不能为空"
 
-#: wizards/welcome.cpp:250
-msgid "Import your key, we cant create account yet!"
-msgstr ""
-
-#: wizards/welcome.cpp:268
-msgid "Private key:"
-msgstr ""
-
-#: wizards/welcome.cpp:297 wizards/welcome.cpp:345
-msgid "Account can't be empty"
-msgstr ""
-
-#: wizards/welcome.cpp:314
-msgid "Account looks good"
-msgstr ""
-
-#: wizards/welcome.cpp:322 wizards/welcome.cpp:362
-msgid "Private key can't be empty"
-msgstr ""
-
-#: wizards/welcome.cpp:338
+#: wizards/registration.cpp:145
 msgid "Please wait, setting up everything ..."
-msgstr ""
+msgstr "请稍等，设置一切......"
+
+#: wizards/registration.cpp:152
+msgid "Account can't be empty"
+msgstr "帐户不能为空"
+
+#: wizards/registration.cpp:169
+msgid "Private key can't be empty"
+msgstr "私钥不能为空"
