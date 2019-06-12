@@ -70,6 +70,8 @@ Use the File -> New (CTRL-N) to start the configuration wizard when running the 
 
 Use File -> Change language to translate the wallet, English, Spanish and Chinese are supported.
 
+![Chinese](readme_images/chinese.png)
+
 
 ## Usage
 
