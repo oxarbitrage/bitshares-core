@@ -20,8 +20,10 @@ add_executable( gwallet
     panels/about.cpp
     panels/active_witnesses.cpp
     panels/active_committee.cpp
+	panels/upgradeaccount.cpp
 
-    wizards/registration.cpp
+
+	wizards/registration.cpp
 
 )
 

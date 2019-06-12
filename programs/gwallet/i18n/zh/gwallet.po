@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-11 19:48-0300\n"
-"PO-Revision-Date: 2019-06-11 20:04-0300\n"
+"POT-Creation-Date: 2019-06-12 16:11-0300\n"
+"PO-Revision-Date: 2019-06-12 16:16-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh\n"
@@ -99,7 +99,7 @@ msgstr "关于G-Wallet"
 msgid "Some problem when locking, try again ..."
 msgstr "锁定时有些问题，请再试一次......"
 
-#: gwallet.cpp:219 panels/wallet.cpp:52
+#: gwallet.cpp:219 panels/wallet.cpp:54
 msgid "Please double click a command from below"
 msgstr "请双击下面的命令"
 
@@ -111,7 +111,7 @@ msgstr "解锁钱包"
 msgid "Password is incorrect, please try again."
 msgstr "密码不正确，请重试。"
 
-#: gwallet.cpp:391 resources/info.xrc:32 panels/wallet.cpp:160
+#: gwallet.cpp:391 resources/info.xrc:32 panels/wallet.cpp:161
 msgid "Blockchain information"
 msgstr "区块链信息"
 
@@ -251,10 +251,6 @@ msgstr ""
 "要添加到抵押品头寸的支持资产金额。 将此否定权归还一些抵押品。\n"
 "支持资产在bitasset_options中为借用的资产定义。"
 
-#: resources/borrowasset.xrc:228
-msgid " BTS"
-msgstr ""
-
 #: resources/borrowasset.xrc:263 resources/cancelorder.xrc:113
 msgid "Check to broadcast the transaction on the network."
 msgstr "检查以在网络上广播该事务。"
@@ -268,14 +264,15 @@ msgstr "广播交易"
 #: resources/getaccounthistory.xrc:287 resources/getcommitteemember.xrc:117
 #: resources/getorderbook.xrc:256 resources/sellasset.xrc:360
 #: resources/setproxy.xrc:189 resources/transfer.xrc:331
+#: resources/upgradeaccount.xrc:102
 msgid "Show output in CLI mode"
 msgstr "在CLI模式下显示输出"
 
 #: resources/borrowasset.xrc:334 resources/cancelorder.xrc:184
-#: resources/getaccounthistory.xrc:348 resources/getcommitteemember.xrc:184
+#: resources/getaccounthistory.xrc:348 resources/getcommitteemember.xrc:172
 #: resources/getorderbook.xrc:317 resources/importkey_dialog.xrc:189
 #: resources/sellasset.xrc:421 resources/setproxy.xrc:250
-#: resources/transfer.xrc:392
+#: resources/transfer.xrc:392 resources/upgradeaccount.xrc:157
 msgid "&OK"
 msgstr "&好"
 
@@ -290,10 +287,6 @@ msgstr "要取消"
 #: resources/cancelorder.xrc:78
 msgid " Select order to be cancelled."
 msgstr "选择要取消的订单。"
-
-#: resources/cli.xrc:20
-msgid "about"
-msgstr ""
 
 #: resources/cli.xrc:28
 msgid "Run command"
@@ -314,406 +307,6 @@ msgstr "用户名"
 #: resources/getaccounthistory.xrc:122 resources/getorderbook.xrc:141
 msgid "Limit"
 msgstr "限制"
-
-#: resources/getaccounthistory.xrc:153 resources/getorderbook.xrc:172
-msgid "1"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:154 resources/getorderbook.xrc:173
-msgid "2"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:155 resources/getorderbook.xrc:174
-msgid "3"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:156 resources/getorderbook.xrc:175
-msgid "4"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:157 resources/getorderbook.xrc:176
-msgid "5"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:158 resources/getorderbook.xrc:177
-msgid "6"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:159 resources/getorderbook.xrc:178
-msgid "7"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:160 resources/getorderbook.xrc:179
-msgid "8"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:161 resources/getorderbook.xrc:180
-msgid "9"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:162 resources/getorderbook.xrc:181
-msgid "10"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:163 resources/getorderbook.xrc:182
-msgid "11"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:164 resources/getorderbook.xrc:183
-msgid "12"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:165 resources/getorderbook.xrc:184
-msgid "13"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:166 resources/getorderbook.xrc:185
-msgid "14"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:167 resources/getorderbook.xrc:186
-msgid "15"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:168 resources/getorderbook.xrc:187
-msgid "16"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:169 resources/getorderbook.xrc:188
-msgid "17"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:170 resources/getorderbook.xrc:189
-msgid "18"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:171 resources/getorderbook.xrc:190
-msgid "19"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:172 resources/getorderbook.xrc:191
-msgid "20"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:173 resources/getorderbook.xrc:192
-msgid "21"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:174 resources/getorderbook.xrc:193
-msgid "22"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:175 resources/getorderbook.xrc:194
-msgid "23"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:176 resources/getorderbook.xrc:195
-msgid "24"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:177 resources/getorderbook.xrc:196
-msgid "25"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:178 resources/getorderbook.xrc:197
-msgid "26"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:179 resources/getorderbook.xrc:198
-msgid "27"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:180 resources/getorderbook.xrc:199
-msgid "28"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:181 resources/getorderbook.xrc:200
-msgid "29"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:182 resources/getorderbook.xrc:201
-msgid "30"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:183 resources/getorderbook.xrc:202
-msgid "31"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:184 resources/getorderbook.xrc:203
-msgid "32"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:185 resources/getorderbook.xrc:204
-msgid "33"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:186 resources/getorderbook.xrc:205
-msgid "34"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:187 resources/getorderbook.xrc:206
-msgid "35"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:188 resources/getorderbook.xrc:207
-msgid "36"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:189 resources/getorderbook.xrc:208
-msgid "37"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:190 resources/getorderbook.xrc:209
-msgid "38"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:191 resources/getorderbook.xrc:210
-msgid "39"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:192 resources/getorderbook.xrc:211
-msgid "40"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:193 resources/getorderbook.xrc:212
-msgid "41"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:194 resources/getorderbook.xrc:213
-msgid "42"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:195 resources/getorderbook.xrc:214
-msgid "43"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:196 resources/getorderbook.xrc:215
-msgid "44"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:197 resources/getorderbook.xrc:216
-msgid "45"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:198 resources/getorderbook.xrc:217
-msgid "46"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:199 resources/getorderbook.xrc:218
-msgid "47"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:200 resources/getorderbook.xrc:219
-msgid "48"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:201 resources/getorderbook.xrc:220
-msgid "49"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:202 resources/getorderbook.xrc:221
-msgid "50"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:203
-msgid "51"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:204
-msgid "52"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:205
-msgid "53"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:206
-msgid "54"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:207
-msgid "55"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:208
-msgid "56"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:209
-msgid "57"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:210
-msgid "58"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:211
-msgid "59"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:212
-msgid "60"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:213
-msgid "61"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:214
-msgid "62"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:215
-msgid "63"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:216
-msgid "64"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:217
-msgid "65"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:218
-msgid "66"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:219
-msgid "67"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:220
-msgid "68"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:221
-msgid "69"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:222
-msgid "70"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:223
-msgid "71"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:224
-msgid "72"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:225
-msgid "73"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:226
-msgid "74"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:227
-msgid "75"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:228
-msgid "76"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:229
-msgid "77"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:230
-msgid "78"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:231
-msgid "79"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:232
-msgid "80"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:233
-msgid "81"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:234
-msgid "82"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:235
-msgid "83"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:236
-msgid "84"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:237
-msgid "85"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:238
-msgid "86"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:239
-msgid "87"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:240
-msgid "88"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:241
-msgid "89"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:242
-msgid "90"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:243
-msgid "91"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:244
-msgid "92"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:245
-msgid "93"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:246
-msgid "94"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:247
-msgid "95"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:248
-msgid "96"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:249
-msgid "97"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:250
-msgid "98"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:251
-msgid "99"
-msgstr ""
-
-#: resources/getaccounthistory.xrc:252
-msgid "100"
-msgstr ""
 
 #: resources/getcommitteemember.xrc:31
 msgid "Returns information about the given committee member."
@@ -859,7 +452,7 @@ msgstr ""
 msgid "Help"
 msgstr "救命"
 
-#: resources/main.xrc:103 panels/wallet.cpp:33 panels/wallet.cpp:154
+#: resources/main.xrc:103 panels/wallet.cpp:34 panels/wallet.cpp:155
 msgid "About"
 msgstr "关于"
 
@@ -893,7 +486,7 @@ msgstr "欢迎来到G-Wallet"
 
 #: resources/main.xrc:218
 msgid "Version 0.5.0"
-msgstr ""
+msgstr "版 0.5.0"
 
 #: resources/main.xrc:250
 msgid ""
@@ -960,10 +553,6 @@ msgstr ""
 #: resources/registration_wizard.xrc:128
 msgid "Introduce your API endpoint:"
 msgstr "介绍您的API端点："
-
-#: resources/registration_wizard.xrc:143
-msgid "wss://node.bitshares.eu"
-msgstr ""
 
 #: resources/registration_wizard.xrc:168
 msgid "Wallet password:"
@@ -1128,7 +717,7 @@ msgstr ""
 msgid "Fill or Kill"
 msgstr "填充或杀死"
 
-#: resources/sellasset.xrc:350
+#: resources/sellasset.xrc:350 resources/upgradeaccount.xrc:101
 msgid "Check to broadcast the transaction on the network"
 msgstr "检查以在网络上广播该事务"
 
@@ -1220,13 +809,25 @@ msgstr ""
 "附加到交易的备忘录。 备忘录将在交易中加密，并为接收者可读。 除了最大事务大小"
 "所施加的限制之外没有长度限制，但事务随着事务大小而增加"
 
-#: resources/transfer.xrc:321
+#: resources/transfer.xrc:321 resources/upgradeaccount.xrc:91
 msgid "Broadcast the transaction on the network"
 msgstr "在网络上广播交易在网络上广播交易"
 
-#: resources/transfer.xrc:322
+#: resources/transfer.xrc:322 resources/upgradeaccount.xrc:92
 msgid "Broadcast Transaction"
 msgstr "广播交易"
+
+#: resources/upgradeaccount.xrc:31
+msgid "This makes the account holder a 'lifetime member'."
+msgstr "这使得帐户持有人成为“终身会员”。"
+
+#: resources/upgradeaccount.xrc:32
+msgid "Upgrades an account to prime status."
+msgstr "将帐户升级为优质状态。"
+
+#: resources/upgradeaccount.xrc:61
+msgid "The name of the account to upgrade"
+msgstr "要升级的帐户的名称"
 
 #: resources/wallet.xrc:15
 msgid "Please unlock your wallet"
@@ -1281,11 +882,11 @@ msgstr "帐户不是委员会成员"
 msgid "Invalid market"
 msgstr "市场无效"
 
-#: panels/info.cpp:30 panels/wallet.cpp:35
+#: panels/info.cpp:30 panels/wallet.cpp:36
 msgid "Active witnesses"
 msgstr "积极的证人"
 
-#: panels/info.cpp:36 panels/wallet.cpp:36 panels/wallet.cpp:172
+#: panels/info.cpp:36 panels/wallet.cpp:37 panels/wallet.cpp:173
 msgid "Active committee"
 msgstr "积极委员会"
 
@@ -1297,7 +898,7 @@ msgstr "确认出售资产？"
 msgid "Account is invalid"
 msgstr "帐户无效"
 
-#: panels/setproxy.cpp:94
+#: panels/setproxy.cpp:94 panels/upgradeaccount.cpp:45
 msgid "Confirm update of voting account?"
 msgstr "确认投票账号的更新？"
 
@@ -1305,77 +906,85 @@ msgstr "确认投票账号的更新？"
 msgid "Confirm transfer?"
 msgstr "确认转移？"
 
-#: panels/wallet.cpp:22
+#: panels/wallet.cpp:23
 msgid "Operations"
 msgstr "操作"
 
-#: panels/wallet.cpp:24 panels/wallet.cpp:100
+#: panels/wallet.cpp:25 panels/wallet.cpp:101
 msgid "Transfer"
 msgstr "传递"
 
-#: panels/wallet.cpp:25
+#: panels/wallet.cpp:26
 msgid "Sell asset"
 msgstr "出售资产"
 
-#: panels/wallet.cpp:26
+#: panels/wallet.cpp:27
 msgid "Borrow asset"
 msgstr "借入资产"
 
-#: panels/wallet.cpp:27 panels/wallet.cpp:118
+#: panels/wallet.cpp:28 panels/wallet.cpp:119
 msgid "Cancel order"
 msgstr "取消订单"
 
-#: panels/wallet.cpp:28 panels/wallet.cpp:124
+#: panels/wallet.cpp:29 panels/wallet.cpp:125
 msgid "Set proxy"
 msgstr "设置代理"
 
-#: panels/wallet.cpp:29
+#: panels/wallet.cpp:30
 msgid "Suggest brain key"
 msgstr "建议的脑键"
 
-#: panels/wallet.cpp:30
+#: panels/wallet.cpp:31
 msgid "Get committee member"
 msgstr "委员会成员"
 
-#: panels/wallet.cpp:31
+#: panels/wallet.cpp:32
 msgid "Get account history"
 msgstr "帐户历史记录"
 
-#: panels/wallet.cpp:32
+#: panels/wallet.cpp:33
 msgid "Get order book"
 msgstr "订单"
 
-#: panels/wallet.cpp:34
+#: panels/wallet.cpp:35
 msgid "Info"
 msgstr "信息"
 
-#: panels/wallet.cpp:106
+#: panels/wallet.cpp:38
+msgid "Upgrade Account"
+msgstr "所有者帐户"
+
+#: panels/wallet.cpp:107
 msgid "Sell Asset"
 msgstr "出售资产"
 
-#: panels/wallet.cpp:112
+#: panels/wallet.cpp:113
 msgid "Borrow Asset"
 msgstr "借入资产"
 
-#: panels/wallet.cpp:130
+#: panels/wallet.cpp:131
 msgid "Suggested Brain key"
 msgstr "建议的脑键"
 
-#: panels/wallet.cpp:136
+#: panels/wallet.cpp:137
 msgid "Committee member"
 msgstr "委员会成员"
 
-#: panels/wallet.cpp:142
+#: panels/wallet.cpp:143
 msgid "Account history"
 msgstr "帐户历史记录"
 
-#: panels/wallet.cpp:148
+#: panels/wallet.cpp:149
 msgid "Order book"
 msgstr "订单"
 
-#: panels/wallet.cpp:166
+#: panels/wallet.cpp:167
 msgid "Active witnsses"
 msgstr "积极的证人"
+
+#: panels/wallet.cpp:179
+msgid "Upgrade account"
+msgstr "卖家帐户"
 
 #: wizards/registration.cpp:27
 msgid "Select your wallet directory"

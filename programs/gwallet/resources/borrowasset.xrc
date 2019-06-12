@@ -225,7 +225,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <label> BTS</label>
+                            <label translate="0">  BTS</label>
                             <wrap>0</wrap>
                         </object>
                     </object>

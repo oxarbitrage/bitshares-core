@@ -17,7 +17,7 @@
                         <option>10</option>
                         <object class="wxTextCtrl" name="command">
                             <style>wxTE_PROCESS_ENTER</style>
-                            <value>about</value>
+                            <value translate="0">about</value>
                         </object>
                     </object>
                     <object class="sizeritem">

@@ -11,6 +11,7 @@
 #include "../include/panels/info.hpp"
 #include "../include/panels/active_committee.hpp"
 #include "../include/panels/active_witnesses.hpp"
+#include "../include/panels/upgradeaccount.hpp"
 
 #include "../include/panels/commands.hpp"
 
@@ -34,6 +35,7 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    tree.info = wallet_tree->AppendItem(root, _("Info"));
    tree.active_witnesses = wallet_tree->AppendItem(root, _("Active witnesses"));
    tree.active_committee = wallet_tree->AppendItem(root, _("Active committee"));
+   tree.upgrade_account = wallet_tree->AppendItem(root, _("Upgrade account"));
 
    wallet_tree->ExpandAll();
 
@@ -89,6 +91,8 @@ void Wallet::OnCommand(wxTreeEvent& event)
       DoActiveWitnesses();
    else if(selected == tree.active_committee)
       DoActiveCommittee();
+   else if(selected == tree.upgrade_account)
+      DoUpgradeAccount();
 }
 
 void Wallet::DoTransfer()
@@ -167,6 +171,12 @@ void Wallet::DoActiveCommittee()
 {
    ActiveCommittee *active_committee = new ActiveCommittee(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(active_committee, _("Active committee"));
+}
+
+void Wallet::DoUpgradeAccount()
+{
+   UpgradeAccount *upgrade_account = new UpgradeAccount(p_GWallet);
+   p_GWallet->panels.p_commands->notebook->AddPage(upgrade_account, _("Upgrade account"));
 }
 
 void Wallet::OpenCommandsPane()

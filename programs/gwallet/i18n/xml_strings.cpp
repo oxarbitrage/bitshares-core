@@ -40,8 +40,6 @@ _("The symbol or id of the asset being borrowed.");
 _("Amount of collateral");
 #line 218 "resources/borrowasset.xrc"
 _("The amount of the backing asset to add to your collateral position.  Make this negative to claim back some of your collateral.\nThe backing asset is defined in the bitasset_options for the asset being borrowed.");
-#line 228 "resources/borrowasset.xrc"
-_(" BTS");
 #line 263 "resources/borrowasset.xrc"
 _("Check to broadcast the transaction on the network.");
 #line 264 "resources/borrowasset.xrc"
@@ -64,8 +62,6 @@ _("Broadcast transaction");
 _("Show output in CLI mode");
 #line 184 "resources/cancelorder.xrc"
 _("&OK");
-#line 20 "resources/cli.xrc"
-_("about");
 #line 28 "resources/cli.xrc"
 _("Run command");
 #line 36 "resources/cli.xrc"
@@ -76,206 +72,6 @@ _("Returns the most recent operations on the named account.");
 _("Account name");
 #line 122 "resources/getaccounthistory.xrc"
 _("Limit");
-#line 153 "resources/getaccounthistory.xrc"
-_("1");
-#line 154 "resources/getaccounthistory.xrc"
-_("2");
-#line 155 "resources/getaccounthistory.xrc"
-_("3");
-#line 156 "resources/getaccounthistory.xrc"
-_("4");
-#line 157 "resources/getaccounthistory.xrc"
-_("5");
-#line 158 "resources/getaccounthistory.xrc"
-_("6");
-#line 159 "resources/getaccounthistory.xrc"
-_("7");
-#line 160 "resources/getaccounthistory.xrc"
-_("8");
-#line 161 "resources/getaccounthistory.xrc"
-_("9");
-#line 162 "resources/getaccounthistory.xrc"
-_("10");
-#line 163 "resources/getaccounthistory.xrc"
-_("11");
-#line 164 "resources/getaccounthistory.xrc"
-_("12");
-#line 165 "resources/getaccounthistory.xrc"
-_("13");
-#line 166 "resources/getaccounthistory.xrc"
-_("14");
-#line 167 "resources/getaccounthistory.xrc"
-_("15");
-#line 168 "resources/getaccounthistory.xrc"
-_("16");
-#line 169 "resources/getaccounthistory.xrc"
-_("17");
-#line 170 "resources/getaccounthistory.xrc"
-_("18");
-#line 171 "resources/getaccounthistory.xrc"
-_("19");
-#line 172 "resources/getaccounthistory.xrc"
-_("20");
-#line 173 "resources/getaccounthistory.xrc"
-_("21");
-#line 174 "resources/getaccounthistory.xrc"
-_("22");
-#line 175 "resources/getaccounthistory.xrc"
-_("23");
-#line 176 "resources/getaccounthistory.xrc"
-_("24");
-#line 177 "resources/getaccounthistory.xrc"
-_("25");
-#line 178 "resources/getaccounthistory.xrc"
-_("26");
-#line 179 "resources/getaccounthistory.xrc"
-_("27");
-#line 180 "resources/getaccounthistory.xrc"
-_("28");
-#line 181 "resources/getaccounthistory.xrc"
-_("29");
-#line 182 "resources/getaccounthistory.xrc"
-_("30");
-#line 183 "resources/getaccounthistory.xrc"
-_("31");
-#line 184 "resources/getaccounthistory.xrc"
-_("32");
-#line 185 "resources/getaccounthistory.xrc"
-_("33");
-#line 186 "resources/getaccounthistory.xrc"
-_("34");
-#line 187 "resources/getaccounthistory.xrc"
-_("35");
-#line 188 "resources/getaccounthistory.xrc"
-_("36");
-#line 189 "resources/getaccounthistory.xrc"
-_("37");
-#line 190 "resources/getaccounthistory.xrc"
-_("38");
-#line 191 "resources/getaccounthistory.xrc"
-_("39");
-#line 192 "resources/getaccounthistory.xrc"
-_("40");
-#line 193 "resources/getaccounthistory.xrc"
-_("41");
-#line 194 "resources/getaccounthistory.xrc"
-_("42");
-#line 195 "resources/getaccounthistory.xrc"
-_("43");
-#line 196 "resources/getaccounthistory.xrc"
-_("44");
-#line 197 "resources/getaccounthistory.xrc"
-_("45");
-#line 198 "resources/getaccounthistory.xrc"
-_("46");
-#line 199 "resources/getaccounthistory.xrc"
-_("47");
-#line 200 "resources/getaccounthistory.xrc"
-_("48");
-#line 201 "resources/getaccounthistory.xrc"
-_("49");
-#line 202 "resources/getaccounthistory.xrc"
-_("50");
-#line 203 "resources/getaccounthistory.xrc"
-_("51");
-#line 204 "resources/getaccounthistory.xrc"
-_("52");
-#line 205 "resources/getaccounthistory.xrc"
-_("53");
-#line 206 "resources/getaccounthistory.xrc"
-_("54");
-#line 207 "resources/getaccounthistory.xrc"
-_("55");
-#line 208 "resources/getaccounthistory.xrc"
-_("56");
-#line 209 "resources/getaccounthistory.xrc"
-_("57");
-#line 210 "resources/getaccounthistory.xrc"
-_("58");
-#line 211 "resources/getaccounthistory.xrc"
-_("59");
-#line 212 "resources/getaccounthistory.xrc"
-_("60");
-#line 213 "resources/getaccounthistory.xrc"
-_("61");
-#line 214 "resources/getaccounthistory.xrc"
-_("62");
-#line 215 "resources/getaccounthistory.xrc"
-_("63");
-#line 216 "resources/getaccounthistory.xrc"
-_("64");
-#line 217 "resources/getaccounthistory.xrc"
-_("65");
-#line 218 "resources/getaccounthistory.xrc"
-_("66");
-#line 219 "resources/getaccounthistory.xrc"
-_("67");
-#line 220 "resources/getaccounthistory.xrc"
-_("68");
-#line 221 "resources/getaccounthistory.xrc"
-_("69");
-#line 222 "resources/getaccounthistory.xrc"
-_("70");
-#line 223 "resources/getaccounthistory.xrc"
-_("71");
-#line 224 "resources/getaccounthistory.xrc"
-_("72");
-#line 225 "resources/getaccounthistory.xrc"
-_("73");
-#line 226 "resources/getaccounthistory.xrc"
-_("74");
-#line 227 "resources/getaccounthistory.xrc"
-_("75");
-#line 228 "resources/getaccounthistory.xrc"
-_("76");
-#line 229 "resources/getaccounthistory.xrc"
-_("77");
-#line 230 "resources/getaccounthistory.xrc"
-_("78");
-#line 231 "resources/getaccounthistory.xrc"
-_("79");
-#line 232 "resources/getaccounthistory.xrc"
-_("80");
-#line 233 "resources/getaccounthistory.xrc"
-_("81");
-#line 234 "resources/getaccounthistory.xrc"
-_("82");
-#line 235 "resources/getaccounthistory.xrc"
-_("83");
-#line 236 "resources/getaccounthistory.xrc"
-_("84");
-#line 237 "resources/getaccounthistory.xrc"
-_("85");
-#line 238 "resources/getaccounthistory.xrc"
-_("86");
-#line 239 "resources/getaccounthistory.xrc"
-_("87");
-#line 240 "resources/getaccounthistory.xrc"
-_("88");
-#line 241 "resources/getaccounthistory.xrc"
-_("89");
-#line 242 "resources/getaccounthistory.xrc"
-_("90");
-#line 243 "resources/getaccounthistory.xrc"
-_("91");
-#line 244 "resources/getaccounthistory.xrc"
-_("92");
-#line 245 "resources/getaccounthistory.xrc"
-_("93");
-#line 246 "resources/getaccounthistory.xrc"
-_("94");
-#line 247 "resources/getaccounthistory.xrc"
-_("95");
-#line 248 "resources/getaccounthistory.xrc"
-_("96");
-#line 249 "resources/getaccounthistory.xrc"
-_("97");
-#line 250 "resources/getaccounthistory.xrc"
-_("98");
-#line 251 "resources/getaccounthistory.xrc"
-_("99");
-#line 252 "resources/getaccounthistory.xrc"
-_("100");
 #line 287 "resources/getaccounthistory.xrc"
 _("Show output in CLI mode");
 #line 348 "resources/getaccounthistory.xrc"
@@ -286,7 +82,7 @@ _("Returns information about the given committee member.");
 _("Owner Account");
 #line 117 "resources/getcommitteemember.xrc"
 _("Show output in CLI mode");
-#line 184 "resources/getcommitteemember.xrc"
+#line 172 "resources/getcommitteemember.xrc"
 _("&OK");
 #line 32 "resources/getorderbook.xrc"
 _("Return the order book for a given market");
@@ -296,106 +92,6 @@ _("Market");
 _("/");
 #line 141 "resources/getorderbook.xrc"
 _("Limit");
-#line 172 "resources/getorderbook.xrc"
-_("1");
-#line 173 "resources/getorderbook.xrc"
-_("2");
-#line 174 "resources/getorderbook.xrc"
-_("3");
-#line 175 "resources/getorderbook.xrc"
-_("4");
-#line 176 "resources/getorderbook.xrc"
-_("5");
-#line 177 "resources/getorderbook.xrc"
-_("6");
-#line 178 "resources/getorderbook.xrc"
-_("7");
-#line 179 "resources/getorderbook.xrc"
-_("8");
-#line 180 "resources/getorderbook.xrc"
-_("9");
-#line 181 "resources/getorderbook.xrc"
-_("10");
-#line 182 "resources/getorderbook.xrc"
-_("11");
-#line 183 "resources/getorderbook.xrc"
-_("12");
-#line 184 "resources/getorderbook.xrc"
-_("13");
-#line 185 "resources/getorderbook.xrc"
-_("14");
-#line 186 "resources/getorderbook.xrc"
-_("15");
-#line 187 "resources/getorderbook.xrc"
-_("16");
-#line 188 "resources/getorderbook.xrc"
-_("17");
-#line 189 "resources/getorderbook.xrc"
-_("18");
-#line 190 "resources/getorderbook.xrc"
-_("19");
-#line 191 "resources/getorderbook.xrc"
-_("20");
-#line 192 "resources/getorderbook.xrc"
-_("21");
-#line 193 "resources/getorderbook.xrc"
-_("22");
-#line 194 "resources/getorderbook.xrc"
-_("23");
-#line 195 "resources/getorderbook.xrc"
-_("24");
-#line 196 "resources/getorderbook.xrc"
-_("25");
-#line 197 "resources/getorderbook.xrc"
-_("26");
-#line 198 "resources/getorderbook.xrc"
-_("27");
-#line 199 "resources/getorderbook.xrc"
-_("28");
-#line 200 "resources/getorderbook.xrc"
-_("29");
-#line 201 "resources/getorderbook.xrc"
-_("30");
-#line 202 "resources/getorderbook.xrc"
-_("31");
-#line 203 "resources/getorderbook.xrc"
-_("32");
-#line 204 "resources/getorderbook.xrc"
-_("33");
-#line 205 "resources/getorderbook.xrc"
-_("34");
-#line 206 "resources/getorderbook.xrc"
-_("35");
-#line 207 "resources/getorderbook.xrc"
-_("36");
-#line 208 "resources/getorderbook.xrc"
-_("37");
-#line 209 "resources/getorderbook.xrc"
-_("38");
-#line 210 "resources/getorderbook.xrc"
-_("39");
-#line 211 "resources/getorderbook.xrc"
-_("40");
-#line 212 "resources/getorderbook.xrc"
-_("41");
-#line 213 "resources/getorderbook.xrc"
-_("42");
-#line 214 "resources/getorderbook.xrc"
-_("43");
-#line 215 "resources/getorderbook.xrc"
-_("44");
-#line 216 "resources/getorderbook.xrc"
-_("45");
-#line 217 "resources/getorderbook.xrc"
-_("46");
-#line 218 "resources/getorderbook.xrc"
-_("47");
-#line 219 "resources/getorderbook.xrc"
-_("48");
-#line 220 "resources/getorderbook.xrc"
-_("49");
-#line 221 "resources/getorderbook.xrc"
-_("50");
 #line 256 "resources/getorderbook.xrc"
 _("Show output in CLI mode");
 #line 317 "resources/getorderbook.xrc"
@@ -528,8 +224,6 @@ _("Select wallet path and name:");
 _("Next step is to insert your API endpoint and \ncreate a wallet password.");
 #line 128 "resources/registration_wizard.xrc"
 _("Introduce your API endpoint:");
-#line 143 "resources/registration_wizard.xrc"
-_("wss://node.bitshares.eu");
 #line 168 "resources/registration_wizard.xrc"
 _("Wallet password:");
 #line 186 "resources/registration_wizard.xrc"
@@ -633,6 +327,22 @@ _("Broadcast Transaction");
 #line 331 "resources/transfer.xrc"
 _("Show output in CLI mode");
 #line 392 "resources/transfer.xrc"
+_("&OK");
+#line 31 "resources/upgradeaccount.xrc"
+_("This makes the account holder a 'lifetime member'.");
+#line 32 "resources/upgradeaccount.xrc"
+_("Upgrades an account to prime status.");
+#line 61 "resources/upgradeaccount.xrc"
+_("The name of the account to upgrade");
+#line 91 "resources/upgradeaccount.xrc"
+_("Broadcast the transaction on the network");
+#line 92 "resources/upgradeaccount.xrc"
+_("Broadcast Transaction");
+#line 101 "resources/upgradeaccount.xrc"
+_("Check to broadcast the transaction on the network");
+#line 102 "resources/upgradeaccount.xrc"
+_("Show output in CLI mode");
+#line 157 "resources/upgradeaccount.xrc"
 _("&OK");
 #line 15 "resources/wallet.xrc"
 _("Please unlock your wallet");
