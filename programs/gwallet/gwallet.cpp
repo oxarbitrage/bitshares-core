@@ -3,6 +3,7 @@
 #include "include/gwallet.hpp"
 #endif
 #include "include/dialogs/importkey.hpp"
+#include "include/dialogs/importbalance.hpp"
 
 #include "include/wizards/registration.hpp"
 
@@ -244,6 +245,11 @@ void GWallet::OnUnlock(wxCommandEvent& WXUNUSED(event))
 void GWallet::OnImportKey(wxCommandEvent& WXUNUSED(event))
 {
    ImportKeyDialog importKeyDialog( this );
+}
+
+void GWallet::OnImportBalance(wxCommandEvent& WXUNUSED(event))
+{
+   ImportBalanceDialog importBalanceDialog( this );
 }
 
 void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
@@ -583,6 +589,7 @@ void GWallet::CreateEvents()
    Connect(XRCID("m_lock"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnLock));
    Connect(XRCID("m_unlock"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnUnlock));
    Connect(XRCID("m_import_key"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnImportKey));
+   Connect(XRCID("m_import_balance"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnImportBalance));
    Connect(XRCID("m_disconnect"), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GWallet::OnDisconnect));
 
    Connect(XRCID("t_connect"), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(GWallet::OnConnect));
@@ -665,6 +672,7 @@ void GWallet::DoState() {
       menubar->Enable(XRCID("m_unlock"), false);
       menubar->Enable(XRCID("m_import"), false);
       menubar->Enable(XRCID("m_import_key"), false);
+      menubar->Enable(XRCID("m_import_balance"), false);
 
       toolbar->EnableTool(XRCID("t_connect"), false);
       toolbar->EnableTool(XRCID("t_disconnect"), false);
@@ -688,6 +696,7 @@ void GWallet::DoState() {
       menubar->Enable(XRCID("m_lock"), false);
       menubar->Enable(XRCID("m_unlock"), false);
       menubar->Enable(XRCID("m_import_key"), false);
+      menubar->Enable(XRCID("m_import_balance"), false);
 
       toolbar->EnableTool(XRCID("t_connect"), false);
       toolbar->EnableTool(XRCID("t_disconnect"), true);
@@ -717,6 +726,7 @@ void GWallet::DoState() {
       else if(!state.is_account_linked) {
          SetStatusText(_("Connected | New"));
          menubar->Enable(XRCID("m_import_key"), false);
+         menubar->Enable(XRCID("m_import_balance"), false);
          menubar->Enable(XRCID("m_unlock"), true);
       }
       else if(state.is_locked) {
@@ -726,6 +736,7 @@ void GWallet::DoState() {
          menubar->Enable(XRCID("m_lock"), false);
          menubar->Enable(XRCID("m_unlock"), true);
          menubar->Enable(XRCID("m_import_key"), false);
+         menubar->Enable(XRCID("m_import_balance"), false);
 
          toolbar->EnableTool(XRCID("t_unlock"), true);
       }
@@ -736,6 +747,7 @@ void GWallet::DoState() {
          menubar->Enable(XRCID("m_lock"), true);
          menubar->Enable(XRCID("m_unlock"), false);
          menubar->Enable(XRCID("m_import_key"), true);
+         menubar->Enable(XRCID("m_import_balance"), true);
 
          toolbar->EnableTool(XRCID("t_lock"), true);
          toolbar->EnableTool(XRCID("t_unlock"), false);
@@ -765,6 +777,7 @@ void GWallet::DoState() {
       menubar->Enable(XRCID("m_lock"), false);
       menubar->Enable(XRCID("m_unlock"), false);
       menubar->Enable(XRCID("m_import_key"), false);
+      menubar->Enable(XRCID("m_import_balance"), false);
 
       connect_button->Enable(true);
 

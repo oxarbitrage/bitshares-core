@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-13 12:01-0300\n"
-"PO-Revision-Date: 2019-06-13 12:07-0300\n"
+"POT-Creation-Date: 2019-06-13 15:04-0300\n"
+"PO-Revision-Date: 2019-06-13 15:05-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh\n"
@@ -15,157 +15,166 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
+#: dialogs/importbalance.cpp:31
+#, fuzzy
+#| msgid "Account imported"
+msgid "Account balance imported"
+msgstr "帐户已导入"
+
+#: dialogs/importbalance.cpp:31 dialogs/importkey.cpp:37 gwallet.cpp:644
+#: wizards/registration.cpp:48
+msgid "Success"
+msgstr "成功"
+
+#: dialogs/importbalance.cpp:35 dialogs/importkey.cpp:41
+msgid "Account and key can not be empty"
+msgstr "帐户和密钥不能为空"
+
+#: dialogs/importbalance.cpp:35 dialogs/importkey.cpp:41 gwallet.cpp:611
+#: wizards/registration.cpp:54 wizards/registration.cpp:83
+#: wizards/registration.cpp:101 wizards/registration.cpp:109
+#: wizards/registration.cpp:152 wizards/registration.cpp:169
+msgid "Error"
+msgstr "错误"
+
+#: dialogs/importbalance.cpp:50 dialogs/importkey.cpp:56
+#: panels/createaccountwithbrainkey.cpp:30 panels/getaccounthistory.cpp:28
+#: panels/getcommitteemember.cpp:26 panels/setproxy.cpp:33
+#: panels/transfer.cpp:39 wizards/registration.cpp:72
+msgid "Accounts found"
+msgstr "找到帐户"
+
+#: dialogs/importbalance.cpp:50 dialogs/importkey.cpp:56
+#: panels/createaccountwithbrainkey.cpp:30 panels/getaccounthistory.cpp:28
+#: panels/getcommitteemember.cpp:26 panels/setproxy.cpp:33
+#: panels/transfer.cpp:39 wizards/registration.cpp:72
+msgid "Please select an account"
+msgstr "帐户和密钥不能为空"
+
 #: dialogs/importkey.cpp:37
 msgid "Account imported"
 msgstr "帐户已导入"
 
-#: dialogs/importkey.cpp:37 gwallet.cpp:637 wizards/registration.cpp:48
-msgid "Success"
-msgstr "成功"
-
-#: dialogs/importkey.cpp:41
-msgid "Account and key can not be empty"
-msgstr "帐户和密钥不能为空"
-
-#: dialogs/importkey.cpp:41 gwallet.cpp:604 wizards/registration.cpp:54
-#: wizards/registration.cpp:83 wizards/registration.cpp:101
-#: wizards/registration.cpp:109 wizards/registration.cpp:152
-#: wizards/registration.cpp:169
-msgid "Error"
-msgstr "错误"
-
-#: dialogs/importkey.cpp:56 panels/createaccountwithbrainkey.cpp:30
-#: panels/getaccounthistory.cpp:28 panels/getcommitteemember.cpp:26
-#: panels/setproxy.cpp:33 panels/transfer.cpp:39 wizards/registration.cpp:72
-msgid "Accounts found"
-msgstr "找到帐户"
-
-#: dialogs/importkey.cpp:56 panels/createaccountwithbrainkey.cpp:30
-#: panels/getaccounthistory.cpp:28 panels/getcommitteemember.cpp:26
-#: panels/setproxy.cpp:33 panels/transfer.cpp:39 wizards/registration.cpp:72
-msgid "Please select an account"
-msgstr "帐户和密钥不能为空"
-
-#: gwallet.cpp:45 gwallet.cpp:76
+#: gwallet.cpp:46 gwallet.cpp:77
 msgid "Open a saved wallet"
 msgstr "打开已保存的钱包"
 
-#: gwallet.cpp:88
+#: gwallet.cpp:89
 msgid "Enter server"
 msgstr "输入服务器"
 
-#: gwallet.cpp:88
+#: gwallet.cpp:89
 msgid "Websocket endpoint"
 msgstr "Websocket端点"
 
-#: gwallet.cpp:117
+#: gwallet.cpp:118
 msgid "Please wait, connecting ..."
 msgstr "请稍等，连接......"
 
-#: gwallet.cpp:122
+#: gwallet.cpp:123
 msgid "Problem connecting to:"
 msgstr "连接问题："
 
-#: gwallet.cpp:122
+#: gwallet.cpp:123
 msgid "Please try again or change server."
 msgstr "请重试或更改服务器。"
 
-#: gwallet.cpp:167
+#: gwallet.cpp:168
 msgid "Some problem when disconnecting, try again ..."
 msgstr "断开连接时出现一些问题，请再试一次......"
 
-#: gwallet.cpp:169 gwallet.cpp:771
+#: gwallet.cpp:170 gwallet.cpp:784
 msgid "Disconnected"
 msgstr "断开的"
 
-#: gwallet.cpp:177
+#: gwallet.cpp:178
 msgid "Enter password"
 msgstr "输入密码"
 
-#: gwallet.cpp:183 gwallet.cpp:723
+#: gwallet.cpp:184 gwallet.cpp:733
 msgid "Connected | Locked"
 msgstr "连接的 | 锁定"
 
-#: gwallet.cpp:198
+#: gwallet.cpp:199
 #, c-format
 msgid "Secure and simple bitshares wallet build with %s"
 msgstr "安全和简单的bitshares钱包构建 %s"
 
-#: gwallet.cpp:199
+#: gwallet.cpp:200
 msgid "About G-Wallet"
 msgstr "关于G-Wallet"
 
-#: gwallet.cpp:210
+#: gwallet.cpp:211
 msgid "Some problem when locking, try again ..."
 msgstr "锁定时有些问题，请再试一次......"
 
-#: gwallet.cpp:219 panels/wallet.cpp:56
+#: gwallet.cpp:220 panels/wallet.cpp:56
 msgid "Please double click a command from below"
 msgstr "请双击下面的命令"
 
-#: gwallet.cpp:224
+#: gwallet.cpp:225
 msgid "Unlock wallet"
 msgstr "解锁钱包"
 
-#: gwallet.cpp:234
+#: gwallet.cpp:235
 msgid "Password is incorrect, please try again."
 msgstr "密码不正确，请重试。"
 
-#: gwallet.cpp:391 resources/info.xrc:32 panels/wallet.cpp:165
+#: gwallet.cpp:397 resources/info.xrc:32 panels/wallet.cpp:165
 msgid "Blockchain information"
 msgstr "区块链信息"
 
-#: gwallet.cpp:392 resources/about.xrc:32
+#: gwallet.cpp:398 resources/about.xrc:32
 msgid "Software information"
 msgstr "软件信息"
 
-#: gwallet.cpp:410 resources/main.xrc:40 resources/main.xrc:86
+#: gwallet.cpp:416 resources/main.xrc:40 resources/main.xrc:90
 msgid "Wallet"
 msgstr "钱包"
 
-#: gwallet.cpp:439 resources/main.xrc:79
+#: gwallet.cpp:445 resources/main.xrc:83
 msgid "Commands"
 msgstr "命令"
 
-#: gwallet.cpp:468
+#: gwallet.cpp:474
 msgid "Cli"
 msgstr "CLI"
 
-#: gwallet.cpp:615
+#: gwallet.cpp:622
 msgid "Chinese"
 msgstr "中文"
 
-#: gwallet.cpp:617
+#: gwallet.cpp:624
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: gwallet.cpp:619
+#: gwallet.cpp:626
 msgid "English"
 msgstr "英语"
 
-#: gwallet.cpp:620
+#: gwallet.cpp:627
 msgid "Select language:"
 msgstr "选择语言："
 
-#: gwallet.cpp:620
+#: gwallet.cpp:627
 msgid "Language"
 msgstr "语言"
 
-#: gwallet.cpp:636
+#: gwallet.cpp:643
 msgid ""
 "Language changed, however you need to restart G-Wallet for changes to take "
 "effect"
 msgstr "语言已更改，但您需要重新启动G-Wallet才能使更改生效"
 
-#: gwallet.cpp:677
+#: gwallet.cpp:685
 msgid "No Config"
 msgstr "没有配置"
 
-#: gwallet.cpp:714 gwallet.cpp:718
+#: gwallet.cpp:723 gwallet.cpp:727
 msgid "Connected | New"
 msgstr "连接的 | 新"
 
-#: gwallet.cpp:733
+#: gwallet.cpp:744
 msgid "Connected | Unlocked"
 msgstr "连接的 | 解锁"
 
@@ -273,9 +282,10 @@ msgstr "在CLI模式下显示输出"
 #: resources/borrowasset.xrc:334 resources/cancelorder.xrc:184
 #: resources/createaccountwithbrainkey.xrc:401
 #: resources/getaccounthistory.xrc:348 resources/getcommitteemember.xrc:172
-#: resources/getorderbook.xrc:317 resources/importkey_dialog.xrc:189
-#: resources/sellasset.xrc:421 resources/setproxy.xrc:250
-#: resources/transfer.xrc:392 resources/upgradeaccount.xrc:157
+#: resources/getorderbook.xrc:317 resources/importbalance_dialog.xrc:189
+#: resources/importkey_dialog.xrc:189 resources/sellasset.xrc:421
+#: resources/setproxy.xrc:250 resources/transfer.xrc:392
+#: resources/upgradeaccount.xrc:157
 msgid "&OK"
 msgstr "&好"
 
@@ -387,21 +397,25 @@ msgstr "市场"
 msgid "/"
 msgstr ""
 
-#: resources/importkey_dialog.xrc:7 resources/main.xrc:140
-msgid "Import Key"
+#: resources/importbalance_dialog.xrc:7
+msgid "Import Balance"
 msgstr "导入密钥"
 
-#: resources/importkey_dialog.xrc:33
+#: resources/importbalance_dialog.xrc:33 resources/importkey_dialog.xrc:33
 msgid "Account Name"
 msgstr "用户名"
 
-#: resources/importkey_dialog.xrc:92
+#: resources/importbalance_dialog.xrc:92 resources/importkey_dialog.xrc:92
 msgid "Private Key"
 msgstr "私钥"
 
-#: resources/importkey_dialog.xrc:196
+#: resources/importbalance_dialog.xrc:196 resources/importkey_dialog.xrc:196
 msgid "&Cancel"
 msgstr "&取消"
+
+#: resources/importkey_dialog.xrc:7 resources/main.xrc:144
+msgid "Import Key"
+msgstr "导入密钥"
 
 #: resources/info.xrc:50
 msgid "Head block number:"
@@ -423,7 +437,7 @@ msgstr "参与："
 msgid "Active witnesses:"
 msgstr "积极的证人："
 
-#: resources/info.xrc:163 resources/info.xrc:190 resources/main.xrc:68
+#: resources/info.xrc:163 resources/info.xrc:190 resources/main.xrc:72
 msgid "View"
 msgstr "视图"
 
@@ -475,11 +489,11 @@ msgstr "改变语言"
 msgid "Quit"
 msgstr "放弃"
 
-#: resources/main.xrc:42 resources/main.xrc:116
+#: resources/main.xrc:42 resources/main.xrc:120
 msgid "Connect"
 msgstr "连"
 
-#: resources/main.xrc:46 resources/main.xrc:122
+#: resources/main.xrc:46 resources/main.xrc:126
 msgid "Disconnect"
 msgstr "断开"
 
@@ -487,11 +501,11 @@ msgstr "断开"
 msgid "Set password"
 msgstr "设置密码"
 
-#: resources/main.xrc:55 resources/main.xrc:128
+#: resources/main.xrc:55 resources/main.xrc:132
 msgid "Lock"
 msgstr "锁"
 
-#: resources/main.xrc:59 resources/main.xrc:134
+#: resources/main.xrc:59 resources/main.xrc:138
 msgid "Unlock"
 msgstr "开锁"
 
@@ -499,67 +513,67 @@ msgstr "开锁"
 msgid "Import key"
 msgstr "导入密钥"
 
-#: resources/main.xrc:71
+#: resources/main.xrc:67
+msgid "Import balance"
+msgstr "我的平衡"
+
+#: resources/main.xrc:75
 msgid "Welcome"
 msgstr "欢迎"
 
-#: resources/main.xrc:93
+#: resources/main.xrc:97
 msgid "CLI"
 msgstr ""
 
-#: resources/main.xrc:101
+#: resources/main.xrc:105
 msgid "Help"
 msgstr "救命"
 
-#: resources/main.xrc:103 panels/wallet.cpp:35 panels/wallet.cpp:159
+#: resources/main.xrc:107 panels/wallet.cpp:35 panels/wallet.cpp:159
 msgid "About"
 msgstr "关于"
 
-#: resources/main.xrc:149
+#: resources/main.xrc:153
 msgid "My accounts"
 msgstr "我的帐户"
 
-#: resources/main.xrc:150
+#: resources/main.xrc:154
 msgid "MY ACCOUNTS"
 msgstr "我的帐户"
 
-#: resources/main.xrc:156
+#: resources/main.xrc:160
 msgid "My assets"
 msgstr "我的资产"
 
-#: resources/main.xrc:157
+#: resources/main.xrc:161
 msgid "MY ASSETS"
 msgstr "我的资产"
 
-#: resources/main.xrc:170
+#: resources/main.xrc:174
 msgid "My balance"
 msgstr "我的平衡"
 
-#: resources/main.xrc:171
-msgid "0.00 BTS"
-msgstr ""
-
-#: resources/main.xrc:209
+#: resources/main.xrc:213
 msgid "Welcome to G-Wallet"
 msgstr "欢迎来到G-Wallet"
 
-#: resources/main.xrc:218
-msgid "Version 0.5.0"
-msgstr "版 0.5.0"
+#: resources/main.xrc:222
+msgid "Version 0.6.0"
+msgstr "版 0.6.0"
 
-#: resources/main.xrc:250
+#: resources/main.xrc:254
 msgid ""
 "Setup a new wallet by following the wizard. Please note you need a created "
 "account and private key in order to use the software."
 msgstr "按照向导设置新钱包。 请注意，您需要创建帐户和私钥才能使用该软件。"
 
-#: resources/main.xrc:287
+#: resources/main.xrc:291
 msgid ""
 "If you already have a wallet.json file somewhere please use this option to "
 "import it to G-Wallet."
 msgstr "如果您已在某处拥有wallet.json文件，请使用此选项将其导入G-Wallet。"
 
-#: resources/main.xrc:324
+#: resources/main.xrc:328
 msgid "If your wallet is all set, connect to Bitshares."
 msgstr "如果您的钱包已全部设置，请连接到Bitshares。"
 
@@ -926,8 +940,6 @@ msgid "Suggested Brain key"
 msgstr "建议的脑键"
 
 #: panels/createaccountwithbrainkey.cpp:77
-#, fuzzy
-#| msgid "Confirm update of voting account?"
 msgid "Confirm create account?"
 msgstr "确认投票账号的更新？"
 

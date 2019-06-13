@@ -1,6 +1,6 @@
 // This is a list of strings found in xrc files defined here for translation purposes
 // File will change as more strings are generated, this header should remain
-// wxrc -g resources/* -o i18n/xml_strings.cpp
+// wxrc -g resources/* -o i18n/xrc_strings.cpp
 
 #line 32 "resources/about.xrc"
 _("Software information");
@@ -124,6 +124,16 @@ _("Limit");
 _("Show output in CLI mode");
 #line 317 "resources/getorderbook.xrc"
 _("&OK");
+#line 7 "resources/importbalance_dialog.xrc"
+_("Import Balance");
+#line 33 "resources/importbalance_dialog.xrc"
+_("Account Name");
+#line 92 "resources/importbalance_dialog.xrc"
+_("Private Key");
+#line 189 "resources/importbalance_dialog.xrc"
+_("&OK");
+#line 196 "resources/importbalance_dialog.xrc"
+_("&Cancel");
 #line 7 "resources/importkey_dialog.xrc"
 _("Import Key");
 #line 33 "resources/importkey_dialog.xrc"
@@ -188,51 +198,51 @@ _("Lock");
 _("Unlock");
 #line 63 "resources/main.xrc"
 _("Import key");
-#line 68 "resources/main.xrc"
+#line 67 "resources/main.xrc"
+_("Import balance");
+#line 72 "resources/main.xrc"
 _("View");
-#line 71 "resources/main.xrc"
+#line 75 "resources/main.xrc"
 _("Welcome");
-#line 79 "resources/main.xrc"
+#line 83 "resources/main.xrc"
 _("Commands");
-#line 86 "resources/main.xrc"
+#line 90 "resources/main.xrc"
 _("Wallet");
-#line 93 "resources/main.xrc"
+#line 97 "resources/main.xrc"
 _("CLI");
-#line 101 "resources/main.xrc"
+#line 105 "resources/main.xrc"
 _("Help");
-#line 103 "resources/main.xrc"
+#line 107 "resources/main.xrc"
 _("About");
-#line 116 "resources/main.xrc"
+#line 120 "resources/main.xrc"
 _("Connect");
-#line 122 "resources/main.xrc"
+#line 126 "resources/main.xrc"
 _("Disconnect");
-#line 128 "resources/main.xrc"
+#line 132 "resources/main.xrc"
 _("Lock");
-#line 134 "resources/main.xrc"
+#line 138 "resources/main.xrc"
 _("Unlock");
-#line 140 "resources/main.xrc"
+#line 144 "resources/main.xrc"
 _("Import Key");
-#line 149 "resources/main.xrc"
+#line 153 "resources/main.xrc"
 _("My accounts");
-#line 150 "resources/main.xrc"
+#line 154 "resources/main.xrc"
 _("MY ACCOUNTS");
-#line 156 "resources/main.xrc"
+#line 160 "resources/main.xrc"
 _("My assets");
-#line 157 "resources/main.xrc"
+#line 161 "resources/main.xrc"
 _("MY ASSETS");
-#line 170 "resources/main.xrc"
+#line 174 "resources/main.xrc"
 _("My balance");
-#line 171 "resources/main.xrc"
-_("0.00 BTS");
-#line 209 "resources/main.xrc"
+#line 213 "resources/main.xrc"
 _("Welcome to G-Wallet");
-#line 218 "resources/main.xrc"
-_("Version 0.5.0");
-#line 250 "resources/main.xrc"
+#line 222 "resources/main.xrc"
+_("Version 0.6.0");
+#line 254 "resources/main.xrc"
 _("Setup a new wallet by following the wizard. Please note you need a created account and private key in order to use the software.");
-#line 287 "resources/main.xrc"
+#line 291 "resources/main.xrc"
 _("If you already have a wallet.json file somewhere please use this option to import it to G-Wallet.");
-#line 324 "resources/main.xrc"
+#line 328 "resources/main.xrc"
 _("If your wallet is all set, connect to Bitshares.");
 #line 5 "resources/registration_wizard.xrc"
 _("Setup wizard");

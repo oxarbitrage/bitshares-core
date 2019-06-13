@@ -63,6 +63,10 @@
                     <label>Import key</label>
                     <help></help>
                 </object>
+                <object class="wxMenuItem" name="m_import_balance">
+                    <label>Import balance</label>
+                    <help></help>
+                </object>
             </object>
             <object class="wxMenu" name="m_menu3">
                 <label>View</label>
@@ -168,7 +172,7 @@
                     <face>Noto Sans</face>
                 </font>
                 <tooltip>My balance</tooltip>
-                <label>0.00 BTS</label>
+                <label translate="0">0.00 BTS</label>
                 <wrap>-1</wrap>
             </object>
         </object>
@@ -215,7 +219,7 @@
                     <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                     <border>5</border>
                     <object class="wxStaticText" name="wxID_STATIC">
-                        <label>Version 0.5.0</label>
+                        <label>Version 0.6.0</label>
                         <wrap>-1</wrap>
                     </object>
                 </object>

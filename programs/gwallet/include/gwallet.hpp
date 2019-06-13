@@ -121,7 +121,9 @@ private:
    void OnSetPassword(wxCommandEvent& event);
    void OnLock(wxCommandEvent& event);
    void OnUnlock(wxCommandEvent& event);
+
    void OnImportKey(wxCommandEvent& event);
+   void OnImportBalance(wxCommandEvent& event);
 
    void OnChangeAccount(wxCommandEvent& event);
    void OnChangeAsset(wxCommandEvent& event);
