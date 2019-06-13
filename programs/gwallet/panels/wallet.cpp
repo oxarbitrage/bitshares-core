@@ -12,6 +12,7 @@
 #include "../include/panels/active_committee.hpp"
 #include "../include/panels/active_witnesses.hpp"
 #include "../include/panels/upgradeaccount.hpp"
+#include "../include/panels/createaccountwithbrainkey.hpp"
 
 #include "../include/panels/commands.hpp"
 
@@ -36,6 +37,7 @@ Wallet::Wallet(GWallet* gwallet) : wxPanel()
    tree.active_witnesses = wallet_tree->AppendItem(root, _("Active witnesses"));
    tree.active_committee = wallet_tree->AppendItem(root, _("Active committee"));
    tree.upgrade_account = wallet_tree->AppendItem(root, _("Upgrade account"));
+   tree.create_account_with_brain_key = wallet_tree->AppendItem(root, _("Create account with brain key"));
 
    wallet_tree->ExpandAll();
 
@@ -93,6 +95,8 @@ void Wallet::OnCommand(wxTreeEvent& event)
       DoActiveCommittee();
    else if(selected == tree.upgrade_account)
       DoUpgradeAccount();
+   else if(selected == tree.create_account_with_brain_key)
+      DoCreateAccountWithBrainKey();
 }
 
 void Wallet::DoTransfer()
@@ -177,6 +181,12 @@ void Wallet::DoUpgradeAccount()
 {
    UpgradeAccount *upgrade_account = new UpgradeAccount(p_GWallet);
    p_GWallet->panels.p_commands->notebook->AddPage(upgrade_account, _("Upgrade account"));
+}
+
+void Wallet::DoCreateAccountWithBrainKey()
+{
+   CreateAccountWithBrainKey *create_account_with_brain_key = new CreateAccountWithBrainKey(p_GWallet);
+   p_GWallet->panels.p_commands->notebook->AddPage(create_account_with_brain_key, _("Create account with brain key"));
 }
 
 void Wallet::OpenCommandsPane()

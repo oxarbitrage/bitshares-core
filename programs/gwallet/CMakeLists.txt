@@ -21,11 +21,11 @@ add_executable( gwallet
     panels/active_witnesses.cpp
     panels/active_committee.cpp
 	panels/upgradeaccount.cpp
-
+	panels/createaccountwithbrainkey.cpp
 
 	wizards/registration.cpp
 
-)
+    panels/createaccountwithbrainkey.cpp)
 
 find_package(wxWidgets COMPONENTS core base adv xrc aui REQUIRED)
 include(${wxWidgets_USE_FILE})

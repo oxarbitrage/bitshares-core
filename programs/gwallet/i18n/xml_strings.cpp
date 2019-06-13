@@ -66,6 +66,34 @@ _("&OK");
 _("Run command");
 #line 36 "resources/cli.xrc"
 _("Clear console");
+#line 31 "resources/createaccountwithbrainkey.xrc"
+_("Creates a new account and registers it on the blockchain.");
+#line 60 "resources/createaccountwithbrainkey.xrc"
+_("Brain key");
+#line 89 "resources/createaccountwithbrainkey.xrc"
+_("The brain key used for generating the account's private keys");
+#line 99 "resources/createaccountwithbrainkey.xrc"
+_("Get brain key");
+#line 136 "resources/createaccountwithbrainkey.xrc"
+_("Account name");
+#line 165 "resources/createaccountwithbrainkey.xrc"
+_("The name of the account, must be unique on the blockchain. \n\n Shorter names are more expensive to register; the rules are still in flux, but in general names of more than 8 characters with at least one digit will be cheap.");
+#line 201 "resources/createaccountwithbrainkey.xrc"
+_("Registrar account");
+#line 230 "resources/createaccountwithbrainkey.xrc"
+_("The account which will pay the fee to register the user");
+#line 266 "resources/createaccountwithbrainkey.xrc"
+_("Referrer account");
+#line 295 "resources/createaccountwithbrainkey.xrc"
+_("The account who is acting as a referrer, and may receive a portion of the user's transaction fees.  This can be the same as the registrar_account if there is no referrer.");
+#line 330 "resources/createaccountwithbrainkey.xrc"
+_("Check to broadcast the transaction on the network");
+#line 331 "resources/createaccountwithbrainkey.xrc"
+_("Broadcast transaction");
+#line 340 "resources/createaccountwithbrainkey.xrc"
+_("Show output in CLI mode");
+#line 401 "resources/createaccountwithbrainkey.xrc"
+_("&OK");
 #line 31 "resources/getaccounthistory.xrc"
 _("Returns the most recent operations on the named account.");
 #line 60 "resources/getaccounthistory.xrc"
