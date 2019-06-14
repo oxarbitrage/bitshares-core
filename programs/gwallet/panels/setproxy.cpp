@@ -21,18 +21,7 @@ SetProxy::SetProxy(GWallet* gwallet) : wxPanel()
 
 void SetProxy::OnSearchAccount(wxCommandEvent& event)
 {
-   const auto keyword = event.GetString().ToStdString();
-
-   wxArrayString choices;
-   auto findings = p_GWallet->bitshares.database_api->lookup_accounts(keyword, 100);
-   for(auto f : findings)
-   {
-      choices.Add(f.first);
-   }
-
-   wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
-   if (dialog.ShowModal() == wxID_OK)
-      voting_account->SetValue(dialog.GetStringSelection());
+   p_GWallet->DoSearchAccount(event.GetString(), *voting_account);
 }
 
 void SetProxy::DoVotingAccount()

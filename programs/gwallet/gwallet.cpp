@@ -785,3 +785,28 @@ void GWallet::DoState() {
    }
 }
 
+void GWallet::DoSearchAccount(const wxString& keyword, wxSearchCtrl& account_field)
+{
+   wxArrayString choices;
+   auto findings = bitshares.database_api->lookup_accounts(keyword.ToStdString(), 100);
+   for(auto f : findings)
+      choices.Add(f.first);
+
+   wxSingleChoiceDialog dialog(this, _("Accounts found"), _("Please select an account"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      account_field.SetValue(dialog.GetStringSelection());
+}
+
+void GWallet::DoSearchAsset(const wxString& keyword, wxSearchCtrl& asset_field)
+{
+   wxArrayString choices;
+   auto findings = bitshares.database_api->list_assets(keyword.ToStdString(), 100);
+   for(auto f : findings)
+   {
+      choices.Add(f.symbol);
+   }
+
+   wxSingleChoiceDialog dialog(this, _("Assets found"), _("Please select an asset"), choices);
+   if (dialog.ShowModal() == wxID_OK)
+      asset_field.SetValue(dialog.GetStringSelection());
+}

@@ -18,6 +18,7 @@
 #include <wx/filedlg.h>
 #include <wx/filectrl.h>
 #include <wx/xrc/xh_auinotbk.h>
+#include <wx/srchctrl.h>
 
 class Info;
 class Cli;
@@ -85,6 +86,9 @@ public:
    }
 
    void CreateCommandsPane(Commands* commands);
+
+   void DoSearchAccount(const wxString& keyword, wxSearchCtrl& account_field);
+   void DoSearchAsset(const wxString& keyword, wxSearchCtrl& asset_field);
 
 protected:
    wxToolBar* toolbar;

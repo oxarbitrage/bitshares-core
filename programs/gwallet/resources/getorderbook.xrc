@@ -95,7 +95,7 @@
                         <flag>wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="m_staticText4">
-                            <label>/</label>
+                            <label translate="0">/</label>
                             <wrap>-1</wrap>
                         </object>
                     </object>
