@@ -22,9 +22,9 @@ void GetOrderBook::OnSearchAsset(wxCommandEvent& event)
 
 void GetOrderBook::OnOk(wxCommandEvent& WXUNUSED(event))
 {
-   const auto base_v = base->GetValue().ToStdString();
-   const auto quote_v = quote->GetValue().ToStdString();
-   const auto limit_v = limit->GetString(limit->GetSelection());
+   const auto base_value = base->GetValue().ToStdString();
+   const auto quote_value = quote->GetValue().ToStdString();
+   const auto limit_value = limit->GetValue();
 
    order_book result;
    wxAny response;
@@ -34,7 +34,7 @@ void GetOrderBook::OnOk(wxCommandEvent& WXUNUSED(event))
 
    try
    {
-      result = p_GWallet->bitshares.wallet_api_ptr->get_order_book(base_v, quote_v, wxAtoi(limit_v));
+      result = p_GWallet->bitshares.wallet_api_ptr->get_order_book(base_value, quote_value, limit_value);
       response = result;
    }
    catch(const fc::exception& e)
@@ -49,7 +49,7 @@ void GetOrderBook::OnOk(wxCommandEvent& WXUNUSED(event))
 
    if(cli->IsChecked())
    {
-      auto command = "get_order_book " + base_v + " " + quote_v + " " + limit_v;
+      auto command = "get_order_book " + base_value + " " + quote_value + " " + to_string(limit_value);
       p_GWallet->panels.p_cli->command->SetValue(command);
       wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, XRCID("run"));
       p_GWallet->panels.p_cli->OnCliCommand(event);

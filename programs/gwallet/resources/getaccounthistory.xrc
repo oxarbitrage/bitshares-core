@@ -147,110 +147,11 @@
                         <option>10</option>
                         <flag>wxALL</flag>
                         <border>0</border>
-                        <object class="wxChoice" name="limit">
-                            <selection>9</selection>
-                            <content>
-                                <item translate="0">1</item>
-                                <item translate="0">2</item>
-                                <item translate="0">3</item>
-                                <item translate="0">4</item>
-                                <item translate="0">5</item>
-                                <item translate="0">6</item>
-                                <item translate="0">7</item>
-                                <item translate="0">8</item>
-                                <item translate="0">9</item>
-                                <item translate="0">10</item>
-                                <item translate="0">11</item>
-                                <item translate="0">12</item>
-                                <item translate="0">13</item>
-                                <item translate="0">14</item>
-                                <item translate="0">15</item>
-                                <item translate="0">16</item>
-                                <item translate="0">17</item>
-                                <item translate="0">18</item>
-                                <item translate="0">19</item>
-                                <item translate="0">20</item>
-                                <item translate="0">21</item>
-                                <item translate="0">22</item>
-                                <item translate="0">23</item>
-                                <item translate="0">24</item>
-                                <item translate="0">25</item>
-                                <item translate="0">26</item>
-                                <item translate="0">27</item>
-                                <item translate="0">28</item>
-                                <item translate="0">29</item>
-                                <item translate="0">30</item>
-                                <item translate="0">31</item>
-                                <item translate="0">32</item>
-                                <item translate="0">33</item>
-                                <item translate="0">34</item>
-                                <item translate="0">35</item>
-                                <item translate="0">36</item>
-                                <item translate="0">37</item>
-                                <item translate="0">38</item>
-                                <item translate="0">39</item>
-                                <item translate="0">40</item>
-                                <item translate="0">41</item>
-                                <item translate="0">42</item>
-                                <item translate="0">43</item>
-                                <item translate="0">44</item>
-                                <item translate="0">45</item>
-                                <item translate="0">46</item>
-                                <item translate="0">47</item>
-                                <item translate="0">48</item>
-                                <item translate="0">49</item>
-                                <item translate="0">50</item>
-                                <item translate="0">51</item>
-                                <item translate="0">52</item>
-                                <item translate="0">53</item>
-                                <item translate="0">54</item>
-                                <item translate="0">55</item>
-                                <item translate="0">56</item>
-                                <item translate="0">57</item>
-                                <item translate="0">58</item>
-                                <item translate="0">59</item>
-                                <item translate="0">60</item>
-                                <item translate="0">61</item>
-                                <item translate="0">62</item>
-                                <item translate="0">63</item>
-                                <item translate="0">64</item>
-                                <item translate="0">65</item>
-                                <item translate="0">66</item>
-                                <item translate="0">67</item>
-                                <item translate="0">68</item>
-                                <item translate="0">69</item>
-                                <item translate="0">70</item>
-                                <item translate="0">71</item>
-                                <item translate="0">72</item>
-                                <item translate="0">73</item>
-                                <item translate="0">74</item>
-                                <item translate="0">75</item>
-                                <item translate="0">76</item>
-                                <item translate="0">77</item>
-                                <item translate="0">78</item>
-                                <item translate="0">79</item>
-                                <item translate="0">80</item>
-                                <item translate="0">81</item>
-                                <item translate="0">82</item>
-                                <item translate="0">83</item>
-                                <item translate="0">84</item>
-                                <item translate="0">85</item>
-                                <item translate="0">86</item>
-                                <item translate="0">87</item>
-                                <item translate="0">88</item>
-                                <item translate="0">89</item>
-                                <item translate="0">90</item>
-                                <item translate="0">91</item>
-                                <item translate="0">92</item>
-                                <item translate="0">93</item>
-                                <item translate="0">94</item>
-                                <item translate="0">95</item>
-                                <item translate="0">96</item>
-                                <item translate="0">97</item>
-                                <item translate="0">98</item>
-                                <item translate="0">99</item>
-                                <item translate="0">100</item>
-                            </content>
+                        <object class="wxSpinCtrl" name="limit">
+                            <style>wxSP_ARROW_KEYS</style>
+                            <value>10</value>
+                            <min>0</min>
+                            <max>100</max>
                         </object>
                     </object>
                     <object class="spacer">

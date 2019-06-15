@@ -1,6 +1,7 @@
 #include <wx/wx.h>
 #include <wx/srchctrl.h>
 #include <wx/grid.h>
+#include <wx/spinctrl.h>
 #include <wx/xrc/xmlres.h>
 
 class GWallet;
@@ -13,7 +14,7 @@ public:
 protected:
    wxSearchCtrl* base;
    wxSearchCtrl* quote;
-   wxChoice* limit;
+   wxSpinCtrl* limit;
    wxCheckBox* cli;
 
 private:
@@ -26,7 +27,7 @@ private:
       wxXmlResource::Get()->LoadObject(this,parent,wxT("GetOrderBook"), wxT("wxScrolledWindow"));
       base = XRCCTRL(*this,"base",wxSearchCtrl);
       quote = XRCCTRL(*this,"quote",wxSearchCtrl);
-      limit = XRCCTRL(*this,"limit",wxChoice);
+      limit = XRCCTRL(*this,"limit",wxSpinCtrl);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };

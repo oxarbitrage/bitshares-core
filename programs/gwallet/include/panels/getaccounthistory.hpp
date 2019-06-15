@@ -1,6 +1,7 @@
 #include <wx/wx.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
+#include <wx/spinctrl.h>
 #include <wx/xrc/xmlres.h>
 
 class GWallet;
@@ -12,7 +13,7 @@ public:
 
 protected:
    wxSearchCtrl* name;
-   wxChoice* limit;
+   wxSpinCtrl* limit;
    wxCheckBox* cli;
 
 private:
@@ -24,7 +25,7 @@ private:
    void InitWidgetsFromXRC(wxWindow *parent){
       wxXmlResource::Get()->LoadObject(this,parent,wxT("GetAccountHistory"), wxT("wxScrolledWindow"));
       name = XRCCTRL(*this,"name",wxSearchCtrl);
-      limit = XRCCTRL(*this,"limit",wxChoice);
+      limit = XRCCTRL(*this,"limit",wxSpinCtrl);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };
