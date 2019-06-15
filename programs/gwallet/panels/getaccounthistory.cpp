@@ -8,6 +8,8 @@ GetAccountHistory::GetAccountHistory(GWallet* gwallet)
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
+   SetScrollRate(1,1);
+
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GetAccountHistory::OnOk));
    Connect(XRCID("name"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(GetAccountHistory::OnSearchAccount), NULL, this);
 
@@ -58,6 +60,9 @@ GetAccountHistoryResponse::GetAccountHistoryResponse(GWallet* gwallet, wxAny any
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
    response_grid->CreateGrid(0, 4);
+
+   SetScrollRate(1,1);
+   response_grid->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    response_grid->EnableDragCell();
    response_grid->EnableDragColMove();

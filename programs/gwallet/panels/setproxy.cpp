@@ -3,10 +3,12 @@
 #include "../include/panels/cli.hpp"
 #include "../include/panels/commands.hpp"
 
-SetProxy::SetProxy(GWallet* gwallet) : wxPanel()
+SetProxy::SetProxy(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   SetScrollRate(1,1);
 
    DoVotingAccount();
 
@@ -98,6 +100,9 @@ void SetProxy::OnOk(wxCommandEvent& WXUNUSED(event))
 SetProxyResponse::SetProxyResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
+
+   SetScrollRate(1,1);
+   response_tree->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    signed_transaction result = any_response.As<signed_transaction>();
 

@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class CreateAccountWithBrainKey : public wxPanel {
+class CreateAccountWithBrainKey : public wxScrolledWindow {
 protected:
    GWallet* p_GWallet;
 
@@ -19,7 +19,7 @@ protected:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("CreateAccountWithBrainKey"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CreateAccountWithBrainKey"), wxT("wxScrolledWindow"));
       brain_key = XRCCTRL(*this,"brain_key",wxTextCtrl);
       get_brain_key = XRCCTRL(*this,"get_brain_key",wxButton);
       account_name = XRCCTRL(*this,"account_name",wxTextCtrl);
@@ -36,7 +36,7 @@ public:
    CreateAccountWithBrainKey(GWallet* gwallet);
 };
 
-class CreateAccountWithBrainKeyResponse: public wxPanel
+class CreateAccountWithBrainKeyResponse: public wxScrolledWindow
 {
 public:
    CreateAccountWithBrainKeyResponse(GWallet* gwallet, wxAny any_response);
@@ -44,7 +44,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("CreateAccountWithBrainKeyResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CreateAccountWithBrainKeyResponse"), wxT("wxScrolledWindow"));
       response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

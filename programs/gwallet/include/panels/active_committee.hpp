@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class ActiveCommittee : public wxPanel
+class ActiveCommittee : public wxScrolledWindow
 {
 public:
    ActiveCommittee(GWallet* gwallet);
@@ -16,7 +16,7 @@ protected:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("ActiveCommittee"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("ActiveCommittee"), wxT("wxScrolledWindow"));
       response_grid = XRCCTRL(*this,"response_grid",wxGrid);
    }
 };

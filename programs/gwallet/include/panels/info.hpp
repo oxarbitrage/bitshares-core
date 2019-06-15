@@ -6,7 +6,7 @@
 #include "../gwallet.hpp"
 #endif
 
-class Info : public wxPanel
+class Info : public wxScrolledWindow
 {
 public:
    Info(GWallet* gwallet);
@@ -28,7 +28,7 @@ private:
    void OnCommittee(wxHyperlinkEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("Info"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("Info"), wxT("wxScrolledWindow"));
       head_block_num = XRCCTRL(*this,"head_block_num",wxStaticText);
       head_block_age = XRCCTRL(*this,"head_block_age",wxStaticText);
       next_maintenance_time = XRCCTRL(*this,"next_maintenance_time",wxStaticText);

@@ -8,6 +8,8 @@ GetCommitteeMember::GetCommitteeMember(GWallet* gwallet)
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
+   SetScrollRate(1,1);
+
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GetCommitteeMember::OnOk));
    Connect(XRCID("owner_account"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(GetCommitteeMember::OnSearchAccount), NULL, this);
 }
@@ -52,6 +54,9 @@ void GetCommitteeMember::OnOk(wxCommandEvent& WXUNUSED(event))
 GetCommitteeMemberResponse::GetCommitteeMemberResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
+
+   SetScrollRate(1,1);
+   response_tree->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    committee_member_object result = any_response.As<committee_member_object>();
 

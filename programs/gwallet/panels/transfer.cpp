@@ -3,7 +3,7 @@
 #include "../include/panels/cli.hpp"
 #include "../include/panels/commands.hpp"
 
-Transfer::Transfer(GWallet* gwallet) : wxPanel()
+Transfer::Transfer(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
@@ -23,6 +23,8 @@ Transfer::Transfer(GWallet* gwallet) : wxPanel()
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Transfer::OnOk));
    Connect(XRCID("to"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(Transfer::OnSearchAccount), NULL, this);
+
+   SetScrollRate(1,1);
 }
 
 void Transfer::OnSearchAccount(wxCommandEvent& event)
@@ -93,6 +95,9 @@ void Transfer::OnOk(wxCommandEvent& WXUNUSED(event))
 TransferResponse::TransferResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
+
+   SetScrollRate(1,1);
+   response_tree->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    signed_transaction result = any_response.As<signed_transaction>();
 

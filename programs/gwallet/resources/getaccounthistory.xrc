@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-    <object class="wxPanel" name="GetAccountHistory">
+    <object class="wxScrolledWindow" name="GetAccountHistory">
         <style>wxTAB_TRAVERSAL</style>
         <size>-1,-1</size>
         <object class="wxBoxSizer">
@@ -352,7 +352,7 @@
             </object>
         </object>
     </object>
-    <object class="wxPanel" name="GetAccountHistoryResponse">
+    <object class="wxScrolledWindow" name="GetAccountHistoryResponse">
         <style>wxTAB_TRAVERSAL</style>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>

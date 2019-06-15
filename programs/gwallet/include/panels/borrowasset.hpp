@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class BorrowAsset: public wxPanel
+class BorrowAsset: public wxScrolledWindow
 {
 public:
    BorrowAsset(GWallet* gwallet);
@@ -25,7 +25,7 @@ private:
    void OnSearchAsset(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAsset"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAsset"), wxT("wxScrolledWindow"));
       seller = XRCCTRL(*this,"seller",wxComboBox);
       borrow_amount = XRCCTRL(*this,"borrow_amount",wxTextCtrl);
       borrow_asset = XRCCTRL(*this,"borrow_asset",wxSearchCtrl);
@@ -35,7 +35,7 @@ private:
    }
 };
 
-class BorrowAssetResponse: public wxPanel
+class BorrowAssetResponse: public wxScrolledWindow
 {
 public:
    BorrowAssetResponse(GWallet* gwallet, wxAny any_response);
@@ -43,8 +43,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-         wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAssetResponse"), wxT("wxPanel"));
-         response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("BorrowAssetResponse"), wxT("wxScrolledWindow"));
+      response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };
-

@@ -3,10 +3,12 @@
 #include "../include/panels/cli.hpp"
 #include "../include/panels/commands.hpp"
 
-CancelOrder::CancelOrder(GWallet* gwallet) : wxPanel()
+CancelOrder::CancelOrder(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   SetScrollRate(1,1);
 
    DoOpenOrders();
    order->Append(open_orders_strings);
@@ -91,6 +93,9 @@ CancelOrderResponse::CancelOrderResponse(GWallet* gwallet, wxAny any_response)
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
    signed_transaction result = any_response.As<signed_transaction>();
+
+   SetScrollRate(1,1);
+   response_tree->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    const auto root = response_tree->AddRoot("Signed Transaction");
 

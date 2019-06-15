@@ -3,7 +3,7 @@
 
 class GWallet;
 
-class About : public wxPanel
+class About : public wxScrolledWindow
 {
 public:
    About(GWallet* gwallet);
@@ -22,7 +22,7 @@ protected:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("About"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("About"), wxT("wxScrolledWindow"));
       client_version = XRCCTRL(*this,"client_version",wxStaticText);
       graphene_revision = XRCCTRL(*this,"graphene_revision",wxStaticText);
       revision_age = XRCCTRL(*this,"revision_age",wxStaticText);

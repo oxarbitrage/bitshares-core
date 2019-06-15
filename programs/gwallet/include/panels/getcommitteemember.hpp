@@ -6,7 +6,7 @@
 
 class GWallet;
 
-class GetCommitteeMember: public wxPanel
+class GetCommitteeMember: public wxScrolledWindow
 {
 public:
    GetCommitteeMember(GWallet* gwallet);
@@ -22,13 +22,13 @@ private:
    void OnSearchAccount(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetCommitteeMember"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetCommitteeMember"), wxT("wxScrolledWindow"));
       owner_account = XRCCTRL(*this,"owner_account",wxSearchCtrl);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };
 
-class GetCommitteeMemberResponse: public wxPanel
+class GetCommitteeMemberResponse: public wxScrolledWindow
 {
 public:
    GetCommitteeMemberResponse(GWallet* gwallet, wxAny any_response);
@@ -36,7 +36,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetCommitteeMemberResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetCommitteeMemberResponse"), wxT("wxScrolledWindow"));
       response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

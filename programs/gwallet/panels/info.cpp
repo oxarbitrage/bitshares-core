@@ -4,11 +4,13 @@
 
 #include "../include/panels/commands.hpp"
 
-Info::Info(GWallet* gwallet) : wxPanel()
+Info::Info(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
 
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   SetScrollRate(1,1);
 
    const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
 

@@ -1,7 +1,7 @@
 #include "../include/panels/active_witnesses.hpp"
 #include "../include/panels/wallet.hpp"
 
-ActiveWitnesses::ActiveWitnesses(GWallet* gwallet) : wxPanel()
+ActiveWitnesses::ActiveWitnesses(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
 
@@ -10,6 +10,9 @@ ActiveWitnesses::ActiveWitnesses(GWallet* gwallet) : wxPanel()
    wxTheApp->Yield();
 
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   SetScrollRate(1,1);
+   response_grid->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    response_grid->CreateGrid(21, 4);
 

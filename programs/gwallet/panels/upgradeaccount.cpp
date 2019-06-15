@@ -8,6 +8,8 @@ UpgradeAccount::UpgradeAccount(GWallet* gwallet)
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
+   SetScrollRate(1,1);
+
    name->Append(p_GWallet->strings.accounts);
    name->SetSelection(p_GWallet->strings.accounts.Index(p_GWallet->strings.selected_account));
 
@@ -60,6 +62,9 @@ void UpgradeAccount::OnOk(wxCommandEvent& WXUNUSED(event))
 UpgradeAccountResponse::UpgradeAccountResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
+
+   SetScrollRate(1,1);
+   response_tree->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    signed_transaction result = any_response.As<signed_transaction>();
 

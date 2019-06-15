@@ -3,7 +3,7 @@
 #include "../include/panels/cli.hpp"
 #include "../include/panels/commands.hpp"
 
-BorrowAsset::BorrowAsset(GWallet* gwallet) : wxPanel()
+BorrowAsset::BorrowAsset(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
@@ -13,6 +13,8 @@ BorrowAsset::BorrowAsset(GWallet* gwallet) : wxPanel()
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(BorrowAsset::OnOk));
    Connect(XRCID("borrow_asset"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(BorrowAsset::OnSearchAsset), NULL, this);
+
+   SetScrollRate(1,1);
 }
 
 void BorrowAsset::OnSearchAsset(wxCommandEvent& event)
@@ -83,6 +85,9 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
 {
    InitWidgetsFromXRC((wxWindow *)gwallet);
 
+   SetScrollRate(1,1);
+   response_tree->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
+
    signed_transaction result = any_response.As<signed_transaction>();
 
    const auto root = response_tree->AddRoot("Signed Transaction");
@@ -107,5 +112,5 @@ BorrowAssetResponse::BorrowAssetResponse(GWallet* gwallet, wxAny any_response)
 
    response_tree->ExpandAll();
 
-   gwallet->panels.p_commands->notebook->AddPage(this, "Sell asset response");
+   gwallet->panels.p_commands->notebook->AddPage(this, "Borrow asset response");
 }

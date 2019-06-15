@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-    <object class="wxPanel" name="BorrowAsset">
+    <object class="wxScrolledWindow" name="BorrowAsset">
         <style>wxTAB_TRAVERSAL</style>
         <size>-1,-1</size>
         <object class="wxBoxSizer">
@@ -225,7 +225,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxStaticText" name="wxID_STATIC">
-                            <label translate="0">  BTS</label>
+                            <label translate="0"> BTS</label>
                             <wrap>0</wrap>
                         </object>
                     </object>
@@ -344,9 +344,9 @@
             </object>
         </object>
     </object>
-    <object class="wxPanel" name="BorrowAssetResponse">
+    <object class="wxScrolledWindow" name="BorrowAssetResponse">
         <style>wxTAB_TRAVERSAL</style>
-        <size>500,300</size>
+        <size>-1,-1</size>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="sizeritem">

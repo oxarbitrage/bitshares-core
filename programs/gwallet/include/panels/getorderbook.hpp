@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class GetOrderBook: public wxPanel
+class GetOrderBook: public wxScrolledWindow
 {
 public:
    GetOrderBook(GWallet* gwallet);
@@ -23,7 +23,7 @@ private:
    void OnSearchAsset(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetOrderBook"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetOrderBook"), wxT("wxScrolledWindow"));
       base = XRCCTRL(*this,"base",wxSearchCtrl);
       quote = XRCCTRL(*this,"quote",wxSearchCtrl);
       limit = XRCCTRL(*this,"limit",wxChoice);
@@ -31,7 +31,7 @@ private:
    }
 };
 
-class GetOrderBookResponse: public wxPanel
+class GetOrderBookResponse: public wxScrolledWindow
 {
 public:
    GetOrderBookResponse(GWallet* gwallet, wxAny any_response, std::string response_type);
@@ -39,7 +39,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetOrderBookResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetOrderBookResponse"), wxT("wxScrolledWindow"));
       response_grid = XRCCTRL(*this,"response_grid",wxGrid);
    }
 };

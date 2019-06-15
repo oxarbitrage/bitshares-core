@@ -3,10 +3,12 @@
 #include "../include/panels/cli.hpp"
 #include "../include/panels/commands.hpp"
 
-GetOrderBook::GetOrderBook(GWallet* gwallet)
+GetOrderBook::GetOrderBook(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   SetScrollRate(1,1);
 
    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GetOrderBook::OnOk));
    Connect(XRCID("base"), wxEVT_SEARCHCTRL_SEARCH_BTN, wxCommandEventHandler(GetOrderBook::OnSearchAsset), NULL, this);
@@ -60,6 +62,9 @@ GetOrderBookResponse::GetOrderBookResponse(GWallet* gwallet, wxAny any_response,
 
    response_grid->CreateGrid(0, 3);
 
+   SetScrollRate(1,1);
+   response_grid->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
+
    response_grid->EnableDragCell();
    response_grid->EnableDragColMove();
    response_grid->EnableDragColSize();
@@ -102,5 +107,4 @@ GetOrderBookResponse::GetOrderBookResponse(GWallet* gwallet, wxAny any_response,
    response_grid->EndBatch();
 
    gwallet->panels.p_commands->notebook->AddPage(this, "Order book "+ response_type +" response");
-
 }

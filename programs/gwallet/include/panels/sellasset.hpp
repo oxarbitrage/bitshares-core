@@ -8,7 +8,7 @@
 
 class GWallet;
 
-class SellAsset: public wxPanel
+class SellAsset: public wxScrolledWindow
 {
 public:
    SellAsset(GWallet* gwallet);
@@ -33,7 +33,7 @@ private:
    void OnSearchAsset(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAsset"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAsset"), wxT("wxScrolledWindow"));
       seller = XRCCTRL(*this,"seller",wxComboBox);
       sell_amount = XRCCTRL(*this,"sell_amount",wxTextCtrl);
       sell_asset = XRCCTRL(*this,"sell_asset",wxComboBox);
@@ -47,7 +47,7 @@ private:
    }
 };
 
-class SellAssetResponse: public wxPanel
+class SellAssetResponse: public wxScrolledWindow
 {
 public:
    SellAssetResponse(GWallet* gwallet, wxAny any_response);
@@ -55,7 +55,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAssetResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SellAssetResponse"), wxT("wxScrolledWindow"));
       response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

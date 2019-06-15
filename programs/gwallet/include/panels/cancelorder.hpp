@@ -4,7 +4,7 @@
 
 #include "../gwallet.hpp"
 
-class CancelOrder: public wxPanel
+class CancelOrder: public wxScrolledWindow
 {
 public:
    CancelOrder(GWallet* gwallet);
@@ -24,14 +24,14 @@ private:
    void DoOpenOrders();
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrder"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrder"), wxT("wxScrolledWindow"));
       order = XRCCTRL(*this,"order",wxListBox);
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };
 
-class CancelOrderResponse: public wxPanel
+class CancelOrderResponse: public wxScrolledWindow
 {
 public:
    CancelOrderResponse(GWallet* gwallet, wxAny any_response);
@@ -39,7 +39,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrderResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("CancelOrderResponse"), wxT("wxScrolledWindow"));
       response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

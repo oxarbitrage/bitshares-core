@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class ActiveWitnesses : public wxPanel
+class ActiveWitnesses : public wxScrolledWindow
 {
 public:
    ActiveWitnesses(GWallet* gwallet);
@@ -16,7 +16,7 @@ protected:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("ActiveWitnesses"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("ActiveWitnesses"), wxT("wxScrolledWindow"));
       response_grid = XRCCTRL(*this,"response_grid",wxGrid);
    }
 };

@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class GetAccountHistory: public wxPanel
+class GetAccountHistory: public wxScrolledWindow
 {
 public:
    GetAccountHistory(GWallet* gwallet);
@@ -22,14 +22,14 @@ private:
    void OnSearchAccount(wxCommandEvent& event);
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetAccountHistory"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetAccountHistory"), wxT("wxScrolledWindow"));
       name = XRCCTRL(*this,"name",wxSearchCtrl);
       limit = XRCCTRL(*this,"limit",wxChoice);
       cli = XRCCTRL(*this,"cli",wxCheckBox);
    }
 };
 
-class GetAccountHistoryResponse: public wxPanel
+class GetAccountHistoryResponse: public wxScrolledWindow
 {
 public:
    GetAccountHistoryResponse(GWallet* gwallet, wxAny any_response);
@@ -37,7 +37,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetAccountHistoryResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("GetAccountHistoryResponse"), wxT("wxScrolledWindow"));
       response_grid = XRCCTRL(*this,"response_grid",wxGrid);
    }
 };

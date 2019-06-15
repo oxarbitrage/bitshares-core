@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class SetProxy: public wxPanel
+class SetProxy: public wxScrolledWindow
 {
 public:
    SetProxy(GWallet* gwallet);
@@ -26,7 +26,7 @@ private:
    void DoVotingAccount();
 
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxy"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxy"), wxT("wxScrolledWindow"));
       account_to_modify = XRCCTRL(*this,"account_to_modify",wxComboBox);
       voting_account = XRCCTRL(*this,"voting_account",wxSearchCtrl);
       broadcast = XRCCTRL(*this,"broadcast",wxCheckBox);
@@ -34,7 +34,7 @@ private:
    }
 };
 
-class SetProxyResponse: public wxPanel
+class SetProxyResponse: public wxScrolledWindow
 {
 public:
    SetProxyResponse(GWallet* gwallet, wxAny any_response);
@@ -42,7 +42,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-         wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxyResponse"), wxT("wxPanel"));
+         wxXmlResource::Get()->LoadObject(this,parent,wxT("SetProxyResponse"), wxT("wxScrolledWindow"));
          response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };

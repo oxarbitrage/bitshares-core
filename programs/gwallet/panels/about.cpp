@@ -1,11 +1,13 @@
 #include "../include/panels/about.hpp"
 #include "../include/panels/wallet.hpp"
 
-About::About(GWallet* gwallet) : wxPanel()
+About::About(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
 
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
+
+   SetScrollRate(1,1);
 
    const auto about = p_GWallet->bitshares.wallet_api_ptr->about();
 

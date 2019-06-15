@@ -1,7 +1,7 @@
 #include "../include/panels/active_committee.hpp"
 #include "../include/panels/wallet.hpp"
 
-ActiveCommittee::ActiveCommittee(GWallet* gwallet) : wxPanel()
+ActiveCommittee::ActiveCommittee(GWallet* gwallet) : wxScrolledWindow()
 {
    p_GWallet = gwallet;
 
@@ -12,6 +12,9 @@ ActiveCommittee::ActiveCommittee(GWallet* gwallet) : wxPanel()
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
    response_grid->CreateGrid(11, 3);
+
+   SetScrollRate(1,1);
+   response_grid->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
    response_grid->EnableDragCell();
    response_grid->EnableDragColMove();

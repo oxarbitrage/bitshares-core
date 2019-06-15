@@ -5,7 +5,7 @@
 
 class GWallet;
 
-class Transfer : public wxPanel {
+class Transfer : public wxScrolledWindow {
 protected:
    GWallet* p_GWallet;
 
@@ -19,7 +19,7 @@ protected:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("Transfer"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("Transfer"), wxT("wxScrolledWindow"));
       from = XRCCTRL(*this,"from",wxComboBox);
       to = XRCCTRL(*this,"to",wxSearchCtrl);
       amount = XRCCTRL(*this,"amount",wxTextCtrl);
@@ -35,7 +35,7 @@ public:
    Transfer(GWallet* gwallet);
 };
 
-class TransferResponse: public wxPanel
+class TransferResponse: public wxScrolledWindow
 {
 public:
    TransferResponse(GWallet* gwallet, wxAny any_response);
@@ -43,7 +43,7 @@ public:
 
 private:
    void InitWidgetsFromXRC(wxWindow *parent){
-      wxXmlResource::Get()->LoadObject(this,parent,wxT("TransferResponse"), wxT("wxPanel"));
+      wxXmlResource::Get()->LoadObject(this,parent,wxT("TransferResponse"), wxT("wxScrolledWindow"));
       response_tree = XRCCTRL(*this,"response_tree",wxTreeCtrl);
    }
 };
