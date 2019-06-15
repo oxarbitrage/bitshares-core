@@ -116,8 +116,6 @@ _("&OK");
 _("Return the order book for a given market");
 #line 61 "resources/getorderbook.xrc"
 _("Market");
-#line 98 "resources/getorderbook.xrc"
-_("/");
 #line 141 "resources/getorderbook.xrc"
 _("Limit");
 #line 256 "resources/getorderbook.xrc"
@@ -244,6 +242,40 @@ _("Setup a new wallet by following the wizard. Please note you need a created ac
 _("If you already have a wallet.json file somewhere please use this option to import it to G-Wallet.");
 #line 328 "resources/main.xrc"
 _("If your wallet is all set, connect to Bitshares.");
+#line 31 "resources/registeraccount.xrc"
+_("This function is used to register an account for which you do not own the private keys. \n\n When acting as a registrar, an end user will generate their own private keys and send you the public keys. \n\n The registrar will use this function to register the account on behalf of the end user.");
+#line 32 "resources/registeraccount.xrc"
+_("Registers a third party's account on the blockckain.");
+#line 67 "resources/registeraccount.xrc"
+_("Account name");
+#line 96 "resources/registeraccount.xrc"
+_("The name of the account, must be unique on the blockchain. \n\n Shorter names are more expensive to register; the rules are still in flux, but in general names of more than 8 characters with at least one digit will be cheap.");
+#line 132 "resources/registeraccount.xrc"
+_("Owner key");
+#line 161 "resources/registeraccount.xrc"
+_("The owner key for the new account");
+#line 197 "resources/registeraccount.xrc"
+_("Active key");
+#line 226 "resources/registeraccount.xrc"
+_("The active key for the new account");
+#line 262 "resources/registeraccount.xrc"
+_("Registrar account");
+#line 291 "resources/registeraccount.xrc"
+_("The account which will pay the fee to register the user");
+#line 327 "resources/registeraccount.xrc"
+_("Referrer account");
+#line 356 "resources/registeraccount.xrc"
+_("The account who is acting as a referrer, and may receive a portion of the user's transaction fees.  This can be the same as the registrar_account if there is no referrer.");
+#line 391 "resources/registeraccount.xrc"
+_("Referrer percent");
+#line 457 "resources/registeraccount.xrc"
+_("Check to broadcast the transaction on the network");
+#line 458 "resources/registeraccount.xrc"
+_("Broadcast transaction");
+#line 467 "resources/registeraccount.xrc"
+_("Show output in CLI mode");
+#line 528 "resources/registeraccount.xrc"
+_("&OK");
 #line 5 "resources/registration_wizard.xrc"
 _("Setup wizard");
 #line 16 "resources/registration_wizard.xrc"
@@ -312,13 +344,13 @@ _("If the order does not fill immediately, this is the length of  time the order
 _("If checked, the order will only be included in the blockchain if it is filled immediately; if not checked, an open order will be left on the books to fill any amount that cannot be filled immediately.");
 #line 341 "resources/sellasset.xrc"
 _("Fill or Kill");
-#line 350 "resources/sellasset.xrc"
+#line 370 "resources/sellasset.xrc"
 _("Check to broadcast the transaction on the network");
-#line 351 "resources/sellasset.xrc"
+#line 371 "resources/sellasset.xrc"
 _("Broadcast transaction");
-#line 360 "resources/sellasset.xrc"
+#line 380 "resources/sellasset.xrc"
 _("Show output in CLI mode");
-#line 421 "resources/sellasset.xrc"
+#line 441 "resources/sellasset.xrc"
 _("&OK");
 #line 25 "resources/setproxy.xrc"
 _(" If a user does not wish to take an active part in voting, they can choose to allow another account to vote their stake.\n\nSetting a vote proxy does not remove your previous votes from the blockchain, they remain there but are ignored.  If you later null out your vote proxy, your previous votes will take effect again.\n\n This setting can be changed at any time.");
