@@ -24,6 +24,7 @@ struct treeItems
    wxTreeItemId active_committee;
    wxTreeItemId upgrade_account;
    wxTreeItemId create_account_with_brain_key;
+   wxTreeItemId register_account;
 };
 
 class Wallet : public wxPanel
@@ -69,6 +70,7 @@ private:
    void DoActiveCommittee();
    void DoUpgradeAccount();
    void DoCreateAccountWithBrainKey();
+   void DoRegisterAccount();
 
    void OpenCommandsPane();
 };

@@ -333,7 +333,7 @@
                         <size>5,5</size>
                     </object>
                     <object class="sizeritem">
-                        <option>4</option>
+                        <option>10</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="fill_or_kill">
@@ -342,8 +342,28 @@
                             <checked>0</checked>
                         </object>
                     </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <size>5,5</size>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND|wxALL</flag>
+                <border>0</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <size>5,5</size>
+                    </object>
                     <object class="sizeritem">
-                        <option>3</option>
+                        <option>5</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="broadcast">
@@ -353,7 +373,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <option>3</option>
+                        <option>5</option>
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxCheckBox" name="cli">

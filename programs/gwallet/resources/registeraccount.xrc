@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-    <object class="wxScrolledWindow" name="CreateAccountWithBrainKey">
+    <object class="wxScrolledWindow" name="RegisterAccount">
         <style>wxTAB_TRAVERSAL</style>
         <size>500,500</size>
         <object class="wxBoxSizer">
@@ -28,78 +28,9 @@
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="m_staticText15">
-                            <label>Creates a new account and registers it on the blockchain.</label>
+                            <tooltip>This function is used to register an account for which you do not own the private keys. \n\n When acting as a registrar, an end user will generate their own private keys and send you the public keys. \n\n The registrar will use this function to register the account on behalf of the end user.</tooltip>
+                            <label>Registers a third party&apos;s account on the blockckain.</label>
                             <wrap>-1</wrap>
-                        </object>
-                    </object>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxEXPAND</flag>
-                        <border>5</border>
-                        <size>0,0</size>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <option>0</option>
-                <flag>wxEXPAND</flag>
-                <border>5</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxEXPAND</flag>
-                        <border>5</border>
-                        <size>0,0</size>
-                    </object>
-                    <object class="sizeritem">
-                        <option>10</option>
-                        <flag>wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="m_staticText14">
-                            <label>Brain key</label>
-                            <wrap>-1</wrap>
-                        </object>
-                    </object>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxEXPAND</flag>
-                        <border>5</border>
-                        <size>0,0</size>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <option>0</option>
-                <flag>wxEXPAND</flag>
-                <border>5</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="spacer">
-                        <option>1</option>
-                        <flag>wxEXPAND</flag>
-                        <border>5</border>
-                        <size>0,0</size>
-                    </object>
-                    <object class="sizeritem">
-                        <option>8</option>
-                        <flag>wxALL</flag>
-                        <border>0</border>
-                        <object class="wxTextCtrl" name="brain_key">
-                            <tooltip>The brain key used for generating the account&apos;s private keys</tooltip>
-                            <value></value>
-                            <maxlength>0</maxlength>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <option>2</option>
-                        <flag>wxALL</flag>
-                        <border>0</border>
-                        <object class="wxButton" name="get_brain_key">
-                            <label>Get brain key</label>
-                            <default>0</default>
-                            <markup>0</markup>
-                            <bitmap />
                         </object>
                     </object>
                     <object class="spacer">
@@ -161,8 +92,138 @@
                         <option>10</option>
                         <flag>wxALL</flag>
                         <border>0</border>
-                        <object class="wxTextCtrl" name="account_name">
+                        <object class="wxTextCtrl" name="name">
                             <tooltip>The name of the account, must be unique on the blockchain. \n\n Shorter names are more expensive to register; the rules are still in flux, but in general names of more than 8 characters with at least one digit will be cheap.</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                </object>
+            </object>
+            <object class="spacer">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>2</border>
+                <size>5,5</size>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="m_staticText16">
+                            <label>Owner key</label>
+                            <wrap>-1</wrap>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>0</border>
+                        <object class="wxTextCtrl" name="owner">
+                            <tooltip>The owner key for the new account</tooltip>
+                            <value></value>
+                            <maxlength>0</maxlength>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                </object>
+            </object>
+            <object class="spacer">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>2</border>
+                <size>5,5</size>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="m_staticText16">
+                            <label>Active key</label>
+                            <wrap>-1</wrap>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>0</border>
+                        <object class="wxTextCtrl" name="active">
+                            <tooltip>The active key for the new account</tooltip>
                             <value></value>
                             <maxlength>0</maxlength>
                         </object>
@@ -323,6 +384,72 @@
                         <size>0,0</size>
                     </object>
                     <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="m_staticText18">
+                            <label>Referrer percent</label>
+                            <wrap>-1</wrap>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                    <object class="sizeritem">
+                        <option>10</option>
+                        <flag>wxALL</flag>
+                        <border>0</border>
+                        <object class="wxSpinCtrl" name="referrer_percent">
+                            <style>wxSP_ARROW_KEYS</style>
+                            <value>0</value>
+                            <min>0</min>
+                            <max>100</max>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                </object>
+            </object>
+            <object class="spacer">
+                <option>0</option>
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>2</border>
+                <size>5,5</size>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <size>0,0</size>
+                    </object>
+                    <object class="sizeritem">
                         <option>5</option>
                         <flag>wxALL</flag>
                         <border>0</border>
@@ -405,7 +532,7 @@
             </object>
         </object>
     </object>
-    <object class="wxScrolledWindow" name="CreateAccountWithBrainKeyResponse">
+    <object class="wxScrolledWindow" name="RegisterAccountResponse">
         <style>wxTAB_TRAVERSAL</style>
         <size>-1,-1</size>
         <object class="wxBoxSizer">
