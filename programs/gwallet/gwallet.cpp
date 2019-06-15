@@ -313,15 +313,15 @@ void GWallet::DoInitialConfig()
    wxString i18n_dir(directory + wxFILE_SEP_PATH + wxT("i18n"));
    int lang;
    if (config->Read("Lang", &lang)) {
-      m_locale = new wxLocale(lang);
-      m_locale->Init(lang);
+      locale = new wxLocale(lang);
+      locale->Init(lang);
    }
    else {
-      m_locale = new wxLocale(wxLANGUAGE_DEFAULT);
-      m_locale->Init(wxLANGUAGE_DEFAULT);
+      locale = new wxLocale(wxLANGUAGE_DEFAULT);
+      locale->Init(wxLANGUAGE_DEFAULT);
    }
-   m_locale->AddCatalogLookupPathPrefix(i18n_dir);
-   m_locale->AddCatalog(wxT("gwallet"));
+   locale->AddCatalogLookupPathPrefix(i18n_dir);
+   locale->AddCatalog(wxT("gwallet"));
 }
 
 void GWallet::DoAssets(std::string account)
@@ -633,9 +633,9 @@ void GWallet::OnChangeLanguage(wxCommandEvent& WXUNUSED(event))
 
 void GWallet::SelectLanguage(int lang)
 {
-   delete m_locale;
-   m_locale = new wxLocale(lang);
-   if(m_locale->Init(lang)) {
+   delete locale;
+   locale = new wxLocale(lang);
+   if(locale->Init(lang)) {
       config->Write("Lang", lang);
       config->Flush();
 

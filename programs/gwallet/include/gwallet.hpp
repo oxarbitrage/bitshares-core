@@ -22,7 +22,6 @@
 
 class Info;
 class Cli;
-class SendReceive;
 class Wallet;
 
 class Commands;
@@ -44,9 +43,6 @@ struct Panels {
 };
 
 struct Strings {
-   wxStaticText* main;
-   wxStaticText* balance;
-
    wxArrayString accounts;
    wxArrayString assets;
    wxArrayString balances;
@@ -60,48 +56,40 @@ struct Strings {
 class GWallet : public wxFrame
 {
 public:
-   GWallet(const wxString& title);
-
-   void DoState();
-   void OnError(wxWindow* parent, wxString msg);
-   void DoAssets(std::string account);
-   void DoAccounts();
-   void DoModes();
-
-   std::string DoPrettyBalance(int precision, double balance);
-
    wxConfig* config;
    wxString directory;
    States state;
    Bitshares bitshares;
    Panels panels;
    Strings strings;
-
    wxAuiManager m_mgr;
    wxMenuBar* menubar;
 
-   ~GWallet()
-   {
-      m_mgr.UnInit();
-   }
+   GWallet(const wxString& title);
+   ~GWallet() { m_mgr.UnInit(); }
 
+   void DoState();
+   void OnError(wxWindow* parent, wxString msg);
+   void DoAssets(std::string account);
+   void DoAccounts();
+   void DoModes();
+   std::string DoPrettyBalance(int precision, double balance);
    void CreateCommandsPane(Commands* commands);
-
    void DoSearchAccount(const wxString& keyword, wxSearchCtrl& account_field);
    void DoSearchAsset(const wxString& keyword, wxSearchCtrl& asset_field);
 
 protected:
    wxToolBar* toolbar;
-
    wxComboBox* t_accounts;
    wxComboBox* t_assets;
    wxStaticText* t_balance;
-
    wxPanel* main_panel;
    wxBitmapButton* connect_button;
 
 private:
-   void InitWidgetsFromXRC(wxWindow *parent){
+   wxLocale* locale;
+
+   void InitWidgetsFromXRC(wxWindow *parent) {
       wxXmlResource::Get()->LoadObject(this,parent,wxT("GWallet"), wxT("wxFrame"));
       menubar = XRCCTRL(*this,"menubar",wxMenuBar);
       toolbar = XRCCTRL(*this,"toolbar",wxToolBar);
@@ -119,36 +107,25 @@ private:
    void OnQuit(wxCommandEvent& event);
    void OnAbout(wxCommandEvent& event);
    void OnChangeLanguage(wxCommandEvent& event);
-
    void OnConnect(wxCommandEvent& event);
    void OnDisconnect(wxCommandEvent& event);
    void OnSetPassword(wxCommandEvent& event);
    void OnLock(wxCommandEvent& event);
    void OnUnlock(wxCommandEvent& event);
-
    void OnImportKey(wxCommandEvent& event);
    void OnImportBalance(wxCommandEvent& event);
-
    void OnChangeAccount(wxCommandEvent& event);
    void OnChangeAsset(wxCommandEvent& event);
-
    void CreateEvents();
-
    void DoInitialConfig();
    void DoInitialSize();
-
    void LoadRegistrationWizardWidget();
-
    void SelectLanguage(int lang);
-   wxLocale* m_locale;
-
    void OnViewWelcome(wxCommandEvent& event);
    void OnViewCommands(wxCommandEvent& event);
    void OnViewWallet(wxCommandEvent& event);
    void OnViewCli(wxCommandEvent& event);
-
    void CreateWalletPane(Wallet* wallet);
    void CreateCliPane(Cli* cli);
-
    void OnPanelClose(wxAuiManagerEvent& event);
 };
