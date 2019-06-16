@@ -25,6 +25,7 @@ void ImportBalanceDialog::OnOk(wxCommandEvent &WXUNUSED(event)) {
          return;
       }
       p_GWallet->DoAccounts();
+      p_GWallet->DoAssets(acct.ToStdString());
 
       Close(true);
 

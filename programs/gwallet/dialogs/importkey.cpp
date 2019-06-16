@@ -31,6 +31,7 @@ void ImportKeyDialog::OnOk(wxCommandEvent &WXUNUSED(event)) {
       p_GWallet->config->Flush();
 
       p_GWallet->DoAccounts();
+      p_GWallet->DoAssets(acct.ToStdString());
 
       Close(true);
 
