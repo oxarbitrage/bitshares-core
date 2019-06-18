@@ -168,7 +168,7 @@
                         <border>0</border>
                         <object class="wxSpinCtrl" name="limit">
                             <style>wxSP_ARROW_KEYS</style>
-                            <value>9</value>
+                            <value>10</value>
                             <min>1</min>
                             <max>50</max>
                         </object>

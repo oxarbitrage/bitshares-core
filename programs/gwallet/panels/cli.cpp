@@ -6,14 +6,28 @@ Cli::Cli(GWallet* gwallet) : wxPanel()
 
    InitWidgetsFromXRC((wxWindow *)p_GWallet);
 
+   commands_log.Open(p_GWallet->directory + wxT("/logs/cli_commands.txt"));
+
+   ReadCommands();
+
    Connect(XRCID("command"), wxEVT_TEXT_ENTER, wxCommandEventHandler(Cli::OnCliCommand), NULL, this);
    Connect(XRCID("run"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Cli::OnCliCommand), NULL, this);
    Connect(XRCID("clear"), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Cli::OnCliClear), NULL, this);
 }
 
+Cli::~Cli()
+{
+   commands_log.Close();
+}
+
 void Cli::OnCliCommand(wxCommandEvent& WXUNUSED(event))
 {
    const auto line = command->GetValue();
+
+   commands_log.InsertLine(line, 0);
+   commands_log.Write();
+   command->Insert(line, 0);
+
    const auto wallet_api = fc::api<graphene::wallet::wallet_api>(p_GWallet->bitshares.wallet_api_ptr);
    const auto api_id = p_GWallet->bitshares.wallet_cli->register_api(wallet_api);
 
@@ -54,4 +68,12 @@ void Cli::OnCliCommand(wxCommandEvent& WXUNUSED(event))
 void Cli::OnCliClear(wxCommandEvent& WXUNUSED(event))
 {
    output->SetValue("");
+}
+
+void Cli::ReadCommands()
+{
+   while(!commands_log.Eof())
+   {
+      command->Append(commands_log.GetNextLine());
+   }
 }

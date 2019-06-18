@@ -14,16 +14,13 @@ ActiveWitnesses::ActiveWitnesses(GWallet* gwallet) : wxScrolledWindow()
    SetScrollRate(1,1);
    response_grid->ShowScrollbars(wxSHOW_SB_NEVER,wxSHOW_SB_NEVER);
 
-   response_grid->CreateGrid(21, 4);
+   response_grid->CreateGrid(0, 4);
 
    response_grid->EnableDragCell();
    response_grid->EnableDragColMove();
    response_grid->EnableDragColSize();
    response_grid->EnableDragGridSize();
    response_grid->EnableDragRowSize();
-
-   response_grid->SetLabelBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BACKGROUND ) );
-   response_grid->SetDefaultCellBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BACKGROUND ) );
 
    response_grid->SetColLabelValue(0, "ID");
    response_grid->SetColLabelValue(1, "Account");
@@ -35,12 +32,14 @@ ActiveWitnesses::ActiveWitnesses(GWallet* gwallet) : wxScrolledWindow()
 
    const auto info = p_GWallet->bitshares.wallet_api_ptr->info();
    auto z = 0;
+   response_grid->AppendRows(info["active_committee_members"].get_array().size());
    for( auto& active_witness : info["active_witnesses"].get_array() ) {
 
       const auto witness = p_GWallet->bitshares.wallet_api_ptr->get_witness(active_witness.as_string());
       response_grid->SetCellValue(z, 0, active_witness.as_string());
 
-      auto witness_account = p_GWallet->bitshares.wallet_api_ptr->get_account(string(object_id_type(witness.witness_account))).name;
+      auto witness_account = p_GWallet->bitshares.wallet_api_ptr->get_account(
+            string(object_id_type(witness.witness_account))).name;
       response_grid->SetCellValue(z, 1, witness_account);
 
       response_grid->SetCellValue(z, 2, wxNumberFormatter::ToString(long(witness.total_votes)));

@@ -33,6 +33,8 @@ void ImportKeyDialog::OnOk(wxCommandEvent &WXUNUSED(event)) {
       p_GWallet->DoAccounts();
       p_GWallet->DoAssets(acct.ToStdString());
 
+      p_GWallet->bitshares.wallet_api_ptr->save_wallet_file();
+
       Close(true);
 
       wxMessageDialog dialog(NULL, _("Account imported"), _("Success"), wxNO_DEFAULT | wxOK | wxICON_INFORMATION);

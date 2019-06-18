@@ -260,7 +260,9 @@ void GWallet::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
    DoAssets(account_name.ToStdString());
 
    strings.selected_account = strings.accounts[selected];
-   strings.selected_asset = strings.assets[0];
+
+   if(strings.assets.size() > 0)
+      strings.selected_asset = strings.assets[0];
 }
 
 void GWallet::OnChangeAsset(wxCommandEvent& WXUNUSED(event))

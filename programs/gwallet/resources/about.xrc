@@ -43,7 +43,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText10">
@@ -52,9 +52,9 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
-                                        <border>5</border>
+                                        <border>7</border>
                                         <object class="wxStaticText" name="client_version">
                                             <label></label>
                                             <wrap>-1</wrap>
@@ -69,7 +69,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText12">
@@ -78,7 +78,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="graphene_revision">
@@ -95,7 +95,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText14">
@@ -104,7 +104,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="revision_age">
@@ -121,7 +121,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText16">
@@ -130,7 +130,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="fc_revision">
@@ -147,7 +147,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText18">
@@ -156,7 +156,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="fc_revision_age">
@@ -173,7 +173,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText20">
@@ -182,7 +182,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="compile_date">
@@ -199,7 +199,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText22">
@@ -208,7 +208,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="boost_version">
@@ -225,7 +225,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText24">
@@ -234,7 +234,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="openssl_version">
@@ -251,7 +251,7 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>3</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="m_staticText26">
@@ -260,7 +260,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <option>5</option>
+                                        <option>7</option>
                                         <flag>wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="os_build">
