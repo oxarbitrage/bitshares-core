@@ -30,6 +30,7 @@
 #include <graphene/grouped_orders/grouped_orders_plugin.hpp>
 #include <graphene/elasticsearch/elasticsearch_plugin.hpp>
 #include <graphene/es_objects/es_objects.hpp>
+#include <graphene/custom_operations/custom_operations_plugin.hpp>
 
 #include <graphene/chain/balance_object.hpp>
 #include <graphene/chain/committee_member_object.hpp>
@@ -263,6 +264,16 @@ database_fixture::database_fixture(const fc::time_point_sec &initial_timestamp)
       esobjects_plugin->plugin_initialize(options);
       esobjects_plugin->plugin_startup();
    }
+
+      if(current_test_name == "custom_operations_account_contact_test" || current_test_name == "custom_operations_htlc_bitshares_eos_test") {
+         auto custom_operations_plugin = app.register_plugin<graphene::custom_operations::custom_operations_plugin>();
+         custom_operations_plugin->plugin_set_app(&app);
+
+         //options.insert(std::make_pair("es-objects-elasticsearch-url", boost::program_options::variable_value(string("http://localhost:9200/"), false)));
+
+         custom_operations_plugin->plugin_initialize(options);
+         custom_operations_plugin->plugin_startup();
+      }
 
    options.insert(std::make_pair("bucket-size", boost::program_options::variable_value(string("[15]"),false)));
    mhplugin->plugin_set_app(&app);

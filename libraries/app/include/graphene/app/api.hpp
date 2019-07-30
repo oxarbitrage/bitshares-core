@@ -29,8 +29,8 @@
 #include <graphene/protocol/confidential.hpp>
 
 #include <graphene/market_history/market_history_plugin.hpp>
-
 #include <graphene/grouped_orders/grouped_orders_plugin.hpp>
+#include <graphene/custom_operations/custom_operations_plugin.hpp>
 
 #include <graphene/debug_witness/debug_api.hpp>
 
@@ -52,6 +52,8 @@ namespace graphene { namespace app {
    using namespace graphene::chain;
    using namespace graphene::market_history;
    using namespace graphene::grouped_orders;
+   using namespace graphene::custom_operations;
+
    using namespace fc::ecc;
    using std::string;
    using std::vector;
@@ -506,6 +508,36 @@ namespace graphene { namespace app {
          application& _app;
          graphene::app::database_api database_api;
    };
+
+   /**
+    * @brief the custom_operations_api class exposes access to ...
+    */
+   class custom_operations_api
+   {
+      public:
+         custom_operations_api(application& app):_app(app), database_api( std::ref(*app.chain_database()), &(app.get_options()) ){}
+
+         /**
+          * @breif Get contact info of an account
+          *
+          * @param account Account name to get info from
+          * @return The grouped limit orders, ordered from best offered price to worst
+          */
+         account_contact_object get_contact_info(std::string account)const;
+
+         /**
+          * @breif Get htlc offers from an account
+          *
+          * @param account Account name to get info from
+          * @return A vector of htlc offers from the account
+          */
+         vector<htlc_bitshares_eos_object> get_account_htlc_offers(std::string account)const;
+
+
+   private:
+         application& _app;
+         graphene::app::database_api database_api;
+   };
 } } // graphene::app
 
 extern template class fc::api<graphene::app::block_api>;
@@ -555,6 +587,8 @@ namespace graphene { namespace app {
          fc::api<asset_api> asset()const;
          /// @brief Retrieve the orders API
          fc::api<orders_api> orders()const;
+         /// @brief Retrieve the custom operations API
+         fc::api<custom_operations_api> custom()const;
          /// @brief Retrieve the debug API (if available)
          fc::api<graphene::debug_witness::debug_api> debug()const;
 
@@ -571,6 +605,7 @@ namespace graphene { namespace app {
          optional< fc::api<crypto_api> > _crypto_api;
          optional< fc::api<asset_api> > _asset_api;
          optional< fc::api<orders_api> > _orders_api;
+         optional< fc::api<custom_operations_api> > _custom_operations_api;
          optional< fc::api<graphene::debug_witness::debug_api> > _debug_api;
    };
 
@@ -637,6 +672,9 @@ FC_API(graphene::app::asset_api,
 FC_API(graphene::app::orders_api,
        (get_tracked_groups)
        (get_grouped_limit_orders)
+     )
+FC_API(graphene::app::custom_operations_api,
+       (get_contact_info)
      )
 FC_API(graphene::app::login_api,
        (login)

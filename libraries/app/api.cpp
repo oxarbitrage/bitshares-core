@@ -47,6 +47,7 @@ template class fc::api<graphene::app::history_api>;
 template class fc::api<graphene::app::crypto_api>;
 template class fc::api<graphene::app::asset_api>;
 template class fc::api<graphene::app::orders_api>;
+template class fc::api<graphene::app::custom_operations_api>;
 template class fc::api<graphene::debug_witness::debug_api>;
 template class fc::api<graphene::app::login_api>;
 
@@ -117,6 +118,10 @@ namespace graphene { namespace app {
        else if( api_name == "orders_api" )
        {
           _orders_api = std::make_shared< orders_api >( std::ref( _app ) );
+       }
+       else if( api_name == "custom_operations_api" )
+       {
+          _custom_operations_api = std::make_shared< custom_operations_api >( std::ref( _app ) );
        }
        else if( api_name == "debug_api" )
        {
@@ -287,6 +292,12 @@ namespace graphene { namespace app {
     {
        FC_ASSERT(_orders_api);
        return *_orders_api;
+    }
+
+    fc::api<custom_operations_api> login_api::custom() const
+    {
+       FC_ASSERT(_custom_operations_api);
+       return *_custom_operations_api;
     }
 
     fc::api<graphene::debug_witness::debug_api> login_api::debug() const
@@ -659,6 +670,35 @@ namespace graphene { namespace app {
          ++itr;
       }
       return result;
+   }
+
+   // custom operations api
+   account_contact_object custom_operations_api::get_contact_info( std::string account_id_or_name )const
+   {
+      auto account_id = database_api.get_account_id_from_string(account_id_or_name);
+      account_contact_object result;
+      auto &index = _app.chain_database()->get_index_type<account_contact_index>().indices().get<by_custom_account>();
+
+      auto itr = index.find(account_id);
+      if( itr != index.end() )
+      {
+         result = *itr;
+      }
+
+      return result;
+   }
+
+   vector<htlc_bitshares_eos_object> custom_operations_api::get_account_htlc_offers(std::string account_id_or_name)const
+   {
+      auto account_id = database_api.get_account_id_from_string(account_id_or_name);
+      vector<htlc_bitshares_eos_object> results;
+      auto &index = _app.chain_database()->get_index_type<htlc_orderbook_index>().indices().get<by_bitshares_account>();
+      auto range = index.equal_range(account_id);
+      for(auto itr = range.first; itr != range.second; ++itr)
+      {
+         results.emplace_back(*itr);
+      }
+      return results;
    }
 
 } } // graphene::app
