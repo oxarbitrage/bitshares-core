@@ -36,7 +36,7 @@ using namespace chain;
 #define CUSTOM_OPERATIONS_SPACE_ID 7
 #endif
 
-enum types { account_contact = 0 , htlc = 1};
+enum types { account_contact = 0 , create_htlc = 1, take_htlc = 2};
 
 struct account_contact_object : public abstract_object<account_contact_object>
 {
@@ -55,7 +55,7 @@ struct account_contact_object : public abstract_object<account_contact_object>
 struct htlc_bitshares_eos_object : public abstract_object<htlc_bitshares_eos_object>
 {
    static const uint8_t space_id = CUSTOM_OPERATIONS_SPACE_ID;
-   static const uint8_t type_id  = htlc;
+   static const uint8_t type_id  = create_htlc;
 
    account_id_type bitshares_account;
    string eos_account;
@@ -63,6 +63,12 @@ struct htlc_bitshares_eos_object : public abstract_object<htlc_bitshares_eos_obj
    string eos_asset;
    uint64_t eos_amount;
    fc::time_point_sec expiration;
+
+   fc::time_point_sec order_time;
+   bool active;
+   account_id_type taker;
+   fc::time_point_sec close_time;
+
    // ...
 };
 
@@ -80,11 +86,20 @@ typedef multi_index_container<
 typedef generic_index<account_contact_object, account_contact_multi_index_type> account_contact_index;
 
 struct by_bitshares_account;
+struct by_active;
 typedef multi_index_container<
       htlc_bitshares_eos_object,
       indexed_by<
             ordered_non_unique< tag<by_custom_id>, member< object, object_id_type, &object::id > >,
-            ordered_unique< tag<by_bitshares_account>, member< htlc_bitshares_eos_object, account_id_type, &htlc_bitshares_eos_object::bitshares_account > >
+            ordered_unique< tag<by_bitshares_account>, member< htlc_bitshares_eos_object, account_id_type, &htlc_bitshares_eos_object::bitshares_account > >,
+            ordered_non_unique<
+               tag<by_active>,
+               composite_key<
+                  htlc_bitshares_eos_object,
+                  member<htlc_bitshares_eos_object, bool, &htlc_bitshares_eos_object::active>,
+                  member<htlc_bitshares_eos_object, fc::time_point_sec, &htlc_bitshares_eos_object::expiration>
+               >
+            >
 
       >
 > htlc_orderbook_multi_index_type;
@@ -98,7 +113,8 @@ typedef generic_index<htlc_bitshares_eos_object, htlc_orderbook_multi_index_type
 FC_REFLECT_DERIVED( graphene::custom_operations::account_contact_object, (graphene::db::object),
                     (account)(name)(email)(phone)(address)(company)(url))
 FC_REFLECT_DERIVED( graphene::custom_operations::htlc_bitshares_eos_object, (graphene::db::object),
-                    (bitshares_account)(eos_account)(bitshares_amount)(eos_asset)(eos_amount)(expiration))
-FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(htlc) )
+                    (bitshares_account)(eos_account)(bitshares_amount)(eos_asset)(eos_amount)(expiration)
+                    (order_time)(active)(taker)(close_time))
+FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
 
 

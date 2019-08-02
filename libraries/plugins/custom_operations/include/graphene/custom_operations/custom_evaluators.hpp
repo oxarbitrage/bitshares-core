@@ -38,18 +38,31 @@ class account_contact_evaluator
       object_id_type do_apply( const account_contact_operation& o ) ;
 };
 
-class htlc_bitshares_eos_evaluator
+class create_htlc_eos_evaluator
 {
    public:
-      typedef htlc_bitshares_eos_operation operation_type;
+      typedef create_htlc_eos_operation operation_type;
       database* _db;
-      htlc_bitshares_eos_evaluator(database& db);
+      create_htlc_eos_evaluator(database& db);
 
-      void_result do_evaluate( const htlc_bitshares_eos_operation& o );
-      object_id_type do_apply( const htlc_bitshares_eos_operation& o ) ;
+      void_result do_evaluate( const create_htlc_eos_operation& o );
+      object_id_type do_apply( const create_htlc_eos_operation& o ) ;
+};
+
+class take_htlc_eos_evaluator
+{
+   public:
+      typedef take_htlc_eos_operation operation_type;
+      database* _db;
+      take_htlc_eos_evaluator(database& db);
+
+      void_result do_evaluate( const take_htlc_eos_operation& o );
+      object_id_type do_apply( const take_htlc_eos_operation& o ) ;
 };
 
 } }
 
 FC_REFLECT_TYPENAME( graphene::custom_operations::account_contact_evaluator )
-FC_REFLECT_TYPENAME( graphene::custom_operations::htlc_bitshares_eos_evaluator )
+FC_REFLECT_TYPENAME( graphene::custom_operations::create_htlc_eos_evaluator )
+FC_REFLECT_TYPENAME( graphene::custom_operations::take_htlc_eos_evaluator )
+

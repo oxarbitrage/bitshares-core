@@ -72,17 +72,17 @@ object_id_type account_contact_evaluator::do_apply( const account_contact_operat
    }
 }
 
-htlc_bitshares_eos_evaluator::htlc_bitshares_eos_evaluator(database& db)
+create_htlc_eos_evaluator::create_htlc_eos_evaluator(database& db)
 {
    _db = &db;
 }
 
-void_result htlc_bitshares_eos_evaluator::do_evaluate( const htlc_bitshares_eos_operation& op )
+void_result create_htlc_eos_evaluator::do_evaluate( const create_htlc_eos_operation& op )
 {
    return void_result();
 }
 
-object_id_type htlc_bitshares_eos_evaluator::do_apply( const htlc_bitshares_eos_operation& op )
+object_id_type create_htlc_eos_evaluator::do_apply( const create_htlc_eos_operation& op )
 {
    auto created = _db->create<htlc_bitshares_eos_object>( [&]( htlc_bitshares_eos_object& hbeo ) {
       hbeo.bitshares_account = op.bitshares_account;
@@ -91,8 +91,45 @@ object_id_type htlc_bitshares_eos_evaluator::do_apply( const htlc_bitshares_eos_
       hbeo.eos_asset = op.eos_asset;
       hbeo.eos_amount = op.eos_amount;
       hbeo.expiration = op.expiration;
+      hbeo.order_time = _db->head_block_time();
    });
    return created.id;
+}
+
+take_htlc_eos_evaluator::take_htlc_eos_evaluator(database& db)
+{
+   _db = &db;
+}
+
+void_result take_htlc_eos_evaluator::do_evaluate( const take_htlc_eos_operation& op )
+{
+   return void_result();
+}
+
+object_id_type take_htlc_eos_evaluator::do_apply( const take_htlc_eos_operation& op )
+{
+   auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
+
+   auto itr = index.find(op.htlc_order_id);
+   //wdump((*itr));
+   if( itr != index.end() )
+   {
+      _db->modify( *itr, [&]( htlc_bitshares_eos_object& htlc_object ){
+         htlc_object.bitshares_account = itr->bitshares_account;
+         htlc_object.eos_account = itr->eos_account;
+         htlc_object.bitshares_amount = itr->bitshares_amount;
+         htlc_object.eos_asset = itr->eos_asset;
+         htlc_object.eos_amount = itr->eos_amount;
+         htlc_object.expiration = itr->expiration;
+         htlc_object.order_time = itr->order_time;
+         htlc_object.active = false;
+         htlc_object.taker = op.bitshares_account;
+         htlc_object.close_time = _db->head_block_time();
+
+      });
+      return itr->id;
+   }
+
 }
 
 

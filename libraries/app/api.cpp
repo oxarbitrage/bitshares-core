@@ -700,5 +700,17 @@ namespace graphene { namespace app {
       }
       return results;
    }
+   vector<htlc_bitshares_eos_object> custom_operations_api::get_active_htlc_offers()const
+   {
+      vector<htlc_bitshares_eos_object> results;
+      auto &index = _app.chain_database()->get_index_type<htlc_orderbook_index>().indices().get<by_active>();
+      auto itr = index.lower_bound(make_tuple(true, _app.chain_database()->head_block_time()));
+      while(itr != index.end() && itr->active && itr->expiration > _app.chain_database()->head_block_time())
+      {
+         results.push_back(*itr);
+         ++itr;
+      }
+      return results;
+   }
 
 } } // graphene::app

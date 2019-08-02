@@ -30,7 +30,12 @@ void account_contact_operation::validate()const
    FC_ASSERT( fee_payer == account );
 }
 
-void htlc_bitshares_eos_operation::validate()const
+void create_htlc_eos_operation::validate()const
+{
+   FC_ASSERT( fee_payer == bitshares_account );
+}
+
+void take_htlc_eos_operation::validate()const
 {
    FC_ASSERT( fee_payer == bitshares_account );
 }

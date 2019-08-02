@@ -65,7 +65,9 @@ struct formatted_custom_operation
 
 } } //graphene::custom_operations
 
-FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::htlc_bitshares_eos_operation>, (type)(data) )
 FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::account_contact_operation>, (type)(data) )
+FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::create_htlc_eos_operation>, (type)(data) )
+FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::take_htlc_eos_operation>, (type)(data) )
+
 
 

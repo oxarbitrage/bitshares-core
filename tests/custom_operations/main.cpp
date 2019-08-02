@@ -235,17 +235,16 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
    {
       custom_operation op;
-      htlc_bitshares_eos_operation htlc;
+      create_htlc_eos_operation htlc;
       htlc.bitshares_account = alice_id;
-      htlc.eos_account = "dan-larimer";
-      asset bitshares_amount;
+      htlc.eos_account = "nathan";
       htlc.bitshares_amount = asset(10);
       htlc.eos_asset = "EOS";
       htlc.eos_amount = 10;
       htlc.expiration = db.head_block_time() + 3600;
 
-      formatted_custom_operation<htlc_bitshares_eos_operation> fco;
-      fco.type = graphene::custom_operations::types::htlc;
+      formatted_custom_operation<create_htlc_eos_operation> fco;
+      fco.type = graphene::custom_operations::types::create_htlc;
       fco.data = htlc;
 
       auto packed = fc::raw::pack(fco);
@@ -261,8 +260,42 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    generate_block();
 
    vector<htlc_bitshares_eos_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice");
-
    wdump((fc::json::to_string(htlc_offers_results_alice)));
+
+   // get all active
+   vector<htlc_bitshares_eos_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
+   wdump((fc::json::to_string(htlc_offers_results_active)));
+
+   // nathan take the order
+   {
+      custom_operation op;
+      take_htlc_eos_operation htlc;
+      htlc.bitshares_account = nathan_id;
+      htlc.eos_account = "alice";
+      htlc.htlc_order_id = htlc_offers_results_alice[0].id;
+      htlc.expiration = db.head_block_time() + 3600;
+
+      formatted_custom_operation<take_htlc_eos_operation> fco;
+      fco.type = graphene::custom_operations::types::take_htlc;
+      fco.data = htlc;
+
+      auto packed = fc::raw::pack(fco);
+
+      op.payer = nathan_id;
+      op.data = packed;
+      op.fee = db.get_global_properties().parameters.current_fees->calculate_fee(op);
+      trx.operations.push_back(op);
+      sign(trx, nathan_private_key);
+      PUSH_TX(db, trx, ~0);
+      trx.clear();
+   }
+   generate_block();
+
+   htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice");
+   wdump((fc::json::to_string(htlc_offers_results_alice)));
+
+   htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
+   wdump((fc::json::to_string(htlc_offers_results_active)));
 
 }
 catch (fc::exception &e) {

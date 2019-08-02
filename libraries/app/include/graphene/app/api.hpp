@@ -533,6 +533,12 @@ namespace graphene { namespace app {
           */
          vector<htlc_bitshares_eos_object> get_account_htlc_offers(std::string account)const;
 
+         /**
+          * @breif Get all active and non expired htlc offers
+          *
+          * @return A vector of active and non expired htlc offers
+          */
+         vector<htlc_bitshares_eos_object> get_active_htlc_offers()const;
 
    private:
          application& _app;
@@ -675,6 +681,8 @@ FC_API(graphene::app::orders_api,
      )
 FC_API(graphene::app::custom_operations_api,
        (get_contact_info)
+       (get_account_htlc_offers)
+       (get_active_htlc_offers)
      )
 FC_API(graphene::app::login_api,
        (login)
