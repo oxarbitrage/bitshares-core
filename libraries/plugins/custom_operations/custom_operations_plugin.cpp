@@ -59,10 +59,13 @@ class custom_operations_plugin_impl
 
 void custom_operations_plugin_impl::onBlock( const signed_block& b )
 {
-   for(auto trx : b.transactions)
+   graphene::chain::database& db = database();
+   const vector<optional< operation_history_object > >& hist = db.get_applied_operations();
+   for( const optional< operation_history_object >& o_op : hist )
    {
-      for(auto op : trx.operations)
-      {
+      if(o_op.valid()) {
+         auto op = o_op->op;
+
          if(op.is_type<custom_operation>()) {
 
             variant op_object;
