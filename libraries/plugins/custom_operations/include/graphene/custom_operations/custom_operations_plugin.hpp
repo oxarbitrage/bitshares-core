@@ -59,16 +59,15 @@ class custom_operations_plugin : public graphene::app::plugin
 template <typename T>
 struct formatted_custom_operation
 {
-   uint8_t first_byte;
    types type;
    T data;
 };
 
 } } //graphene::custom_operations
 
-FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::account_contact_operation>, (first_byte)(type)(data) )
-FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::create_htlc_eos_operation>, (first_byte)(type)(data) )
-FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::take_htlc_eos_operation>, (first_byte)(type)(data) )
+FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::account_contact_operation>, (type)(data) )
+FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::create_htlc_eos_operation>, (type)(data) )
+FC_REFLECT( graphene::custom_operations::formatted_custom_operation<graphene::custom_operations::take_htlc_eos_operation>, (type)(data) )
 
 
 

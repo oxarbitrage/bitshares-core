@@ -34,47 +34,86 @@ using graphene::protocol::account_id_type;
 
 struct account_contact_operation : chain::base_operation
 {
+   struct ext
+   {
+      optional<string> name;
+      optional<string> email;
+      optional<string> phone;
+      optional<string> address;
+      optional<string> company;
+      optional<string> url;
+   };
+
    account_id_type fee_payer;
    account_id_type account;
-   string name;
-   string email;
-   string phone;
-   string address;
-   string company;
-   string url;
+
+   graphene::protocol::extension<ext> extensions;
+   //string name;
+   //string email;
+   //string phone;
+   //string address;
+   //string company;
+   //string url;
 
    void validate()const;
 };
 
 struct create_htlc_eos_operation : chain::base_operation
 {
+   struct ext
+   {
+      optional<string> eos_account;
+      optional<asset> bitshares_amount;
+      optional<string> eos_asset;
+      optional<int> eos_amount;
+      optional<fc::time_point_sec> expiration;
+   };
+
    account_id_type fee_payer;
    account_id_type bitshares_account;
-   string eos_account;
-   asset bitshares_amount;
-   string eos_asset;
-   int eos_amount;
-   fc::time_point_sec expiration;
+
+   graphene::protocol::extension<ext> extensions;
+
+   //string eos_account;
+   //asset bitshares_amount;
+   //string eos_asset;
+   //int eos_amount;
+   //fc::time_point_sec expiration;
 
    void validate()const;
 };
 
 struct take_htlc_eos_operation : chain::base_operation
 {
+   struct ext
+   {
+      optional<string> eos_account;
+      optional<fc::time_point_sec> expiration;
+   };
+
    account_id_type fee_payer;
    account_id_type bitshares_account;
-   string eos_account;
    object_id_type htlc_order_id;
-   fc::time_point_sec expiration;
+
+   graphene::protocol::extension<ext> extensions;
+
+   //string eos_account;
+   //object_id_type htlc_order_id;
+   //fc::time_point_sec expiration;
 
    void validate()const;
 };
 
 } } //graphene::custom_operations
 
-FC_REFLECT( graphene::custom_operations::account_contact_operation, (fee_payer)(account)(name)(email)(phone)(address)
-            (company)(url) )
-FC_REFLECT( graphene::custom_operations::create_htlc_eos_operation, (fee_payer)(bitshares_account)(eos_account)
-            (bitshares_amount)(eos_asset)(eos_amount)(expiration) )
-FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation, (fee_payer)(bitshares_account)(eos_account)
-            (htlc_order_id)(expiration) )
+FC_REFLECT( graphene::custom_operations::account_contact_operation::ext, (name)(email)(phone)(address)(company)(url) )
+FC_REFLECT_TYPENAME(graphene::protocol::extension<graphene::custom_operations::account_contact_operation::ext>)
+FC_REFLECT( graphene::custom_operations::account_contact_operation, (fee_payer)(account)(extensions) )
+
+FC_REFLECT( graphene::custom_operations::create_htlc_eos_operation::ext, (eos_account)(bitshares_amount)(eos_asset)(eos_amount)(expiration) )
+FC_REFLECT_TYPENAME(graphene::protocol::extension<graphene::custom_operations::create_htlc_eos_operation::ext>)
+FC_REFLECT( graphene::custom_operations::create_htlc_eos_operation, (fee_payer)(bitshares_account)(extensions) )
+
+FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation::ext, (eos_account)(expiration) )
+FC_REFLECT_TYPENAME(graphene::protocol::extension<graphene::custom_operations::take_htlc_eos_operation::ext>)
+FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation, (fee_payer)(bitshares_account)(htlc_order_id)(extensions) )

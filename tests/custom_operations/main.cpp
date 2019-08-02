@@ -64,17 +64,28 @@ try {
 
       account_contact_operation contact;
       contact.account = nathan_id;
-      contact.name = "Nathan";
-      contact.email = "nathan@nathan.com";
-      contact.phone = "+1 434343434343";
-      contact.address = "";
-      contact.company = "Bitshares";
-      contact.url = "http://nathan.com/";
+
+      //account_contact_operation::ext extend;
+      //account_contact_operation::ext extension;
+
+      /*
+      contact.extensions.value.name = "Nathan";
+      contact.extensions.value.email = "nathan@nathan.com";
+      contact.extensions.value.phone = "+1 434343434343";
+      contact.extensions.value.address = "";
+      contact.extensions.value.company = "Bitshares";
+      contact.extensions.value.url = "http://nathan.com/";
+*/
+      wdump((contact));
+
+      //contact.extensions.value = extension;
 
       formatted_custom_operation<account_contact_operation> fco;
-      fco.first_byte = 0xFF;
+      //fco.first_byte = 255;
       fco.type = types::account_contact;
       fco.data = contact;
+
+      wdump((fco));
 
       auto packed = fc::raw::pack(fco);
 
@@ -92,15 +103,19 @@ try {
       custom_operation op;
       account_contact_operation contact;
       contact.account = alice_id;
-      contact.name = "Alice";
-      contact.email = "alice@alice.com";
-      contact.phone = "";
-      contact.address = "Some Street 456, Somewhere";
-      contact.company = "";
-      contact.url = "http://alice.com/";
+
+      account_contact_operation::ext extend;
+      extend.name = "Alice";
+      extend.email = "alice@alice.com";
+      extend.phone = "";
+      extend.address = "Some Street 456, Somewhere";
+      extend.company = "";
+      extend.url = "http://alice.com/";
+
+      contact.extensions.value = extend;
 
       formatted_custom_operation<account_contact_operation> fco;
-      fco.first_byte = 0xFF;
+      //fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
@@ -144,15 +159,19 @@ try {
       custom_operation op;
       account_contact_operation contact;
       contact.account = alice_id;
-      contact.name = "Alice Smith";
-      contact.email = "alicesmith@alice.com";
-      contact.phone = "+1 1111 11 1111";
-      contact.address = "Some Street 456, Somewhere";
-      contact.company = "";
-      contact.url = "http://alice.com/";
+
+      account_contact_operation::ext extensions;
+      extensions.name = "Alice Smith";
+      extensions.email = "alicesmith@alice.com";
+      extensions.phone = "+1 1111 11 1111";
+      extensions.address = "Some Street 456, Somewhere";
+      extensions.company = "";
+      extensions.url = "http://alice.com/";
+
+      contact.extensions.value = extensions;
 
       formatted_custom_operation<account_contact_operation> fco;
-      fco.first_byte = 0xFF;
+      //fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
@@ -184,12 +203,16 @@ try {
       custom_operation op;
       account_contact_operation contact;
       contact.account = nathan_id;
-      contact.name = "Not my account";
-      contact.phone = "Fake phone";
-      contact.email = "Fake email";
+
+      account_contact_operation::ext extensions;
+      extensions.name = "Not my account";
+      extensions.phone = "Fake phone";
+      extensions.email = "Fake email";
+
+      contact.extensions.value = extensions;
 
       formatted_custom_operation<account_contact_operation> fco;
-      fco.first_byte = 0xFF;
+      //fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::account_contact;
       fco.data = contact;
 
@@ -241,14 +264,18 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       create_htlc_eos_operation htlc;
       htlc.bitshares_account = alice_id;
-      htlc.eos_account = "nathan";
-      htlc.bitshares_amount = asset(10);
-      htlc.eos_asset = "EOS";
-      htlc.eos_amount = 10;
-      htlc.expiration = db.head_block_time() + 3600;
+
+      create_htlc_eos_operation::ext extensions;
+      extensions.eos_account = "nathan";
+      extensions.bitshares_amount = asset(10);
+      extensions.eos_asset = "EOS";
+      extensions.eos_amount = 10;
+      extensions.expiration = db.head_block_time() + 3600;
+
+      htlc.extensions.value = extensions;
 
       formatted_custom_operation<create_htlc_eos_operation> fco;
-      fco.first_byte = 0xFF;
+      //fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::create_htlc;
       fco.data = htlc;
 
@@ -276,12 +303,16 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       take_htlc_eos_operation htlc;
       htlc.bitshares_account = nathan_id;
-      htlc.eos_account = "alice";
       htlc.htlc_order_id = htlc_offers_results_alice[0].id;
-      htlc.expiration = db.head_block_time() + 3600;
+
+      take_htlc_eos_operation::ext extensions;
+      extensions.eos_account = "alice";
+      extensions.expiration = db.head_block_time() + 3600;
+
+      htlc.extensions.value = extensions;
 
       formatted_custom_operation<take_htlc_eos_operation> fco;
-      fco.first_byte = 0xFF;
+      //fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::take_htlc;
       fco.data = htlc;
 
@@ -304,6 +335,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    wdump((fc::json::to_string(htlc_offers_results_active)));
 
 }
+
 catch (fc::exception &e) {
    edump((e.to_detail_string()));
    throw;

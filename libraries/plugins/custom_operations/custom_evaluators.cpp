@@ -48,12 +48,12 @@ object_id_type account_contact_evaluator::do_apply( const account_contact_operat
    {
       _db->modify( *itr, [&]( account_contact_object& aco ){
          aco.account = op.account;
-         aco.name = op.name;
-         aco.email = op.email;
-         aco.phone = op.phone;
-         aco.address = op.address;
-         aco.company = op.company;
-         aco.url = op.url;
+         aco.name = *op.extensions.value.name;
+         aco.email = *op.extensions.value.email;
+         aco.phone = *op.extensions.value.phone;
+         aco.address = *op.extensions.value.address;
+         aco.company = *op.extensions.value.company;
+         aco.url = *op.extensions.value.url;
       });
       return itr->id;
    }
@@ -61,12 +61,12 @@ object_id_type account_contact_evaluator::do_apply( const account_contact_operat
    {
       auto created = _db->create<account_contact_object>( [&]( account_contact_object& aco ) {
          aco.account = op.account;
-         aco.name = op.name;
-         aco.email = op.email;
-         aco.phone = op.phone;
-         aco.address = op.address;
-         aco.company = op.company;
-         aco.url = op.url;
+         aco.name = *op.extensions.value.name;
+         aco.email = *op.extensions.value.email;
+         aco.phone = *op.extensions.value.phone;
+         aco.address = *op.extensions.value.address;
+         aco.company = *op.extensions.value.company;
+         aco.url = *op.extensions.value.url;
       });
       return created.id;
    }
@@ -86,11 +86,11 @@ object_id_type create_htlc_eos_evaluator::do_apply( const create_htlc_eos_operat
 {
    auto created = _db->create<htlc_bitshares_eos_object>( [&]( htlc_bitshares_eos_object& hbeo ) {
       hbeo.bitshares_account = op.bitshares_account;
-      hbeo.eos_account = op.eos_account;
-      hbeo.bitshares_amount = op.bitshares_amount;
-      hbeo.eos_asset = op.eos_asset;
-      hbeo.eos_amount = op.eos_amount;
-      hbeo.expiration = op.expiration;
+      hbeo.eos_account = *op.extensions.value.eos_account;
+      hbeo.bitshares_amount = *op.extensions.value.bitshares_amount;
+      hbeo.eos_asset = *op.extensions.value.eos_asset;
+      hbeo.eos_amount = *op.extensions.value.eos_amount;
+      hbeo.expiration = *op.extensions.value.expiration;
       hbeo.order_time = _db->head_block_time();
    });
    return created.id;
