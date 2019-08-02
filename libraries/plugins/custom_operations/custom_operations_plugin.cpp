@@ -72,69 +72,74 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
             op.visit(fc::from_static_variant(op_object, FC_PACK_MAX_DEPTH));
             auto co = op_object.as<custom_operation>(FC_PACK_MAX_DEPTH);
 
-            try {
-               if (co.data.data()[0] == graphene::custom_operations::types::account_contact) {
+            uint8_t first_byte = co.data.data()[0];
+            if(first_byte == 0xFF) {
 
-                  formatted_custom_operation<account_contact_operation> custom_operation_unpacked;
-                  custom_operation_unpacked = fc::raw::unpack<formatted_custom_operation<account_contact_operation>>(co.data);
+               try {
+                  if (co.data.data()[1] == graphene::custom_operations::types::account_contact) {
 
-                  account_contact_operation account_contact_op;
-                  account_contact_op.fee_payer = co.fee_payer();
-                  account_contact_op.account = custom_operation_unpacked.data.account;
-                  account_contact_op.name = custom_operation_unpacked.data.name;
-                  account_contact_op.email = custom_operation_unpacked.data.email;
-                  account_contact_op.phone = custom_operation_unpacked.data.phone;
-                  account_contact_op.address = custom_operation_unpacked.data.address;
-                  account_contact_op.company = custom_operation_unpacked.data.company;
-                  account_contact_op.url = custom_operation_unpacked.data.url;
+                     formatted_custom_operation<account_contact_operation> custom_operation_unpacked;
+                     custom_operation_unpacked = fc::raw::unpack<formatted_custom_operation<account_contact_operation>>(
+                           co.data);
 
-                  account_contact_op.validate();
-                  account_contact_evaluator evaluator(database());
-                  evaluator.do_evaluate(account_contact_op);
-                  evaluator.do_apply(account_contact_op);
+                     account_contact_operation account_contact_op;
+                     account_contact_op.fee_payer = co.fee_payer();
+                     account_contact_op.account = custom_operation_unpacked.data.account;
+                     account_contact_op.name = custom_operation_unpacked.data.name;
+                     account_contact_op.email = custom_operation_unpacked.data.email;
+                     account_contact_op.phone = custom_operation_unpacked.data.phone;
+                     account_contact_op.address = custom_operation_unpacked.data.address;
+                     account_contact_op.company = custom_operation_unpacked.data.company;
+                     account_contact_op.url = custom_operation_unpacked.data.url;
+
+                     account_contact_op.validate();
+                     account_contact_evaluator evaluator(database());
+                     evaluator.do_evaluate(account_contact_op);
+                     evaluator.do_apply(account_contact_op);
+                  } else if (co.data.data()[1] == graphene::custom_operations::types::create_htlc) {
+
+                     formatted_custom_operation<create_htlc_eos_operation> custom_operation_unpacked;
+                     custom_operation_unpacked = fc::raw::unpack<formatted_custom_operation<create_htlc_eos_operation>>(
+                           co.data);
+
+                     create_htlc_eos_operation htlc_bitshares_eos_op;
+                     htlc_bitshares_eos_op.fee_payer = co.fee_payer();
+                     htlc_bitshares_eos_op.bitshares_account = custom_operation_unpacked.data.bitshares_account;
+                     htlc_bitshares_eos_op.eos_account = custom_operation_unpacked.data.eos_account;
+                     htlc_bitshares_eos_op.bitshares_amount = custom_operation_unpacked.data.bitshares_amount;
+                     htlc_bitshares_eos_op.eos_asset = custom_operation_unpacked.data.eos_asset;
+                     htlc_bitshares_eos_op.eos_amount = custom_operation_unpacked.data.eos_amount;
+                     htlc_bitshares_eos_op.expiration = custom_operation_unpacked.data.expiration;
+
+                     htlc_bitshares_eos_op.validate();
+                     create_htlc_eos_evaluator evaluator(database());
+                     evaluator.do_evaluate(htlc_bitshares_eos_op);
+                     evaluator.do_apply(htlc_bitshares_eos_op);
+                  } else if (co.data.data()[1] == graphene::custom_operations::types::take_htlc) {
+
+                     formatted_custom_operation<take_htlc_eos_operation> custom_operation_unpacked;
+                     custom_operation_unpacked = fc::raw::unpack<formatted_custom_operation<take_htlc_eos_operation>>(
+                           co.data);
+
+                     take_htlc_eos_operation htlc_bitshares_eos_op;
+                     htlc_bitshares_eos_op.fee_payer = co.fee_payer();
+                     htlc_bitshares_eos_op.bitshares_account = custom_operation_unpacked.data.bitshares_account;
+                     htlc_bitshares_eos_op.eos_account = custom_operation_unpacked.data.eos_account;
+                     htlc_bitshares_eos_op.htlc_order_id = custom_operation_unpacked.data.htlc_order_id;
+                     htlc_bitshares_eos_op.expiration = custom_operation_unpacked.data.expiration;
+
+                     htlc_bitshares_eos_op.validate();
+                     take_htlc_eos_evaluator evaluator(database());
+                     evaluator.do_evaluate(htlc_bitshares_eos_op);
+                     evaluator.do_apply(htlc_bitshares_eos_op);
+                  }
                }
-               else if (co.data.data()[0] == graphene::custom_operations::types::create_htlc) {
-
-                  formatted_custom_operation<create_htlc_eos_operation> custom_operation_unpacked;
-                  custom_operation_unpacked = fc::raw::unpack<formatted_custom_operation<create_htlc_eos_operation>>(co.data);
-
-                  create_htlc_eos_operation htlc_bitshares_eos_op;
-                  htlc_bitshares_eos_op.fee_payer = co.fee_payer();
-                  htlc_bitshares_eos_op.bitshares_account = custom_operation_unpacked.data.bitshares_account;
-                  htlc_bitshares_eos_op.eos_account = custom_operation_unpacked.data.eos_account;
-                  htlc_bitshares_eos_op.bitshares_amount = custom_operation_unpacked.data.bitshares_amount;
-                  htlc_bitshares_eos_op.eos_asset = custom_operation_unpacked.data.eos_asset;
-                  htlc_bitshares_eos_op.eos_amount = custom_operation_unpacked.data.eos_amount;
-                  htlc_bitshares_eos_op.expiration = custom_operation_unpacked.data.expiration;
-
-                  htlc_bitshares_eos_op.validate();
-                  create_htlc_eos_evaluator evaluator(database());
-                  evaluator.do_evaluate(htlc_bitshares_eos_op);
-                  evaluator.do_apply(htlc_bitshares_eos_op);
+               catch (fc::exception e) {
+                  //FC_THROW_EXCEPTION(plugin_exception, "failed on unpack, validate() or evaluator");
+                  //elog((""));
+                  elog((e.to_detail_string()));
+                  continue;
                }
-               else if (co.data.data()[0] == graphene::custom_operations::types::take_htlc) {
-
-                  formatted_custom_operation<take_htlc_eos_operation> custom_operation_unpacked;
-                  custom_operation_unpacked = fc::raw::unpack<formatted_custom_operation<take_htlc_eos_operation>>(co.data);
-
-                  take_htlc_eos_operation htlc_bitshares_eos_op;
-                  htlc_bitshares_eos_op.fee_payer = co.fee_payer();
-                  htlc_bitshares_eos_op.bitshares_account = custom_operation_unpacked.data.bitshares_account;
-                  htlc_bitshares_eos_op.eos_account = custom_operation_unpacked.data.eos_account;
-                  htlc_bitshares_eos_op.htlc_order_id = custom_operation_unpacked.data.htlc_order_id;
-                  htlc_bitshares_eos_op.expiration = custom_operation_unpacked.data.expiration;
-
-                  htlc_bitshares_eos_op.validate();
-                  take_htlc_eos_evaluator evaluator(database());
-                  evaluator.do_evaluate(htlc_bitshares_eos_op);
-                  evaluator.do_apply(htlc_bitshares_eos_op);
-               }
-            }
-            catch (fc::exception e) {
-               //FC_THROW_EXCEPTION(plugin_exception, "failed on unpack, validate() or evaluator");
-               //elog((""));
-               elog((e.to_detail_string()));
-               continue;
             }
          }
       }

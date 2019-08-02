@@ -72,6 +72,7 @@ try {
       contact.url = "http://nathan.com/";
 
       formatted_custom_operation<account_contact_operation> fco;
+      fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
@@ -99,6 +100,7 @@ try {
       contact.url = "http://alice.com/";
 
       formatted_custom_operation<account_contact_operation> fco;
+      fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
@@ -150,6 +152,7 @@ try {
       contact.url = "http://alice.com/";
 
       formatted_custom_operation<account_contact_operation> fco;
+      fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
@@ -186,6 +189,7 @@ try {
       contact.email = "Fake email";
 
       formatted_custom_operation<account_contact_operation> fco;
+      fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::account_contact;
       fco.data = contact;
 
@@ -244,6 +248,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       htlc.expiration = db.head_block_time() + 3600;
 
       formatted_custom_operation<create_htlc_eos_operation> fco;
+      fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::create_htlc;
       fco.data = htlc;
 
@@ -276,6 +281,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       htlc.expiration = db.head_block_time() + 3600;
 
       formatted_custom_operation<take_htlc_eos_operation> fco;
+      fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::take_htlc;
       fco.data = htlc;
 
