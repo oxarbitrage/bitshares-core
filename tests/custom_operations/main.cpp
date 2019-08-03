@@ -72,11 +72,8 @@ try {
       contact.extensions.value.company = "Bitshares";
       contact.extensions.value.url = "http://nathan.com/";
 
-      formatted_custom_operation<account_contact_operation> fco;
-      fco.type = types::account_contact;
-      fco.data = contact;
-
-      auto packed = fc::raw::pack(fco);
+      auto packed = fc::raw::pack(contact);
+      packed.insert(packed.begin(), types::account_contact);
       packed.insert(packed.begin(), 0xFF);
 
       op.payer = nathan_id;
@@ -104,11 +101,8 @@ try {
 
       contact.extensions.value = extend;
 
-      formatted_custom_operation<account_contact_operation> fco;
-      fco.type = types::account_contact;
-      fco.data = contact;
-
-      auto packed = fc::raw::pack(fco);
+      auto packed = fc::raw::pack(contact);
+      packed.insert(packed.begin(), types::account_contact);
       packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
@@ -158,11 +152,8 @@ try {
 
       contact.extensions.value = extensions;
 
-      formatted_custom_operation<account_contact_operation> fco;
-      fco.type = types::account_contact;
-      fco.data = contact;
-
-      auto packed = fc::raw::pack(fco);
+      auto packed = fc::raw::pack(contact);
+      packed.insert(packed.begin(), types::account_contact);
       packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
@@ -199,11 +190,8 @@ try {
 
       contact.extensions.value = extensions;
 
-      formatted_custom_operation<account_contact_operation> fco;
-      fco.type = graphene::custom_operations::types::account_contact;
-      fco.data = contact;
-
-      auto packed = fc::raw::pack(fco);
+      auto packed = fc::raw::pack(contact);
+      packed.insert(packed.begin(), types::account_contact);
       packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
@@ -262,11 +250,8 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
       htlc.extensions.value = extensions;
 
-      formatted_custom_operation<create_htlc_eos_operation> fco;
-      fco.type = graphene::custom_operations::types::create_htlc;
-      fco.data = htlc;
-
-      auto packed = fc::raw::pack(fco);
+      auto packed = fc::raw::pack(htlc);
+      packed.insert(packed.begin(), types::create_htlc);
       packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
@@ -299,11 +284,8 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
       htlc.extensions.value = extensions;
 
-      formatted_custom_operation<take_htlc_eos_operation> fco;
-      fco.type = graphene::custom_operations::types::take_htlc;
-      fco.data = htlc;
-
-      auto packed = fc::raw::pack(fco);
+      auto packed = fc::raw::pack(htlc);
+      packed.insert(packed.begin(), types::take_htlc);
       packed.insert(packed.begin(), 0xFF);
 
       op.payer = nathan_id;

@@ -48,12 +48,6 @@ struct account_contact_operation : chain::base_operation
    account_id_type account;
 
    graphene::protocol::extension<ext> extensions;
-   //string name;
-   //string email;
-   //string phone;
-   //string address;
-   //string company;
-   //string url;
 
    void validate()const;
 };
@@ -74,12 +68,6 @@ struct create_htlc_eos_operation : chain::base_operation
 
    graphene::protocol::extension<ext> extensions;
 
-   //string eos_account;
-   //asset bitshares_amount;
-   //string eos_asset;
-   //int eos_amount;
-   //fc::time_point_sec expiration;
-
    void validate()const;
 };
 
@@ -96,10 +84,6 @@ struct take_htlc_eos_operation : chain::base_operation
    object_id_type htlc_order_id;
 
    graphene::protocol::extension<ext> extensions;
-
-   //string eos_account;
-   //object_id_type htlc_order_id;
-   //fc::time_point_sec expiration;
 
    void validate()const;
 };
