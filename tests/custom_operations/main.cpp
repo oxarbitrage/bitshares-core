@@ -65,29 +65,19 @@ try {
       account_contact_operation contact;
       contact.account = nathan_id;
 
-      //account_contact_operation::ext extend;
-      //account_contact_operation::ext extension;
-
-      /*
       contact.extensions.value.name = "Nathan";
       contact.extensions.value.email = "nathan@nathan.com";
       contact.extensions.value.phone = "+1 434343434343";
       contact.extensions.value.address = "";
       contact.extensions.value.company = "Bitshares";
       contact.extensions.value.url = "http://nathan.com/";
-*/
-      wdump((contact));
-
-      //contact.extensions.value = extension;
 
       formatted_custom_operation<account_contact_operation> fco;
-      //fco.first_byte = 255;
       fco.type = types::account_contact;
       fco.data = contact;
 
-      wdump((fco));
-
       auto packed = fc::raw::pack(fco);
+      packed.insert(packed.begin(), 0xFF);
 
       op.payer = nathan_id;
       op.data = packed;
@@ -115,11 +105,11 @@ try {
       contact.extensions.value = extend;
 
       formatted_custom_operation<account_contact_operation> fco;
-      //fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
       auto packed = fc::raw::pack(fco);
+      packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
       op.data = packed;
@@ -152,8 +142,6 @@ try {
    BOOST_CHECK_EQUAL(contact_results_alice.company, "");
    BOOST_CHECK_EQUAL(contact_results_alice.url, "http://alice.com/");
 
-   //set_expiration(db, trx);
-
    // alice update her data
    {
       custom_operation op;
@@ -171,11 +159,11 @@ try {
       contact.extensions.value = extensions;
 
       formatted_custom_operation<account_contact_operation> fco;
-      //fco.first_byte = 0xFF;
       fco.type = types::account_contact;
       fco.data = contact;
 
       auto packed = fc::raw::pack(fco);
+      packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
       op.data = packed;
@@ -212,11 +200,11 @@ try {
       contact.extensions.value = extensions;
 
       formatted_custom_operation<account_contact_operation> fco;
-      //fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::account_contact;
       fco.data = contact;
 
       auto packed = fc::raw::pack(fco);
+      packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
       op.data = packed;
@@ -275,11 +263,11 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       htlc.extensions.value = extensions;
 
       formatted_custom_operation<create_htlc_eos_operation> fco;
-      //fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::create_htlc;
       fco.data = htlc;
 
       auto packed = fc::raw::pack(fco);
+      packed.insert(packed.begin(), 0xFF);
 
       op.payer = alice_id;
       op.data = packed;
@@ -312,11 +300,11 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       htlc.extensions.value = extensions;
 
       formatted_custom_operation<take_htlc_eos_operation> fco;
-      //fco.first_byte = 0xFF;
       fco.type = graphene::custom_operations::types::take_htlc;
       fco.data = htlc;
 
       auto packed = fc::raw::pack(fco);
+      packed.insert(packed.begin(), 0xFF);
 
       op.payer = nathan_id;
       op.data = packed;

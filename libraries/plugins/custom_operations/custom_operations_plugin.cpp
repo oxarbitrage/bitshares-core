@@ -88,12 +88,6 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
                      account_contact_op.fee_payer = co.fee_payer();
                      account_contact_op.account = custom_operation_unpacked.data.account;
                      account_contact_op.extensions = custom_operation_unpacked.data.extensions;
-                     //account_contact_op.name = custom_operation_unpacked.data.name;
-                     //account_contact_op.email = custom_operation_unpacked.data.email;
-                     //account_contact_op.phone = custom_operation_unpacked.data.phone;
-                     //account_contact_op.address = custom_operation_unpacked.data.address;
-                     //account_contact_op.company = custom_operation_unpacked.data.company;
-                     //account_contact_op.url = custom_operation_unpacked.data.url;
 
                      account_contact_op.validate();
                      account_contact_evaluator evaluator(database());
@@ -109,11 +103,6 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
                      htlc_bitshares_eos_op.fee_payer = co.fee_payer();
                      htlc_bitshares_eos_op.bitshares_account = custom_operation_unpacked.data.bitshares_account;
                      htlc_bitshares_eos_op.extensions = custom_operation_unpacked.data.extensions;
-                     //htlc_bitshares_eos_op.eos_account = custom_operation_unpacked.data.eos_account;
-                     //htlc_bitshares_eos_op.bitshares_amount = custom_operation_unpacked.data.bitshares_amount;
-                     //htlc_bitshares_eos_op.eos_asset = custom_operation_unpacked.data.eos_asset;
-                     //htlc_bitshares_eos_op.eos_amount = custom_operation_unpacked.data.eos_amount;
-                     //htlc_bitshares_eos_op.expiration = custom_operation_unpacked.data.expiration;
 
                      htlc_bitshares_eos_op.validate();
                      create_htlc_eos_evaluator evaluator(database());
@@ -129,9 +118,6 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
                      htlc_bitshares_eos_op.fee_payer = co.fee_payer();
                      htlc_bitshares_eos_op.bitshares_account = custom_operation_unpacked.data.bitshares_account;
                      htlc_bitshares_eos_op.extensions = custom_operation_unpacked.data.extensions;
-                     //htlc_bitshares_eos_op.eos_account = custom_operation_unpacked.data.eos_account;
-                     //htlc_bitshares_eos_op.htlc_order_id = custom_operation_unpacked.data.htlc_order_id;
-                     //htlc_bitshares_eos_op.expiration = custom_operation_unpacked.data.expiration;
 
                      htlc_bitshares_eos_op.validate();
                      take_htlc_eos_evaluator evaluator(database());

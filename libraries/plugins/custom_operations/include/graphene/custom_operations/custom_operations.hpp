@@ -117,3 +117,7 @@ FC_REFLECT( graphene::custom_operations::create_htlc_eos_operation, (fee_payer)(
 FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation::ext, (eos_account)(expiration) )
 FC_REFLECT_TYPENAME(graphene::protocol::extension<graphene::custom_operations::take_htlc_eos_operation::ext>)
 FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation, (fee_payer)(bitshares_account)(htlc_order_id)(extensions) )
+
+GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::account_contact_operation )
+GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_eos_operation )
+GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::take_htlc_eos_operation )
