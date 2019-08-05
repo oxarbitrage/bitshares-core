@@ -72,52 +72,42 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
 
          variant custom_operation_object;
          op.visit(fc::from_static_variant(custom_operation_object, FC_PACK_MAX_DEPTH));
-
          auto custom_op = custom_operation_object.as<custom_operation>(FC_PACK_MAX_DEPTH);
 
          uint8_t first_byte = custom_op.data.data()[0];
          if(first_byte == 0xFF) {
-
             custom_op.data.erase(custom_op.data.begin());
-
             try {
+               auto unpacked = fc::raw::unpack<custom_plugin_operation>(custom_op.data);
 
-               auto custom_operation_unpacked = fc::raw::unpack<custom_plugin_operation>(custom_op.data);
-
-               if (custom_operation_unpacked.which() == graphene::custom_operations::types::account_contact) {
-
-                  variant account_contact_operation_object;
-                  custom_operation_unpacked.visit(fc::from_static_variant(account_contact_operation_object, FC_PACK_MAX_DEPTH));
-                  auto account_contact_op = account_contact_operation_object.as<account_contact_operation>(FC_PACK_MAX_DEPTH);
+               if (unpacked.which() == graphene::custom_operations::types::account_contact) {
+                  variant operation_object;
+                  unpacked.visit(fc::from_static_variant(operation_object, FC_PACK_MAX_DEPTH));
+                  auto account_contact_op = operation_object.as<account_contact_operation>(FC_PACK_MAX_DEPTH);
 
                   account_contact_op.fee_payer = custom_op.fee_payer();
-
                   account_contact_op.validate();
                   account_contact_evaluator evaluator(database());
                   evaluator.do_evaluate(account_contact_op);
                   evaluator.do_apply(account_contact_op);
                }
-               else if (custom_operation_unpacked.which() == graphene::custom_operations::types::create_htlc) {
-
-                  variant create_htlc_eos_operation_object;
-                  custom_operation_unpacked.visit(fc::from_static_variant(create_htlc_eos_operation_object, FC_PACK_MAX_DEPTH));
-                  auto htlc_bitshares_eos_op = create_htlc_eos_operation_object.as<create_htlc_eos_operation>(FC_PACK_MAX_DEPTH);
+               else if (unpacked.which() == graphene::custom_operations::types::create_htlc) {
+                  variant operation_object;
+                  unpacked.visit(fc::from_static_variant(operation_object, FC_PACK_MAX_DEPTH));
+                  auto htlc_bitshares_eos_op = operation_object.as<create_htlc_eos_operation>(FC_PACK_MAX_DEPTH);
 
                   htlc_bitshares_eos_op.fee_payer = custom_op.fee_payer();
-
                   htlc_bitshares_eos_op.validate();
                   create_htlc_eos_evaluator evaluator(database());
                   evaluator.do_evaluate(htlc_bitshares_eos_op);
                   evaluator.do_apply(htlc_bitshares_eos_op);
                }
-               else if (custom_operation_unpacked.which() == graphene::custom_operations::types::take_htlc) {
-
-                  variant take_htlc_eos_operation_object;
-                  custom_operation_unpacked.visit(fc::from_static_variant(take_htlc_eos_operation_object, FC_PACK_MAX_DEPTH));
-                  auto htlc_bitshares_eos_op = take_htlc_eos_operation_object.as<take_htlc_eos_operation>(FC_PACK_MAX_DEPTH);
+               else if (unpacked.which() == graphene::custom_operations::types::take_htlc) {
+                  variant operation_object;
+                  unpacked.visit(fc::from_static_variant(operation_object, FC_PACK_MAX_DEPTH));
+                  auto htlc_bitshares_eos_op = operation_object.as<take_htlc_eos_operation>(FC_PACK_MAX_DEPTH);
 
                   htlc_bitshares_eos_op.fee_payer = custom_op.fee_payer();
-
                   htlc_bitshares_eos_op.validate();
                   take_htlc_eos_evaluator evaluator(database());
                   evaluator.do_evaluate(htlc_bitshares_eos_op);
