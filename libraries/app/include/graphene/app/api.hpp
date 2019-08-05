@@ -510,25 +510,26 @@ namespace graphene { namespace app {
    };
 
    /**
-    * @brief the custom_operations_api class exposes access to ...
+    * @brief The custom_operations_api class exposes access to standard(BSIP-III) custom objects.
     */
    class custom_operations_api
    {
       public:
-         custom_operations_api(application& app):_app(app), database_api( std::ref(*app.chain_database()), &(app.get_options()) ){}
+         custom_operations_api(application& app):_app(app), database_api( std::ref(*app.chain_database()),
+               &(app.get_options()) ){}
 
          /**
           * @breif Get contact info of an account
           *
           * @param account Account name to get info from
-          * @return The grouped limit orders, ordered from best offered price to worst
+          * @return The contact information of the account or empty
           */
          account_contact_object get_contact_info(std::string account)const;
 
          /**
           * @breif Get htlc offers from an account
           *
-          * @param account Account name to get info from
+          * @param account Account name to get htlc pre orders from
           * @return A vector of htlc offers from the account
           */
          vector<htlc_bitshares_eos_object> get_account_htlc_offers(std::string account)const;

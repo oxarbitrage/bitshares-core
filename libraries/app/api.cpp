@@ -673,9 +673,9 @@ namespace graphene { namespace app {
    }
 
    // custom operations api
-   account_contact_object custom_operations_api::get_contact_info( std::string account_id_or_name )const
+   account_contact_object custom_operations_api::get_contact_info(std::string account_id_or_name)const
    {
-      auto account_id = database_api.get_account_id_from_string(account_id_or_name);
+      const auto account_id = database_api.get_account_id_from_string(account_id_or_name);
       account_contact_object result;
       auto &index = _app.chain_database()->get_index_type<account_contact_index>().indices().get<by_custom_account>();
 
@@ -684,13 +684,12 @@ namespace graphene { namespace app {
       {
          result = *itr;
       }
-
       return result;
    }
 
    vector<htlc_bitshares_eos_object> custom_operations_api::get_account_htlc_offers(std::string account_id_or_name)const
    {
-      auto account_id = database_api.get_account_id_from_string(account_id_or_name);
+      const auto account_id = database_api.get_account_id_from_string(account_id_or_name);
       vector<htlc_bitshares_eos_object> results;
       auto &index = _app.chain_database()->get_index_type<htlc_orderbook_index>().indices().get<by_bitshares_account>();
       auto range = index.equal_range(account_id);
@@ -703,9 +702,10 @@ namespace graphene { namespace app {
    vector<htlc_bitshares_eos_object> custom_operations_api::get_active_htlc_offers()const
    {
       vector<htlc_bitshares_eos_object> results;
-      auto &index = _app.chain_database()->get_index_type<htlc_orderbook_index>().indices().get<by_active>();
-      auto itr = index.lower_bound(make_tuple(true, _app.chain_database()->head_block_time()));
-      while(itr != index.end() && itr->active && itr->expiration > _app.chain_database()->head_block_time())
+      auto db = _app.chain_database();
+      auto &index = db->get_index_type<htlc_orderbook_index>().indices().get<by_active>();
+      auto itr = index.lower_bound(make_tuple(true, db->head_block_time()));
+      while(itr != index.end() && itr->active && itr->expiration > db->head_block_time())
       {
          results.push_back(*itr);
          ++itr;

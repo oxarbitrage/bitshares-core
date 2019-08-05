@@ -11,7 +11,8 @@ target_include_directories( graphene_custom_operations
                             PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" )
 
 if(MSVC)
-  set_source_files_properties(custom_operations_plugin.cpp custom_operations.cpp custom_evaluators.cpp PROPERTIES COMPILE_FLAGS "/bigobj" )
+  set_source_files_properties(custom_operations_plugin.cpp custom_operations.cpp custom_evaluators.cpp
+          PROPERTIES COMPILE_FLAGS "/bigobj" )
 endif(MSVC)
 
 install( TARGETS

@@ -75,6 +75,3 @@ FC_REFLECT_TYPENAME( graphene::custom_operations::custom_plugin_operation )
 FC_REFLECT( graphene::custom_operations::custom_op_wrapper, (op) )
 
 GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_wrapper )
-
-
-

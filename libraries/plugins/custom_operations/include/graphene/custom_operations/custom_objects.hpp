@@ -79,8 +79,8 @@ typedef multi_index_container<
       account_contact_object,
       indexed_by<
             ordered_non_unique< tag<by_custom_id>, member< object, object_id_type, &object::id > >,
-            ordered_unique< tag<by_custom_account>, member< account_contact_object, account_id_type, &account_contact_object::account > >
-
+            ordered_unique< tag<by_custom_account>,
+                  member< account_contact_object, account_id_type, &account_contact_object::account > >
       >
 > account_contact_multi_index_type;
 
@@ -92,7 +92,8 @@ typedef multi_index_container<
       htlc_bitshares_eos_object,
       indexed_by<
             ordered_non_unique< tag<by_custom_id>, member< object, object_id_type, &object::id > >,
-            ordered_unique< tag<by_bitshares_account>, member< htlc_bitshares_eos_object, account_id_type, &htlc_bitshares_eos_object::bitshares_account > >,
+            ordered_unique< tag<by_bitshares_account>,
+                  member< htlc_bitshares_eos_object, account_id_type, &htlc_bitshares_eos_object::bitshares_account > >,
             ordered_non_unique<
                tag<by_active>,
                composite_key<
@@ -117,5 +118,3 @@ FC_REFLECT_DERIVED( graphene::custom_operations::htlc_bitshares_eos_object, (gra
                     (bitshares_account)(eos_account)(bitshares_amount)(eos_asset)(eos_amount)(expiration)
                     (order_time)(active)(taker_bitshares_account)(taker_eos_account)(close_time))
 FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
-
-
