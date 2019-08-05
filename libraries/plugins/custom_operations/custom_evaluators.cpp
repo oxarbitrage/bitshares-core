@@ -111,7 +111,6 @@ object_id_type take_htlc_eos_evaluator::do_apply( const take_htlc_eos_operation&
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
 
    auto itr = index.find(op.htlc_order_id);
-   //wdump((*itr));
    if( itr != index.end() )
    {
       _db->modify( *itr, [&]( htlc_bitshares_eos_object& htlc_object ){
@@ -123,14 +122,12 @@ object_id_type take_htlc_eos_evaluator::do_apply( const take_htlc_eos_operation&
          htlc_object.expiration = itr->expiration;
          htlc_object.order_time = itr->order_time;
          htlc_object.active = false;
-         htlc_object.taker = op.bitshares_account;
+         htlc_object.taker_bitshares_account = op.bitshares_account;
+         htlc_object.taker_eos_account = *op.extensions.value.eos_account;
          htlc_object.close_time = _db->head_block_time();
-
       });
       return itr->id;
    }
-
 }
-
 
 } }

@@ -76,7 +76,6 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
             if(first_byte == 0xFF) {
 
                custom_op.data.erase(custom_op.data.begin());
-               const auto custom_operation_data = custom_op.data.data();
 
                try {
 

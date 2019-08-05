@@ -66,7 +66,8 @@ struct htlc_bitshares_eos_object : public abstract_object<htlc_bitshares_eos_obj
 
    fc::time_point_sec order_time;
    bool active;
-   account_id_type taker;
+   account_id_type taker_bitshares_account;
+   string taker_eos_account;
    fc::time_point_sec close_time;
 
    // ...
@@ -114,7 +115,7 @@ FC_REFLECT_DERIVED( graphene::custom_operations::account_contact_object, (graphe
                     (account)(name)(email)(phone)(address)(company)(url))
 FC_REFLECT_DERIVED( graphene::custom_operations::htlc_bitshares_eos_object, (graphene::db::object),
                     (bitshares_account)(eos_account)(bitshares_amount)(eos_asset)(eos_amount)(expiration)
-                    (order_time)(active)(taker)(close_time))
+                    (order_time)(active)(taker_bitshares_account)(taker_eos_account)(close_time))
 FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
 
 
