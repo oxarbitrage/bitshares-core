@@ -64,19 +64,17 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
       if(!o_operation.valid() || !o_operation->op.is_type<custom_operation>())
          continue;
 
-      const auto op = o_operation->op;
-
-      variant custom_operation_object;
-      op.visit(fc::from_static_variant(custom_operation_object, FC_PACK_MAX_DEPTH));
-      auto custom_op = custom_operation_object.as<custom_operation>(FC_PACK_MAX_DEPTH);
+      const custom_operation& custom_op = o_operation->op.get<custom_operation>();
 
       uint8_t first_byte = custom_op.data.data()[0];
       if(first_byte != 0xFF)
          continue;
 
-      custom_op.data.erase(custom_op.data.begin());
+      vector<char> custom_operation_data(custom_op.data.size() - 1);
+      std::copy(custom_op.data.begin() + 1, custom_op.data.end(), custom_operation_data.begin());
+
       try {
-         auto unpacked = fc::raw::unpack<custom_plugin_operation>(custom_op.data);
+         auto unpacked = fc::raw::unpack<custom_plugin_operation>(custom_operation_data);
 
          if (unpacked.which() == graphene::custom_operations::types::account_contact) {
             variant operation_object;
