@@ -27,42 +27,22 @@
 
 namespace graphene { namespace custom_operations {
 
-class account_contact_evaluator
+class custom_generic_evaluator
 {
    public:
-      typedef account_contact_operation operation_type;
       database* _db;
-      account_contact_evaluator(database& db);
+      custom_generic_evaluator(database& db);
 
-      void_result do_evaluate( const account_contact_operation& o );
-      object_id_type do_apply( const account_contact_operation& o ) ;
-};
+      void_result do_evaluate(const account_contact_operation& o);
+      object_id_type do_apply(const account_contact_operation& o);
 
-class create_htlc_eos_evaluator
-{
-   public:
-      typedef create_htlc_eos_operation operation_type;
-      database* _db;
-      create_htlc_eos_evaluator(database& db);
+      void_result do_evaluate(const create_htlc_eos_operation& o);
+      object_id_type do_apply(const create_htlc_eos_operation& o);
 
-      void_result do_evaluate( const create_htlc_eos_operation& o );
-      object_id_type do_apply( const create_htlc_eos_operation& o ) ;
-};
-
-class take_htlc_eos_evaluator
-{
-   public:
-      typedef take_htlc_eos_operation operation_type;
-      database* _db;
-      take_htlc_eos_evaluator(database& db);
-
-      void_result do_evaluate( const take_htlc_eos_operation& o );
-      object_id_type do_apply( const take_htlc_eos_operation& o ) ;
+      void_result do_evaluate(const take_htlc_eos_operation& o);
+      object_id_type do_apply(const take_htlc_eos_operation& o);
 };
 
 } }
 
-FC_REFLECT_TYPENAME( graphene::custom_operations::account_contact_evaluator )
-FC_REFLECT_TYPENAME( graphene::custom_operations::create_htlc_eos_evaluator )
-FC_REFLECT_TYPENAME( graphene::custom_operations::take_htlc_eos_evaluator )
-
+FC_REFLECT_TYPENAME( graphene::custom_operations::custom_generic_evaluator )

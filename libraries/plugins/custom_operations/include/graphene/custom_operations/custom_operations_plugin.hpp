@@ -62,16 +62,26 @@ typedef fc::static_variant<
       take_htlc_eos_operation
 > custom_plugin_operation;
 
-struct custom_op_wrapper
+struct custom_op_visitor
 {
-   public:
-      custom_op_wrapper(const custom_plugin_operation& op = custom_plugin_operation()):op(op){}
-      custom_plugin_operation op;
-   };
+   typedef void result_type;
+   account_id_type _fee_payer;
+   database* _db;
+
+   custom_op_visitor(database& db, account_id_type fee_payer) { _db = &db; _fee_payer = fee_payer; };
+
+   template<typename T>
+   void operator()(T &v) const {
+      v.fee_payer = _fee_payer;
+      v.validate();
+      custom_generic_evaluator evaluator(*_db);
+      evaluator.do_evaluate(v);
+      evaluator.do_apply(v);
+   }
+};
 
 } } //graphene::custom_operations
 
 FC_REFLECT_TYPENAME( graphene::custom_operations::custom_plugin_operation )
-FC_REFLECT( graphene::custom_operations::custom_op_wrapper, (op) )
 
-GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_wrapper )
+GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_visitor )

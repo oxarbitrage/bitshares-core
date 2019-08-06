@@ -75,40 +75,8 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
 
       try {
          auto unpacked = fc::raw::unpack<custom_plugin_operation>(custom_operation_data);
-
-         if (unpacked.which() == graphene::custom_operations::types::account_contact) {
-            variant operation_object;
-            unpacked.visit(fc::from_static_variant(operation_object, FC_PACK_MAX_DEPTH));
-            auto account_contact_op = operation_object.as<account_contact_operation>(FC_PACK_MAX_DEPTH);
-
-            account_contact_op.fee_payer = custom_op.fee_payer();
-            account_contact_op.validate();
-            account_contact_evaluator evaluator(database());
-            evaluator.do_evaluate(account_contact_op);
-            evaluator.do_apply(account_contact_op);
-         }
-         else if (unpacked.which() == graphene::custom_operations::types::create_htlc) {
-            variant operation_object;
-            unpacked.visit(fc::from_static_variant(operation_object, FC_PACK_MAX_DEPTH));
-            auto htlc_bitshares_eos_op = operation_object.as<create_htlc_eos_operation>(FC_PACK_MAX_DEPTH);
-
-            htlc_bitshares_eos_op.fee_payer = custom_op.fee_payer();
-            htlc_bitshares_eos_op.validate();
-            create_htlc_eos_evaluator evaluator(database());
-            evaluator.do_evaluate(htlc_bitshares_eos_op);
-            evaluator.do_apply(htlc_bitshares_eos_op);
-         }
-         else if (unpacked.which() == graphene::custom_operations::types::take_htlc) {
-            variant operation_object;
-            unpacked.visit(fc::from_static_variant(operation_object, FC_PACK_MAX_DEPTH));
-            auto htlc_bitshares_eos_op = operation_object.as<take_htlc_eos_operation>(FC_PACK_MAX_DEPTH);
-
-            htlc_bitshares_eos_op.fee_payer = custom_op.fee_payer();
-            htlc_bitshares_eos_op.validate();
-            take_htlc_eos_evaluator evaluator(database());
-            evaluator.do_evaluate(htlc_bitshares_eos_op);
-            evaluator.do_apply(htlc_bitshares_eos_op);
-         }
+         custom_op_visitor vtor(db, custom_op.fee_payer());
+         unpacked.visit(vtor);
       }
       catch (fc::exception e) {
          //FC_THROW_EXCEPTION(plugin_exception, "failed on unpack, validate() or evaluator");
@@ -176,4 +144,4 @@ void custom_operations_plugin::plugin_startup()
 
 } }
 
-GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_wrapper )
+//GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_wrapper )

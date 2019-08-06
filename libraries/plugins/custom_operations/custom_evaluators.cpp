@@ -29,17 +29,17 @@
 
 namespace graphene { namespace custom_operations {
 
-account_contact_evaluator::account_contact_evaluator(database& db)
+custom_generic_evaluator::custom_generic_evaluator(database& db)
 {
    _db = &db;
 }
 
-void_result account_contact_evaluator::do_evaluate( const account_contact_operation& op )
+void_result custom_generic_evaluator::do_evaluate(const account_contact_operation& op)
 {
    return void_result();
 }
 
-object_id_type account_contact_evaluator::do_apply( const account_contact_operation& op )
+object_id_type custom_generic_evaluator::do_apply(const account_contact_operation& op)
 {
    auto &index = _db->get_index_type<account_contact_index>().indices().get<by_custom_account>();
 
@@ -72,17 +72,12 @@ object_id_type account_contact_evaluator::do_apply( const account_contact_operat
    }
 }
 
-create_htlc_eos_evaluator::create_htlc_eos_evaluator(database& db)
-{
-   _db = &db;
-}
-
-void_result create_htlc_eos_evaluator::do_evaluate( const create_htlc_eos_operation& op )
+void_result custom_generic_evaluator::do_evaluate(const create_htlc_eos_operation& op)
 {
    return void_result();
 }
 
-object_id_type create_htlc_eos_evaluator::do_apply( const create_htlc_eos_operation& op )
+object_id_type custom_generic_evaluator::do_apply(const create_htlc_eos_operation& op)
 {
    auto created = _db->create<htlc_bitshares_eos_object>( [&]( htlc_bitshares_eos_object& hbeo ) {
       hbeo.bitshares_account = op.bitshares_account;
@@ -96,17 +91,12 @@ object_id_type create_htlc_eos_evaluator::do_apply( const create_htlc_eos_operat
    return created.id;
 }
 
-take_htlc_eos_evaluator::take_htlc_eos_evaluator(database& db)
-{
-   _db = &db;
-}
-
-void_result take_htlc_eos_evaluator::do_evaluate( const take_htlc_eos_operation& op )
+void_result custom_generic_evaluator::do_evaluate(const take_htlc_eos_operation& op)
 {
    return void_result();
 }
 
-object_id_type take_htlc_eos_evaluator::do_apply( const take_htlc_eos_operation& op )
+object_id_type custom_generic_evaluator::do_apply(const take_htlc_eos_operation& op)
 {
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
 
