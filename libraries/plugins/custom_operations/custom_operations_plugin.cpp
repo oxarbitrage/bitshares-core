@@ -143,5 +143,3 @@ void custom_operations_plugin::plugin_startup()
 }
 
 } }
-
-//GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_wrapper )

@@ -532,14 +532,14 @@ namespace graphene { namespace app {
           * @param account Account name to get htlc pre orders from
           * @return A vector of htlc offers from the account
           */
-         vector<htlc_bitshares_eos_object> get_account_htlc_offers(std::string account)const;
+         vector<htlc_order_object> get_account_htlc_offers(std::string account)const;
 
          /**
           * @breif Get all active and non expired htlc offers
           *
           * @return A vector of active and non expired htlc offers
           */
-         vector<htlc_bitshares_eos_object> get_active_htlc_offers()const;
+         vector<htlc_order_object> get_active_htlc_offers()const;
 
    private:
          application& _app;

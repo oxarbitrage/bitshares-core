@@ -30,12 +30,12 @@ void account_contact_operation::validate()const
    FC_ASSERT( fee_payer == account );
 }
 
-void create_htlc_eos_operation::validate()const
+void create_htlc_order_operation::validate()const
 {
    FC_ASSERT( fee_payer == bitshares_account );
 }
 
-void take_htlc_eos_operation::validate()const
+void take_htlc_order_operation::validate()const
 {
    FC_ASSERT( fee_payer == bitshares_account );
 }
@@ -43,5 +43,5 @@ void take_htlc_eos_operation::validate()const
 } } //graphene::custom_operations
 
 GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::account_contact_operation )
-GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_eos_operation )
-GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::take_htlc_eos_operation )
+GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_order_operation )
+GRAPHENE_IMPLEMENT_EXTERNAL_SERIALIZATION( graphene::custom_operations::take_htlc_order_operation )

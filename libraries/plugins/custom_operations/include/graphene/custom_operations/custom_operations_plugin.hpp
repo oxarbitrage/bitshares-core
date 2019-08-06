@@ -58,8 +58,8 @@ class custom_operations_plugin : public graphene::app::plugin
 
 typedef fc::static_variant<
       account_contact_operation,
-      create_htlc_eos_operation,
-      take_htlc_eos_operation
+      create_htlc_order_operation,
+      take_htlc_order_operation
 > custom_plugin_operation;
 
 struct custom_op_visitor

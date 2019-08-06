@@ -36,11 +36,11 @@ class custom_generic_evaluator
       void_result do_evaluate(const account_contact_operation& o);
       object_id_type do_apply(const account_contact_operation& o);
 
-      void_result do_evaluate(const create_htlc_eos_operation& o);
-      object_id_type do_apply(const create_htlc_eos_operation& o);
+      void_result do_evaluate(const create_htlc_order_operation& o);
+      object_id_type do_apply(const create_htlc_order_operation& o);
 
-      void_result do_evaluate(const take_htlc_eos_operation& o);
-      object_id_type do_apply(const take_htlc_eos_operation& o);
+      void_result do_evaluate(const take_htlc_order_operation& o);
+      object_id_type do_apply(const take_htlc_order_operation& o);
 };
 
 } }

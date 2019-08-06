@@ -240,14 +240,15 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    // alice creates an order
    {
       custom_operation op;
-      create_htlc_eos_operation htlc;
+      create_htlc_order_operation htlc;
       htlc.bitshares_account = alice_id;
+      htlc.blockchain = blockchains::eos;
 
-      create_htlc_eos_operation::ext extensions;
-      extensions.eos_account = "alice";
+      create_htlc_order_operation::ext extensions;
+      extensions.blockchain_account = "alice";
       extensions.bitshares_amount = asset(10);
-      extensions.eos_asset = "EOS";
-      extensions.eos_amount = 10;
+      extensions.blockchain_asset = "EOS";
+      extensions.blockchain_amount = 10;
       extensions.expiration = db.head_block_time() + 3600;
 
       htlc.extensions.value = extensions;
@@ -268,14 +269,15 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    // bob creates an order
    {
       custom_operation op;
-      create_htlc_eos_operation htlc;
+      create_htlc_order_operation htlc;
       htlc.bitshares_account = bob_id;
+      htlc.blockchain = blockchains::eos;
 
-      create_htlc_eos_operation::ext extensions;
-      extensions.eos_account = "bob";
+      create_htlc_order_operation::ext extensions;
+      extensions.blockchain_account = "bob";
       extensions.bitshares_amount = asset(100);
-      extensions.eos_asset = "EOS";
-      extensions.eos_amount = 100;
+      extensions.blockchain_asset = "EOS";
+      extensions.blockchain_amount = 100;
       extensions.expiration = db.head_block_time() + 3600;
 
       htlc.extensions.value = extensions;
@@ -295,61 +297,61 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
    generate_block();
 
-   vector<htlc_bitshares_eos_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice");
+   vector<htlc_order_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice");
 
    BOOST_CHECK_EQUAL(htlc_offers_results_alice.size(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].id.instance(), 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].bitshares_account.instance.value, 17);
-   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].eos_account, "alice" );
+   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_account, "alice" );
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].bitshares_amount.asset_id.instance.value, 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].bitshares_amount.amount.value, 10);
-   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].eos_asset, "EOS");
-   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].eos_amount, 10);
+   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_amount, 10);
    BOOST_CHECK(htlc_offers_results_alice[0].active);
 
-   vector<htlc_bitshares_eos_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob");
+   vector<htlc_order_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob");
 
    BOOST_CHECK_EQUAL(htlc_offers_results_bob.size(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].id.instance(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].bitshares_account.instance.value, 18);
-   BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].eos_account, "bob" );
+   BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].blockchain_account, "bob" );
    BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].bitshares_amount.asset_id.instance.value, 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].bitshares_amount.amount.value, 100);
-   BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].eos_asset, "EOS");
-   BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].eos_amount, 100);
+   BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].blockchain_amount, 100);
    BOOST_CHECK(htlc_offers_results_bob[0].active);
 
    // get all active
-   vector<htlc_bitshares_eos_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
+   vector<htlc_order_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
 
    BOOST_CHECK_EQUAL(htlc_offers_results_active.size(), 2);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].id.instance(), 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_account.instance.value, 17);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].eos_account, "alice" );
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_account, "alice" );
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_amount.asset_id.instance.value, 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_amount.amount.value, 10);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].eos_asset, "EOS");
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].eos_amount, 10);
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_amount, 10);
    BOOST_CHECK(htlc_offers_results_active[0].active);
 
    BOOST_CHECK_EQUAL(htlc_offers_results_active[1].id.instance(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[1].bitshares_account.instance.value, 18);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[1].eos_account, "bob" );
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[1].blockchain_account, "bob" );
    BOOST_CHECK_EQUAL(htlc_offers_results_active[1].bitshares_amount.asset_id.instance.value, 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[1].bitshares_amount.amount.value, 100);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[1].eos_asset, "EOS");
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[1].eos_amount, 100);
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[1].blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[1].blockchain_amount, 100);
    BOOST_CHECK(htlc_offers_results_active[1].active);
 
    // nathan takes alice order
    {
       custom_operation op;
-      take_htlc_eos_operation htlc;
+      take_htlc_order_operation htlc;
       htlc.bitshares_account = nathan_id;
       htlc.htlc_order_id = htlc_offers_results_alice[0].id;
 
-      take_htlc_eos_operation::ext extensions;
-      extensions.eos_account = "nathan";
+      take_htlc_order_operation::ext extensions;
+      extensions.blockchain_account = "nathan";
       extensions.expiration = db.head_block_time() + 3600;
 
       htlc.extensions.value = extensions;
@@ -374,11 +376,11 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].id.instance(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_account.instance.value, 18);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].eos_account, "bob" );
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_account, "bob" );
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_amount.asset_id.instance.value, 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_amount.amount.value, 100);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].eos_asset, "EOS");
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].eos_amount, 100);
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_amount, 100);
    BOOST_CHECK(htlc_offers_results_active[0].active);
 
    // make alice order expire

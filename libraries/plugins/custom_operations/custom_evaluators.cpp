@@ -72,48 +72,50 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    }
 }
 
-void_result custom_generic_evaluator::do_evaluate(const create_htlc_eos_operation& op)
+void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operation& op)
 {
    return void_result();
 }
 
-object_id_type custom_generic_evaluator::do_apply(const create_htlc_eos_operation& op)
+object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operation& op)
 {
-   auto created = _db->create<htlc_bitshares_eos_object>( [&]( htlc_bitshares_eos_object& hbeo ) {
+   auto created = _db->create<htlc_order_object>( [&]( htlc_order_object& hbeo ) {
       hbeo.bitshares_account = op.bitshares_account;
-      hbeo.eos_account = *op.extensions.value.eos_account;
+      hbeo.blockchain = op.blockchain;
+      hbeo.blockchain_account = *op.extensions.value.blockchain_account;
       hbeo.bitshares_amount = *op.extensions.value.bitshares_amount;
-      hbeo.eos_asset = *op.extensions.value.eos_asset;
-      hbeo.eos_amount = *op.extensions.value.eos_amount;
+      hbeo.blockchain_asset = *op.extensions.value.blockchain_asset;
+      hbeo.blockchain_amount = *op.extensions.value.blockchain_amount;
       hbeo.expiration = *op.extensions.value.expiration;
       hbeo.order_time = _db->head_block_time();
    });
    return created.id;
 }
 
-void_result custom_generic_evaluator::do_evaluate(const take_htlc_eos_operation& op)
+void_result custom_generic_evaluator::do_evaluate(const take_htlc_order_operation& op)
 {
    return void_result();
 }
 
-object_id_type custom_generic_evaluator::do_apply(const take_htlc_eos_operation& op)
+object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operation& op)
 {
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
 
    auto itr = index.find(op.htlc_order_id);
    if( itr != index.end() )
    {
-      _db->modify( *itr, [&]( htlc_bitshares_eos_object& htlc_object ){
+      _db->modify( *itr, [&]( htlc_order_object& htlc_object ){
          htlc_object.bitshares_account = itr->bitshares_account;
-         htlc_object.eos_account = itr->eos_account;
+         htlc_object.blockchain = itr->blockchain;
+         htlc_object.blockchain_account = itr->blockchain_account;
          htlc_object.bitshares_amount = itr->bitshares_amount;
-         htlc_object.eos_asset = itr->eos_asset;
-         htlc_object.eos_amount = itr->eos_amount;
+         htlc_object.blockchain_asset = itr->blockchain_asset;
+         htlc_object.blockchain_amount = itr->blockchain_amount;
          htlc_object.expiration = itr->expiration;
          htlc_object.order_time = itr->order_time;
          htlc_object.active = false;
          htlc_object.taker_bitshares_account = op.bitshares_account;
-         htlc_object.taker_eos_account = *op.extensions.value.eos_account;
+         htlc_object.taker_eos_account = *op.extensions.value.blockchain_account;
          htlc_object.close_time = _db->head_block_time();
       });
       return itr->id;

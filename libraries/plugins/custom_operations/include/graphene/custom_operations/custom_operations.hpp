@@ -52,30 +52,31 @@ struct account_contact_operation : chain::base_operation
    void validate()const;
 };
 
-struct create_htlc_eos_operation : chain::base_operation
+struct create_htlc_order_operation : chain::base_operation
 {
    struct ext
    {
-      optional<string> eos_account;
+      optional<string> blockchain_account;
       optional<asset> bitshares_amount;
-      optional<string> eos_asset;
-      optional<int> eos_amount;
+      optional<string> blockchain_asset;
+      optional<uint32_t> blockchain_amount;
       optional<fc::time_point_sec> expiration;
    };
 
    account_id_type fee_payer;
    account_id_type bitshares_account;
+   blockchains blockchain;
 
    graphene::protocol::extension<ext> extensions;
 
    void validate()const;
 };
 
-struct take_htlc_eos_operation : chain::base_operation
+struct take_htlc_order_operation : chain::base_operation
 {
    struct ext
    {
-      optional<string> eos_account;
+      optional<string> blockchain_account;
       optional<fc::time_point_sec> expiration;
    };
 
@@ -94,16 +95,16 @@ FC_REFLECT( graphene::custom_operations::account_contact_operation::ext, (name)(
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::account_contact_operation::ext> )
 FC_REFLECT( graphene::custom_operations::account_contact_operation, (fee_payer)(account)(extensions) )
 
-FC_REFLECT( graphene::custom_operations::create_htlc_eos_operation::ext, (eos_account)(bitshares_amount)(eos_asset)
-            (eos_amount)(expiration) )
-FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::create_htlc_eos_operation::ext> )
-FC_REFLECT( graphene::custom_operations::create_htlc_eos_operation, (fee_payer)(bitshares_account)(extensions) )
+FC_REFLECT( graphene::custom_operations::create_htlc_order_operation::ext, (blockchain_account)(bitshares_amount)
+            (blockchain_asset)(blockchain_amount)(expiration) )
+FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::create_htlc_order_operation::ext> )
+FC_REFLECT( graphene::custom_operations::create_htlc_order_operation, (fee_payer)(bitshares_account)(blockchain)(extensions) )
 
-FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation::ext, (eos_account)(expiration) )
-FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::take_htlc_eos_operation::ext> )
-FC_REFLECT( graphene::custom_operations::take_htlc_eos_operation, (fee_payer)(bitshares_account)(htlc_order_id)
+FC_REFLECT( graphene::custom_operations::take_htlc_order_operation::ext, (blockchain_account)(expiration) )
+FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::take_htlc_order_operation::ext> )
+FC_REFLECT( graphene::custom_operations::take_htlc_order_operation, (fee_payer)(bitshares_account)(htlc_order_id)
             (extensions) )
 
 GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::account_contact_operation )
-GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_eos_operation )
-GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::take_htlc_eos_operation )
+GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_order_operation )
+GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::take_htlc_order_operation )
