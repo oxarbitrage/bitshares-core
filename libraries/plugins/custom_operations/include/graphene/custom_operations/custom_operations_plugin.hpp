@@ -56,11 +56,17 @@ class custom_operations_plugin : public graphene::app::plugin
       std::unique_ptr<detail::custom_operations_plugin_impl> my;
 };
 
+
 typedef fc::static_variant<
       account_contact_operation,
       create_htlc_order_operation,
       take_htlc_order_operation
 > custom_plugin_operation;
+
+struct custom_operation_wrapper {
+   uint8_t wont_use;
+   custom_plugin_operation op;
+};
 
 struct custom_op_visitor
 {
@@ -80,8 +86,8 @@ struct custom_op_visitor
    }
 };
 
+
 } } //graphene::custom_operations
 
 FC_REFLECT_TYPENAME( graphene::custom_operations::custom_plugin_operation )
-
-GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::custom_op_visitor )
+FC_REFLECT( graphene::custom_operations::custom_operation_wrapper, (wont_use)(op) )

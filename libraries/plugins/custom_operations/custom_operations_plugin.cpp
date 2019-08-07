@@ -67,16 +67,13 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
       const custom_operation& custom_op = o_operation->op.get<custom_operation>();
 
       uint8_t first_byte = custom_op.data.data()[0];
-      if(first_byte != 0xFF)
+      if(custom_op.data.size() == 0 || first_byte != 0xFF)
          continue;
 
-      vector<char> custom_operation_data(custom_op.data.size() - 1);
-      std::copy(custom_op.data.begin() + 1, custom_op.data.end(), custom_operation_data.begin());
-
       try {
-         auto unpacked = fc::raw::unpack<custom_plugin_operation>(custom_operation_data);
+         auto unpacked = fc::raw::unpack<custom_operation_wrapper>(custom_op.data);
          custom_op_visitor vtor(db, custom_op.fee_payer());
-         unpacked.visit(vtor);
+         unpacked.op.visit(vtor);
       }
       catch (fc::exception e) {
          //FC_THROW_EXCEPTION(plugin_exception, "failed on unpack, validate() or evaluator");
