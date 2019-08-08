@@ -66,8 +66,7 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
 
       const custom_operation& custom_op = o_operation->op.get<custom_operation>();
 
-      uint8_t first_byte = custom_op.data.data()[0];
-      if(custom_op.data.size() == 0 || first_byte != 0xFF)
+      if(custom_op.data.size() == 0 || uint8_t(custom_op.data.data()[0]) != 0xFF)
          continue;
 
       try {
