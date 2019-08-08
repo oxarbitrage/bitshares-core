@@ -64,7 +64,7 @@ typedef fc::static_variant<
 > custom_plugin_operation;
 
 struct custom_operation_wrapper {
-   uint8_t wont_use;
+   uint8_t unused_data; // if first char of custom_op.data is 0xFF we unpack, this char is not used anymore then.
    custom_plugin_operation op;
 };
 
@@ -90,4 +90,4 @@ struct custom_op_visitor
 } } //graphene::custom_operations
 
 FC_REFLECT_TYPENAME( graphene::custom_operations::custom_plugin_operation )
-FC_REFLECT( graphene::custom_operations::custom_operation_wrapper, (wont_use)(op) )
+FC_REFLECT( graphene::custom_operations::custom_operation_wrapper, (unused_data)(op) )
