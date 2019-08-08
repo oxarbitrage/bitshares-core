@@ -524,7 +524,7 @@ namespace graphene { namespace app {
           * @param account Account name to get info from
           * @return The contact information of the account or empty
           */
-         account_contact_object get_contact_info(std::string account)const;
+         optional<account_contact_object> get_contact_info(std::string account)const;
 
          /**
           * @breif Get htlc offers from an account
@@ -555,6 +555,7 @@ extern template class fc::api<graphene::app::crypto_api>;
 extern template class fc::api<graphene::app::asset_api>;
 extern template class fc::api<graphene::app::orders_api>;
 extern template class fc::api<graphene::debug_witness::debug_api>;
+extern template class fc::api<graphene::app::custom_operations_api>;
 
 namespace graphene { namespace app {
    /**
@@ -594,10 +595,10 @@ namespace graphene { namespace app {
          fc::api<asset_api> asset()const;
          /// @brief Retrieve the orders API
          fc::api<orders_api> orders()const;
-         /// @brief Retrieve the custom operations API
-         fc::api<custom_operations_api> custom()const;
          /// @brief Retrieve the debug API (if available)
          fc::api<graphene::debug_witness::debug_api> debug()const;
+         /// @brief Retrieve the custom operations API
+         fc::api<custom_operations_api> custom()const;
 
          /// @brief Called to enable an API, not reflected.
          void enable_api( const string& api_name );
@@ -612,8 +613,8 @@ namespace graphene { namespace app {
          optional< fc::api<crypto_api> > _crypto_api;
          optional< fc::api<asset_api> > _asset_api;
          optional< fc::api<orders_api> > _orders_api;
-         optional< fc::api<custom_operations_api> > _custom_operations_api;
          optional< fc::api<graphene::debug_witness::debug_api> > _debug_api;
+         optional< fc::api<custom_operations_api> > _custom_operations_api;
    };
 
 }}  // graphene::app
@@ -696,4 +697,5 @@ FC_API(graphene::app::login_api,
        (asset)
        (orders)
        (debug)
+       (custom)
      )

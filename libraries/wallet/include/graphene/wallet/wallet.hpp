@@ -1745,6 +1745,18 @@ class wallet_api
       fc::signal<void(bool)> lock_changed;
       std::shared_ptr<detail::wallet_api_impl> my;
       void encrypt_keys();
+
+      /**
+       * Add account contact data by using the custom operation plugin following BSIP-XXX spec.
+       */
+      signed_transaction set_contact_information(string account, string name, string email, string phone,
+            string address, string company, string url, bool broadcast);
+
+      /**
+       * Get account contact data by using the custom operation plugin following BSIP-XXX spec.
+       */
+      optional<account_contact_object> get_contact_information(string account);
+
 };
 
 } }
@@ -1944,5 +1956,7 @@ FC_API( graphene::wallet::wallet_api,
         (blind_history)
         (receive_blind_transfer)
         (get_order_book)
+        (set_contact_information)
+        (get_contact_information)
         (quit)
       )

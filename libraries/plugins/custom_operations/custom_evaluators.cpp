@@ -88,6 +88,7 @@ object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operat
       hbeo.blockchain_amount = *op.extensions.value.blockchain_amount;
       hbeo.expiration = *op.extensions.value.expiration;
       hbeo.order_time = _db->head_block_time();
+      hbeo.active = true;
    });
    return created.id;
 }

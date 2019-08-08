@@ -48,6 +48,7 @@ try {
    custom_operations_api custom_operations_api(app);
 
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    enable_fees();
    signed_transaction trx;
@@ -115,9 +116,10 @@ try {
    }
 
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    // check nathan account data with the api
-   account_contact_object contact_results_nathan = custom_operations_api.get_contact_info("nathan");
+   account_contact_object contact_results_nathan = *custom_operations_api.get_contact_info("nathan");
    BOOST_CHECK_EQUAL(contact_results_nathan.account.instance.value, 16 );
    BOOST_CHECK_EQUAL(contact_results_nathan.name, "Nathan");
    BOOST_CHECK_EQUAL(contact_results_nathan.email, "nathan@nathan.com");
@@ -127,7 +129,7 @@ try {
    BOOST_CHECK_EQUAL(contact_results_nathan.url, "http://nathan.com/");
 
    // check alice account data with the api
-   account_contact_object contact_results_alice = custom_operations_api.get_contact_info("alice");
+   account_contact_object contact_results_alice = *custom_operations_api.get_contact_info("alice");
    BOOST_CHECK_EQUAL(contact_results_alice.account.instance.value, 17 );
    BOOST_CHECK_EQUAL(contact_results_alice.name, "Alice");
    BOOST_CHECK_EQUAL(contact_results_alice.email, "alice@alice.com");
@@ -166,9 +168,10 @@ try {
    }
 
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    // check alice account updates with the api
-   contact_results_alice = custom_operations_api.get_contact_info("alice");
+   contact_results_alice = *custom_operations_api.get_contact_info("alice");
    BOOST_CHECK_EQUAL(contact_results_alice.account.instance.value, 17 );
    BOOST_CHECK_EQUAL(contact_results_alice.name, "Alice Smith");
    BOOST_CHECK_EQUAL(contact_results_alice.email, "alicesmith@alice.com");
@@ -203,9 +206,10 @@ try {
       trx.clear();
    }
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    // operation will pass but data will be unchanged, exception was produced in plug in
-   contact_results_nathan = custom_operations_api.get_contact_info("nathan");
+   contact_results_nathan = *custom_operations_api.get_contact_info("nathan");
    BOOST_CHECK(contact_results_nathan.account.instance.value == 16 );
    BOOST_CHECK(contact_results_nathan.name != "Not my account");
    BOOST_CHECK(contact_results_nathan.phone != "Fake phone");
@@ -224,6 +228,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    custom_operations_api custom_operations_api(app);
 
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    enable_fees();
    signed_transaction trx;
@@ -296,6 +301,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    }
 
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    vector<htlc_order_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice");
 
@@ -369,6 +375,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       trx.clear();
    }
    generate_block();
+   fc::usleep(fc::milliseconds(200));
 
    // alice order was taken, bob order still up
    htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
@@ -385,6 +392,8 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
    // make alice order expire
    generate_blocks(3600);
+   fc::usleep(fc::milliseconds(200));
+
    htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
    BOOST_CHECK_EQUAL(htlc_offers_results_active.size(), 0);
 

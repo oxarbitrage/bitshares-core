@@ -29,6 +29,7 @@
 #include <graphene/account_history/account_history_plugin.hpp>
 #include <graphene/witness/witness.hpp>
 #include <graphene/market_history/market_history_plugin.hpp>
+#include <graphene/custom_operations/custom_operations_plugin.hpp>
 #include <graphene/egenesis/egenesis.hpp>
 #include <graphene/wallet/wallet.hpp>
 
@@ -124,6 +125,7 @@ std::shared_ptr<graphene::app::application> start_application(fc::temp_directory
    app1->register_plugin< graphene::market_history::market_history_plugin >(true);
    app1->register_plugin< graphene::witness_plugin::witness_plugin >(true);
    app1->register_plugin< graphene::grouped_orders::grouped_orders_plugin>(true);
+   app1->register_plugin< graphene::custom_operations::custom_operations_plugin>(true);
    app1->startup_plugins();
    boost::program_options::variables_map cfg;
 #ifdef _WIN32
@@ -1083,4 +1085,41 @@ BOOST_AUTO_TEST_CASE( cli_create_htlc )
       throw;
    }
    app1->shutdown();
+}
+
+///////////////////
+// Test the contact information by custom operations plugin
+///////////////////
+BOOST_FIXTURE_TEST_CASE( account_contact_information, cli_fixture )
+{
+   try {
+      // just to fund nathan
+      INVOKE(upgrade_nathan_account);
+
+      BOOST_TEST_MESSAGE("Check account information.");
+      auto account_contact_info = con.wallet_api_ptr->get_contact_information("nathan");
+      BOOST_CHECK(!account_contact_info.valid()); // no info yet
+
+      BOOST_TEST_MESSAGE("About to add contact information.");
+
+      signed_transaction custom_tx = con.wallet_api_ptr->set_contact_information("nathan", "Nathan",
+            "nathan@nathan.com", "2121212121", "Bv DD 22", "", "", true);
+
+      BOOST_TEST_MESSAGE("The system is generating a block.");
+      BOOST_CHECK(generate_block(app1));
+
+      BOOST_TEST_MESSAGE("Check account contact information.");
+      account_contact_info = con.wallet_api_ptr->get_contact_information("nathan");
+      BOOST_CHECK_EQUAL(account_contact_info->account.instance.value, 17 );
+      BOOST_CHECK_EQUAL(account_contact_info->name, "Nathan");
+      BOOST_CHECK_EQUAL(account_contact_info->email, "nathan@nathan.com");
+      BOOST_CHECK_EQUAL(account_contact_info->phone, "2121212121");
+      BOOST_CHECK_EQUAL(account_contact_info->address, "Bv DD 22");
+      BOOST_CHECK_EQUAL(account_contact_info->company, "");
+      BOOST_CHECK_EQUAL(account_contact_info->url, "");
+
+   } catch( fc::exception& e ) {
+      edump((e.to_detail_string()));
+      throw;
+   }
 }

@@ -468,7 +468,8 @@ public:
         _remote_api(rapi),
         _remote_db(rapi->database()),
         _remote_net_broadcast(rapi->network_broadcast()),
-        _remote_hist(rapi->history())
+        _remote_hist(rapi->history()),
+        _custom_operations(rapi->custom())
    {
       chain_id_type remote_chain_id = _remote_db->get_chain_id();
       if( remote_chain_id != _chain_id )
@@ -1934,6 +1935,46 @@ public:
       } FC_CAPTURE_AND_RETHROW( (htlc_id)(issuer)(seconds_to_add)(broadcast) )
    }
 
+   signed_transaction set_contact_information(string account, string name, string email, string phone,
+                                              string address, string company, string url, bool broadcast)
+   {
+      try
+      {
+         FC_ASSERT( !self.is_locked() );
+
+         account_id_type account_id = get_account(account).id;
+
+         custom_operation op;
+         account_contact_operation contact;
+         contact.account = account_id;
+
+         account_contact_operation::ext extensions;
+         extensions.name = name;
+         extensions.email = email;
+         extensions.phone = phone;
+         extensions.address = address;
+         extensions.company = company;
+         extensions.url = url;
+
+         contact.extensions.value = extensions;
+
+         auto packed = fc::raw::pack(contact);
+         packed.insert(packed.begin(), types::account_contact);
+         packed.insert(packed.begin(), 0xFF);
+
+         op.payer = account_id;
+         op.data = packed;
+
+         signed_transaction tx;
+         tx.operations.push_back(op);
+         set_operation_fees( tx, _remote_db->get_global_properties().parameters.get_current_fees());
+         tx.validate();
+
+         return sign_transaction(tx, broadcast);
+
+      } FC_CAPTURE_AND_RETHROW( (account)(name)(email)(phone)(address)(company)(url)(broadcast) )
+   }
+
    vector< vesting_balance_object_with_info > get_vesting_balances( string account_name )
    { try {
       fc::optional<vesting_balance_id_type> vbid = maybe_id<vesting_balance_id_type>( account_name );
@@ -2967,6 +3008,7 @@ public:
    fc::api<database_api>   _remote_db;
    fc::api<network_broadcast_api>   _remote_net_broadcast;
    fc::api<history_api>    _remote_hist;
+   fc::api<custom_operations_api>    _custom_operations;
    optional< fc::api<network_node_api> > _remote_net_node;
    optional< fc::api<graphene::debug_witness::debug_api> > _remote_debug;
 
@@ -5023,6 +5065,17 @@ vector<blind_receipt> wallet_api::blind_history( string key_or_account )
 order_book wallet_api::get_order_book( const string& base, const string& quote, unsigned limit )
 {
    return( my->_remote_db->get_order_book( base, quote, limit ) );
+}
+
+signed_transaction wallet_api::set_contact_information(string account, string name, string email, string phone,
+                                                       string address, string company, string url, bool broadcast)
+{
+   return my->set_contact_information(account, name, email, phone, address, company, url, broadcast);
+}
+
+optional<account_contact_object> wallet_api::get_contact_information(string account)
+{
+   return my->_custom_operations->get_contact_info(account);
 }
 
 signed_block_with_info::signed_block_with_info( const signed_block& block )

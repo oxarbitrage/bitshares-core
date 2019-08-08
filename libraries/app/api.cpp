@@ -294,16 +294,16 @@ namespace graphene { namespace app {
        return *_orders_api;
     }
 
-    fc::api<custom_operations_api> login_api::custom() const
-    {
-       FC_ASSERT(_custom_operations_api);
-       return *_custom_operations_api;
-    }
-
     fc::api<graphene::debug_witness::debug_api> login_api::debug() const
     {
        FC_ASSERT(_debug_api);
        return *_debug_api;
+    }
+
+    fc::api<custom_operations_api> login_api::custom() const
+    {
+       FC_ASSERT(_custom_operations_api);
+       return *_custom_operations_api;
     }
 
     vector<order_history_object> history_api::get_fill_order_history( std::string asset_a, std::string asset_b, uint32_t limit  )const
@@ -673,18 +673,14 @@ namespace graphene { namespace app {
    }
 
    // custom operations api
-   account_contact_object custom_operations_api::get_contact_info(std::string account_id_or_name)const
+   optional<account_contact_object> custom_operations_api::get_contact_info(std::string account_id_or_name)const
    {
       const auto account_id = database_api.get_account_id_from_string(account_id_or_name);
-      account_contact_object result;
       auto &index = _app.chain_database()->get_index_type<account_contact_index>().indices().get<by_custom_account>();
-
       auto itr = index.find(account_id);
-      if( itr != index.end() )
-      {
-         result = *itr;
-      }
-      return result;
+      if(itr != index.end())
+         return *itr;
+      return optional<account_contact_object>();
    }
 
    vector<htlc_order_object> custom_operations_api::get_account_htlc_offers(std::string account_id_or_name)const
