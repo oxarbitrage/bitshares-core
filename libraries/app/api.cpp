@@ -683,25 +683,32 @@ namespace graphene { namespace app {
       return optional<account_contact_object>();
    }
 
-   vector<htlc_order_object> custom_operations_api::get_account_htlc_offers(std::string account_id_or_name)const
+   vector<htlc_order_object> custom_operations_api::get_account_htlc_offers(std::string account_id_or_name,
+         htlc_order_id_type start, uint32_t limit)const
    {
+      FC_ASSERT(limit <= 101);
+
       const auto account_id = database_api.get_account_id_from_string(account_id_or_name);
       vector<htlc_order_object> results;
       auto &index = _app.chain_database()->get_index_type<htlc_orderbook_index>().indices().get<by_bitshares_account>();
-      auto range = index.equal_range(account_id);
-      for(auto itr = range.first; itr != range.second; ++itr)
+
+      auto itr = index.lower_bound(boost::make_tuple(account_id, start));
+      while(itr != index.end() && itr->bitshares_account == account_id && results.size() < limit)
       {
-         results.emplace_back(*itr);
+         results.push_back(*itr);
+         ++itr;
       }
       return results;
    }
-   vector<htlc_order_object> custom_operations_api::get_active_htlc_offers()const
+   vector<htlc_order_object> custom_operations_api::get_active_htlc_offers(htlc_order_id_type start, uint32_t limit)const
    {
+      FC_ASSERT(limit <= 101);
+
       vector<htlc_order_object> results;
       auto db = _app.chain_database();
       auto &index = db->get_index_type<htlc_orderbook_index>().indices().get<by_active>();
-      auto itr = index.lower_bound(make_tuple(true, db->head_block_time()));
-      while(itr != index.end() && itr->active && itr->expiration > db->head_block_time())
+      auto itr = index.lower_bound(make_tuple(true, db->head_block_time(), start));
+      while(itr != index.end() && itr->active && itr->expiration > db->head_block_time() && results.size() < limit)
       {
          results.push_back(*itr);
          ++itr;

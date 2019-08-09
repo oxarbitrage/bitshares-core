@@ -95,21 +95,25 @@ typedef multi_index_container<
       indexed_by<
             ordered_non_unique< tag<by_custom_id>, member< object, object_id_type, &object::id > >,
             ordered_unique< tag<by_bitshares_account>,
-                  member< htlc_order_object, account_id_type, &htlc_order_object::bitshares_account > >,
-            ordered_non_unique<
-               tag<by_active>,
-               composite_key<
-                     htlc_order_object,
-                  member<htlc_order_object, bool, &htlc_order_object::active>,
-                  member<htlc_order_object, fc::time_point_sec, &htlc_order_object::expiration>
-               >
+                  composite_key< htlc_order_object,
+                        member< htlc_order_object, account_id_type, &htlc_order_object::bitshares_account >,
+                        member< object, object_id_type, &object::id >
+                  >
+            >,
+            ordered_unique< tag<by_active>,
+                  composite_key< htlc_order_object,
+                        member< htlc_order_object, bool, &htlc_order_object::active >,
+                        member< htlc_order_object, fc::time_point_sec, &htlc_order_object::expiration >,
+                        member< object, object_id_type, &object::id >
+                  >
             >
-
       >
 > htlc_orderbook_multi_index_type;
 
 typedef generic_index<htlc_order_object, htlc_orderbook_multi_index_type> htlc_orderbook_index;
 
+using account_contact_id_type = object_id<CUSTOM_OPERATIONS_SPACE_ID, account_contact>;
+using htlc_order_id_type = object_id<CUSTOM_OPERATIONS_SPACE_ID, create_htlc>;
 
 } } //graphene::custom_operations
 
@@ -117,7 +121,10 @@ typedef generic_index<htlc_order_object, htlc_orderbook_multi_index_type> htlc_o
 FC_REFLECT_DERIVED( graphene::custom_operations::account_contact_object, (graphene::db::object),
                     (account)(name)(email)(phone)(address)(company)(url))
 FC_REFLECT_DERIVED( graphene::custom_operations::htlc_order_object, (graphene::db::object),
-                    (bitshares_account)(bitshares_amount)(blockchain)(blockchain_account)(blockchain_asset)(blockchain_amount)(expiration)
+                    (bitshares_account)(bitshares_amount)(blockchain)(blockchain_account)(blockchain_asset)
+                    (blockchain_amount)(expiration)
                     (order_time)(active)(taker_bitshares_account)(taker_eos_account)(close_time))
 FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
 FC_REFLECT_ENUM( graphene::custom_operations::blockchains, (eos)(bitcoin)(ripple)(ethereum) )
+
+

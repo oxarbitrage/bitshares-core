@@ -303,7 +303,9 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    generate_block();
    fc::usleep(fc::milliseconds(200));
 
-   vector<htlc_order_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice");
+
+   vector<htlc_order_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice",
+         htlc_order_id_type(0), 100);
 
    BOOST_CHECK_EQUAL(htlc_offers_results_alice.size(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].id.instance(), 0);
@@ -315,7 +317,8 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_amount, 10);
    BOOST_CHECK(htlc_offers_results_alice[0].active);
 
-   vector<htlc_order_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob");
+   vector<htlc_order_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob",
+         htlc_order_id_type(0), 100);
 
    BOOST_CHECK_EQUAL(htlc_offers_results_bob.size(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].id.instance(), 1);
@@ -328,7 +331,8 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK(htlc_offers_results_bob[0].active);
 
    // get all active
-   vector<htlc_order_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
+   vector<htlc_order_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers(
+         htlc_order_id_type(0), 100);
 
    BOOST_CHECK_EQUAL(htlc_offers_results_active.size(), 2);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].id.instance(), 0);
@@ -378,7 +382,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    fc::usleep(fc::milliseconds(200));
 
    // alice order was taken, bob order still up
-   htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
+   htlc_offers_results_active = custom_operations_api.get_active_htlc_offers(htlc_order_id_type(0), 100);
    BOOST_CHECK_EQUAL(htlc_offers_results_active.size(), 1);
 
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].id.instance(), 1);
@@ -394,7 +398,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    generate_blocks(3600);
    fc::usleep(fc::milliseconds(200));
 
-   htlc_offers_results_active = custom_operations_api.get_active_htlc_offers();
+   htlc_offers_results_active = custom_operations_api.get_active_htlc_offers(htlc_order_id_type(0), 100);
    BOOST_CHECK_EQUAL(htlc_offers_results_active.size(), 0);
 
 }
