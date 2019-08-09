@@ -542,6 +542,13 @@ namespace graphene { namespace app {
           */
          vector<htlc_order_object> get_active_htlc_offers(htlc_order_id_type start, uint32_t limit)const;
 
+         /**
+          * @breif Get htlc order offer by id
+          *
+          * @return A vector of active and non expired htlc offers
+          */
+         optional<htlc_order_object> get_htlc_offer(htlc_order_id_type id)const;
+
    private:
          application& _app;
          graphene::app::database_api database_api;
@@ -686,6 +693,7 @@ FC_API(graphene::app::custom_operations_api,
        (get_contact_info)
        (get_account_htlc_offers)
        (get_active_htlc_offers)
+       (get_htlc_offer)
      )
 FC_API(graphene::app::login_api,
        (login)

@@ -317,6 +317,17 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_amount, 10);
    BOOST_CHECK(htlc_offers_results_alice[0].active);
 
+   // test the get_htlc_offer api call
+   auto htlc_offer = custom_operations_api.get_htlc_offer(htlc_order_id_type(0));
+   BOOST_CHECK_EQUAL(htlc_offer->id.instance(), 0);
+   BOOST_CHECK_EQUAL(htlc_offer->bitshares_account.instance.value, 17);
+   BOOST_CHECK_EQUAL(htlc_offer->blockchain_account, "alice" );
+   BOOST_CHECK_EQUAL(htlc_offer->bitshares_amount.asset_id.instance.value, 0);
+   BOOST_CHECK_EQUAL(htlc_offer->bitshares_amount.amount.value, 10);
+   BOOST_CHECK_EQUAL(htlc_offer->blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offer->blockchain_amount, 10);
+   BOOST_CHECK(htlc_offer->active);
+
    vector<htlc_order_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob",
          htlc_order_id_type(0), 100);
 

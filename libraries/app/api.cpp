@@ -715,5 +715,13 @@ namespace graphene { namespace app {
       }
       return results;
    }
+   optional<htlc_order_object> custom_operations_api::get_htlc_offer(htlc_order_id_type id)const
+   {
+      auto &index = _app.chain_database()->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
+      auto itr = index.find(id);
+      if(itr != index.end())
+         return *itr;
+      return optional<htlc_order_object>();
+   }
 
 } } // graphene::app
