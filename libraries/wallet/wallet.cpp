@@ -1975,6 +1975,88 @@ public:
       } FC_CAPTURE_AND_RETHROW( (account)(name)(email)(phone)(address)(company)(url)(broadcast) )
    }
 
+   signed_transaction create_htlc_offer(string bitshares_account, blockchains blockchain,
+         string blockchain_account, string bitshares_asset, string bitshares_amount, string blockchain_asset,
+         string blockchain_amount, fc::time_point_sec expiration, string tag, bool broadcast)
+   {
+      try
+      {
+         FC_ASSERT( !self.is_locked() );
+         fc::optional<asset_object> asset_obj = get_asset(bitshares_asset);
+         FC_ASSERT(asset_obj, "Could not find asset matching ${asset}", ("asset", bitshares_asset));
+
+         account_id_type bitshares_account_id = get_account(bitshares_account).id;
+
+         custom_operation op;
+         create_htlc_order_operation htlc;
+         htlc.bitshares_account = bitshares_account_id;
+         htlc.blockchain = blockchain;
+
+         create_htlc_order_operation::ext extensions;
+         extensions.blockchain_account = blockchain_account;
+         extensions.bitshares_amount = asset_obj->amount_from_string(bitshares_amount);
+         extensions.blockchain_asset = blockchain_asset;
+         extensions.blockchain_amount = std::stoi(blockchain_amount);
+         extensions.expiration = expiration;
+         extensions.tag = tag;
+
+         htlc.extensions.value = extensions;
+
+         auto packed = fc::raw::pack(htlc);
+         packed.insert(packed.begin(), types::create_htlc);
+         packed.insert(packed.begin(), 0xFF);
+
+         op.payer = bitshares_account_id;
+         op.data = packed;
+
+         signed_transaction tx;
+         tx.operations.push_back(op);
+         set_operation_fees( tx, _remote_db->get_global_properties().parameters.get_current_fees());
+         tx.validate();
+
+         return sign_transaction(tx, broadcast);
+
+      } FC_CAPTURE_AND_RETHROW( (bitshares_account)(blockchain)(blockchain_account)(bitshares_asset)(bitshares_amount)
+      (blockchain_asset)(blockchain_amount)(expiration)(tag)(broadcast) )
+   }
+
+   signed_transaction take_htlc_offer(string bitshares_account, htlc_order_id_type id, string blockchain_account,
+         fc::time_point_sec expiration, bool broadcast)
+   {
+      try
+      {
+         FC_ASSERT( !self.is_locked() );
+
+         account_id_type bitshares_account_id = get_account(bitshares_account).id;
+
+         custom_operation op;
+         take_htlc_order_operation htlc;
+         htlc.bitshares_account = bitshares_account_id;
+         htlc.htlc_order_id = id;
+
+         take_htlc_order_operation::ext extensions;
+         extensions.blockchain_account = blockchain_account;
+         extensions.expiration = expiration;
+
+         htlc.extensions.value = extensions;
+
+         auto packed = fc::raw::pack(htlc);
+         packed.insert(packed.begin(), types::take_htlc);
+         packed.insert(packed.begin(), 0xFF);
+
+         op.payer = bitshares_account_id;
+         op.data = packed;
+
+         signed_transaction tx;
+         tx.operations.push_back(op);
+         set_operation_fees( tx, _remote_db->get_global_properties().parameters.get_current_fees());
+         tx.validate();
+
+         return sign_transaction(tx, broadcast);
+
+      } FC_CAPTURE_AND_RETHROW( (bitshares_account)(id)(blockchain_account)(expiration)(broadcast) )
+   }
+
    vector< vesting_balance_object_with_info > get_vesting_balances( string account_name )
    { try {
       fc::optional<vesting_balance_id_type> vbid = maybe_id<vesting_balance_id_type>( account_name );
@@ -5076,6 +5158,32 @@ signed_transaction wallet_api::set_contact_information(string account, string na
 optional<account_contact_object> wallet_api::get_contact_information(string account)
 {
    return my->_custom_operations->get_contact_info(account);
+}
+
+signed_transaction wallet_api::create_htlc_offer(string bitshares_account, blockchains blockchain,
+      string blockchain_account, string bitshares_asset, string bitshares_amount, string blockchain_asset,
+      string blockchain_amount, fc::time_point_sec expiration, string tag, bool broadcast)
+{
+   return my->create_htlc_offer(bitshares_account, blockchain, blockchain_account, bitshares_asset,
+         bitshares_amount, blockchain_asset, blockchain_amount, expiration, tag, broadcast);
+}
+
+signed_transaction wallet_api::take_htlc_offer(string bitshares_account, htlc_order_id_type id,
+      string blockchain_account, fc::time_point_sec expiration, bool broadcast)
+{
+   return my->take_htlc_offer(bitshares_account, id, blockchain_account, expiration, broadcast);
+}
+
+vector<htlc_order_object> wallet_api::get_active_htlc_offers(blockchains blockchain)
+{
+   vector<htlc_order_object> results;
+   auto orders = my->_custom_operations->get_active_htlc_offers(htlc_order_id_type(0), 100);
+   for(const auto order : orders)
+   {
+      if(order.blockchain == blockchain)
+         results.push_back(order);
+   }
+   return results;
 }
 
 signed_block_with_info::signed_block_with_info( const signed_block& block )

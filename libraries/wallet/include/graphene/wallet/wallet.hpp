@@ -1757,6 +1757,24 @@ class wallet_api
        */
       optional<account_contact_object> get_contact_information(string account);
 
+      /**
+       * Create an HTLC offer using the custom operation plugin following BSIP-XXX spec.
+       */
+      signed_transaction create_htlc_offer(string bitshares_account, blockchains blockchain, string blockchain_account,
+            string bitshares_asset, string bitshares_amount, string blockchain_asset, string blockchain_amount,
+            fc::time_point_sec expiration, string tag, bool broadcast);
+
+      /**
+       * Take an HTLC offer using the custom operation plugin following BSIP-XXX spec.
+       */
+      signed_transaction take_htlc_offer(string bitshares_account, htlc_order_id_type id, string blockchain_account,
+            fc::time_point_sec expiration, bool broadcast);
+
+      /**
+       * Get account contact data by using the custom operation plugin following BSIP-XXX spec.
+       */
+      vector<htlc_order_object> get_active_htlc_offers(blockchains blockchain);
+
 };
 
 } }

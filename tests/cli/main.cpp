@@ -1123,3 +1123,45 @@ BOOST_FIXTURE_TEST_CASE( account_contact_information, cli_fixture )
       throw;
    }
 }
+
+///////////////////
+// Test the htlc offer orderbook by custom operations plugin
+///////////////////
+BOOST_FIXTURE_TEST_CASE( htlc_orderbook, cli_fixture )
+{
+   try {
+      // create the taker account
+      INVOKE(create_new_account);
+
+      auto db = app1->chain_database();
+
+      BOOST_TEST_MESSAGE("Adding an offer.");
+
+      auto expiration = db->head_block_time() + 7200;
+      signed_transaction custom_tx = con.wallet_api_ptr->create_htlc_offer("nathan", blockchains::bitcoin, "nathan",
+            "BTS", "100", "BTC", "0.02", expiration, "", true);
+
+      BOOST_TEST_MESSAGE("The system is generating a block.");
+      BOOST_CHECK(generate_block(app1));
+
+      BOOST_TEST_MESSAGE("Get active htlc offers.");
+      auto offers = con.wallet_api_ptr->get_active_htlc_offers(blockchains::bitcoin);
+      if(offers[0].blockchain == blockchains::bitcoin) {
+         BOOST_CHECK_EQUAL(offers[0].id.instance(), 0);
+      }
+
+      // take the offer with john
+      custom_tx = con.wallet_api_ptr->take_htlc_offer("jmjatlanta", offers[0].id, "nathan", expiration, true);
+
+      BOOST_TEST_MESSAGE("The system is generating a block.");
+      BOOST_CHECK(generate_block(app1));
+
+      BOOST_TEST_MESSAGE("Get active htlc offers.");
+      offers = con.wallet_api_ptr->get_active_htlc_offers(blockchains::bitcoin);
+      BOOST_CHECK_EQUAL(offers.size(), 0);
+
+   } catch( fc::exception& e ) {
+      edump((e.to_detail_string()));
+      throw;
+   }
+}
