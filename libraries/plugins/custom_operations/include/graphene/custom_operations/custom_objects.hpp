@@ -65,6 +65,7 @@ struct htlc_order_object : public abstract_object<htlc_order_object>
    string blockchain_asset;
    uint64_t blockchain_amount;
    fc::time_point_sec expiration;
+   string tag;
 
    fc::time_point_sec order_time;
    bool active;
@@ -122,7 +123,7 @@ FC_REFLECT_DERIVED( graphene::custom_operations::account_contact_object, (graphe
                     (account)(name)(email)(phone)(address)(company)(url))
 FC_REFLECT_DERIVED( graphene::custom_operations::htlc_order_object, (graphene::db::object),
                     (bitshares_account)(bitshares_amount)(blockchain)(blockchain_account)(blockchain_asset)
-                    (blockchain_amount)(expiration)
+                    (blockchain_amount)(expiration)(tag)
                     (order_time)(active)(taker_bitshares_account)(taker_eos_account)(close_time))
 FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
 FC_REFLECT_ENUM( graphene::custom_operations::blockchains, (eos)(bitcoin)(ripple)(ethereum) )

@@ -87,6 +87,7 @@ object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operat
       hbeo.blockchain_asset = *op.extensions.value.blockchain_asset;
       hbeo.blockchain_amount = *op.extensions.value.blockchain_amount;
       hbeo.expiration = *op.extensions.value.expiration;
+      hbeo.tag = *op.extensions.value.tag;
       hbeo.order_time = _db->head_block_time();
       hbeo.active = true;
    });
@@ -113,6 +114,7 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
          htlc_object.blockchain_asset = itr->blockchain_asset;
          htlc_object.blockchain_amount = itr->blockchain_amount;
          htlc_object.expiration = itr->expiration;
+         htlc_object.tag = itr->tag;
          htlc_object.order_time = itr->order_time;
          htlc_object.active = false;
          htlc_object.taker_bitshares_account = op.bitshares_account;

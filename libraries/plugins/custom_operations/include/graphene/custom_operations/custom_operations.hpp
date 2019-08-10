@@ -61,6 +61,7 @@ struct create_htlc_order_operation : chain::base_operation
       optional<string> blockchain_asset;
       optional<uint32_t> blockchain_amount;
       optional<fc::time_point_sec> expiration;
+      optional<string> tag;
    };
 
    account_id_type fee_payer;
@@ -96,7 +97,7 @@ FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::
 FC_REFLECT( graphene::custom_operations::account_contact_operation, (fee_payer)(account)(extensions) )
 
 FC_REFLECT( graphene::custom_operations::create_htlc_order_operation::ext, (blockchain_account)(bitshares_amount)
-            (blockchain_asset)(blockchain_amount)(expiration) )
+            (blockchain_asset)(blockchain_amount)(expiration)(tag) )
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::create_htlc_order_operation::ext> )
 FC_REFLECT( graphene::custom_operations::create_htlc_order_operation, (fee_payer)(bitshares_account)(blockchain)(extensions) )
 
