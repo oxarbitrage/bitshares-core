@@ -1769,7 +1769,8 @@ class wallet_api
       /**
        * Get account contact data by using the custom operations plugin.
        *
-       * If the account added contact data with @ref set_contact_information an \c account_contact_object will be returned.
+       * If the account added contact data with @ref set_contact_information an \c account_contact_object will be
+       * returned.
        *
        * @param account Account ID or name to get contact data from.
        *
@@ -1791,8 +1792,8 @@ class wallet_api
        * @param bitshares_account The account in the bitshares side.
        * @param blockchain The remote blockchain where the offer will be made against.
        * (eos = 0 , bitcoin = 1, ripple = 2, ethereum = 3)
-       * @param blockchain_account The remote blockchain account as a string. Depending on the selected blockchain this can
-       * be an account name in eos, a bitcoin address in bitcoin, etc.
+       * @param blockchain_account The remote blockchain account as a string. Depending on the selected blockchain
+       * this can be an account name in eos, a bitcoin address in bitcoin, etc.
        * @param bitshares_asset The asset in the bitshares blockchain to be traded.
        * @param bitshares_amount The amount of bitshares_asset to be exchanged.
        * @param blockchain_asset The asset name or ID as a string in the remote blockchain.
@@ -1823,8 +1824,8 @@ class wallet_api
        *
        * @param bitshares_account The account of the taker in the bitshares side.
        * @param The ID of the order you want to take(7.1.X)
-       * @param blockchain_account The remote blockchain account string of the taker. Depending on the selected blockchain this can
-       * be an account name in eos, a bitcoin address in bitcoin, etc.
+       * @param blockchain_account The remote blockchain account string of the taker. Depending on the selected
+       * blockchain this can be an account name in eos, a bitcoin address in bitcoin, etc.
        * @param expiration The date and time string( example: "2020-01-30T00:00:00" ) until you will get out of the
        * order as a taker if no action is done by the creator.
        * @param broadcast true if you wish to broadcast the transaction

@@ -58,7 +58,7 @@ struct create_htlc_order_operation : chain::base_operation
       optional<string> blockchain_account;
       optional<asset> bitshares_amount;
       optional<string> blockchain_asset;
-      optional<uint32_t> blockchain_amount;
+      optional<uint64_t> blockchain_amount;
       optional<fc::time_point_sec> expiration;
       optional<string> tag;
    };
