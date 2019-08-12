@@ -1139,7 +1139,7 @@ BOOST_FIXTURE_TEST_CASE( htlc_orderbook, cli_fixture )
 
       auto expiration = db->head_block_time() + 7200;
       signed_transaction custom_tx = con.wallet_api_ptr->create_htlc_offer("nathan", blockchains::bitcoin, "nathan",
-            "BTS", "100", "BTC", "0.02", expiration, "", true);
+            "BTS", "100", "BTC", "2000", expiration, "", true);
 
       BOOST_TEST_MESSAGE("The system is generating a block.");
       BOOST_CHECK(generate_block(app1));

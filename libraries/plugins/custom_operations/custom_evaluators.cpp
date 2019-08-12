@@ -48,12 +48,12 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    {
       _db->modify( *itr, [&]( account_contact_object& aco ){
          aco.account = op.account;
-         aco.name = *op.extensions.value.name;
-         aco.email = *op.extensions.value.email;
-         aco.phone = *op.extensions.value.phone;
-         aco.address = *op.extensions.value.address;
-         aco.company = *op.extensions.value.company;
-         aco.url = *op.extensions.value.url;
+         aco.name = (op.extensions.value.name) ? *op.extensions.value.name : aco.name;
+         aco.email = (op.extensions.value.email) ? *op.extensions.value.email : aco.email;
+         aco.phone = (op.extensions.value.phone) ? *op.extensions.value.phone : aco.phone;
+         aco.address = (op.extensions.value.address) ? *op.extensions.value.address : aco.address;
+         aco.company = (op.extensions.value.company) ? *op.extensions.value.company : aco.company;
+         aco.url = (op.extensions.value.url) ? *op.extensions.value.url : aco.url;
       });
       return itr->id;
    }
@@ -61,12 +61,12 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    {
       auto created = _db->create<account_contact_object>( [&]( account_contact_object& aco ) {
          aco.account = op.account;
-         aco.name = *op.extensions.value.name;
-         aco.email = *op.extensions.value.email;
-         aco.phone = *op.extensions.value.phone;
-         aco.address = *op.extensions.value.address;
-         aco.company = *op.extensions.value.company;
-         aco.url = *op.extensions.value.url;
+         aco.name = (op.extensions.value.name) ? *op.extensions.value.name : "";
+         aco.email = (op.extensions.value.email) ? *op.extensions.value.email : "";
+         aco.phone = (op.extensions.value.phone) ? *op.extensions.value.phone : "";
+         aco.address = (op.extensions.value.address) ? *op.extensions.value.address : "";
+         aco.company = (op.extensions.value.company) ? *op.extensions.value.company : "";
+         aco.url = (op.extensions.value.url) ? *op.extensions.value.url : "";
       });
       return created.id;
    }

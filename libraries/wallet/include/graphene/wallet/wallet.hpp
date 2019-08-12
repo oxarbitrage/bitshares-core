@@ -1797,7 +1797,7 @@ class wallet_api
        * @param bitshares_asset The asset in the bitshares blockchain to be traded.
        * @param bitshares_amount The amount of bitshares_asset to be exchanged.
        * @param blockchain_asset The asset name or ID as a string in the remote blockchain.
-       * @param blockchain_amount The amount of asset as a string in the remote blockchain.
+       * @param blockchain_amount The amount of asset in satoshis in the remote blockchain.
        * @param expiration The date and time(example:"2020-01-30T00:00:00") until the order will be considered
        * active if nobody takes it before.
        * @param tag Optional text field.

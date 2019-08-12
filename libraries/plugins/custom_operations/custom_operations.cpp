@@ -27,12 +27,6 @@ namespace graphene { namespace custom_operations {
 
 void account_contact_operation::validate()const
 {
-   FC_ASSERT(extensions.value.name.valid());
-   FC_ASSERT(extensions.value.email.valid());
-   FC_ASSERT(extensions.value.phone.valid());
-   FC_ASSERT(extensions.value.address.valid());
-   FC_ASSERT(extensions.value.company.valid());
-   FC_ASSERT(extensions.value.url.valid());
 }
 
 void create_htlc_order_operation::validate()const
