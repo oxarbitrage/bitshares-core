@@ -78,7 +78,7 @@ struct custom_op_visitor
 
    template<typename T>
    void operator()(T &v) const {
-      v.fee_payer = _fee_payer;
+      v.account = _fee_payer;
       v.validate();
       custom_generic_evaluator evaluator(*_db);
       evaluator.do_evaluate(v);

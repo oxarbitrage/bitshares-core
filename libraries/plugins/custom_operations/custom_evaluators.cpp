@@ -80,14 +80,15 @@ void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operat
 object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operation& op)
 {
    auto created = _db->create<htlc_order_object>( [&]( htlc_order_object& hbeo ) {
-      hbeo.bitshares_account = op.bitshares_account;
+      hbeo.bitshares_account = op.account;
       hbeo.blockchain = op.blockchain;
       hbeo.blockchain_account = *op.extensions.value.blockchain_account;
       hbeo.bitshares_amount = *op.extensions.value.bitshares_amount;
       hbeo.blockchain_asset = *op.extensions.value.blockchain_asset;
       hbeo.blockchain_amount = *op.extensions.value.blockchain_amount;
       hbeo.expiration = *op.extensions.value.expiration;
-      hbeo.tag = *op.extensions.value.tag;
+      if(op.extensions.value.tag.valid())
+         hbeo.tag = *op.extensions.value.tag;
       hbeo.order_time = _db->head_block_time();
       hbeo.active = true;
    });
@@ -117,8 +118,8 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
          htlc_object.tag = itr->tag;
          htlc_object.order_time = itr->order_time;
          htlc_object.active = false;
-         htlc_object.taker_bitshares_account = op.bitshares_account;
-         htlc_object.taker_eos_account = *op.extensions.value.blockchain_account;
+         htlc_object.taker_bitshares_account = op.account;
+         htlc_object.taker_blockchain_account = *op.extensions.value.blockchain_account;
          htlc_object.close_time = _db->head_block_time();
       });
       return itr->id;

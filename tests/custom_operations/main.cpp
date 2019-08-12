@@ -190,6 +190,9 @@ try {
       extensions.name = "Not my account";
       extensions.phone = "Fake phone";
       extensions.email = "Fake email";
+      extensions.address = "Fake address";
+      extensions.company = "Fake company";
+      extensions.url = "http://fake.com";
 
       contact.extensions.value = extensions;
 
@@ -246,7 +249,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       create_htlc_order_operation htlc;
-      htlc.bitshares_account = alice_id;
+      htlc.account = alice_id;
       htlc.blockchain = blockchains::eos;
 
       create_htlc_order_operation::ext extensions;
@@ -255,7 +258,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       extensions.blockchain_asset = "EOS";
       extensions.blockchain_amount = 10;
       extensions.expiration = db.head_block_time() + 3600;
-      extensions.tag = "Some text, can be a memo";
 
       htlc.extensions.value = extensions;
 
@@ -276,7 +278,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       create_htlc_order_operation htlc;
-      htlc.bitshares_account = bob_id;
+      htlc.account = bob_id;
       htlc.blockchain = blockchains::eos;
 
       create_htlc_order_operation::ext extensions;
@@ -305,10 +307,9 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    generate_block();
    fc::usleep(fc::milliseconds(200));
 
-
+   // test the get_account_htlc_offers api call for alice
    vector<htlc_order_object> htlc_offers_results_alice = custom_operations_api.get_account_htlc_offers("alice",
          htlc_order_id_type(0), 100);
-
    BOOST_CHECK_EQUAL(htlc_offers_results_alice.size(), 1);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].id.instance(), 0);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].bitshares_account.instance.value, 17);
@@ -317,10 +318,9 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].bitshares_amount.amount.value, 10);
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_asset, "EOS");
    BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].blockchain_amount, 10);
-   BOOST_CHECK_EQUAL(htlc_offers_results_alice[0].tag, "Some text, can be a memo");
    BOOST_CHECK(htlc_offers_results_alice[0].active);
 
-   // test the get_htlc_offer api call
+   // test the get_htlc_offer api call with alice order
    auto htlc_offer = custom_operations_api.get_htlc_offer(htlc_order_id_type(0));
    BOOST_CHECK_EQUAL(htlc_offer->id.instance(), 0);
    BOOST_CHECK_EQUAL(htlc_offer->bitshares_account.instance.value, 17);
@@ -329,9 +329,9 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offer->bitshares_amount.amount.value, 10);
    BOOST_CHECK_EQUAL(htlc_offer->blockchain_asset, "EOS");
    BOOST_CHECK_EQUAL(htlc_offer->blockchain_amount, 10);
-   BOOST_CHECK_EQUAL(htlc_offer->tag, "Some text, can be a memo");
    BOOST_CHECK(htlc_offer->active);
 
+   // test the get_account_htlc_offers api callk for bob
    vector<htlc_order_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob",
          htlc_order_id_type(0), 100);
 
@@ -346,7 +346,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offers_results_bob[0].tag, "Some text, can be a memo");
    BOOST_CHECK(htlc_offers_results_bob[0].active);
 
-   // get all active
+   // get all active offers
    vector<htlc_order_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers(
          htlc_order_id_type(0), 100);
 
@@ -358,7 +358,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].bitshares_amount.amount.value, 10);
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_asset, "EOS");
    BOOST_CHECK_EQUAL(htlc_offers_results_active[0].blockchain_amount, 10);
-   BOOST_CHECK_EQUAL(htlc_offers_results_active[0].tag, "Some text, can be a memo");
    BOOST_CHECK(htlc_offers_results_active[0].active);
 
    BOOST_CHECK_EQUAL(htlc_offers_results_active[1].id.instance(), 1);
@@ -375,7 +374,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       take_htlc_order_operation htlc;
-      htlc.bitshares_account = nathan_id;
+      htlc.account = nathan_id;
       htlc.htlc_order_id = htlc_offers_results_alice[0].id;
 
       take_htlc_order_operation::ext extensions;
@@ -399,7 +398,20 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    generate_block();
    fc::usleep(fc::milliseconds(200));
 
-   // alice order was taken, bob order still up
+   // check the taken object
+   htlc_offer = custom_operations_api.get_htlc_offer(htlc_order_id_type(0));
+   BOOST_CHECK_EQUAL(htlc_offer->id.instance(), 0);
+   BOOST_CHECK_EQUAL(htlc_offer->bitshares_account.instance.value, 17);
+   BOOST_CHECK_EQUAL(htlc_offer->blockchain_account, "alice" );
+   BOOST_CHECK_EQUAL(htlc_offer->bitshares_amount.asset_id.instance.value, 0);
+   BOOST_CHECK_EQUAL(htlc_offer->bitshares_amount.amount.value, 10);
+   BOOST_CHECK_EQUAL(htlc_offer->blockchain_asset, "EOS");
+   BOOST_CHECK_EQUAL(htlc_offer->blockchain_amount, 10);
+   BOOST_CHECK(!htlc_offer->active);
+   BOOST_CHECK_EQUAL(htlc_offer->taker_bitshares_account.instance.value, 16);
+   BOOST_CHECK_EQUAL(htlc_offer->taker_blockchain_account, "nathan");
+
+   // alice order was taken, bob order still up for get_active_htlc_offers
    htlc_offers_results_active = custom_operations_api.get_active_htlc_offers(htlc_order_id_type(0), 100);
    BOOST_CHECK_EQUAL(htlc_offers_results_active.size(), 1);
 

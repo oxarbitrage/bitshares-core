@@ -27,17 +27,28 @@ namespace graphene { namespace custom_operations {
 
 void account_contact_operation::validate()const
 {
-   FC_ASSERT( fee_payer == account );
+   FC_ASSERT(extensions.value.name.valid());
+   FC_ASSERT(extensions.value.email.valid());
+   FC_ASSERT(extensions.value.phone.valid());
+   FC_ASSERT(extensions.value.address.valid());
+   FC_ASSERT(extensions.value.company.valid());
+   FC_ASSERT(extensions.value.url.valid());
 }
 
 void create_htlc_order_operation::validate()const
 {
-   FC_ASSERT( fee_payer == bitshares_account );
+   FC_ASSERT(extensions.value.blockchain_account.valid());
+   FC_ASSERT(extensions.value.bitshares_amount.valid());
+   FC_ASSERT(extensions.value.blockchain_asset.valid());
+   FC_ASSERT(extensions.value.blockchain_amount.valid());
+   FC_ASSERT(extensions.value.expiration.valid());
 }
 
 void take_htlc_order_operation::validate()const
 {
-   FC_ASSERT( fee_payer == bitshares_account );
+   FC_ASSERT(extensions.value.blockchain_account.valid());
+   FC_ASSERT(extensions.value.expiration.valid());
+   FC_ASSERT(!htlc_order_id.is_null());
 }
 
 } } //graphene::custom_operations

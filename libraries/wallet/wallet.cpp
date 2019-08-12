@@ -1989,7 +1989,7 @@ public:
 
          custom_operation op;
          create_htlc_order_operation htlc;
-         htlc.bitshares_account = bitshares_account_id;
+         htlc.account = bitshares_account_id;
          htlc.blockchain = blockchain;
 
          create_htlc_order_operation::ext extensions;
@@ -2031,7 +2031,7 @@ public:
 
          custom_operation op;
          take_htlc_order_operation htlc;
-         htlc.bitshares_account = bitshares_account_id;
+         htlc.account = bitshares_account_id;
          htlc.htlc_order_id = id;
 
          take_htlc_order_operation::ext extensions;
