@@ -510,7 +510,7 @@ namespace graphene { namespace app {
    };
 
    /**
-    * @brief The custom_operations_api class exposes access to standard(BSIP-III) custom objects.
+    * @brief The custom_operations_api class exposes access to standard(BSIP-XXX) custom objects.
     */
    class custom_operations_api
    {
@@ -519,9 +519,10 @@ namespace graphene { namespace app {
                &(app.get_options()) ){}
 
          /**
-          * @breif Get contact info of an account
+          * @breif Get contact infofrmation of an account
           *
           * @param account Account name to get info from
+          *
           * @return The contact information of the account or empty
           */
          optional<account_contact_object> get_contact_info(std::string account)const;
@@ -529,8 +530,11 @@ namespace graphene { namespace app {
          /**
           * @breif Get htlc offers from an account
           *
-          * @param account Account name to get htlc pre orders from
-          * @return A vector of htlc offers from the account
+          * @param account Account name to get htlc offers from
+          * @param start ID of the most recent htlc offer to retrieve
+          * @param limit Maximum number of order objects to retrieve
+          *
+          * @return A vector of htlc offer objects from the account
           */
          vector<htlc_order_object> get_account_htlc_offers(std::string account, htlc_order_id_type start,
                uint32_t limit)const;
@@ -538,12 +542,17 @@ namespace graphene { namespace app {
          /**
           * @breif Get all active and non expired htlc offers
           *
+          * @param start ID of the most recent htlc offer to retrieve
+          * @param limit Maximum number of order objects to retrieve
+          *
           * @return A vector of active and non expired htlc offers
           */
          vector<htlc_order_object> get_active_htlc_offers(htlc_order_id_type start, uint32_t limit)const;
 
          /**
           * @breif Get htlc order offer by id
+          *
+          * @param id ID of the htlc order offer to retrieve
           *
           * @return A vector of active and non expired htlc offers
           */

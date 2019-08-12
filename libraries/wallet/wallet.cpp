@@ -1975,7 +1975,7 @@ public:
       } FC_CAPTURE_AND_RETHROW( (account)(name)(email)(phone)(address)(company)(url)(broadcast) )
    }
 
-   signed_transaction create_htlc_offer(string bitshares_account, blockchains blockchain,
+   signed_transaction create_htlc_offer(string bitshares_account, uint16_t blockchain,
          string blockchain_account, string bitshares_asset, string bitshares_amount, string blockchain_asset,
          string blockchain_amount, fc::time_point_sec expiration, string tag, bool broadcast)
    {
@@ -1984,13 +1984,14 @@ public:
          FC_ASSERT( !self.is_locked() );
          fc::optional<asset_object> asset_obj = get_asset(bitshares_asset);
          FC_ASSERT(asset_obj, "Could not find asset matching ${asset}", ("asset", bitshares_asset));
+         FC_ASSERT(blockchain <= blockchains::ethereum);
 
          account_id_type bitshares_account_id = get_account(bitshares_account).id;
 
          custom_operation op;
          create_htlc_order_operation htlc;
          htlc.account = bitshares_account_id;
-         htlc.blockchain = blockchain;
+         htlc.blockchain =  static_cast<blockchains>(blockchain);
 
          create_htlc_order_operation::ext extensions;
          extensions.blockchain_account = blockchain_account;
@@ -5160,7 +5161,7 @@ optional<account_contact_object> wallet_api::get_contact_information(string acco
    return my->_custom_operations->get_contact_info(account);
 }
 
-signed_transaction wallet_api::create_htlc_offer(string bitshares_account, blockchains blockchain,
+signed_transaction wallet_api::create_htlc_offer(string bitshares_account, uint16_t blockchain,
       string blockchain_account, string bitshares_asset, string bitshares_amount, string blockchain_asset,
       string blockchain_amount, fc::time_point_sec expiration, string tag, bool broadcast)
 {
@@ -5174,13 +5175,15 @@ signed_transaction wallet_api::take_htlc_offer(string bitshares_account, htlc_or
    return my->take_htlc_offer(bitshares_account, id, blockchain_account, expiration, broadcast);
 }
 
-vector<htlc_order_object> wallet_api::get_active_htlc_offers(blockchains blockchain)
+vector<htlc_order_object> wallet_api::get_active_htlc_offers(uint16_t blockchain)
 {
+   FC_ASSERT(blockchain <= blockchains::ethereum);
+
    vector<htlc_order_object> results;
    auto orders = my->_custom_operations->get_active_htlc_offers(htlc_order_id_type(0), 100);
    for(const auto order : orders)
    {
-      if(order.blockchain == blockchain)
+      if(order.blockchain == static_cast<blockchains>(blockchain))
          results.push_back(order);
    }
    return results;

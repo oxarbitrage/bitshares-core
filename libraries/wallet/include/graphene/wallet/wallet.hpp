@@ -1747,34 +1747,103 @@ class wallet_api
       void encrypt_keys();
 
       /**
-       * Add account contact data by using the custom operation plugin following BSIP-XXX spec.
+       * Add account contact data by using the custom operation plugin.
+       *
+       * Each account can optionally add personal information into the blockchain
+       * to be retrived by any interested party.
+       *
+       * @param account The account ID or name that we are adding additional information to.
+       * @param name Name or title for the contact information.
+       * @param email Contact email.
+       * @param phone Contact phone number.
+       * @param address Contact address.
+       * @param company Contact company name.
+       * @param url Contact main website url.
+       * @param broadcast true if you wish to broadcast the transaction
+       *
+       * @return The signed transaction
        */
       signed_transaction set_contact_information(string account, string name, string email, string phone,
             string address, string company, string url, bool broadcast);
 
       /**
-       * Get account contact data by using the custom operation plugin following BSIP-XXX spec.
+       * Get account contact data by using the custom operations plugin.
+       *
+       * If the account added contact data with @ref set_contact_information an \c account_contact_object will be returned.
+       *
+       * @param account Account ID or name to get contact data from.
+       *
+       * @return An \c account_contact_object or empty if account had not provided contact info yet.
        */
       optional<account_contact_object> get_contact_information(string account);
 
       /**
-       * Create an HTLC offer using the custom operation plugin following BSIP-XXX spec.
+       * Create an HTLC offer using the custom operations plugin.
+       *
+       * The \c custom_operations_plugin maintain an htlc offers list on chain to facilitate the exchange
+       * of tokens between bitshares and another blockchain.
+       * Applications and individuals will use the list to view and take offers while parties interested in an HTLC
+       * exchange will create offers by the use of this command.
+       *
+       * @note This list will not move any funds from involved accounts but just check some conditions in the bitshares
+       * side and provide the 2 parties all the needed information to start executing HTLC commands.
+       *
+       * @param bitshares_account The account in the bitshares side.
+       * @param blockchain The remote blockchain where the offer will be made against.
+       * (eos = 0 , bitcoin = 1, ripple = 2, ethereum = 3)
+       * @param blockchain_account The remote blockchain account as a string. Depending on the selected blockchain this can
+       * be an account name in eos, a bitcoin address in bitcoin, etc.
+       * @param bitshares_asset The asset in the bitshares blockchain to be traded.
+       * @param bitshares_amount The amount of bitshares_asset to be exchanged.
+       * @param blockchain_asset The asset name or ID as a string in the remote blockchain.
+       * @param blockchain_amount The amount of asset as a string in the remote blockchain.
+       * @param expiration The date and time(example:"2020-01-30T00:00:00") until the order will be considered
+       * active if nobody takes it before.
+       * @param tag Optional text field.
+       * @param broadcast true if you wish to broadcast the transaction
+       *
+       * @return The signed transaction
        */
-      signed_transaction create_htlc_offer(string bitshares_account, blockchains blockchain, string blockchain_account,
+      signed_transaction create_htlc_offer(string bitshares_account, uint16_t blockchain, string blockchain_account,
             string bitshares_asset, string bitshares_amount, string blockchain_asset, string blockchain_amount,
             fc::time_point_sec expiration, string tag, bool broadcast);
 
       /**
-       * Take an HTLC offer using the custom operation plugin following BSIP-XXX spec.
+       * Take an HTLC offer using the custom operation plugin.
+       *
+       * The custom_operations_plugin maintain an htlc offers list on chain to facilitate the exchange
+       * of tokens between bitshares and another blockchain.
+       * Applications and individuals will use the list to view and create offers while parties interested in taking
+       * an offer and initialize the exchange will use this command to do so by knowing the order ID they want to take.
+       * Object state will change from active to inactive after the order is taken and will not be displayed by
+       * \c get_active_htlc_offers call anymore.
+       *
+       * @note This list will not move any funds from involved accounts but just check some conditions in the bitshares
+       * side and provide the 2 parties all the needed information to start executing HTLC commands.
+       *
+       * @param bitshares_account The account of the taker in the bitshares side.
+       * @param The ID of the order you want to take(7.1.X)
+       * @param blockchain_account The remote blockchain account string of the taker. Depending on the selected blockchain this can
+       * be an account name in eos, a bitcoin address in bitcoin, etc.
+       * @param expiration The date and time string( example: "2020-01-30T00:00:00" ) until you will get out of the
+       * order as a taker if no action is done by the creator.
+       * @param broadcast true if you wish to broadcast the transaction
+       *
+       * @return The signed transaction
        */
       signed_transaction take_htlc_offer(string bitshares_account, htlc_order_id_type id, string blockchain_account,
             fc::time_point_sec expiration, bool broadcast);
 
       /**
-       * Get account contact data by using the custom operation plugin following BSIP-XXX spec.
+       * Get active HTLC offers by using the custom operation plugin.
+       *
+       * Get the list of offers available at this time to initialize HTLC exchange with another blockchain.
+       *
+       * @param blockchain eos = 0 , bitcoin = 1, ripple = 2, ethereum = 3
+       *
+       * @return A list of htlc_order_object that are active and non expired in the selected blockchain.
        */
-      vector<htlc_order_object> get_active_htlc_offers(blockchains blockchain);
-
+      vector<htlc_order_object> get_active_htlc_offers(uint16_t blockchain);
 };
 
 } }
