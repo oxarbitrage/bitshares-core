@@ -1151,7 +1151,7 @@ BOOST_FIXTURE_TEST_CASE( htlc_orderbook, cli_fixture )
       }
 
       // take the offer with john
-      custom_tx = con.wallet_api_ptr->take_htlc_offer("jmjatlanta", offers[0].id, "nathan", expiration, true);
+      custom_tx = con.wallet_api_ptr->take_htlc_offer("jmjatlanta", offers[0].id, "nathan", true);
 
       BOOST_TEST_MESSAGE("The system is generating a block.");
       BOOST_CHECK(generate_block(app1));

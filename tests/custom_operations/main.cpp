@@ -250,9 +250,9 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       create_htlc_order_operation htlc;
       htlc.account = alice_id;
-      htlc.blockchain = blockchains::eos;
 
       create_htlc_order_operation::ext extensions;
+      extensions.blockchain = blockchains::eos;
       extensions.blockchain_account = "alice";
       extensions.bitshares_amount = asset(10);
       extensions.blockchain_asset = "EOS";
@@ -279,9 +279,9 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       create_htlc_order_operation htlc;
       htlc.account = bob_id;
-      htlc.blockchain = blockchains::eos;
 
       create_htlc_order_operation::ext extensions;
+      extensions.blockchain = blockchains::eos;
       extensions.blockchain_account = "bob";
       extensions.bitshares_amount = asset(100);
       extensions.blockchain_asset = "EOS";
@@ -375,11 +375,10 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       take_htlc_order_operation htlc;
       htlc.account = nathan_id;
-      htlc.htlc_order_id = htlc_offers_results_alice[0].id;
 
       take_htlc_order_operation::ext extensions;
+      extensions.htlc_order_id = htlc_offers_results_alice[0].id;
       extensions.blockchain_account = "nathan";
-      extensions.expiration = db.head_block_time() + 3600;
 
       htlc.extensions.value = extensions;
 

@@ -55,6 +55,7 @@ struct create_htlc_order_operation : chain::base_operation
 {
    struct ext
    {
+      optional<blockchains> blockchain;
       optional<string> blockchain_account;
       optional<asset> bitshares_amount;
       optional<string> blockchain_asset;
@@ -64,7 +65,6 @@ struct create_htlc_order_operation : chain::base_operation
    };
 
    account_id_type account;
-   blockchains blockchain;
 
    graphene::protocol::extension<ext> extensions;
 
@@ -75,12 +75,11 @@ struct take_htlc_order_operation : chain::base_operation
 {
    struct ext
    {
+      optional<object_id_type> htlc_order_id;
       optional<string> blockchain_account;
-      optional<fc::time_point_sec> expiration;
    };
 
    account_id_type account;
-   object_id_type htlc_order_id;
 
    graphene::protocol::extension<ext> extensions;
 
@@ -93,15 +92,14 @@ FC_REFLECT( graphene::custom_operations::account_contact_operation::ext, (name)(
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::account_contact_operation::ext> )
 FC_REFLECT( graphene::custom_operations::account_contact_operation, (account)(extensions) )
 
-FC_REFLECT( graphene::custom_operations::create_htlc_order_operation::ext, (blockchain_account)(bitshares_amount)
-            (blockchain_asset)(blockchain_amount)(expiration)(tag) )
+FC_REFLECT( graphene::custom_operations::create_htlc_order_operation::ext, (blockchain)(blockchain_account)
+            (bitshares_amount)(blockchain_asset)(blockchain_amount)(expiration)(tag) )
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::create_htlc_order_operation::ext> )
-FC_REFLECT( graphene::custom_operations::create_htlc_order_operation, (account)(blockchain)(extensions) )
+FC_REFLECT( graphene::custom_operations::create_htlc_order_operation, (account)(extensions) )
 
-FC_REFLECT( graphene::custom_operations::take_htlc_order_operation::ext, (blockchain_account)(expiration) )
+FC_REFLECT( graphene::custom_operations::take_htlc_order_operation::ext, (blockchain_account)(htlc_order_id) )
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::take_htlc_order_operation::ext> )
-FC_REFLECT( graphene::custom_operations::take_htlc_order_operation, (account)(htlc_order_id)
-            (extensions) )
+FC_REFLECT( graphene::custom_operations::take_htlc_order_operation, (account)(extensions) )
 
 GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::account_contact_operation )
 GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_order_operation )

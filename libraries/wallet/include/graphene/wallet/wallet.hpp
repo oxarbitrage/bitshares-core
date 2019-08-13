@@ -1826,14 +1826,12 @@ class wallet_api
        * @param The ID of the order you want to take(7.1.X)
        * @param blockchain_account The remote blockchain account string of the taker. Depending on the selected
        * blockchain this can be an account name in eos, a bitcoin address in bitcoin, etc.
-       * @param expiration The date and time string( example: "2020-01-30T00:00:00" ) until you will get out of the
-       * order as a taker if no action is done by the creator.
        * @param broadcast true if you wish to broadcast the transaction
        *
        * @return The signed transaction
        */
       signed_transaction take_htlc_offer(string bitshares_account, htlc_order_id_type id, string blockchain_account,
-            fc::time_point_sec expiration, bool broadcast);
+            bool broadcast);
 
       /**
        * Get active HTLC offers by using the custom operation plugin.

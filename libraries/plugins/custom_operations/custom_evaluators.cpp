@@ -81,7 +81,7 @@ object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operat
 {
    auto created = _db->create<htlc_order_object>( [&]( htlc_order_object& hbeo ) {
       hbeo.bitshares_account = op.account;
-      hbeo.blockchain = op.blockchain;
+      hbeo.blockchain = *op.extensions.value.blockchain;
       hbeo.blockchain_account = *op.extensions.value.blockchain_account;
       hbeo.bitshares_amount = *op.extensions.value.bitshares_amount;
       hbeo.blockchain_asset = *op.extensions.value.blockchain_asset;
@@ -104,7 +104,7 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
 {
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
 
-   auto itr = index.find(op.htlc_order_id);
+   auto itr = index.find(*op.extensions.value.htlc_order_id);
    if( itr != index.end() )
    {
       _db->modify( *itr, [&]( htlc_order_object& htlc_object ){

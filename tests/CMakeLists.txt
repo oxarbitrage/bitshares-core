@@ -40,10 +40,8 @@ file(GLOB ES_SOURCES "elasticsearch/*.cpp")
 add_executable( es_test ${COMMON_SOURCES} ${ES_SOURCES} )
 target_link_libraries( es_test graphene_chain graphene_app graphene_account_history graphene_elasticsearch graphene_es_objects graphene_custom_operations graphene_egenesis_none fc ${PLATFORM_SPECIFIC_LIBS} )
 
-
 file(GLOB CUSTOM_SOURCES "custom_operations/*.cpp")
 add_executable( custom_operations_test ${COMMON_SOURCES} ${CUSTOM_SOURCES} )
 target_link_libraries( custom_operations_test graphene_chain graphene_app graphene_account_history graphene_elasticsearch graphene_es_objects graphene_custom_operations graphene_egenesis_none fc ${PLATFORM_SPECIFIC_LIBS} )
-
 
 add_subdirectory( generate_empty_blocks )

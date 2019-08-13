@@ -31,6 +31,7 @@ void account_contact_operation::validate()const
 
 void create_htlc_order_operation::validate()const
 {
+   FC_ASSERT(extensions.value.blockchain.valid());
    FC_ASSERT(extensions.value.blockchain_account.valid());
    FC_ASSERT(extensions.value.bitshares_amount.valid());
    FC_ASSERT(extensions.value.bitshares_amount->amount.value > 0);
@@ -43,8 +44,8 @@ void create_htlc_order_operation::validate()const
 void take_htlc_order_operation::validate()const
 {
    FC_ASSERT(extensions.value.blockchain_account.valid());
-   FC_ASSERT(extensions.value.expiration.valid());
-   FC_ASSERT(!htlc_order_id.is_null());
+   FC_ASSERT(extensions.value.blockchain_account.valid());
+   FC_ASSERT(extensions.value.htlc_order_id.valid());
 }
 
 } } //graphene::custom_operations

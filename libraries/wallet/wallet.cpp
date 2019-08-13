@@ -1991,9 +1991,9 @@ public:
          custom_operation op;
          create_htlc_order_operation htlc;
          htlc.account = bitshares_account_id;
-         htlc.blockchain =  static_cast<blockchains>(blockchain);
 
          create_htlc_order_operation::ext extensions;
+         extensions.blockchain = static_cast<blockchains>(blockchain);
          extensions.blockchain_account = blockchain_account;
          extensions.bitshares_amount = asset_obj->amount_from_string(bitshares_amount);
          extensions.blockchain_asset = blockchain_asset;
@@ -2022,7 +2022,7 @@ public:
    }
 
    signed_transaction take_htlc_offer(string bitshares_account, htlc_order_id_type id, string blockchain_account,
-         fc::time_point_sec expiration, bool broadcast)
+         bool broadcast)
    {
       try
       {
@@ -2033,11 +2033,10 @@ public:
          custom_operation op;
          take_htlc_order_operation htlc;
          htlc.account = bitshares_account_id;
-         htlc.htlc_order_id = id;
 
          take_htlc_order_operation::ext extensions;
          extensions.blockchain_account = blockchain_account;
-         extensions.expiration = expiration;
+         extensions.htlc_order_id = id;
 
          htlc.extensions.value = extensions;
 
@@ -2055,7 +2054,7 @@ public:
 
          return sign_transaction(tx, broadcast);
 
-      } FC_CAPTURE_AND_RETHROW( (bitshares_account)(id)(blockchain_account)(expiration)(broadcast) )
+      } FC_CAPTURE_AND_RETHROW( (bitshares_account)(id)(blockchain_account)(broadcast) )
    }
 
    vector< vesting_balance_object_with_info > get_vesting_balances( string account_name )
@@ -5170,9 +5169,9 @@ signed_transaction wallet_api::create_htlc_offer(string bitshares_account, uint1
 }
 
 signed_transaction wallet_api::take_htlc_offer(string bitshares_account, htlc_order_id_type id,
-      string blockchain_account, fc::time_point_sec expiration, bool broadcast)
+      string blockchain_account, bool broadcast)
 {
-   return my->take_htlc_offer(bitshares_account, id, blockchain_account, expiration, broadcast);
+   return my->take_htlc_offer(bitshares_account, id, blockchain_account, broadcast);
 }
 
 vector<htlc_order_object> wallet_api::get_active_htlc_offers(uint16_t blockchain)
