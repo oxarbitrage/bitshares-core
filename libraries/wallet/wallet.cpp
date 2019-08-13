@@ -5150,7 +5150,7 @@ order_book wallet_api::get_order_book( const string& base, const string& quote, 
 }
 
 signed_transaction wallet_api::set_contact_information(string account, string name, string email, string phone,
-                                                       string address, string company, string url, bool broadcast)
+      string address, string company, string url, bool broadcast)
 {
    return my->set_contact_information(account, name, email, phone, address, company, url, broadcast);
 }

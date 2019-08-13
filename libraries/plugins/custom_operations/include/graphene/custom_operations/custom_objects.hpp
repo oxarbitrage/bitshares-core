@@ -27,7 +27,6 @@
 
 #include <graphene/chain/database.hpp>
 
-
 namespace graphene { namespace custom_operations {
 
 using namespace chain;
@@ -127,5 +126,3 @@ FC_REFLECT_DERIVED( graphene::custom_operations::htlc_order_object, (graphene::d
                     (order_time)(active)(taker_bitshares_account)(taker_blockchain_account)(close_time))
 FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
 FC_REFLECT_ENUM( graphene::custom_operations::blockchains, (eos)(bitcoin)(ripple)(ethereum) )
-
-
