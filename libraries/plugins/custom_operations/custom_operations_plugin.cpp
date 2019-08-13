@@ -49,8 +49,6 @@ class custom_operations_plugin_impl
 
       custom_operations_plugin& _self;
 
-      std::string _plugin_option = "";
-
    private:
 
 };
@@ -113,10 +111,6 @@ void custom_operations_plugin::plugin_set_program_options(
    boost::program_options::options_description& cfg
    )
 {
-   cli.add_options()
-         ("custom_operations_option", boost::program_options::value<std::string>(), "custom_operations option")
-         ;
-   cfg.add(cli);
 }
 
 void custom_operations_plugin::plugin_initialize(const boost::program_options::variables_map& options)
@@ -127,10 +121,6 @@ void custom_operations_plugin::plugin_initialize(const boost::program_options::v
    database().applied_block.connect( [&]( const signed_block& b) {
       my->onBlock(b);
    } );
-
-   if (options.count("custom_operations")) {
-      my->_plugin_option = options["custom_operations"].as<std::string>();
-   }
 }
 
 void custom_operations_plugin::plugin_startup()

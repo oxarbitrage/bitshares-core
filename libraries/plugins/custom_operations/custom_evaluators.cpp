@@ -79,18 +79,18 @@ void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operat
 
 object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operation& op)
 {
-   auto created = _db->create<htlc_order_object>( [&]( htlc_order_object& hbeo ) {
-      hbeo.bitshares_account = op.account;
-      hbeo.blockchain = *op.extensions.value.blockchain;
-      hbeo.blockchain_account = *op.extensions.value.blockchain_account;
-      hbeo.bitshares_amount = *op.extensions.value.bitshares_amount;
-      hbeo.blockchain_asset = *op.extensions.value.blockchain_asset;
-      hbeo.blockchain_amount = *op.extensions.value.blockchain_amount;
-      hbeo.expiration = *op.extensions.value.expiration;
+   auto created = _db->create<htlc_order_object>( [&]( htlc_order_object& hoo ) {
+      hoo.bitshares_account = op.account;
+      hoo.blockchain = *op.extensions.value.blockchain;
+      hoo.blockchain_account = *op.extensions.value.blockchain_account;
+      hoo.bitshares_amount = *op.extensions.value.bitshares_amount;
+      hoo.blockchain_asset = *op.extensions.value.blockchain_asset;
+      hoo.blockchain_amount = *op.extensions.value.blockchain_amount;
+      hoo.expiration = *op.extensions.value.expiration;
       if(op.extensions.value.tag.valid())
-         hbeo.tag = *op.extensions.value.tag;
-      hbeo.order_time = _db->head_block_time();
-      hbeo.active = true;
+         hoo.tag = *op.extensions.value.tag;
+      hoo.order_time = _db->head_block_time();
+      hoo.active = true;
    });
    return created.id;
 }
@@ -107,20 +107,20 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
    auto itr = index.find(*op.extensions.value.htlc_order_id);
    if( itr != index.end() )
    {
-      _db->modify( *itr, [&]( htlc_order_object& htlc_object ){
-         htlc_object.bitshares_account = itr->bitshares_account;
-         htlc_object.blockchain = itr->blockchain;
-         htlc_object.blockchain_account = itr->blockchain_account;
-         htlc_object.bitshares_amount = itr->bitshares_amount;
-         htlc_object.blockchain_asset = itr->blockchain_asset;
-         htlc_object.blockchain_amount = itr->blockchain_amount;
-         htlc_object.expiration = itr->expiration;
-         htlc_object.tag = itr->tag;
-         htlc_object.order_time = itr->order_time;
-         htlc_object.active = false;
-         htlc_object.taker_bitshares_account = op.account;
-         htlc_object.taker_blockchain_account = *op.extensions.value.blockchain_account;
-         htlc_object.close_time = _db->head_block_time();
+      _db->modify( *itr, [&]( htlc_order_object& hoo ){
+         hoo.bitshares_account = itr->bitshares_account;
+         hoo.blockchain = itr->blockchain;
+         hoo.blockchain_account = itr->blockchain_account;
+         hoo.bitshares_amount = itr->bitshares_amount;
+         hoo.blockchain_asset = itr->blockchain_asset;
+         hoo.blockchain_amount = itr->blockchain_amount;
+         hoo.expiration = itr->expiration;
+         hoo.tag = itr->tag;
+         hoo.order_time = itr->order_time;
+         hoo.active = false;
+         hoo.taker_bitshares_account = op.account;
+         hoo.taker_blockchain_account = *op.extensions.value.blockchain_account;
+         hoo.close_time = _db->head_block_time();
       });
       return itr->id;
    }
