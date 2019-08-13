@@ -66,7 +66,6 @@ try {
       custom_operation op;
 
       account_contact_operation contact;
-      contact.account = bob_id;
 
       auto packed = fc::raw::pack(contact);
       packed.insert(packed.begin(), types::account_contact);
@@ -86,7 +85,6 @@ try {
       custom_operation op;
 
       account_contact_operation contact;
-      contact.account = nathan_id;
 
       contact.extensions.value.name = "Nathan";
       contact.extensions.value.email = "nathan@nathan.com";
@@ -112,7 +110,6 @@ try {
    {
       custom_operation op;
       account_contact_operation contact;
-      contact.account = alice_id;
 
       account_contact_operation::ext extend;
       extend.name = "Alice";
@@ -164,7 +161,6 @@ try {
    {
       custom_operation op;
       account_contact_operation contact;
-      contact.account = alice_id;
 
       account_contact_operation::ext extensions;
       extensions.name = "Alice Smith";
@@ -206,7 +202,6 @@ try {
    {
       custom_operation op;
       account_contact_operation contact;
-      contact.account = nathan_id;
 
       account_contact_operation::ext extensions;
       extensions.name = "Not my account";
@@ -273,7 +268,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       create_htlc_order_operation htlc;
-      htlc.account = alice_id;
 
       create_htlc_order_operation::ext extensions;
       extensions.blockchain = blockchains::eos;
@@ -302,7 +296,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       create_htlc_order_operation htlc;
-      htlc.account = bob_id;
 
       create_htlc_order_operation::ext extensions;
       extensions.blockchain = blockchains::eos;
@@ -332,7 +325,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       create_htlc_order_operation htlc;
-      htlc.account = carol_id;
 
       create_htlc_order_operation::ext extensions;
       extensions.blockchain = blockchains::eos;
@@ -361,7 +353,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       create_htlc_order_operation htlc;
-      htlc.account = carol_id;
 
       create_htlc_order_operation::ext extensions;
       extensions.blockchain = blockchains::eos;
@@ -456,7 +447,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    {
       custom_operation op;
       take_htlc_order_operation htlc;
-      htlc.account = nathan_id;
 
       take_htlc_order_operation::ext extensions;
       extensions.htlc_order_id = htlc_offers_results_alice[0].id;

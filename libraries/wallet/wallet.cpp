@@ -1946,7 +1946,6 @@ public:
 
          custom_operation op;
          account_contact_operation contact;
-         contact.account = account_id;
 
          account_contact_operation::ext extensions;
          extensions.name = name;
@@ -1990,7 +1989,6 @@ public:
 
          custom_operation op;
          create_htlc_order_operation htlc;
-         htlc.account = bitshares_account_id;
 
          create_htlc_order_operation::ext extensions;
          extensions.blockchain = static_cast<blockchains>(blockchain);
@@ -2032,7 +2030,6 @@ public:
 
          custom_operation op;
          take_htlc_order_operation htlc;
-         htlc.account = bitshares_account_id;
 
          take_htlc_order_operation::ext extensions;
          extensions.blockchain_account = blockchain_account;
