@@ -112,6 +112,30 @@ int get_available_port()
    return ntohs(sin.sin_port);
 }
 
+boost::filesystem::path create_api_access_file(fc::temp_directory& directory) {
+   boost::filesystem::path apiaccess_path = boost::filesystem::path{directory.path().generic_string()} / "api-access.json";
+   fc::path apiaccess_out = apiaccess_path;
+
+   const string apiaccess_content = R"(
+   {
+      "permission_map" :
+      [
+         [
+            "*",
+            {
+               "password_hash_b64" : "*",
+               "password_salt_b64" : "*",
+               "allowed_apis" : ["database_api", "network_broadcast_api", "history_api", "custom_operations_api"]
+            }
+         ]
+      ]
+   }
+   )";
+
+   fc::json::save_to_file(fc::json::from_string(apiaccess_content), apiaccess_out);
+   return apiaccess_path;
+}
+
 ///////////
 /// @brief Start the application
 /// @param app_dir the temporary directory to use
@@ -124,7 +148,6 @@ std::shared_ptr<graphene::app::application> start_application(fc::temp_directory
    app1->register_plugin<graphene::account_history::account_history_plugin>(true);
    app1->register_plugin< graphene::market_history::market_history_plugin >(true);
    app1->register_plugin< graphene::witness_plugin::witness_plugin >(true);
-   app1->register_plugin< graphene::grouped_orders::grouped_orders_plugin>(true);
    app1->register_plugin< graphene::custom_operations::custom_operations_plugin>(true);
    app1->startup_plugins();
    boost::program_options::variables_map cfg;
@@ -138,6 +161,7 @@ std::shared_ptr<graphene::app::application> start_application(fc::temp_directory
    );
    cfg.emplace("genesis-json", boost::program_options::variable_value(create_genesis_file(app_dir), false));
    cfg.emplace("seed-nodes", boost::program_options::variable_value(string("[]"), false));
+   cfg.emplace("api-access", boost::program_options::variable_value(create_api_access_file(app_dir), false));
    app1->initialize(app_dir.path(), cfg);
 
    app1->initialize_plugins(cfg);
@@ -145,6 +169,7 @@ std::shared_ptr<graphene::app::application> start_application(fc::temp_directory
 
    app1->startup();
    fc::usleep(fc::milliseconds(500));
+
    return app1;
 }
 

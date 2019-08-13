@@ -45,6 +45,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_account_contact_test)
 try {
    ACTORS((nathan)(alice));
 
+   app.enable_plugin("custom_operations");
    custom_operations_api custom_operations_api(app);
 
    generate_block();
@@ -228,6 +229,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 
    ACTORS((nathan)(alice)(bob));
 
+   app.enable_plugin("custom_operations");
    custom_operations_api custom_operations_api(app);
 
    generate_block();
