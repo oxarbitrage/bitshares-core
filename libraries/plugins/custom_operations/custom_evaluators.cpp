@@ -46,7 +46,7 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    auto itr = index.find(op.account);
    if( itr != index.end() )
    {
-      _db->modify( *itr, [&]( account_contact_object& aco ){
+      _db->modify( *itr, [&op]( account_contact_object& aco ){
          aco.account = op.account;
          aco.name = (op.extensions.value.name.valid()) ? *op.extensions.value.name : aco.name;
          aco.email = (op.extensions.value.email.valid()) ? *op.extensions.value.email : aco.email;
@@ -59,7 +59,7 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    }
    else
    {
-      auto created = _db->create<account_contact_object>( [&]( account_contact_object& aco ) {
+      auto created = _db->create<account_contact_object>( [&op]( account_contact_object& aco ) {
          aco.account = op.account;
          aco.name = (op.extensions.value.name.valid()) ? *op.extensions.value.name : "";
          aco.email = (op.extensions.value.email.valid()) ? *op.extensions.value.email : "";
@@ -81,7 +81,8 @@ void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operat
 
 object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operation& op)
 {
-   auto created = _db->create<htlc_order_object>( [&]( htlc_order_object& hoo ) {
+   auto order_time = _db->head_block_time();
+   auto created = _db->create<htlc_order_object>( [&op, &order_time]( htlc_order_object& hoo ) {
       hoo.bitshares_account = op.account;
       hoo.blockchain = *op.extensions.value.blockchain;
       hoo.blockchain_account = *op.extensions.value.blockchain_account;
@@ -91,7 +92,7 @@ object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operat
       hoo.expiration = *op.extensions.value.expiration;
       if(op.extensions.value.tag.valid())
          hoo.tag = *op.extensions.value.tag;
-      hoo.order_time = _db->head_block_time();
+      hoo.order_time = order_time;
       hoo.active = true;
    });
    return created.id;
@@ -110,20 +111,21 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
    auto itr = index.find(htlc_order_id);
    if( itr != index.end() )
    {
-      _db->modify( *itr, [&]( htlc_order_object& hoo ){
-         hoo.bitshares_account = itr->bitshares_account;
-         hoo.blockchain = itr->blockchain;
-         hoo.blockchain_account = itr->blockchain_account;
-         hoo.bitshares_amount = itr->bitshares_amount;
-         hoo.blockchain_asset = itr->blockchain_asset;
-         hoo.blockchain_amount = itr->blockchain_amount;
-         hoo.expiration = itr->expiration;
-         hoo.tag = itr->tag;
-         hoo.order_time = itr->order_time;
+      auto close_time = _db->head_block_time();
+      _db->modify( *itr, [&op, &close_time]( htlc_order_object& hoo ){
+         hoo.bitshares_account = hoo.bitshares_account;
+         hoo.blockchain = hoo.blockchain;
+         hoo.blockchain_account = hoo.blockchain_account;
+         hoo.bitshares_amount = hoo.bitshares_amount;
+         hoo.blockchain_asset = hoo.blockchain_asset;
+         hoo.blockchain_amount = hoo.blockchain_amount;
+         hoo.expiration = hoo.expiration;
+         hoo.tag = hoo.tag;
+         hoo.order_time = hoo.order_time;
          hoo.active = false;
          hoo.taker_bitshares_account = op.account;
          hoo.taker_blockchain_account = *op.extensions.value.blockchain_account;
-         hoo.close_time = _db->head_block_time();
+         hoo.close_time = close_time;
       });
    }
    return htlc_order_id;
