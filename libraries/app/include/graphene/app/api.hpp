@@ -510,7 +510,8 @@ namespace graphene { namespace app {
    };
 
    /**
-    * @brief The custom_operations_api class exposes access to standard(BSIP-XXX) custom objects.
+    * @brief The custom_operations_api class exposes access to standard custom objects parsed by the
+    * custom_operations_plugin.
     */
    class custom_operations_api
    {
@@ -519,7 +520,7 @@ namespace graphene { namespace app {
                &(app.get_options()) ){}
 
          /**
-          * @breif Get contact infofrmation of an account
+          * @breif Get contact information of an account
           *
           * @param account Account name to get info from
           *

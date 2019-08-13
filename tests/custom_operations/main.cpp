@@ -227,7 +227,7 @@ catch (fc::exception &e) {
 BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
 { try {
 
-   ACTORS((nathan)(alice)(bob));
+   ACTORS((nathan)(alice)(bob)(carol));
 
    app.enable_plugin("custom_operations");
    custom_operations_api custom_operations_api(app);
@@ -244,6 +244,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    transfer(committee_account, nathan_id, asset(init_balance));
    transfer(committee_account, alice_id, asset(init_balance));
    transfer(committee_account, bob_id, asset(init_balance));
+   transfer(committee_account, carol_id, asset(init_balance));
 
    enable_fees();
 
@@ -302,6 +303,35 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       op.fee = db.get_global_properties().parameters.current_fees->calculate_fee(op);
       trx.operations.push_back(op);
       sign(trx, bob_private_key);
+      PUSH_TX(db, trx, ~0);
+      trx.clear();
+   }
+
+   // carol creates an order bigger than her balance, will fail at the evaluator
+   {
+      custom_operation op;
+      create_htlc_order_operation htlc;
+      htlc.account = bob_id;
+
+      create_htlc_order_operation::ext extensions;
+      extensions.blockchain = blockchains::eos;
+      extensions.blockchain_account = "carol";
+      extensions.bitshares_amount = asset(10001 * GRAPHENE_BLOCKCHAIN_PRECISION);
+      extensions.blockchain_asset = "EOS";
+      extensions.blockchain_amount = 10000;
+      extensions.expiration = db.head_block_time() + 3600;
+
+      htlc.extensions.value = extensions;
+
+      auto packed = fc::raw::pack(htlc);
+      packed.insert(packed.begin(), types::create_htlc);
+      packed.insert(packed.begin(), 0xFF);
+
+      op.payer = carol_id;
+      op.data = packed;
+      op.fee = db.get_global_properties().parameters.current_fees->calculate_fee(op);
+      trx.operations.push_back(op);
+      sign(trx, carol_private_key);
       PUSH_TX(db, trx, ~0);
       trx.clear();
    }

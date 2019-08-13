@@ -74,6 +74,8 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
 
 void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operation& op)
 {
+   FC_ASSERT(_db->get_balance(op.account, op.extensions.value.bitshares_amount->asset_id).amount >
+         op.extensions.value.bitshares_amount->amount.value);
    return void_result();
 }
 
@@ -104,7 +106,8 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
 {
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
 
-   auto itr = index.find(*op.extensions.value.htlc_order_id);
+   auto htlc_order_id = *op.extensions.value.htlc_order_id;
+   auto itr = index.find(htlc_order_id);
    if( itr != index.end() )
    {
       _db->modify( *itr, [&]( htlc_order_object& hoo ){
@@ -122,8 +125,8 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
          hoo.taker_blockchain_account = *op.extensions.value.blockchain_account;
          hoo.close_time = _db->head_block_time();
       });
-      return itr->id;
    }
+   return htlc_order_id;
 }
 
 } }
