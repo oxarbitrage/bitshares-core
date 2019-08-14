@@ -43,7 +43,7 @@ BOOST_FIXTURE_TEST_SUITE( custom_operation_tests, database_fixture )
 BOOST_AUTO_TEST_CASE(custom_operations_account_contact_test)
 {
 try {
-   ACTORS((nathan)(alice)(bob));
+   ACTORS((nathan)(alice));
 
    app.enable_plugin("custom_operations");
    custom_operations_api custom_operations_api(app);
@@ -59,26 +59,6 @@ try {
 
    transfer(committee_account, nathan_id, asset(init_balance));
    transfer(committee_account, alice_id, asset(init_balance));
-   transfer(committee_account, bob_id, asset(init_balance));
-
-   // bob attempts to add totally empty contact info, will fail at the validator
-   {
-      custom_operation op;
-
-      account_contact_operation contact;
-
-      auto packed = fc::raw::pack(contact);
-      packed.insert(packed.begin(), types::account_contact);
-      packed.insert(packed.begin(), 0xFF);
-
-      op.payer = bob_id;
-      op.data = packed;
-      op.fee = db.get_global_properties().parameters.current_fees->calculate_fee(op);
-      trx.operations.push_back(op);
-      sign(trx, bob_private_key);
-      PUSH_TX(db, trx, ~0);
-      trx.clear();
-   }
 
    // nathan adds account data via custom operation
    {

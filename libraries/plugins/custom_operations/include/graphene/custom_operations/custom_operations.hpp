@@ -42,12 +42,6 @@ struct account_contact_operation : chain::base_operation
       optional<string> address;
       optional<string> company;
       optional<string> url;
-
-      bool is_empty()const
-      {
-         return (!name.valid() && !email.valid() && !phone.valid() && !address.valid() &&
-               !company.valid() && !url.valid());
-      }
    };
 
    graphene::protocol::extension<ext> extensions;
