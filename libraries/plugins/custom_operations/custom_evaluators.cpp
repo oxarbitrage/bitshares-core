@@ -29,25 +29,21 @@
 
 namespace graphene { namespace custom_operations {
 
-custom_generic_evaluator::custom_generic_evaluator(database& db)
+custom_generic_evaluator::custom_generic_evaluator(database& db, const account_id_type account)
 {
    _db = &db;
-}
-
-void_result custom_generic_evaluator::do_evaluate(const account_contact_operation& op)
-{
-   return void_result();
+   _account = account;
 }
 
 object_id_type custom_generic_evaluator::do_apply(const account_contact_operation& op)
 {
    auto &index = _db->get_index_type<account_contact_index>().indices().get<by_custom_account>();
 
-   auto itr = index.find(op.account);
+   auto itr = index.find(_account);
    if( itr != index.end() )
    {
-      _db->modify( *itr, [&op]( account_contact_object& aco ){
-         aco.account = op.account;
+      _db->modify( *itr, [&op, this]( account_contact_object& aco ){
+         aco.account = _account;
          if(op.extensions.value.name.valid()) aco.name = *op.extensions.value.name;
          if(op.extensions.value.email.valid()) aco.email = *op.extensions.value.email;
          if(op.extensions.value.phone.valid()) aco.phone = *op.extensions.value.phone;
@@ -59,8 +55,8 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    }
    else
    {
-      auto created = _db->create<account_contact_object>( [&op]( account_contact_object& aco ) {
-         aco.account = op.account;
+      auto created = _db->create<account_contact_object>( [&op, this]( account_contact_object& aco ) {
+         aco.account = _account;
          if(op.extensions.value.name.valid()) aco.name = *op.extensions.value.name;
          if(op.extensions.value.email.valid()) aco.email = *op.extensions.value.email;
          if(op.extensions.value.phone.valid()) aco.phone = *op.extensions.value.phone;
@@ -72,16 +68,11 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
    }
 }
 
-void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operation& op)
-{
-   return void_result();
-}
-
 object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operation& op)
 {
    auto order_time = _db->head_block_time();
-   auto created = _db->create<htlc_order_object>( [&op, &order_time]( htlc_order_object& hoo ) {
-      hoo.bitshares_account = op.account;
+   auto created = _db->create<htlc_order_object>( [&op, &order_time, this]( htlc_order_object& hoo ) {
+      hoo.bitshares_account = _account;
       hoo.blockchain = *op.extensions.value.blockchain;
       hoo.blockchain_account = *op.extensions.value.blockchain_account;
       hoo.bitshares_amount = *op.extensions.value.bitshares_amount;
@@ -95,11 +86,6 @@ object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operat
    return created.id;
 }
 
-void_result custom_generic_evaluator::do_evaluate(const take_htlc_order_operation& op)
-{
-   return void_result();
-}
-
 object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operation& op)
 {
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
@@ -109,7 +95,7 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
    if( itr != index.end() )
    {
       auto close_time = _db->head_block_time();
-      _db->modify( *itr, [&op, &close_time]( htlc_order_object& hoo ){
+      _db->modify( *itr, [&op, &close_time, this]( htlc_order_object& hoo ){
          hoo.bitshares_account = hoo.bitshares_account;
          hoo.blockchain = hoo.blockchain;
          hoo.blockchain_account = hoo.blockchain_account;
@@ -120,7 +106,7 @@ object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operatio
          hoo.tag = hoo.tag;
          hoo.order_time = hoo.order_time;
          hoo.active = false;
-         hoo.taker_bitshares_account = op.account;
+         hoo.taker_bitshares_account = _account;
          hoo.taker_blockchain_account = *op.extensions.value.blockchain_account;
          hoo.close_time = close_time;
       });

@@ -31,15 +31,11 @@ class custom_generic_evaluator
 {
    public:
       database* _db;
-      custom_generic_evaluator(database& db);
+      account_id_type _account;
+      custom_generic_evaluator(database& db, const account_id_type account);
 
-      void_result do_evaluate(const account_contact_operation& o);
       object_id_type do_apply(const account_contact_operation& o);
-
-      void_result do_evaluate(const create_htlc_order_operation& o);
       object_id_type do_apply(const create_htlc_order_operation& o);
-
-      void_result do_evaluate(const take_htlc_order_operation& o);
       object_id_type do_apply(const take_htlc_order_operation& o);
 };
 

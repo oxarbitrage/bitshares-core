@@ -50,8 +50,6 @@ struct account_contact_operation : chain::base_operation
       }
    };
 
-   account_id_type account;
-
    graphene::protocol::extension<ext> extensions;
 
    void validate()const;
@@ -70,8 +68,6 @@ struct create_htlc_order_operation : chain::base_operation
       optional<string> tag;
    };
 
-   account_id_type account;
-
    graphene::protocol::extension<ext> extensions;
 
    void validate()const;
@@ -85,8 +81,6 @@ struct take_htlc_order_operation : chain::base_operation
       optional<string> blockchain_account;
    };
 
-   account_id_type account;
-
    graphene::protocol::extension<ext> extensions;
 
    void validate()const;
@@ -96,16 +90,16 @@ struct take_htlc_order_operation : chain::base_operation
 
 FC_REFLECT( graphene::custom_operations::account_contact_operation::ext, (name)(email)(phone)(address)(company)(url) )
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::account_contact_operation::ext> )
-FC_REFLECT( graphene::custom_operations::account_contact_operation, (account)(extensions) )
+FC_REFLECT( graphene::custom_operations::account_contact_operation, (extensions) )
 
 FC_REFLECT( graphene::custom_operations::create_htlc_order_operation::ext, (blockchain)(blockchain_account)
             (bitshares_amount)(blockchain_asset)(blockchain_amount)(expiration)(tag) )
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::create_htlc_order_operation::ext> )
-FC_REFLECT( graphene::custom_operations::create_htlc_order_operation, (account)(extensions) )
+FC_REFLECT( graphene::custom_operations::create_htlc_order_operation, (extensions) )
 
 FC_REFLECT( graphene::custom_operations::take_htlc_order_operation::ext, (blockchain_account)(htlc_order_id) )
 FC_REFLECT_TYPENAME( graphene::protocol::extension<graphene::custom_operations::take_htlc_order_operation::ext> )
-FC_REFLECT( graphene::custom_operations::take_htlc_order_operation, (account)(extensions) )
+FC_REFLECT( graphene::custom_operations::take_htlc_order_operation, (extensions) )
 
 GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::account_contact_operation )
 GRAPHENE_DECLARE_EXTERNAL_SERIALIZATION( graphene::custom_operations::create_htlc_order_operation )

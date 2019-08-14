@@ -349,34 +349,6 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       trx.clear();
    }
 
-   // carol creates an order bigger than her balance, will fail at the evaluator
-   {
-      custom_operation op;
-      create_htlc_order_operation htlc;
-
-      create_htlc_order_operation::ext extensions;
-      extensions.blockchain = blockchains::eos;
-      extensions.blockchain_account = "carol";
-      extensions.bitshares_amount = asset(10001 * GRAPHENE_BLOCKCHAIN_PRECISION);
-      extensions.blockchain_asset = "EOS";
-      extensions.blockchain_amount = 10000;
-      extensions.expiration = db.head_block_time() + 3600;
-
-      htlc.extensions.value = extensions;
-
-      auto packed = fc::raw::pack(htlc);
-      packed.insert(packed.begin(), types::create_htlc);
-      packed.insert(packed.begin(), 0xFF);
-
-      op.payer = carol_id;
-      op.data = packed;
-      op.fee = db.get_global_properties().parameters.current_fees->calculate_fee(op);
-      trx.operations.push_back(op);
-      sign(trx, carol_private_key);
-      PUSH_TX(db, trx, ~0);
-      trx.clear();
-   }
-
    generate_block();
    fc::usleep(fc::milliseconds(200));
 
