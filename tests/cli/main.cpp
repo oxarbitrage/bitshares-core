@@ -1127,8 +1127,15 @@ BOOST_FIXTURE_TEST_CASE( account_contact_information, cli_fixture )
 
       BOOST_TEST_MESSAGE("About to add contact information.");
 
-      signed_transaction custom_tx = con.wallet_api_ptr->set_contact_information("nathan", "Nathan",
-            "nathan@nathan.com", "2121212121", "Bv DD 22", "", "", true);
+      account_contact_operation::ext data;
+      data.name = "Nathan";
+      data.email = "nathan@nathan.com";
+      data.phone = "2121212121";
+      data.address = "Bv DD 22";
+      data.company = "";
+      data.url = "";
+
+      signed_transaction custom_tx = con.wallet_api_ptr->set_contact_information("nathan", data, true);
 
       BOOST_TEST_MESSAGE("The system is generating a block.");
       BOOST_CHECK(generate_block(app1));
@@ -1163,9 +1170,16 @@ BOOST_FIXTURE_TEST_CASE( htlc_orderbook, cli_fixture )
 
       BOOST_TEST_MESSAGE("Adding an offer.");
 
-      auto expiration = db->head_block_time() + 7200;
-      signed_transaction custom_tx = con.wallet_api_ptr->create_htlc_offer("nathan", blockchains::bitcoin, "nathan",
-            "BTS", "100", "BTC", "2000", expiration, "", true);
+      create_htlc_order_operation::ext data_maker;
+      data_maker.blockchain = blockchains::bitcoin;
+      data_maker.blockchain_account = "nathan";
+      data_maker.bitshares_amount = asset(100);
+      data_maker.blockchain_asset = "BTC";
+      data_maker.blockchain_amount = 2000;
+      data_maker.expiration = db->head_block_time() + 3600;
+      data_maker.tag = "Some text, can be a memo";
+
+      signed_transaction custom_tx = con.wallet_api_ptr->create_htlc_offer("nathan", data_maker, true);
 
       BOOST_TEST_MESSAGE("The system is generating a block.");
       BOOST_CHECK(generate_block(app1));
@@ -1176,8 +1190,12 @@ BOOST_FIXTURE_TEST_CASE( htlc_orderbook, cli_fixture )
          BOOST_CHECK_EQUAL(offers[0].id.instance(), 0);
       }
 
-      // take the offer with john
-      custom_tx = con.wallet_api_ptr->take_htlc_offer("jmjatlanta", offers[0].id, "nathan", true);
+      BOOST_TEST_MESSAGE("Taking the offfer.");
+      take_htlc_order_operation::ext data_taker;
+      data_taker.htlc_order_id = offers[0].id;
+      data_taker.blockchain_account = "nathan";
+
+      custom_tx = con.wallet_api_ptr->take_htlc_offer("jmjatlanta", data_taker, true);
 
       BOOST_TEST_MESSAGE("The system is generating a block.");
       BOOST_CHECK(generate_block(app1));

@@ -63,15 +63,17 @@ try {
    // nathan adds account data via custom operation
    {
       custom_operation op;
-
       account_contact_operation contact;
+      account_contact_operation::ext data;
 
-      contact.extensions.value.name = "Nathan";
-      contact.extensions.value.email = "nathan@nathan.com";
-      contact.extensions.value.phone = "+1 434343434343";
-      contact.extensions.value.address = "";
-      contact.extensions.value.company = "Bitshares";
-      contact.extensions.value.url = "http://nathan.com/";
+      data.name = "Nathan";
+      data.email = "nathan@nathan.com";
+      data.phone = "+1 434343434343";
+      data.address = "";
+      data.company = "Bitshares";
+      data.url = "http://nathan.com/";
+
+      contact.extensions.value = data;
 
       auto packed = fc::raw::pack(contact);
       packed.insert(packed.begin(), types::account_contact);
@@ -91,15 +93,15 @@ try {
       custom_operation op;
       account_contact_operation contact;
 
-      account_contact_operation::ext extend;
-      extend.name = "Alice";
-      extend.email = "alice@alice.com";
-      extend.phone = "";
-      extend.address = "Some Street 456, Somewhere";
-      extend.company = "";
-      extend.url = "http://alice.com/";
+      account_contact_operation::ext data;
+      data.name = "Alice";
+      data.email = "alice@alice.com";
+      data.phone = "";
+      data.address = "Some Street 456, Somewhere";
+      data.company = "";
+      data.url = "http://alice.com/";
 
-      contact.extensions.value = extend;
+      contact.extensions.value = data;
 
       auto packed = fc::raw::pack(contact);
       packed.insert(packed.begin(), types::account_contact);
@@ -142,15 +144,15 @@ try {
       custom_operation op;
       account_contact_operation contact;
 
-      account_contact_operation::ext extensions;
-      extensions.name = "Alice Smith";
-      extensions.email = "alicesmith@alice.com";
-      extensions.phone = "+1 1111 11 1111";
-      extensions.address = "Some Street 456, Somewhere";
-      extensions.company = "";
-      extensions.url = "http://alice.com/";
+      account_contact_operation::ext data;
+      data.name = "Alice Smith";
+      data.email = "alicesmith@alice.com";
+      data.phone = "+1 1111 11 1111";
+      data.address = "Some Street 456, Somewhere";
+      data.company = "";
+      data.url = "http://alice.com/";
 
-      contact.extensions.value = extensions;
+      contact.extensions.value = data;
 
       auto packed = fc::raw::pack(contact);
       packed.insert(packed.begin(), types::account_contact);
@@ -183,15 +185,15 @@ try {
       custom_operation op;
       account_contact_operation contact;
 
-      account_contact_operation::ext extensions;
-      extensions.name = "Not my account";
-      extensions.phone = "Fake phone";
-      extensions.email = "Fake email";
-      extensions.address = "Fake address";
-      extensions.company = "Fake company";
-      extensions.url = "http://fake.com";
+      account_contact_operation::ext data;
+      data.name = "Not my account";
+      data.phone = "Fake phone";
+      data.email = "Fake email";
+      data.address = "Fake address";
+      data.company = "Fake company";
+      data.url = "http://fake.com";
 
-      contact.extensions.value = extensions;
+      contact.extensions.value = data;
 
       auto packed = fc::raw::pack(contact);
       packed.insert(packed.begin(), types::account_contact);
@@ -249,15 +251,15 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       create_htlc_order_operation htlc;
 
-      create_htlc_order_operation::ext extensions;
-      extensions.blockchain = blockchains::eos;
-      extensions.blockchain_account = "alice";
-      extensions.bitshares_amount = asset(10);
-      extensions.blockchain_asset = "EOS";
-      extensions.blockchain_amount = 10;
-      extensions.expiration = db.head_block_time() + 3600;
+      create_htlc_order_operation::ext data;
+      data.blockchain = blockchains::eos;
+      data.blockchain_account = "alice";
+      data.bitshares_amount = asset(10);
+      data.blockchain_asset = "EOS";
+      data.blockchain_amount = 10;
+      data.expiration = db.head_block_time() + 3600;
 
-      htlc.extensions.value = extensions;
+      htlc.extensions.value = data;
 
       auto packed = fc::raw::pack(htlc);
       packed.insert(packed.begin(), types::create_htlc);
@@ -277,16 +279,16 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       create_htlc_order_operation htlc;
 
-      create_htlc_order_operation::ext extensions;
-      extensions.blockchain = blockchains::eos;
-      extensions.blockchain_account = "bob";
-      extensions.bitshares_amount = asset(100);
-      extensions.blockchain_asset = "EOS";
-      extensions.blockchain_amount = 100;
-      extensions.expiration = db.head_block_time() + 3600;
-      extensions.tag = "Some text, can be a memo";
+      create_htlc_order_operation::ext data;
+      data.blockchain = blockchains::eos;
+      data.blockchain_account = "bob";
+      data.bitshares_amount = asset(100);
+      data.blockchain_asset = "EOS";
+      data.blockchain_amount = 100;
+      data.expiration = db.head_block_time() + 3600;
+      data.tag = "Some text, can be a memo";
 
-      htlc.extensions.value = extensions;
+      htlc.extensions.value = data;
 
       auto packed = fc::raw::pack(htlc);
       packed.insert(packed.begin(), types::create_htlc);
@@ -306,15 +308,15 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       create_htlc_order_operation htlc;
 
-      create_htlc_order_operation::ext extensions;
-      extensions.blockchain = blockchains::eos;
-      extensions.blockchain_account = "carol";
-      extensions.bitshares_amount = asset(10001 * GRAPHENE_BLOCKCHAIN_PRECISION);
-      extensions.blockchain_asset = "EOS";
-      extensions.blockchain_amount = 0;
-      extensions.expiration = db.head_block_time() + 3600;
+      create_htlc_order_operation::ext data;
+      data.blockchain = blockchains::eos;
+      data.blockchain_account = "carol";
+      data.bitshares_amount = asset(10);
+      data.blockchain_asset = "EOS";
+      data.blockchain_amount = 0;
+      data.expiration = db.head_block_time() + 3600;
 
-      htlc.extensions.value = extensions;
+      htlc.extensions.value = data;
 
       auto packed = fc::raw::pack(htlc);
       packed.insert(packed.begin(), types::create_htlc);
@@ -400,11 +402,11 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
       custom_operation op;
       take_htlc_order_operation htlc;
 
-      take_htlc_order_operation::ext extensions;
-      extensions.htlc_order_id = htlc_offers_results_alice[0].id;
-      extensions.blockchain_account = "nathan";
+      take_htlc_order_operation::ext data;
+      data.htlc_order_id = htlc_offers_results_alice[0].id;
+      data.blockchain_account = "nathan";
 
-      htlc.extensions.value = extensions;
+      htlc.extensions.value = data;
 
       auto packed = fc::raw::pack(htlc);
       packed.insert(packed.begin(), types::take_htlc);
