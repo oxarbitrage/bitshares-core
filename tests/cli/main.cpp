@@ -1135,13 +1135,14 @@ BOOST_FIXTURE_TEST_CASE( account_contact_information, cli_fixture )
 
       BOOST_TEST_MESSAGE("Check account contact information.");
       account_contact_info = con.wallet_api_ptr->get_contact_information("nathan");
+
       BOOST_CHECK_EQUAL(account_contact_info->account.instance.value, 17 );
-      BOOST_CHECK_EQUAL(account_contact_info->name, "Nathan");
-      BOOST_CHECK_EQUAL(account_contact_info->email, "nathan@nathan.com");
-      BOOST_CHECK_EQUAL(account_contact_info->phone, "2121212121");
-      BOOST_CHECK_EQUAL(account_contact_info->address, "Bv DD 22");
-      BOOST_CHECK_EQUAL(account_contact_info->company, "");
-      BOOST_CHECK_EQUAL(account_contact_info->url, "");
+      BOOST_CHECK_EQUAL(*account_contact_info->name, "Nathan");
+      BOOST_CHECK_EQUAL(*account_contact_info->email, "nathan@nathan.com");
+      BOOST_CHECK_EQUAL(*account_contact_info->phone, "2121212121");
+      BOOST_CHECK_EQUAL(*account_contact_info->address, "Bv DD 22");
+      BOOST_CHECK_EQUAL(*account_contact_info->company, "");
+      BOOST_CHECK_EQUAL(*account_contact_info->url, "");
 
    } catch( fc::exception& e ) {
       edump((e.to_detail_string()));

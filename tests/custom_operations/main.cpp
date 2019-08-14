@@ -140,22 +140,22 @@ try {
    // check nathan account data with the api
    account_contact_object contact_results_nathan = *custom_operations_api.get_contact_info("nathan");
    BOOST_CHECK_EQUAL(contact_results_nathan.account.instance.value, 16 );
-   BOOST_CHECK_EQUAL(contact_results_nathan.name, "Nathan");
-   BOOST_CHECK_EQUAL(contact_results_nathan.email, "nathan@nathan.com");
-   BOOST_CHECK_EQUAL(contact_results_nathan.phone, "+1 434343434343");
-   BOOST_CHECK_EQUAL(contact_results_nathan.address, "");
-   BOOST_CHECK_EQUAL(contact_results_nathan.company, "Bitshares");
-   BOOST_CHECK_EQUAL(contact_results_nathan.url, "http://nathan.com/");
+   BOOST_CHECK_EQUAL(*contact_results_nathan.name, "Nathan");
+   BOOST_CHECK_EQUAL(*contact_results_nathan.email, "nathan@nathan.com");
+   BOOST_CHECK_EQUAL(*contact_results_nathan.phone, "+1 434343434343");
+   BOOST_CHECK_EQUAL(*contact_results_nathan.address, "");
+   BOOST_CHECK_EQUAL(*contact_results_nathan.company, "Bitshares");
+   BOOST_CHECK_EQUAL(*contact_results_nathan.url, "http://nathan.com/");
 
    // check alice account data with the api
    account_contact_object contact_results_alice = *custom_operations_api.get_contact_info("alice");
    BOOST_CHECK_EQUAL(contact_results_alice.account.instance.value, 17 );
-   BOOST_CHECK_EQUAL(contact_results_alice.name, "Alice");
-   BOOST_CHECK_EQUAL(contact_results_alice.email, "alice@alice.com");
-   BOOST_CHECK_EQUAL(contact_results_alice.phone, "");
-   BOOST_CHECK_EQUAL(contact_results_alice.address, "Some Street 456, Somewhere");
-   BOOST_CHECK_EQUAL(contact_results_alice.company, "");
-   BOOST_CHECK_EQUAL(contact_results_alice.url, "http://alice.com/");
+   BOOST_CHECK_EQUAL(*contact_results_alice.name, "Alice");
+   BOOST_CHECK_EQUAL(*contact_results_alice.email, "alice@alice.com");
+   BOOST_CHECK_EQUAL(*contact_results_alice.phone, "");
+   BOOST_CHECK_EQUAL(*contact_results_alice.address, "Some Street 456, Somewhere");
+   BOOST_CHECK_EQUAL(*contact_results_alice.company, "");
+   BOOST_CHECK_EQUAL(*contact_results_alice.url, "http://alice.com/");
 
    // alice update her data
    {
@@ -191,12 +191,12 @@ try {
    // check alice account updates with the api
    contact_results_alice = *custom_operations_api.get_contact_info("alice");
    BOOST_CHECK_EQUAL(contact_results_alice.account.instance.value, 17 );
-   BOOST_CHECK_EQUAL(contact_results_alice.name, "Alice Smith");
-   BOOST_CHECK_EQUAL(contact_results_alice.email, "alicesmith@alice.com");
-   BOOST_CHECK_EQUAL(contact_results_alice.phone, "+1 1111 11 1111");
-   BOOST_CHECK_EQUAL(contact_results_alice.address, "Some Street 456, Somewhere");
-   BOOST_CHECK_EQUAL(contact_results_alice.company, "");
-   BOOST_CHECK_EQUAL(contact_results_alice.url, "http://alice.com/");
+   BOOST_CHECK_EQUAL(*contact_results_alice.name, "Alice Smith");
+   BOOST_CHECK_EQUAL(*contact_results_alice.email, "alicesmith@alice.com");
+   BOOST_CHECK_EQUAL(*contact_results_alice.phone, "+1 1111 11 1111");
+   BOOST_CHECK_EQUAL(*contact_results_alice.address, "Some Street 456, Somewhere");
+   BOOST_CHECK_EQUAL(*contact_results_alice.company, "");
+   BOOST_CHECK_EQUAL(*contact_results_alice.url, "http://alice.com/");
 
    // alice try to update nathan data
    {
@@ -231,9 +231,9 @@ try {
    // operation will pass but data will be unchanged, exception was produced in plug in
    contact_results_nathan = *custom_operations_api.get_contact_info("nathan");
    BOOST_CHECK(contact_results_nathan.account.instance.value == 16 );
-   BOOST_CHECK(contact_results_nathan.name != "Not my account");
-   BOOST_CHECK(contact_results_nathan.phone != "Fake phone");
-   BOOST_CHECK(contact_results_nathan.email != "Fake email");
+   BOOST_CHECK(*contact_results_nathan.name != "Not my account");
+   BOOST_CHECK(*contact_results_nathan.phone != "Fake phone");
+   BOOST_CHECK(*contact_results_nathan.email != "Fake email");
 }
 catch (fc::exception &e) {
    edump((e.to_detail_string()));

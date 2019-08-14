@@ -24,7 +24,6 @@
 #pragma once
 
 #include <boost/multi_index/composite_key.hpp>
-
 #include <graphene/chain/database.hpp>
 
 namespace graphene { namespace custom_operations {
@@ -35,8 +34,17 @@ using namespace chain;
 #define CUSTOM_OPERATIONS_SPACE_ID 7
 #endif
 
-enum types { account_contact = 0 , create_htlc = 1, take_htlc = 2 };
-enum blockchains { eos = 0 , bitcoin = 1, ripple = 2, ethereum = 3 };
+enum types {
+   account_contact = 0,
+   create_htlc = 1,
+   take_htlc = 2
+};
+enum blockchains {
+   eos = 0,
+   bitcoin = 1,
+   ripple = 2,
+   ethereum = 3
+};
 
 struct account_contact_object : public abstract_object<account_contact_object>
 {
@@ -44,12 +52,12 @@ struct account_contact_object : public abstract_object<account_contact_object>
    static const uint8_t type_id  = account_contact;
 
    account_id_type account;
-   string name;
-   string email;
-   string phone;
-   string address;
-   string company;
-   string url;
+   optional<string> name;
+   optional<string> email;
+   optional<string> phone;
+   optional<string> address;
+   optional<string> company;
+   optional<string> url;
 };
 
 struct htlc_order_object : public abstract_object<htlc_order_object>
