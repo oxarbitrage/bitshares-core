@@ -74,8 +74,6 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
 
 void_result custom_generic_evaluator::do_evaluate(const create_htlc_order_operation& op)
 {
-   FC_ASSERT(_db->get_balance(op.account, op.extensions.value.bitshares_amount->asset_id).amount >
-         op.extensions.value.bitshares_amount->amount.value);
    return void_result();
 }
 
