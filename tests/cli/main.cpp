@@ -1175,7 +1175,7 @@ BOOST_FIXTURE_TEST_CASE( htlc_orderbook, cli_fixture )
       data_maker.blockchain_account = "nathan";
       data_maker.bitshares_amount = asset(100);
       data_maker.blockchain_asset = "BTC";
-      data_maker.blockchain_amount = 2000;
+      data_maker.blockchain_amount = "2000";
       data_maker.expiration = db->head_block_time() + 3600;
       data_maker.tag = "Some text, can be a memo";
 

@@ -70,17 +70,17 @@ struct htlc_order_object : public abstract_object<htlc_order_object>
    blockchains blockchain;
    string blockchain_account;
    string blockchain_asset;
-   uint64_t blockchain_amount;
+   string blockchain_amount;
    fc::time_point_sec expiration;
-   string tag;
-
    fc::time_point_sec order_time;
    bool active;
-   account_id_type taker_bitshares_account;
-   string taker_blockchain_account;
-   fc::time_point_sec close_time;
 
-   // ...
+   optional<uint32_t> blockchain_asset_precision;
+   optional<string> token_contract;
+   optional<string> tag;
+   optional<account_id_type> taker_bitshares_account;
+   optional<string> taker_blockchain_account;
+   optional<fc::time_point_sec> close_time;
 };
 
 struct by_custom_id;
@@ -130,7 +130,8 @@ FC_REFLECT_DERIVED( graphene::custom_operations::account_contact_object, (graphe
                     (account)(name)(email)(phone)(address)(company)(url))
 FC_REFLECT_DERIVED( graphene::custom_operations::htlc_order_object, (graphene::db::object),
                     (bitshares_account)(bitshares_amount)(blockchain)(blockchain_account)(blockchain_asset)
-                    (blockchain_amount)(expiration)(tag)
-                    (order_time)(active)(taker_bitshares_account)(taker_blockchain_account)(close_time))
+                    (blockchain_amount)(expiration)(order_time)(active)
+                    (blockchain_asset_precision)(token_contract)(tag)(taker_bitshares_account)
+                    (taker_blockchain_account)(close_time))
 FC_REFLECT_ENUM( graphene::custom_operations::types, (account_contact)(create_htlc)(take_htlc) )
 FC_REFLECT_ENUM( graphene::custom_operations::blockchains, (eos)(bitcoin)(ripple)(ethereum) )

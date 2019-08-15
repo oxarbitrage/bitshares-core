@@ -31,19 +31,17 @@ void account_contact_operation::validate()const
 
 void create_htlc_order_operation::validate()const
 {
-   FC_ASSERT(extensions.value.blockchain.valid());
-   FC_ASSERT(extensions.value.blockchain_account.valid());
    FC_ASSERT(extensions.value.bitshares_amount.valid());
    FC_ASSERT(extensions.value.bitshares_amount->amount.value > 0);
+   FC_ASSERT(extensions.value.blockchain.valid());
+   FC_ASSERT(extensions.value.blockchain_account.valid());
    FC_ASSERT(extensions.value.blockchain_asset.valid());
    FC_ASSERT(extensions.value.blockchain_amount.valid());
-   FC_ASSERT(*extensions.value.blockchain_amount > 0);
    FC_ASSERT(extensions.value.expiration.valid());
 }
 
 void take_htlc_order_operation::validate()const
 {
-   FC_ASSERT(extensions.value.blockchain_account.valid());
    FC_ASSERT(extensions.value.blockchain_account.valid());
    FC_ASSERT(extensions.value.htlc_order_id.valid());
 }

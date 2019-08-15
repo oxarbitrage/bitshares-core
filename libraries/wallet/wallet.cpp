@@ -1969,6 +1969,7 @@ public:
       try
       {
          FC_ASSERT( !self.is_locked() );
+         FC_ASSERT(data.bitshares_amount.valid());
          fc::optional<asset_object> asset_obj = get_asset(data.bitshares_amount->asset_id);
          FC_ASSERT(asset_obj, "Could not find asset matching ${asset}", ("asset", data.bitshares_amount->asset_id));
 

@@ -70,16 +70,22 @@ object_id_type custom_generic_evaluator::do_apply(const account_contact_operatio
 
 object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operation& op)
 {
+   FC_ASSERT(*op.extensions.value.expiration > _db->head_block_time() + fc::seconds(3600));
+
    auto order_time = _db->head_block_time();
    auto created = _db->create<htlc_order_object>( [&op, &order_time, this]( htlc_order_object& hoo ) {
       hoo.bitshares_account = _account;
-      hoo.blockchain = *op.extensions.value.blockchain;
-      hoo.blockchain_account = *op.extensions.value.blockchain_account;
-      hoo.bitshares_amount = *op.extensions.value.bitshares_amount;
-      hoo.blockchain_asset = *op.extensions.value.blockchain_asset;
-      hoo.blockchain_amount = *op.extensions.value.blockchain_amount;
-      hoo.expiration = *op.extensions.value.expiration;
+      if(op.extensions.value.bitshares_amount.valid()) hoo.bitshares_amount = *op.extensions.value.bitshares_amount;
+      if(op.extensions.value.blockchain.valid()) hoo.blockchain = *op.extensions.value.blockchain;
+      if(op.extensions.value.blockchain_account.valid()) hoo.blockchain_account = *op.extensions.value.blockchain_account;
+      if(op.extensions.value.blockchain_asset.valid()) hoo.blockchain_asset = *op.extensions.value.blockchain_asset;
+      if(op.extensions.value.blockchain_asset_precision.valid()) hoo.blockchain_asset_precision =
+            *op.extensions.value.blockchain_asset_precision;
+      if(op.extensions.value.blockchain_amount.valid()) hoo.blockchain_amount = *op.extensions.value.blockchain_amount;
+      if(op.extensions.value.expiration.valid()) hoo.expiration = *op.extensions.value.expiration;
+      if(op.extensions.value.token_contract.valid()) hoo.token_contract = *op.extensions.value.token_contract;
       if(op.extensions.value.tag.valid()) hoo.tag = *op.extensions.value.tag;
+
       hoo.order_time = order_time;
       hoo.active = true;
    });
@@ -89,27 +95,21 @@ object_id_type custom_generic_evaluator::do_apply(const create_htlc_order_operat
 object_id_type custom_generic_evaluator::do_apply(const take_htlc_order_operation& op)
 {
    auto &index = _db->get_index_type<htlc_orderbook_index>().indices().get<by_custom_id>();
+   htlc_order_id_type htlc_order_id;
 
-   auto htlc_order_id = *op.extensions.value.htlc_order_id;
-   auto itr = index.find(htlc_order_id);
-   if( itr != index.end() )
-   {
-      auto close_time = _db->head_block_time();
-      _db->modify( *itr, [&op, &close_time, this]( htlc_order_object& hoo ){
-         hoo.bitshares_account = hoo.bitshares_account;
-         hoo.blockchain = hoo.blockchain;
-         hoo.blockchain_account = hoo.blockchain_account;
-         hoo.bitshares_amount = hoo.bitshares_amount;
-         hoo.blockchain_asset = hoo.blockchain_asset;
-         hoo.blockchain_amount = hoo.blockchain_amount;
-         hoo.expiration = hoo.expiration;
-         hoo.tag = hoo.tag;
-         hoo.order_time = hoo.order_time;
-         hoo.active = false;
-         hoo.taker_bitshares_account = _account;
-         hoo.taker_blockchain_account = *op.extensions.value.blockchain_account;
-         hoo.close_time = close_time;
-      });
+   if(op.extensions.value.htlc_order_id.valid()) {
+      htlc_order_id = *op.extensions.value.htlc_order_id;
+      auto itr = index.find(htlc_order_id);
+      if (itr != index.end()) {
+         auto close_time = _db->head_block_time();
+         _db->modify(*itr, [&op, &close_time, this](htlc_order_object &hoo) {
+            hoo.active = false;
+            hoo.taker_bitshares_account = _account;
+            if (op.extensions.value.blockchain_account.valid())
+               hoo.taker_blockchain_account = op.extensions.value.blockchain_account;
+            hoo.close_time = close_time;
+         });
+      }
    }
    return htlc_order_id;
 }
