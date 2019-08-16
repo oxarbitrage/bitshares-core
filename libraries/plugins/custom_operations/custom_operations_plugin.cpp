@@ -72,10 +72,8 @@ void custom_operations_plugin_impl::onBlock( const signed_block& b )
          custom_op_visitor vtor(db, custom_op.fee_payer());
          unpacked.op.visit(vtor);
       }
-      catch (fc::exception e) {
-         //FC_THROW_EXCEPTION(plugin_exception, "failed on unpack, validate() or evaluator");
-         //elog((""));
-         elog((e.to_detail_string()));
+      catch (fc::exception e) { // only api node will know if the unpack, validate or apply fails
+         wlog("Error: ${ex} in operation: ${op}", ("ex", e.to_detail_string())("op", fc::json::to_string(custom_op)));
          continue;
       }
    }

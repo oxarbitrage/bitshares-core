@@ -357,7 +357,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    BOOST_CHECK_EQUAL(htlc_offer->blockchain_amount, "10");
    BOOST_CHECK(htlc_offer->active);
 
-   // test the get_account_htlc_offers api callk for bob
+   // test the get_account_htlc_offers api call for bob
    vector<htlc_order_object> htlc_offers_results_bob = custom_operations_api.get_account_htlc_offers("bob",
          htlc_order_id_type(0), 100);
 
@@ -373,8 +373,7 @@ BOOST_AUTO_TEST_CASE(custom_operations_htlc_bitshares_eos_test)
    if(htlc_offers_results_bob[0].tag.valid())
       BOOST_CHECK_EQUAL(*htlc_offers_results_bob[0].tag, "Some text, can be a memo");
 
-
-      // get all active offers
+   // get all active offers
    vector<htlc_order_object> htlc_offers_results_active = custom_operations_api.get_active_htlc_offers(
          htlc_order_id_type(0), 100);
 
